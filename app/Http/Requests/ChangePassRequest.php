@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class ChangePassRequest extends FormRequest
 {
@@ -13,7 +14,7 @@ class ChangePassRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +25,24 @@ class ChangePassRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'oldPassword' => [
+                'required',
+                function ($attribute, $value, $fail) {
+                    if (!Auth::attempt(['email' => $this->user()->email, 'password' => $value])) {
+                        $fail('Wrong old password!!');
+                    }
+                },
+            ],
+            'newPassword' => [
+                'required',
+                'min:8',
+                'regex:/^(?=.*[A-Z])(?=.*[\W])/',
+                function ($attribute, $value, $fail) {
+                    if ($value === $this->input('oldPassword')) {
+                        $fail('New password must different from old password!!');
+                    }
+                },
+            ],
         ];
     }
 }

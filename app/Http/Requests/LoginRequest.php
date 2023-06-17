@@ -13,7 +13,7 @@ class LoginRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -23,8 +23,10 @@ class LoginRequest extends FormRequest
      */
     public function rules()
     {
-        return [
-            //
+        $rules = [
+            'login-email' => 'required|email|max:50',
+            'login-password' => 'required|min:8',
         ];
+        return $rules;
     }
 }

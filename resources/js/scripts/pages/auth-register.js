@@ -39,7 +39,7 @@ $(function () {
         $(element).valid();
       }, */
       rules: {
-        'register-username': {
+        'register-fullname': {
           required: true
         },
         'register-email': {
@@ -48,8 +48,35 @@ $(function () {
         },
         'register-password': {
           required: true
+        },
+        'register-confirm-password': {
+          required: true
         }
       }
+    });
+  }
+
+
+  // Toast alert
+  // --------------------------------------------------------------------
+  if (typeSuccess.length) {
+    toastr['success'](typeSuccess.text(), 'Success!', {
+      showMethod: 'slideDown',
+      hideMethod: 'slideUp',
+      progressBar: true,
+      closeButton: true,
+      tapToDismiss: false,
+      rtl: isRtl
+    });
+  }
+  if (typeError.length) {
+    toastr['error'](typeError.text(), 'Error!', {
+      showMethod: 'slideDown',
+      hideMethod: 'slideUp',
+      progressBar: true,
+      closeButton: true,
+      tapToDismiss: false,
+      rtl: isRtl
     });
   }
 
@@ -64,9 +91,6 @@ $(function () {
       var $this = $(this);
       $this.validate({
         rules: {
-          username: {
-            required: true
-          },
           email: {
             required: true
           },
@@ -79,15 +103,9 @@ $(function () {
             minlength: 8,
             equalTo: '#password'
           },
-          'first-name': {
-            required: true
-          },
           'home-address': {
             required: true
           },
-          addCard: {
-            required: true
-          }
         },
         messages: {
           password: {

@@ -58,17 +58,34 @@ $(window).on('load', function () {
   var isRtl = $('html').attr('data-textdirection') === 'rtl';
 
   // On load Toast
-  setTimeout(function () {
-    toastr['success'](
-      'You have successfully logged in to Vuexy. Now you can start to explore!',
-      '👋 Welcome John Doe!',
-      {
-        closeButton: true,
-        tapToDismiss: false,
-        rtl: isRtl
+  if ($('#check-auth-first-time').length) {
+    // On load Toast
+    $.ajax({
+      url: '/api/check-auth',
+      type: 'GET',
+      dataType: 'json',
+      success: function (response) {
+        if (response.authenticated) {
+          setTimeout(function () {
+            toastr['success'](
+              'You have successfully logged in to FTask. Now you can start to explore!',
+              '👋 Welcome ' + response.fullname + '!', {
+              showMethod: 'slideDown',
+              hideMethod: 'slideUp',
+              progressBar: true,
+              closeButton: true,
+              tapToDismiss: false,
+              rtl: isRtl
+            }
+            );
+          }, 1000);
+        }
+      },
+      error: function (xhr, textStatus, errorThrown) {
+        console.log('Error: ' + errorThrown);
       }
-    );
-  }, 2000);
+    });
+  }
 
   //------------ Statistics Bar Chart ------------
   //----------------------------------------------

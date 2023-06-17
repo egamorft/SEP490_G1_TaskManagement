@@ -5,10 +5,17 @@
 
 @section('title', 'Register Page')
 
+
+{{-- vendor css files --}}
+@section('vendor-style')
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
+@endsection
+
+{{-- Page Css files --}}
 @section('page-style')
-    {{-- Page Css files --}}
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
 @endsection
 
 @section('content')
@@ -87,7 +94,7 @@
                         <div class="mb-1">
                             <label class="form-label" for="register-fullname">Full name</label>
                             <input class="form-control" id="register-fullname" type="text" name="register-fullname"
-                                placeholder="Enter your fullname" aria-describedby="register-fullname" tabindex="1"
+                                placeholder="Enter your fullname" aria-describedby="register-fullname" tabindex="2"
                                 value="{{ old('register-fullname') }}" />
                         </div>
                         @error('register-fullname')
@@ -98,11 +105,11 @@
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input class="form-control form-control-merge" id="register-password" type="password"
                                     name="register-password" placeholder="············"
-                                    aria-describedby="register-password" tabindex="2" />
+                                    aria-describedby="register-password" tabindex="3" title="You must have minimum 8 characters long, uppercase & symbol" />
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
                         </div>
-                        @error('register_password')
+                        @error('register-password')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                         <div class="mb-1">
@@ -110,14 +117,14 @@
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input class="form-control form-control-merge" id="register-confirm-password"
                                     type="password" name="register-confirm-password" placeholder="············"
-                                    aria-describedby="register-password" tabindex="4" value="{{ old('register-confirm-password') }}" />
+                                    aria-describedby="register-password" tabindex="4" />
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
                         </div>
                         @error('register-confirm-password')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
-                        <button class="btn btn-primary w-100" tabindex="5">Sign up</button>
+                        <button type="submit" class="btn btn-primary w-100" tabindex="5">Sign up</button>
                     </form>
                     <p class="text-center mt-2">
                         <span>Already have an account?</span>
@@ -135,10 +142,24 @@
             <!-- /Register-->
         </div>
     </div>
+    <!-- Alert-->
+    @if (Session::has('success'))
+        <div id="success-alert" hidden>
+            {{ Session::get('success') }}
+        </div>
+    @endif
+
+    @if (Session::has('error'))
+        <div id="error-alert" hidden>
+            {{ Session::get('error') }}
+        </div>
+    @endif
+    <!-- Alert-->
 @endsection
 
 @section('vendor-script')
     <script src="{{ asset('vendors/js/forms/validation/jquery.validate.min.js') }}"></script>
+    <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
 @endsection
 
 @section('page-script')

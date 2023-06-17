@@ -27,25 +27,67 @@ $(function () {
   if (editUserForm.length) {
     editUserForm.validate({
       rules: {
-        modalEditUserFirstName: {
+        modalEditFullName: {
           required: true
-        },
-        modalEditUserLastName: {
-          required: true
-        },
-        modalEditUserName: {
-          required: true,
-          minlength: 6,
-          maxlength: 30
         }
       },
       messages: {
         modalEditUserName: {
-          required: 'Please enter your username',
-          minlength: 'The name must be more than 6 and less than 30 characters long',
-          maxlength: 'The name must be more than 6 and less than 30 characters long'
+          required: 'Please enter your username'
         }
       }
     });
   }
+  $('#editUserForm').submit(function (event) {
+    event.preventDefault();
+    var form = $(this);
+    var url = form.attr('action');
+    var method = form.attr('method');
+    var _token = form.serialize();
+    $.ajax({
+      url: url,
+      method: method,
+      data: _token,
+      dataType: 'json',
+      success: function (response) {
+        // handle success
+        location.reload();
+      },
+      error: function (xhr, status, error) {
+        var response = JSON.parse(xhr.responseText);
+        var errors = response.errors;
+        for (var key in errors) {
+          $('#' + key).addClass(' is-invalid');
+          $('#error-' + key).show();
+          $('#error-' + key).text(errors[key][0])
+        }
+      }
+    });
+  });
+
+  var typeSuccess = $('#success-alert:hidden'),
+    typeError = $('#error-alert:hidden'),
+    isRtl = $('html').attr('data-textdirection') === 'rtl';
+
+  if (typeSuccess.length) {
+    toastr['success'](typeSuccess.text(), 'Success!', {
+      showMethod: 'slideDown',
+      hideMethod: 'slideUp',
+      progressBar: true,
+      closeButton: true,
+      tapToDismiss: false,
+      rtl: isRtl
+    });
+  }
+  if (typeError.length) {
+    toastr['error'](typeError.text(), 'Error!', {
+      showMethod: 'slideDown',
+      hideMethod: 'slideUp',
+      progressBar: true,
+      closeButton: true,
+      tapToDismiss: false,
+      rtl: isRtl
+    });
+  }
+
 });

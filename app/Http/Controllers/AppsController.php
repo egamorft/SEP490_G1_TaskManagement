@@ -60,13 +60,6 @@ class AppsController extends Controller
         return view('/content/apps/user/app-user-view-account', ['pageConfigs' => $pageConfigs]);
     }
 
-    // User Security Page
-    public function user_view_security()
-    {
-        $pageConfigs = ['pageHeader' => false];
-        return view('/content/apps/user/app-user-view-security', ['pageConfigs' => $pageConfigs]);
-    }
-
     // User Billing and Plans Page
     public function user_view_billing()
     {

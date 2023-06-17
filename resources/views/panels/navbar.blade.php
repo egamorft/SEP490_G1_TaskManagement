@@ -207,21 +207,25 @@
             <li class="nav-item dropdown dropdown-user">
                 <a class="nav-link dropdown-toggle dropdown-user-link" id="dropdown-user" href="javascript:void(0);"
                     data-bs-toggle="dropdown" aria-haspopup="true">
-                    {{-- <div class="user-nav d-sm-flex d-none">
-          <span class="user-name fw-bolder">
-            @if (Auth::check())
-              {{ Auth::user()->fullname }}
-            @else
-              John Doe
-            @endif
-          </span>
-          <span class="user-status">
-            Admin
-          </span>
-        </div> --}}
+                    <div class="user-nav d-sm-flex d-none">
+                        <span class="user-name fw-bolder">
+                            @if (Auth::check())
+                                {{ Auth::user()->fullname }}
+                            @else
+                                John Doe
+                            @endif
+                        </span>
+                        <span class="user-status">
+                            @if (Auth::user()->is_admin == 1)
+                                Admin
+                            @else
+                                User
+                            @endif
+                        </span>
+                    </div>
                     <span class="avatar">
                         <img class="round"
-                            src="{{ Auth::user() ? asset('images/portrait/small/avatar-s-11.jpg') : Auth::user() }}"
+                            src="{{ Auth::user() ? asset('images/avatars/' . Auth::user()->avatar) : Auth::user() }}"
                             alt="avatar" height="40" width="40">
                         <span class="avatar-status-online"></span>
                     </span>
@@ -230,15 +234,17 @@
                     <h6 class="dropdown-header">Manage Profile</h6>
                     <div class="dropdown-divider"></div>
                     <a class="dropdown-item"
-                        href="{{ Route::has('quan-ly-tai-khoan') ? route('quan-ly-tai-khoan') : 'javascript:void(0)' }}">
+                        href="{{ Route::has('edit.profile') ? route('edit.profile') : 'javascript:void(0)' }}">
                         <i class="me-50" data-feather="user"></i> Profile
                     </a>
                     @if (Auth::check())
-                        <a class="dropdown-item" href="{{ route('logout') }}"
+                        <a class="dropdown-item"
+                            href="{{ Route::has('logout') ? route('logout') : 'javascript:void(0)' }}"
                             onclick="event.preventDefault(); document.getElementById('logout-form').submit();">
                             <i class="me-50" data-feather="power"></i> Logout
                         </a>
-                        <form method="POST" id="logout-form" action="{{ route('logout') }}">
+                        <form method="POST" id="logout-form"
+                            action="{{ Route::has('logout') ? route('logout') : 'javascript:void(0)' }}">
                             @csrf
                         </form>
                     @else

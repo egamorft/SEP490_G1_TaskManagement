@@ -14,15 +14,14 @@ $(function () {
   if (formChangePassword.length) {
     formChangePassword.validate({
       rules: {
-        newPassword: {
-          required: true,
-          required: true,
-          minlength: 8
-        },
-        confirmPassword: {
+        oldPassword: {
           required: true,
           minlength: 8,
-          equalTo: '#newPassword'
+          // equalTo: '#newPassword'
+        },
+        newPassword: {
+          required: true,
+          minlength: 8
         }
       },
       messages: {
@@ -30,10 +29,10 @@ $(function () {
           required: 'Enter new password',
           minlength: 'Enter at least 8 characters'
         },
-        confirmPassword: {
-          required: 'Please confirm new password',
-          minlength: 'Enter at least 8 characters',
-          equalTo: 'The password and its confirm are not the same'
+        oldPassword: {
+          required: 'Enter old password',
+          minlength: 'Enter at least 8 characters'
+          // equalTo: 'The password and its confirm are not the same'
         }
       }
     });

@@ -20,8 +20,8 @@ return new class extends Migration
             $table->string('password', 100);
             $table->text('address')->nullable();
             $table->text('avatar');
-            $table->string('token', 100);
-            $table->integer('is_admin');
+            $table->string('token', 100)->nullable();
+            $table->integer('is_admin')->default(0);
             $table->dateTime('deleted_at')->nullable();
             // $table->timestamps();
         });

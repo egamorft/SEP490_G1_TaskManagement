@@ -5,10 +5,16 @@
 
 @section('title', 'Login Page')
 
+@section('vendor-style')
+    {{-- vendor css files --}}
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
+@endsection
+
 @section('page-style')
     {{-- Page Css files --}}
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
 @endsection
 
 @section('content')
@@ -78,8 +84,8 @@
                         <div class="mb-1">
                             <label class="form-label" for="login-email">Email</label>
                             <input class="form-control" id="login-email" type="text" name="login-email"
-                                placeholder="Enter your email" aria-describedby="login-email" autofocus=""
-                                tabindex="1" value="{{ old('login-email') }}" />
+                                placeholder="Enter your email" aria-describedby="login-email" autofocus="" tabindex="1"
+                                value="{{ old('login-email') }}" />
                         </div>
                         @error('login-email')
                             <span style="color: red">{{ $message }}</span>
@@ -94,7 +100,7 @@
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input class="form-control form-control-merge" id="login-password" type="password"
                                     name="login-password" placeholder="············" aria-describedby="login-password"
-                                    tabindex="2" value="{{ old('login-password') }}"/>
+                                    tabindex="2" value="{{ old('login-password') }}" />
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
                         </div>
@@ -125,10 +131,24 @@
             <!-- /Login-->
         </div>
     </div>
+    <!-- Alert-->
+    @if (Session::has('success'))
+        <div id="success-alert" hidden>
+            {{ Session::get('success') }}
+        </div>
+    @endif
+
+    @if (Session::has('error'))
+        <div id="error-alert" hidden>
+            {{ Session::get('error') }}
+        </div>
+    @endif
+    <!-- Alert-->
 @endsection
 
 @section('vendor-script')
     <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
 @endsection
 
 @section('page-script')

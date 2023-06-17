@@ -2,9 +2,16 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\ChangePassRequest;
+use App\Http\Requests\LoginRequest;
+use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class AuthController extends Controller
 {
@@ -31,16 +38,28 @@ class AuthController extends Controller
         return view('content.authentication.auth-forgot-password-cover', ['pageConfigs' => $pageConfigs]);
     }
 
+    // User Account Page
+    public function user_view_account()
+    {
+        $pageConfigs = ['pageHeader' => true];
+        return view('content.apps.user.app-user-view-account', ['pageConfigs' => $pageConfigs]);
+    }
+    
+    // User Security Page
+    public function user_view_security()
+    {
+        $pageConfigs = ['pageHeader' => true];
+        return view('/content/apps/user/app-user-view-security', ['pageConfigs' => $pageConfigs]);
+    }
+
     // Register form
     public function new_register(RegisterRequest $request)
     {
-        $request->except('_token');
         $data = array();
-        $data['fullname'] = $request->register_fullname;
-        $data['username'] = $request->register_username;
-        $data['email'] = $request->register_email;
-        $data['phone'] = $request->register_phone;
-        $data['password'] = bcrypt($request->register_password);
+        $data['fullname'] = $request->input('register-fullname');
+        $data['email'] = $request->input('register-email');
+        $data['password'] = Hash::make($request->input('register-password'));
+        $data['avatar'] = strtoupper(substr($data['fullname'], 0, 1)) . '.png';
 
         $account_id = Account::insertGetId($data);
         if ($account_id) {
@@ -51,16 +70,13 @@ class AuthController extends Controller
     }
 
     // Login form
-    public function login_now(Request $request)
+    public function login_now(LoginRequest $request)
     {
-        dd($request->input());
-        $request->except('_token');
-        $username = $request->login_username;
-        $password = bcrypt($request->login_password);
-        $account = Account::where('username', $username)->orWhere('email', $username)
-            ->where('password', $password)->first();
-        if ($account) {
-            if ($account->status == 1) {
+        $email = $request->input('login-email');
+        $password = $request->input('login-password');
+        $account = Account::where('email', $email)->first();
+        if ($account && Hash::check($password, $account->password)) {
+            if (!$account->deleted_at) {
                 // Session::put('account_session', bcrypt($user->username));
                 Auth::login($account);
                 return redirect()->intended('/')->with('check-auth-first-time', '');
@@ -85,13 +101,8 @@ class AuthController extends Controller
 
             // Update the user's information
             $user->fullname = $request->modalEditUserFullname;
-            $user->email = $request->modalEditEmail;
-            $user->gender = $request->modalEditUserGender;
-            $user->dob = $request->modalEditUserDob;
             $user->address = $request->modalEditUserAddress;
-            $user->city_id = intval(ltrim($request->modalEditUserCity, '0'));
-            $user->province_id = intval(ltrim($request->modalEditUserProvince, '0'));
-            $user->ward_id = intval(ltrim($request->modalEditUserWard, '0'));
+            $user->avatar = strtoupper(substr($user->fullname, 0, 1)) . '.png';
 
             $user->save();
 
@@ -104,16 +115,15 @@ class AuthController extends Controller
         }
     }
 
-    // Edit profile form
+    // Change password form
     public function change_password(ChangePassRequest $request)
     {
-        $request->except('_token');
         $id = Auth::user()->id;
 
         $user = Account::findOrFail($id);
 
         // Update the user's pass
-        $user->password = bcrypt($request->newPassword);
+        $user->password = Hash::make($request->newPassword);
         $user->save();
 
         return Redirect::back()->with('success', 'You have changed your password');

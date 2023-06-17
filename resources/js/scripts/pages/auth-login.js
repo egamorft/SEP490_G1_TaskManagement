@@ -37,4 +37,25 @@ $(function () {
       }
     });
   }
+
+  if (typeSuccess.length) {
+    toastr['success'](typeSuccess.text(), 'Success!', {
+      showMethod: 'slideDown',
+      hideMethod: 'slideUp',
+      progressBar: true,
+      closeButton: true,
+      tapToDismiss: false,
+      rtl: isRtl
+    });
+  }
+  if (typeError.length) {
+    toastr['error'](typeError.text(), 'Error!', {
+      showMethod: 'slideDown',
+      hideMethod: 'slideUp',
+      progressBar: true,
+      closeButton: true,
+      tapToDismiss: false,
+      rtl: isRtl
+    });
+  }
 });

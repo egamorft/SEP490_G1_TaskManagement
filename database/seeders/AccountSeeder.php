@@ -7,6 +7,7 @@ use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;
 
 class AccountSeeder extends Seeder
@@ -22,12 +23,12 @@ class AccountSeeder extends Seeder
 
         for ($i = 0; $i < 5; $i++) {
             $fullname = $faker->name;
-            $avatar = Str::substr($fullname, 0, 1) . '.jpg';
+            $avatar = Str::substr($fullname, 0, 1) . '.png';
 
             $account = Account::create([
                 'fullname' => $fullname,
                 'email' => $faker->email,
-                'password' => bcrypt('password'), // Set a default password or use Faker to generate one
+                'password' => Hash::make('password'), // Set a default password or use Faker to generate one
                 'address' => $faker->address,
                 'avatar' => $avatar,
                 'token' => $faker->uuid,

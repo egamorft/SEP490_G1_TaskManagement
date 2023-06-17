@@ -17,6 +17,7 @@ use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Node\Stmt\Return_;
 
 /*
 |--------------------------------------------------------------------------
@@ -34,7 +35,6 @@ Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashb
 Route::get('/login', [AuthController::class, 'login'])->name('login');
 Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/forgot-password', [AuthController::class, 'forgot_password'])->name('forgot-password');
-Route::get('/forgot-password', [AuthController::class, 'forgot_password'])->name('forgot-password');
 Route::post('/new-register', [AuthController::class, 'new_register'])->name('create.account');
 Route::post('/login-form', [AuthController::class, 'login_now'])->name('form.login');
 Route::post('/check-email-forgot', [AuthController::class, 'login_now'])->name('check.forgotpassword');
@@ -46,12 +46,28 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('/log-out', function () {
+        Auth::logout();
+        return redirect()->route('login');
+    })->name('logout');
+
     /* Route Dashboards */
     Route::group(['prefix' => 'dashboard'], function () {
         Route::get('analytics', [DashboardController::class, 'dashboardAnalytics'])->name('dashboard-analytics');
         Route::get('ecommerce', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard-ecommerce');
     });
-    /* Route Dashboards */
+
+    /* Route edit */
+    Route::group(['prefix' => 'edit'], function () {
+        //Edit profile
+        Route::get('profile', [AuthController::class, 'user_view_account'])->name('edit.profile');
+        Route::post('/profile-submit', [AuthController::class, 'edit_profile'])->name('edit.profile.submit');
+        //Edit profile
+
+        //Change password
+        Route::get('password', [AuthController::class, 'user_view_security'])->name('edit.password');
+        Route::post('/change-password', [AuthController::class, 'change_password'])->name('edit.password.submit');
+    });
 
     /* Route Apps */
     Route::group(['prefix' => 'app'], function () {
@@ -73,8 +89,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('access-roles', [AppsController::class, 'access_roles'])->name('app-access-roles');
         Route::get('access-permission', [AppsController::class, 'access_permission'])->name('app-access-permission');
         Route::get('user/list', [AppsController::class, 'user_list'])->name('app-user-list');
-        Route::get('user/view/account', [AppsController::class, 'user_view_account'])->name('app-user-view-account');
-        Route::get('user/view/security', [AppsController::class, 'user_view_security'])->name('app-user-view-security');
         Route::get('user/view/billing', [AppsController::class, 'user_view_billing'])->name('app-user-view-billing');
         Route::get('user/view/notifications', [AppsController::class, 'user_view_notifications'])->name('app-user-view-notifications');
         Route::get('user/view/connections', [AppsController::class, 'user_view_connections'])->name('app-user-view-connections');

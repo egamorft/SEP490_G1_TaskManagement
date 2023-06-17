@@ -2,11 +2,14 @@
 
 namespace App\Models;
 
+use Illuminate\Contracts\Auth\Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Auth\Authenticatable as AuthenticatableTrait;
 
-class Account extends Model
+class Account extends Model implements Authenticatable
 {
+    use AuthenticatableTrait;
     use HasFactory;
     public $timestamps = false;
     protected $table = 'accounts';

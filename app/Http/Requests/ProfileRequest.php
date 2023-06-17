@@ -13,7 +13,7 @@ class ProfileRequest extends FormRequest
      */
     public function authorize()
     {
-        return false;
+        return true;
     }
 
     /**
@@ -24,7 +24,8 @@ class ProfileRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            'modalEditUserFullname' => 'required|string|max:50',
+            'modalEditUserAddress' => 'max:255',
         ];
     }
 }
