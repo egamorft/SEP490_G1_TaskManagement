@@ -7,14 +7,12 @@
 
 @section('vendor-style')
     {{-- vendor css files --}}
-    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
 @endsection
 
 @section('page-style')
     {{-- Page Css files --}}
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/pages/authentication.css')) }}">
-    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
 @endsection
 
 @section('content')
@@ -131,24 +129,10 @@
             <!-- /Login-->
         </div>
     </div>
-    <!-- Alert-->
-    @if (Session::has('success'))
-        <div id="success-alert" hidden>
-            {{ Session::get('success') }}
-        </div>
-    @endif
-
-    @if (Session::has('error'))
-        <div id="error-alert" hidden>
-            {{ Session::get('error') }}
-        </div>
-    @endif
-    <!-- Alert-->
 @endsection
 
 @section('vendor-script')
     <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/extensions/toastr.min.js')) }}"></script>
 @endsection
 
 @section('page-script')

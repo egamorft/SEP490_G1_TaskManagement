@@ -21,6 +21,7 @@ class Account extends Model implements Authenticatable
         'avatar',
         'token',
         'is_admin',
+        'status',
         'deleted_at',
     ];
 

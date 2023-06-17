@@ -16,6 +16,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\SendMailController;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
 
@@ -42,6 +43,17 @@ Route::get('/api/check-auth', function () {
     $authenticated = Auth::check();
     $fullname = Auth::user()->fullname;
     return response()->json(['authenticated' => $authenticated, 'fullname' => $fullname]);
+});
+
+
+/* Route verify */
+Route::group(['prefix' => 'verify'], function () {
+    //Verify Account
+    Route::get('view-verify-code', [AuthController::class, 'two_steps_cover'])->name('verify.account');
+
+    Route::get('confirm-account', [SendMailController::class, 'confirm_account'])->name('mail.verify.account');
+
+    Route::post('check-code', [AuthController::class, 'check_code'])->name('check.verifycode');
 });
 
 
@@ -248,7 +260,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('verify-email-basic', [AuthenticationController::class, 'verify_email_basic'])->name('auth-verify-email-basic');
         Route::get('verify-email-cover', [AuthenticationController::class, 'verify_email_cover'])->name('auth-verify-email-cover');
         Route::get('two-steps-basic', [AuthenticationController::class, 'two_steps_basic'])->name('auth-two-steps-basic');
-        Route::get('two-steps-cover', [AuthenticationController::class, 'two_steps_cover'])->name('auth-two-steps-cover');
         Route::get('register-multisteps', [AuthenticationController::class, 'register_multi_steps'])->name('auth-register-multisteps');
         Route::get('lock-screen', [AuthenticationController::class, 'lock_screen'])->name('auth-lock_screen');
     });

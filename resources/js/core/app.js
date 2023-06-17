@@ -34,7 +34,33 @@ window.colors = {
   var $html = $('html');
   var $body = $('body');
   var $textcolor = '#4e5154';
-  var assetPath = '../../../app-assets/';
+  var assetPath = '../../../app-assets/',
+    isRtl = $('html').attr('data-textdirection') === 'rtl',
+    typeSuccess = $('#success-alert:hidden'),
+    typeError = $('#error-alert:hidden');
+
+  // Toast alert
+  // --------------------------------------------------------------------
+  if (typeSuccess.length) {
+    toastr['success'](typeSuccess.text(), 'Success!', {
+      showMethod: 'slideDown',
+      hideMethod: 'slideUp',
+      progressBar: true,
+      closeButton: true,
+      tapToDismiss: false,
+      rtl: isRtl
+    });
+  }
+  if (typeError.length) {
+    toastr['error'](typeError.text(), 'Error!', {
+      showMethod: 'slideDown',
+      hideMethod: 'slideUp',
+      progressBar: true,
+      closeButton: true,
+      tapToDismiss: false,
+      rtl: isRtl
+    });
+  }
 
   if ($('body').attr('data-framework') === 'laravel') {
     assetPath = $('body').attr('data-asset-path');

@@ -53,6 +53,20 @@
 
             </div>
         </div>
+
+        <!-- Alert-->
+        @if (Session::has('success'))
+            <div id="success-alert" hidden>
+                {{ Session::get('success') }}
+            </div>
+        @endif
+
+        @if (Session::has('error'))
+            <div id="error-alert" hidden>
+                {{ Session::get('error') }}
+            </div>
+        @endif
+        <!-- Alert-->
     </div>
     <!-- End: Content-->
 

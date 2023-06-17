@@ -31,8 +31,9 @@ class AccountSeeder extends Seeder
                 'password' => Hash::make('password'), // Set a default password or use Faker to generate one
                 'address' => $faker->address,
                 'avatar' => $avatar,
-                'token' => $faker->uuid,
+                'token' => null,
                 'is_admin' => $faker->boolean,
+                'status' => $faker->boolean,
                 'deleted_at' => null,
             ]);
             

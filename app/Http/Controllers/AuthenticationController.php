@@ -94,13 +94,6 @@ class AuthenticationController extends Controller
         return view('/content/authentication/auth-two-steps-basic', ['pageConfigs' => $pageConfigs]);
     }
 
-    // two steps cover
-    public function two_steps_cover()
-    {
-        $pageConfigs = ['blankPage' => true];
-
-        return view('/content/authentication/auth-two-steps-cover', ['pageConfigs' => $pageConfigs]);
-    }
 
     // register multi steps
     public function register_multi_steps()
