@@ -17,10 +17,10 @@ return new class extends Migration
             $table->id();
             $table->unsignedBigInteger('role_id');
             $table->unsignedBigInteger('permission_id');
+            // $table->timestamps();
 
-            // Add foreign key constraints
-            $table->foreign('role_id')->references('id')->on('role');
-            $table->foreign('permission_id')->references('id')->on('permission');
+            $table->foreign('permission_id')->references('id')->on('permissions')->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
     }
 

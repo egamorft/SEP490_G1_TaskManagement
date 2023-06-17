@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\Account;
+use App\Models\Role;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
@@ -23,8 +24,7 @@ class AccountSeeder extends Seeder
             $fullname = $faker->name;
             $avatar = Str::substr($fullname, 0, 1) . '.jpg';
 
-            Account::create([
-                'username' => $faker->userName,
+            $account = Account::create([
                 'fullname' => $fullname,
                 'email' => $faker->email,
                 'password' => bcrypt('password'), // Set a default password or use Faker to generate one
@@ -34,6 +34,10 @@ class AccountSeeder extends Seeder
                 'is_admin' => $faker->boolean,
                 'deleted_at' => null,
             ]);
+            
+            // Assign random roles to the account
+            $roles = Role::inRandomOrder()->limit(2)->get();
+            $account->roles()->sync($roles->pluck('id'));
         }
     }
 }

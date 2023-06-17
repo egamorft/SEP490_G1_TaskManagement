@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Account;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Social;
@@ -18,11 +19,13 @@ class SocialSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for ($i = 0; $i < 5; $i++) {
+        $accounts = Account::all();
+
+        foreach ($accounts as $account) {
             Social::create([
                 'provider_user_id' => $faker->unique()->randomNumber(),
                 'provider' => $faker->randomElement(['Facebook', 'Google']),
-                'account_id' => rand(1, 5), // Assuming you have 5 accounts in total
+                'account_id' => $account->id,
             ]);
         }
 

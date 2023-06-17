@@ -5,23 +5,23 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class PermissionRole extends Model
+class AccountRole extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'permission_role';
+    protected $table = 'account_role';
     protected $fillable = [
+        'account_id',
         'role_id',
-        'permission_id',
     ];
+
+    public function account()
+    {
+        return $this->belongsTo(Account::class);
+    }
 
     public function role()
     {
         return $this->belongsTo(Role::class);
-    }
-
-    public function permission()
-    {
-        return $this->belongsTo(Permission::class);
     }
 }

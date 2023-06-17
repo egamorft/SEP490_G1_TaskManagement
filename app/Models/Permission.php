@@ -9,11 +9,11 @@ class Permission extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'permission';
+    protected $table = 'permissions';
     protected $fillable = ['name', 'slug'];
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'permission_role', 'permission_id', 'role_id');
+        return $this->belongsToMany(Role::class, 'permission_role');
     }
 }

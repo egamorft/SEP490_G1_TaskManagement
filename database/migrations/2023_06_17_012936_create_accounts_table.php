@@ -13,17 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('account', function (Blueprint $table) {
+        Schema::create('accounts', function (Blueprint $table) {
             $table->id();
-            $table->string('username', 255);
             $table->string('fullname', 50);
-            $table->string('email', 100);
+            $table->string('email', 50);
             $table->string('password', 100);
-            $table->text('address');
+            $table->text('address')->nullable();
             $table->text('avatar');
             $table->string('token', 100);
-            $table->integer('is_admin')->default(0);
-            $table->date('deleted_at')->nullable();
+            $table->integer('is_admin');
+            $table->dateTime('deleted_at')->nullable();
+            // $table->timestamps();
         });
     }
 
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account');
+        Schema::dropIfExists('accounts');
     }
 };

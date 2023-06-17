@@ -5,16 +5,20 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Social extends Model
+class AccountProject extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'socials';
+    protected $table = 'account_project';
     protected $fillable = [
-        'provider_user_id',
-        'provider',
+        'project_id',
         'account_id',
     ];
+
+    public function project()
+    {
+        return $this->belongsTo(Project::class);
+    }
 
     public function account()
     {

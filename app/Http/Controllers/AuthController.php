@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\RegisterRequest;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class AuthController extends Controller
 {
@@ -49,8 +51,9 @@ class AuthController extends Controller
     }
 
     // Login form
-    public function login_now(LoginRequest $request)
+    public function login_now(Request $request)
     {
+        dd($request->input());
         $request->except('_token');
         $username = $request->login_username;
         $password = bcrypt($request->login_password);

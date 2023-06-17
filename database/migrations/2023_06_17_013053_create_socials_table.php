@@ -13,14 +13,14 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('social', function (Blueprint $table) {
+        Schema::create('socials', function (Blueprint $table) {
             $table->id();
             $table->string('provider_user_id', 100);
-            $table->string('provider', 100);
+            $table->string('provider', 50);
             $table->unsignedBigInteger('account_id');
+            // $table->timestamps();
 
-            // Add foreign key constraints
-            $table->foreign('account_id')->references('id')->on('account');
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
         });
     }
 
@@ -31,6 +31,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('social');
+        Schema::dropIfExists('socials');
     }
 };

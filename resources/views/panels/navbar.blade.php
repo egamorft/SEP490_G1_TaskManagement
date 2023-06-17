@@ -5,7 +5,8 @@
             <ul class="nav navbar-nav">
                 <li class="nav-item">
                     <a class="navbar-brand" href="{{ url('/') }}">
-                        <svg width="75" height="53" viewBox="0 0 45 23" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <svg width="75" height="53" viewBox="0 0 45 23" fill="none"
+                            xmlns="http://www.w3.org/2000/svg">
                             <g clip-path="url(#clip0_104_129874)">
                                 <path fill-rule="evenodd" clip-rule="evenodd"
                                     d="M41 15.6875L40.5 17.6892C40.5 17.6892 40.5 21.9506 40.5 23.1875H41.2774L41.7218 21.6875L42.5 23.1875H45L41.2774 20.0613L44 18.6872L44.5 16.626L41.2774 18.6872L41.7218 16.626L41 15.6875Z"
@@ -17,7 +18,8 @@
                                     d="M32 15.6875L31.5 17.6892C31.5 17.6892 31.5 21.9506 31.5 23.1875H32.2774V20.0613H33.608L33.2778 18.7812L32.2774 18.6872L32.7218 16.626L34.3889 23.0886H35.5L33.6111 15.1875L32 15.6875Z"
                                     fill="#4267B2" />
                                 <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd"
-                                    d="M11.9119 19.3717L0.661865 22.8156H35.7354H59.5589L45.0001 19.3717H11.9119Z" fill="#161616" />
+                                    d="M11.9119 19.3717L0.661865 22.8156H35.7354H59.5589L45.0001 19.3717H11.9119Z"
+                                    fill="#161616" />
                                 <path opacity="0.06" fill-rule="evenodd" clip-rule="evenodd"
                                     d="M19.1912 15.9279V17.8958L23.5147 17.2398L28.4559 17.8958V17.2398V15.9279L23.5147 16.5838L19.1912 15.9279Z"
                                     fill="#161616" />
@@ -32,8 +34,8 @@
                                     fill="black" fill-opacity="0.25" />
                             </g>
                             <defs>
-                                <linearGradient id="paint0_linear_104_129874" x1="0.5" y1="23" x2="23.0865"
-                                    y2="4.34157" gradientUnits="userSpaceOnUse">
+                                <linearGradient id="paint0_linear_104_129874" x1="0.5" y1="23"
+                                    x2="23.0865" y2="4.34157" gradientUnits="userSpaceOnUse">
                                     <stop stop-color="#FF9F43" />
                                     <stop offset="1" stop-color="#FFB976" />
                                 </linearGradient>
@@ -86,16 +88,6 @@
         </li>
         <li class="nav-item d-none d-lg-block"><a class="nav-link nav-link-style"><i class="ficon"
                     data-feather="{{ $configData['theme'] === 'dark' ? 'sun' : 'moon' }}"></i></a></li>
-        <li class="nav-item nav-search"><a class="nav-link nav-link-search"><i class="ficon"
-                    data-feather="search"></i></a>
-            <div class="search-input">
-                <div class="search-input-icon"><i data-feather="search"></i></div>
-                <input class="form-control input" type="text" placeholder="Explore Vuexy..." tabindex="-1"
-                    data-search="search">
-                <div class="search-input-close"><i data-feather="x"></i></div>
-                <ul class="search-list search-list-main"></ul>
-            </div>
-        </li>
         @if (Auth::check())
             <li class="nav-item dropdown dropdown-notification me-25">
                 <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">
@@ -268,7 +260,7 @@
     </ul>
 </div>
 </nav>
-@if (Session::has("check-auth-first-time"))
+@if (Session::has('check-auth-first-time'))
     <div id="check-auth-first-time"></div>
 @endif
 {{-- Search Ends --}}
