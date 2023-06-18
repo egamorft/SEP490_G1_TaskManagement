@@ -80,6 +80,10 @@
                     <p class="card-text mb-2">Make your task management easy and fun!</p>
                     <form class="auth-register-form mt-2" action="{{ route('create.account') }}" method="POST">
                         @csrf
+                        <div class="alert alert-warning mb-2" role="alert">
+                            <h6 class="alert-heading">Ensure that your password requirements are met</h6>
+                            <div class="alert-body fw-normal">Minimum 8 characters long, uppercase & symbol</div>
+                        </div>
                         <div class="mb-1">
                             <label class="form-label" for="register-email">Email</label>
                             <input class="form-control" id="register-email" type="text" name="register-email"

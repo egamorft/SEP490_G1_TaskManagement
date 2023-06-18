@@ -38,3 +38,17 @@
 @isset($configData['mainLayoutType'])
     @extends($configData['mainLayoutType'] === 'horizontal' ? 'layouts.horizontalLayoutMaster' : 'layouts.verticalLayoutMaster')
 @endisset
+
+<!-- Alert-->
+@if (Session::has('success'))
+    <div id="success-alert" hidden>
+        {{ Session::get('success') }}
+    </div>
+@endif
+
+@if (Session::has('error'))
+    <div id="error-alert" hidden>
+        {{ Session::get('error') }}
+    </div>
+@endif
+<!-- Alert-->

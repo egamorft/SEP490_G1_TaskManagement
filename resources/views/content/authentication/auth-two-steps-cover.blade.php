@@ -10,7 +10,7 @@
 @endsection
 
 @section('content')
-    @if (session('email'))
+    @if (session('status') == 0)
         <div class="auth-wrapper auth-cover">
             <div class="auth-inner row m-0">
                 <!-- Brand logo-->

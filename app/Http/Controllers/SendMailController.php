@@ -35,6 +35,7 @@ class SendMailController extends Controller
 
         Mail::to($email_to)->send(new VerifyAccount($token, $fullname, $email_to));
         Session::flash('success', 'Email verification has sent to you, check your email to login');
+        Session::put('status', $request->status);
         Session::put('email', $email_to);
         Session::put('email_show', '****'.$result);
         return redirect()->route('verify.account');

@@ -70,6 +70,7 @@ class AuthController extends Controller
         $data['password'] = Hash::make($request->input('register-password'));
         $data['avatar'] = strtoupper(substr($data['fullname'], 0, 1)) . '.png';
         $data['token'] = mt_rand(100000, 999999);
+        $data['status'] = 0;
 
         $account_id = Account::insertGetId($data);
         if ($account_id) {
