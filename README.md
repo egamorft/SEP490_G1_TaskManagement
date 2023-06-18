@@ -73,7 +73,9 @@ The Laravel framework is open-sourced software licensed under the [MIT license](
 - **npm install autoprefixer@10.4.5 --save-exact**
 - **cp .env.example .env**
 - **php artisan key:generate**
-- **configure .env**
-- **run parallel two command 👇👇**
+- **configure .env (set database name: ftask)**
+- **php artisan migrate**
+- **php artisan db:seed**
+- **if using XAMPP run parallel two command 👇👇**
 - **npm run watch**
 - **php artisan serve**
