@@ -82,9 +82,12 @@
                             <label class="form-label" for="forgot-password-email">Email</label>
                             <input class="form-control" id="forgot-password-email" type="text"
                                 name="forgot-password-email" placeholder="your_email@example.com"
-                                aria-describedby="forgot-password-email" autofocus="" tabindex="1" />
+                                aria-describedby="forgot-password-email" autofocus="" tabindex="1" value="{{ old('forgot-password-email') }}" />
                         </div>
-                        <button class="btn btn-primary w-100" tabindex="2">Send reset link</button>
+                        @error('forgot-password-email')
+                            <span style="color: red">{{ $message }}</span>
+                        @enderror
+                        <button type="submit" class="btn btn-primary w-100" tabindex="2">Send reset link</button>
                     </form>
                     <p class="text-center mt-2">
                         <a href="{{ route('login') }}">

@@ -54,11 +54,15 @@ class AuthController extends Controller
 
 
     // two steps cover
-    public function two_steps_cover()
+    public function two_steps_cover(Request $request)
     {
-        $pageConfigs = ['blankPage' => true];
-
-        return view('.content.authentication.auth-two-steps-cover', ['pageConfigs' => $pageConfigs]);
+        if ($request->verify) {
+            $pageConfigs = ['blankPage' => true];
+    
+            return view('.content.authentication.auth-two-steps-cover', ['pageConfigs' => $pageConfigs]);
+        }else{
+            abort(401);
+        }
     }
 
     // Register form
