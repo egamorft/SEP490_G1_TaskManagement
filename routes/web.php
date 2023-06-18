@@ -45,6 +45,10 @@ Route::get('/api/check-auth', function () {
     return response()->json(['authenticated' => $authenticated, 'fullname' => $fullname]);
 });
 
+//Login facebook
+Route::get('login-facebook',[AuthController::class , 'login_facebook'])->name('login.facebook');
+Route::get('facebook/callback',[AuthController::class , 'callback_facebook']);
+
 
 /* Route verify */
 Route::group(['prefix' => 'verify'], function () {

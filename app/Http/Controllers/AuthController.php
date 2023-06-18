@@ -9,6 +9,8 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Mail\ResetPassword;
 use App\Models\Account;
+use App\Models\Social;
+use Socialite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -165,6 +167,7 @@ class AuthController extends Controller
         }
     }
 
+    //Check code verify account
     public function check_code(Request $request)
     {
         $digit1 = $request->input('input1');
@@ -195,6 +198,7 @@ class AuthController extends Controller
         }
     }
 
+    //Check email which forgot
     public function check_forgot_password(Request $request)
     {
         $data = $request->all();
@@ -220,6 +224,7 @@ class AuthController extends Controller
         }
     }
 
+    //Redirect to reset new password
     public function reset_password_cover($token)
     {
         if ($token) {
@@ -236,6 +241,7 @@ class AuthController extends Controller
         }
     }
 
+    //Save reset password info
     public function reset_password(ResetPasswordRequest $request)
     {
         $new_password = $request->input('reset-password-new');
@@ -248,5 +254,56 @@ class AuthController extends Controller
 
         Session::flash('success', 'Your password have been reset');
         return redirect()->route('login');
+    }
+
+    //Login to facebook
+    public function login_facebook()
+    {
+        return Socialite::driver('facebook')->redirect();
+    }
+
+    public function callback_facebook()
+    {
+        $provider = Socialite::driver('facebook')->user();
+        dd($provider);
+        // $account = Social::where('provider', 'facebook')
+        //     ->where('provider_user_id', $provider->getId())
+        //     ->first();
+        // if ($account) {
+        //     $account_name = Account::where('account_id', $account->user)->first();
+        //     Session::put('account_name', $account_name->account_name);
+        //     Session::put('account_email', $account_name->account_email);
+        //     Session::put('account_phone', $account_name->account_phone);
+        //     Session::put('account_id', $account_name->account_id);
+        //     return redirect('/shop')->with('message', 'Successfully login with facebook');
+        // } else {
+
+        //     $result = new Social([
+        //         'provider_user_id' => $provider->getId(),
+        //         'provider' => 'FACEBOOK'
+        //     ]);
+
+        //     $orang = Account::where('account_email', $provider->getEmail())->first();
+
+        //     if (!$orang) {
+        //         $orang = Account::create([
+
+        //             'account_name' => $provider->getName(),
+        //             'account_email' => $provider->getEmail(),
+        //             'account_password' => '',
+        //             'account_phone' => '',
+        //             'account_confirmation' => '1'
+
+        //         ]);
+        //     }
+        //     $result->login()->associate($orang);
+        //     $result->save();
+
+        //     $account_name = Account::where('account_id', $result->user)->first();
+
+        //     Session::put('account_name', $account_name->account_name);
+        //     Session::put('account_id', $account_name->account_id);
+        //     return redirect('/shop')->with('message', 'Successfully login with facebook');
+        // }
     }
 }

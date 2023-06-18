@@ -121,7 +121,7 @@
                         <div class="divider-text">or</div>
                     </div>
                     <div class="auth-footer-btn d-flex justify-content-center">
-                        <a class="btn btn-facebook" href="#"><i data-feather="facebook"></i></a>
+                        <a class="btn btn-facebook" href="{{ route('login.facebook') }}"><i data-feather="facebook"></i></a>
                         <a class="btn btn-google" href="#"><i data-feather="mail"></i></a>
                     </div>
                 </div>
