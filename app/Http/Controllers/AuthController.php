@@ -6,12 +6,16 @@ use App\Http\Requests\ChangePassRequest;
 use App\Http\Requests\LoginRequest;
 use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\RegisterRequest;
+use App\Http\Requests\ResetPasswordRequest;
+use App\Mail\ResetPassword;
 use App\Models\Account;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
 {
@@ -58,9 +62,9 @@ class AuthController extends Controller
     {
         if ($request->verify) {
             $pageConfigs = ['blankPage' => true];
-    
+
             return view('.content.authentication.auth-two-steps-cover', ['pageConfigs' => $pageConfigs]);
-        }else{
+        } else {
             abort(401);
         }
     }
@@ -189,5 +193,60 @@ class AuthController extends Controller
             Session::flash('error', 'Something went wrong!! Try again');
             return redirect()->back()->withInput();
         }
+    }
+
+    public function check_forgot_password(Request $request)
+    {
+        $data = $request->all();
+        $validator = Validator::make($request->all(), [
+            'forgot-password-email' => [
+                'required',
+                'exists:accounts,email'
+            ],
+        ]);
+        if (!$validator->fails()) {
+            //Passed
+            $email_to = $data['forgot-password-email'];
+            $token = md5(uniqid());
+            $account = Account::where('email', $email_to)->first();
+            $account->token = $token;
+            $account->save();
+
+            Mail::to($email_to)->send(new ResetPassword($token, $email_to));
+            return redirect()->back()->withInput()->with('success', 'Check your email to reset your password');
+        } else {
+            //Fails
+            return redirect()->back()->withInput()->with('error', 'Email is not existed in our system');
+        }
+    }
+
+    public function reset_password_cover($token)
+    {
+        if ($token) {
+            $account = Account::where('token', $token)->first();
+            if ($account) {
+                $pageConfigs = ['blankPage' => true];
+
+                return view('content.authentication.auth-reset-password-cover', ['pageConfigs' => $pageConfigs, 'token' => $token]);
+            } else {
+                abort(401);
+            }
+        } else {
+            abort(404);
+        }
+    }
+
+    public function reset_password(ResetPasswordRequest $request)
+    {
+        $new_password = $request->input('reset-password-new');
+        $token = $request->input('hidden_token');
+
+        $account = Account::where('token', $token)->first();
+        $account->token = null;
+        $account->password = $new_password;
+        $account->save();
+
+        Session::flash('success', 'Your password have been reset');
+        return redirect()->route('login');
     }
 }

@@ -25,7 +25,7 @@ class RegisterRequest extends FormRequest
     {
         $rules = [
             'register-fullname' => 'required|max:50',
-            'register-password' => 'required|min:6|max:50|regex:/^(?=.*[A-Z])(?=.*[\W])/',
+            'register-password' => 'required|min:8|max:50|regex:/^(?=.*[A-Z])(?=.*[\W])/',
             'register-confirm-password' => 'required|same:register-password',
             'register-email' => 'required|email|max:100|unique:accounts,email',
         ];

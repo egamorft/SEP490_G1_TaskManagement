@@ -73,8 +73,10 @@
             <div class="d-flex col-lg-4 align-items-center auth-bg px-2 p-lg-5">
                 <div class="col-12 col-sm-8 col-md-6 col-lg-12 px-xl-2 mx-auto">
                     <h2 class="card-title fw-bold mb-1">Reset Password 🔒</h2>
-                    <p class="card-text mb-2">Your new password must be different from previously used passwords</p>
-                    <form class="auth-reset-password-form mt-2" action="/auth/login-cover" method="GET">
+                    <p class="card-text mb-2">Ensure your password are met minimum 8 characters long, uppercase & symbol</p>
+                    <form class="auth-reset-password-form mt-2" action="{{ route('reset.password.submit') }}" method="POST">
+                        @csrf
+                        <input type="hidden" value="{{ $token }}" name="hidden_token">
                         <div class="mb-1">
                             <div class="d-flex justify-content-between">
                                 <label class="form-label" for="reset-password-new">New Password</label>
@@ -82,9 +84,12 @@
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input class="form-control form-control-merge" id="reset-password-new" type="password"
                                     name="reset-password-new" placeholder="············"
-                                    aria-describedby="reset-password-new" autofocus="" tabindex="1" />
+                                    aria-describedby="reset-password-new" autofocus="" tabindex="1" value="{{ old('reset-password-new') }}"/>
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
+                            @error('reset-password-new')
+                                <span style="color: red">{{ $message }}</span>
+                            @enderror
                         </div>
                         <div class="mb-1">
                             <div class="d-flex justify-content-between">
@@ -93,14 +98,17 @@
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input class="form-control form-control-merge" id="reset-password-confirm" type="password"
                                     name="reset-password-confirm" placeholder="············"
-                                    aria-describedby="reset-password-confirm" tabindex="2" />
+                                    aria-describedby="reset-password-confirm" tabindex="2" value="{{ old('reset-password-confirm') }}"/>
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
+                            @error('reset-password-confirm')
+                                <span style="color: red">{{ $message }}</span>
+                            @enderror
                         </div>
                         <button class="btn btn-primary w-100" tabindex="3">Set New Password</button>
                     </form>
                     <p class="text-center mt-2">
-                        <a href="{{ url('auth/login-cover') }}">
+                        <a href="{{ route('login') }}">
                             <i data-feather="chevron-left"></i> Back to login
                         </a>
                     </p>

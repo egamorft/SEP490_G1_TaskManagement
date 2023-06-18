@@ -38,7 +38,7 @@ Route::get('/register', [AuthController::class, 'register'])->name('register');
 Route::get('/forgot-password', [AuthController::class, 'forgot_password'])->name('forgot-password');
 Route::post('/new-register', [AuthController::class, 'new_register'])->name('create.account');
 Route::post('/login-form', [AuthController::class, 'login_now'])->name('form.login');
-Route::post('/check-email-forgot', [AuthController::class, 'login_now'])->name('check.forgotpassword');
+Route::post('/check-email-forgot', [AuthController::class, 'check_forgot_password'])->name('check.forgotpassword');
 Route::get('/api/check-auth', function () {
     $authenticated = Auth::check();
     $fullname = Auth::user()->fullname;
@@ -54,6 +54,11 @@ Route::group(['prefix' => 'verify'], function () {
     Route::get('confirm-account', [SendMailController::class, 'confirm_account'])->name('mail.verify.account');
 
     Route::post('check-code', [AuthController::class, 'check_code'])->name('check.verifycode');
+
+    //Reset password
+    Route::get('reset-password/{token}', [AuthController::class, 'reset_password_cover'])->name('reset.password');
+
+    Route::post('reset-password', [AuthController::class, 'reset_password'])->name('reset.password.submit');
 });
 
 
@@ -73,12 +78,12 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['prefix' => 'edit'], function () {
         //Edit profile
         Route::get('profile', [AuthController::class, 'user_view_account'])->name('edit.profile');
-        Route::post('/profile-submit', [AuthController::class, 'edit_profile'])->name('edit.profile.submit');
+        Route::post('profile-submit', [AuthController::class, 'edit_profile'])->name('edit.profile.submit');
         //Edit profile
 
         //Change password
         Route::get('password', [AuthController::class, 'user_view_security'])->name('edit.password');
-        Route::post('/change-password', [AuthController::class, 'change_password'])->name('edit.password.submit');
+        Route::post('change-password', [AuthController::class, 'change_password'])->name('edit.password.submit');
     });
 
     /* Route Apps */
@@ -256,7 +261,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('forgot-password-basic', [AuthenticationController::class, 'forgot_password_basic'])->name('auth-forgot-password-basic');
         Route::get('forgot-password-cover', [AuthenticationController::class, 'forgot_password_cover'])->name('auth-forgot-password-cover');
         Route::get('reset-password-basic', [AuthenticationController::class, 'reset_password_basic'])->name('auth-reset-password-basic');
-        Route::get('reset-password-cover', [AuthenticationController::class, 'reset_password_cover'])->name('auth-reset-password-cover');
+        // Route::get('reset-password-cover', [AuthenticationController::class, 'reset_password_cover'])->name('auth-reset-password-cover');
         Route::get('verify-email-basic', [AuthenticationController::class, 'verify_email_basic'])->name('auth-verify-email-basic');
         Route::get('verify-email-cover', [AuthenticationController::class, 'verify_email_cover'])->name('auth-verify-email-cover');
         Route::get('two-steps-basic', [AuthenticationController::class, 'two_steps_basic'])->name('auth-two-steps-basic');
