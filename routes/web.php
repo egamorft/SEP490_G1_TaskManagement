@@ -49,6 +49,9 @@ Route::get('/api/check-auth', function () {
 Route::get('/login-facebook',[AuthController::class , 'login_facebook'])->name('login.facebook');
 Route::get('/facebook/callback',[AuthController::class , 'callback_facebook']);
 
+//Login google
+Route::get('/login-google',[AuthController::class , 'login_google'])->name('login.google');
+Route::get('/google/callback',[AuthController::class , 'callback_google']);
 
 /* Route verify */
 Route::group(['prefix' => 'verify'], function () {

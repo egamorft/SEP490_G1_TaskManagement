@@ -113,8 +113,13 @@ class AuthController extends Controller
                     ->withInput()->with('error', 'You have not verify your account');
             }
         } else {
-            return Redirect::back()
-                ->withInput()->with('error', 'Wrong username or password');
+            if ($account->password == "") {
+                return Redirect::back()
+                    ->withInput()->with('error', 'Check again your social');
+            } else {
+                return Redirect::back()
+                    ->withInput()->with('error', 'Wrong username or password');
+            }
         }
     }
 
@@ -299,6 +304,50 @@ class AuthController extends Controller
 
             Auth::login($orang);
             return redirect()->route('dashboard')->with('success', 'Successfully login with facebook');
+        }
+    }
+
+    public function login_google()
+    {
+        return Socialite::driver('google')->redirect();
+    }
+    public function callback_google()
+    {
+        $provider = Socialite::driver('google')->stateless()->user();
+        $social = Social::where('provider', 'GOOGLE')
+            ->where('provider_user_id', $provider->getId())
+            ->first();
+        if ($social) {
+            //Existed in system
+            $account = Account::findOrFail($social->account_id);
+            Auth::login($account);
+            return redirect()->route('dashboard')->with('success', 'Successfully login with google');
+        } else {
+            $result = new Social([
+                'provider_user_id' => $provider->id,
+                'provider' => 'GOOGLE'
+            ]);
+            //Check email google exist?
+            $orang = Account::where('email', $provider->getEmail())->first();
+
+            if (!$orang) {
+                //Create new
+                $orang = Account::create([
+
+                    'fullname' => $provider->getName(),
+                    'email' => $provider->getEmail(),
+                    'password' => '',
+                    'address' => '',
+                    'avatar' => strtoupper(substr($provider->getName(), 0, 1)) . '.png',
+                    'status' => 1
+
+                ]);
+            }
+            $result->account()->associate($orang);
+            $result->save();
+
+            Auth::login($orang);
+            return redirect()->route('dashboard')->with('success', 'Successfully login with google');
         }
     }
 }
