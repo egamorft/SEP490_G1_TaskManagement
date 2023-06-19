@@ -269,7 +269,7 @@ class AuthController extends Controller
             ->first();
         if ($social) {
             //Existed in system
-            $account = Account::find($social->user)->first();
+            $account = Account::findOrFail($social->account_id);
             Auth::login($account);
             return redirect()->route('dashboard')->with('success', 'Successfully login with facebook');
         } else {
