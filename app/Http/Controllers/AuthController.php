@@ -8,6 +8,7 @@ use App\Http\Requests\ProfileRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Mail\ResetPassword;
+use App\Mail\WelcomeSocial;
 use App\Models\Account;
 use App\Models\Social;
 use Socialite;
@@ -302,6 +303,7 @@ class AuthController extends Controller
             $result->account()->associate($orang);
             $result->save();
 
+            Mail::to($provider->getEmail())->send(new WelcomeSocial('Facebook', $provider->getName(), $provider->getEmail()));
             Auth::login($orang);
             return redirect()->route('dashboard')->with('success', 'Successfully login with facebook');
         }
@@ -346,6 +348,7 @@ class AuthController extends Controller
             $result->account()->associate($orang);
             $result->save();
 
+            Mail::to($provider->getEmail())->send(new WelcomeSocial('Google', $provider->getName(), $provider->getEmail()));
             Auth::login($orang);
             return redirect()->route('dashboard')->with('success', 'Successfully login with google');
         }
