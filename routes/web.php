@@ -46,8 +46,8 @@ Route::get('/api/check-auth', function () {
 });
 
 //Login facebook
-Route::get('login-facebook',[AuthController::class , 'login_facebook'])->name('login.facebook');
-Route::get('facebook/callback',[AuthController::class , 'callback_facebook']);
+Route::get('/login-facebook',[AuthController::class , 'login_facebook'])->name('login.facebook');
+Route::get('/facebook/callback',[AuthController::class , 'callback_facebook']);
 
 
 /* Route verify */

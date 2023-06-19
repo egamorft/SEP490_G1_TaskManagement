@@ -197,7 +197,11 @@
                                     @enderror
                                 </div>
                                 <div>
-                                    <button type="submit" class="btn btn-primary me-2">Change Password</button>
+                                    @if (!$social)
+                                        <button type="submit" class="btn btn-primary me-2">Change Password</button>
+                                    @else
+                                        <button type="button" class="btn btn-secondary me-2" disabled>You logged in with {{ $social->provider }}</button>
+                                    @endif
                                 </div>
                             </div>
                         </form>

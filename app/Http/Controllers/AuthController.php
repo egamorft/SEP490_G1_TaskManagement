@@ -55,7 +55,8 @@ class AuthController extends Controller
     public function user_view_security()
     {
         $pageConfigs = ['pageHeader' => true];
-        return view('content.apps.user.app-user-view-security', ['pageConfigs' => $pageConfigs]);
+        $social = Social::where('account_id', Auth::user()->id)->first();
+        return view('content.apps.user.app-user-view-security', ['pageConfigs' => $pageConfigs, 'social' => $social]);
     }
 
 
@@ -202,19 +203,17 @@ class AuthController extends Controller
     public function check_forgot_password(Request $request)
     {
         $data = $request->all();
-        $validator = Validator::make($request->all(), [
-            'forgot-password-email' => [
-                'required',
-                'exists:accounts,email'
-            ],
-        ]);
-        if (!$validator->fails()) {
-            //Passed
-            $email_to = $data['forgot-password-email'];
-            $token = md5(uniqid());
-            $account = Account::where('email', $email_to)->first();
-            $account->token = $token;
-            $account->save();
+        $email_exist = Account::where('email', $data['forgot-password-email'])->first();
+        if ($email_exist) {
+            if ($email_exist->password != "") {
+                $email_to = $data['forgot-password-email'];
+                $token = md5(uniqid());
+                $account = Account::where('email', $email_to)->first();
+                $account->token = $token;
+                $account->save();
+            } else {
+                return redirect()->back()->withInput()->with('error', 'Check again your social login');
+            }
 
             Mail::to($email_to)->send(new ResetPassword($token, $email_to));
             return redirect()->back()->withInput()->with('success', 'Check your email to reset your password');
@@ -249,7 +248,7 @@ class AuthController extends Controller
 
         $account = Account::where('token', $token)->first();
         $account->token = null;
-        $account->password = $new_password;
+        $account->password = Hash::make($new_password);
         $account->save();
 
         Session::flash('success', 'Your password have been reset');
@@ -265,45 +264,41 @@ class AuthController extends Controller
     public function callback_facebook()
     {
         $provider = Socialite::driver('facebook')->user();
-        dd($provider);
-        // $account = Social::where('provider', 'facebook')
-        //     ->where('provider_user_id', $provider->getId())
-        //     ->first();
-        // if ($account) {
-        //     $account_name = Account::where('account_id', $account->user)->first();
-        //     Session::put('account_name', $account_name->account_name);
-        //     Session::put('account_email', $account_name->account_email);
-        //     Session::put('account_phone', $account_name->account_phone);
-        //     Session::put('account_id', $account_name->account_id);
-        //     return redirect('/shop')->with('message', 'Successfully login with facebook');
-        // } else {
+        $social = Social::where('provider', 'FACEBOOK')
+            ->where('provider_user_id', $provider->getId())
+            ->first();
+        if ($social) {
+            //Existed in system
+            $account = Account::find($social->user)->first();
+            Auth::login($account);
+            return redirect()->route('dashboard')->with('success', 'Successfully login with facebook');
+        } else {
+            $result = new Social([
+                'provider_user_id' => $provider->getId(),
+                'provider' => 'FACEBOOK'
+            ]);
 
-        //     $result = new Social([
-        //         'provider_user_id' => $provider->getId(),
-        //         'provider' => 'FACEBOOK'
-        //     ]);
+            //Check email facebook exist?
+            $orang = Account::where('email', $provider->getEmail())->first();
 
-        //     $orang = Account::where('account_email', $provider->getEmail())->first();
+            if (!$orang) {
+                //Create new
+                $orang = Account::create([
 
-        //     if (!$orang) {
-        //         $orang = Account::create([
+                    'fullname' => $provider->getName(),
+                    'email' => $provider->getEmail(),
+                    'password' => '',
+                    'address' => '',
+                    'avatar' => strtoupper(substr($provider->getName(), 0, 1)) . '.png',
+                    'status' => 1
 
-        //             'account_name' => $provider->getName(),
-        //             'account_email' => $provider->getEmail(),
-        //             'account_password' => '',
-        //             'account_phone' => '',
-        //             'account_confirmation' => '1'
+                ]);
+            }
+            $result->account()->associate($orang);
+            $result->save();
 
-        //         ]);
-        //     }
-        //     $result->login()->associate($orang);
-        //     $result->save();
-
-        //     $account_name = Account::where('account_id', $result->user)->first();
-
-        //     Session::put('account_name', $account_name->account_name);
-        //     Session::put('account_id', $account_name->account_id);
-        //     return redirect('/shop')->with('message', 'Successfully login with facebook');
-        // }
+            Auth::login($orang);
+            return redirect()->route('dashboard')->with('success', 'Successfully login with facebook');
+        }
     }
 }
