@@ -42,11 +42,31 @@ class Account extends Model implements Authenticatable
 
     public function comments()
     {
-        return $this->hasMany(Comment::class, 'create_by');
+        return $this->hasMany(Comment::class, 'created_by');
     }
 
     public function reports()
     {
-        return $this->hasMany(Report::class, 'create_by');
+        return $this->hasMany(Report::class, 'created_by');
+    }
+
+    public function hasAnyPermission($permissions)
+    {
+        foreach ($permissions as $permission) {
+            if ($this->hasPermission($permission)) {
+                return true;
+            }
+        }
+
+        return false;
+    }
+
+    public function hasPermission($permission)
+    {
+        return $this->roles
+            ->pluck('permissions')              // Get the permissions associated with each role
+            ->flatten()                         // Flatten the collection of permissions
+            ->pluck('slug')                     // Get the slugs of the permissions
+            ->contains($permission);            // Check if the given permission slug exists
     }
 }
