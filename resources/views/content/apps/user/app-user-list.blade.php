@@ -104,7 +104,7 @@
                     </thead>
                     <tbody>
                         @forelse ($getAllAccount as $key => $account)
-                            <tr class="odd">
+                            <tr class="odd" id="row{{$account->id}}">
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $account->fullname }}</td>
                                 <td>{{ $account->email }}</td>
@@ -148,15 +148,21 @@
                                         @endif
                                     @endif
                                 </td>
-                                <td>Actions</td>
+                                <td>
+                                </td>
                             </tr>
                         @empty
+                            <tr>
+                                <td colspan="6">
+                                    No data
+                                </td>
+                            </tr>
                         @endforelse
                     </tbody>
                 </table>
             </div>
             <!-- Modal to add new user starts-->
-            <div class="modal modal-slide-in new-user-modal fade" id="modals-slide-in">
+            <div class="modal modal-slide-in new-user-modal fade" id="add-new-user">
                 <div class="modal-dialog">
                     <form class="add-new-user modal-content pt-0" method="POST" action="{{ route('user.create') }}">
                         @csrf
@@ -205,11 +211,59 @@
                                     <option value="1">Admin</option>
                                 </select>
                             </div>
-                            <button hidden id="spinnerBtn" class="btn btn-outline-primary waves-effect" type="button" disabled="">
+                            <button hidden id="spinnerBtn" class="btn btn-outline-primary waves-effect" type="button"
+                                disabled="">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="ms-25 align-middle">Loading...</span>
                             </button>
-                            <button id="submitBtn" type="submit" class="btn btn-primary me-1 data-submit">Submit</button>
+                            <button id="submitBtn" type="submit"
+                                class="btn btn-primary me-1 data-submit">Submit</button>
+                            <button id="resetBtn" type="reset" class="btn btn-outline-secondary"
+                                data-bs-dismiss="modal">Cancel</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+            <!-- Modal to add new user Ends-->
+
+            <!-- Modal to add new user starts-->
+            <div class="modal modal-slide-in new-user-modal fade" id="edit-user-modal">
+                <div class="modal-dialog">
+                    <form id="edit-user-form" class="edit-user-form modal-content pt-0" method="POST" action="{{ route('user.update', ':id') }}">
+                        @csrf
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
+                        <div class="modal-header mb-1">
+                            <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                        </div>
+                        <div class="modal-body flex-grow-1">
+                            <div class="mb-1">
+                                <label class="form-label" for="basic-icon-default-fullname">Full Name</label>
+                                <input type="text" class="form-control dt-full-name" id="user-fullname"
+                                    placeholder="Enter user fullname" name="user-fullname" />
+                            </div>
+                            <span id="user-fullnameErrorEdit" style="color: red"></span>
+
+                            <div class="mb-1">
+                                <label class="form-label" for="basic-icon-default-email">Email</label>
+                                <input id="user-email" type="text" id="basic-icon-default-email" class="form-control dt-email"
+                                    placeholder="your_email@example.com" name="user-email" disabled/>
+                            </div>
+                            <span id="user-emailErrorEdit" style="color: red"></span>
+
+                            <div class="mb-1">
+                                <label class="form-label" for="user-role">User Role</label>
+                                <select id="user-role" class="select2 form-select" name="user-role">
+                                    <option value="0" selected>User</option>
+                                    <option value="1">Admin</option>
+                                </select>
+                            </div>
+                            <button hidden id="spinnerBtn" class="btn btn-outline-primary waves-effect" type="button"
+                                disabled="">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="ms-25 align-middle">Loading...</span>
+                            </button>
+                            <button id="submitBtn" type="submit"
+                                class="btn btn-primary me-1 data-submit">Submit</button>
                             <button id="resetBtn" type="reset" class="btn btn-outline-secondary"
                                 data-bs-dismiss="modal">Cancel</button>
                         </div>

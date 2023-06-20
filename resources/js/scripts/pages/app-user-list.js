@@ -23,7 +23,7 @@ $(function () {
     assetPath = $('body').attr('data-asset-path');
     userView = assetPath + 'admin/user/details/';
   }
-
+  $('.hiddenTD').hide();
   select.each(function () {
     var $this = $(this);
     $this.wrap('<div class="position-relative"></div>');
@@ -46,6 +46,15 @@ $(function () {
           title: 'Actions',
           orderable: false,
           render: function (data, type, full, meta) {
+            //Get ID
+            var str = full.DT_RowId;
+            var regex = /row(\d+)/;
+            var match = str.match(regex);
+
+            if (match) {
+              var rowId = parseInt(match[1]);
+            }
+
             return (
               '<div class="btn-group">' +
               '<a class="btn btn-sm dropdown-toggle hide-arrow" data-bs-toggle="dropdown">' +
@@ -53,10 +62,14 @@ $(function () {
               '</a>' +
               '<div class="dropdown-menu dropdown-menu-end">' +
               '<a href="' +
-              userView + full[0] +
+              userView + rowId +
               '" class="dropdown-item">' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 me-50' }) +
               'Details</a>' +
+              '<a href="#" class="dropdown-item edit-user-btn" data-bs-toggle="modal" data-bs-target="#edit-user-modal" data-id="' +
+              rowId + '">' +
+              feather.icons['edit'].toSvg({ class: 'font-small-4 me-50' }) +
+              'Edit</a></div>' +
               '</div>' +
               '</div>' +
               '</div>'
@@ -130,7 +143,7 @@ $(function () {
           className: 'add-new btn btn-primary',
           attr: {
             'data-bs-toggle': 'modal',
-            'data-bs-target': '#modals-slide-in'
+            'data-bs-target': '#add-new-user'
           },
           init: function (api, node, config) {
             $(node).removeClass('btn-secondary');
@@ -249,79 +262,192 @@ $(function () {
         }
       }
     });
+  }
 
-    $(document).ready(function () {
-      $('#generatePassword').click(function () {
-        var password = generateRandomPassword();
-        $('.user-password').val(password);
-      });
 
-      function generateRandomPassword() {
-        var length = 10;
-        var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
-        var password = "";
-
-        for (var i = 0; i < length; i++) {
-          var randomChar = charset.charAt(Math.floor(Math.random() * charset.length));
-          password += randomChar;
-        }
-
-        if (!/[A-Z]/.test(password) || !/[!@#$%^&*()_+~`|}{[\]:;?><,./-=]/.test(password)) {
-          password = generateRandomPassword(); // Regenerate password if it doesn't meet the criteria
-        }
-
-        return password;
-      }
+  //Generate password
+  $(document).ready(function () {
+    $('#generatePassword').click(function () {
+      var password = generateRandomPassword();
+      $('.user-password').val(password);
     });
 
+    function generateRandomPassword() {
+      var length = 10;
+      var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+      var password = "";
 
-    $(document).ready(function () {
-      newUserForm.submit(function (event) {
-        event.preventDefault(); // Prevent the default form submission
+      for (var i = 0; i < length; i++) {
+        var randomChar = charset.charAt(Math.floor(Math.random() * charset.length));
+        password += randomChar;
+      }
 
-        var form = $(this);
-        var url = form.attr('action');
-        var method = form.attr('method');
-        var data = form.serialize();
+      if (!/[A-Z]/.test(password) || !/[!@#$%^&*()_+~`|}{[\]:;?><,./-=]/.test(password)) {
+        password = generateRandomPassword(); // Regenerate password if it doesn't meet the criteria
+      }
 
-        $.ajax({
-          url: url,
-          method: method,
-          data: data,
-          dataType: 'json',
-          beforeSend: function () {
-            $('#spinnerBtn').removeAttr('hidden');
-            $('#submitBtn').hide();
-            $('#resetBtn').hide();
-          },
-          success: function (response) {
-            // Handle the success response
-            if (response.success) {
-              // Form submission was successful
-              // Reset the form or perform any other actions
-              form[0].reset();
-              form.hide();
-              location.reload();
-            }
-          },
-          error: function (response) {
-            // Handle the error response
-            if (response.status === 422) {
-              var errors = response.responseJSON.errors;
-              // Display the validation errors next to the form fields
+      return password;
+    }
+  });
 
-              // Hide the error messages
-              $('.error').text('').hide();
-              for (var field in errors) {
-                var errorContainer = $('#' + field + "ErrorAdd");
-                errorContainer.addClass('text-danger');
-                errorContainer.text(errors[field][0]);
-                errorContainer.show();
-              }
+
+  //Add user form submission
+  $(document).ready(function () {
+    newUserForm.submit(function (event) {
+      event.preventDefault(); // Prevent the default form submission
+
+      var form = $(this);
+      var url = form.attr('action');
+      var method = form.attr('method');
+      var data = form.serialize();
+
+      $.ajax({
+        url: url,
+        method: method,
+        data: data,
+        dataType: 'json',
+        beforeSend: function () {
+          $('#spinnerBtn').removeAttr('hidden');
+          $('#submitBtn').hide();
+          $('#resetBtn').hide();
+        },
+        success: function (response) {
+          // Handle the success response
+          if (response.success) {
+            // Form submission was successful
+            // Reset the form or perform any other actions
+            form[0].reset();
+            form.hide();
+            location.reload();
+          }
+        },
+        error: function (response) {
+          // Handle the error response
+          if (response.status === 422) {
+            var errors = response.responseJSON.errors;
+            // Display the validation errors next to the form fields
+
+            // Hide the error messages
+            $('.error').text('').hide();
+            for (var field in errors) {
+              var errorContainer = $('#' + field + "ErrorAdd");
+              errorContainer.addClass('text-danger');
+              errorContainer.text(errors[field][0]);
+              errorContainer.show();
             }
           }
-        });
+        }
       });
     });
-  }
+  });
+
+  //Pass id attr from button to form
+  $(document).ready(function () {
+    var form = $('#edit-user-form');
+    var action = form.attr('action');
+    var csrfToken = form.find('input[name="_token"]').val();
+
+    $('#edit-user-modal').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget); // Button that triggered the modal
+      var id = button.data('id'); // Get the id from the button's data-id attribute
+
+      // Update the action URL of the form with the id parameter
+      form.attr('action', action.replace(':id', id));
+      $('input[name="_token"]').val(csrfToken);
+    });
+
+    // Event listener for when the modal is hidden
+    $('#edit-user-modal').on('hidden.bs.modal', function () {
+      // Clear the input fields when the modal is closed
+      form.attr('action', action);
+      $('input', $(this)).val('');
+
+      // Refresh the CSRF token
+      $('input[name="_token"]').val(csrfToken);
+    });
+  });
+
+  //Edit user form submission
+  $(document).ready(function () {
+    $('.edit-user-btn').click(function () {
+      var button = $(this);
+      var modal = $(button.data('bs-target')); // Get the target modal
+      var id = button.data('id'); // Get the ID from data attribute
+      // Make an AJAX request to fetch the data
+      $.ajax({
+        url: '/admin/get-specific-user', // Replace with your server route
+        method: 'GET',
+        data: {
+          id: id
+        },
+        dataType: 'json',
+        success: function (response) {
+          if (response.success) {
+            var data = response.data;
+            modal.find('#user-fullname').val(data.fullname);
+            modal.find('#user-email').val(data.email);
+
+            // Set the selected option based on data.is_admin using Select2
+            modal.find('#user-role').val(data.is_admin).trigger('change');
+          }
+        },
+        error: function () {
+          console.log("err get user");
+        }
+      });
+    });
+
+
+    $('#edit-user-form').submit(function (event) {
+      event
+        .preventDefault(); // Prevent the default form submission
+
+      var form = $(this);
+      var url = form.attr('action');
+      var method = form.attr('method');
+      var data = form.serialize();
+      console.log(data)
+      $.ajax({
+        url: url,
+        method: method,
+        data: data,
+        dataType: 'json',
+        beforeSend: function () {
+          $('#spinnerBtn').removeAttr('hidden');
+          $('#submitBtn').hide();
+          $('#resetBtn').hide();
+        },
+        success: function (response) {
+          // Handle the success response
+          if (response.success) {
+            // Form submission was successful
+            // Reset the form or perform any other actions
+            form[0].reset();
+            form.hide();
+            location.reload();
+          }
+        },
+        error: function (response) {
+          // Handle the error response
+          if (response.status === 422) {
+            var errors = response
+              .responseJSON.errors;
+            // Display the validation errors next to the form fields
+
+            // Hide the error messages
+            $('.error').text('').hide();
+            for (var field in errors) {
+              var errorContainer = $('#' +
+                field + "ErrorEdit");
+              errorContainer.addClass(
+                'text-danger');
+              errorContainer.text(errors[
+                field][0]);
+              errorContainer.show();
+            }
+          }
+        }
+      });
+    });
+  });
 });

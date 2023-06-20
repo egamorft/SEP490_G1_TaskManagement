@@ -31,6 +31,8 @@ use PhpParser\Node\Stmt\Return_;
 | contains the "web" middleware group. Now create something great!
 |
 */
+// 'middleware' => 'admin'
+// 'middleware' => check.permissions:slug
 
 // Main Page Route
 Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
@@ -95,9 +97,11 @@ Route::middleware(['auth'])->group(function () {
     });
 
     /* Route Admin */
-    Route::group(['prefix' => 'admin'], function () {
+    Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
         Route::get('user/list', [AdminUserController::class, 'index'])->name('user-list');
+        Route::get('get-specific-user', [AdminUserController::class, 'show'])->name('user.show');
         Route::post('user/create', [AdminUserController::class, 'create'])->name('user.create');
+        Route::post('user/update/{id}', [AdminUserController::class, 'update'])->name('user.update');
     });
     /* Route Admin */
 
@@ -275,7 +279,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('forgot-password-basic', [AuthenticationController::class, 'forgot_password_basic'])->name('auth-forgot-password-basic');
         Route::get('forgot-password-cover', [AuthenticationController::class, 'forgot_password_cover'])->name('auth-forgot-password-cover');
         Route::get('reset-password-basic', [AuthenticationController::class, 'reset_password_basic'])->name('auth-reset-password-basic');
-        // Route::get('reset-password-cover', [AuthenticationController::class, 'reset_password_cover'])->name('auth-reset-password-cover');
         Route::get('verify-email-basic', [AuthenticationController::class, 'verify_email_basic'])->name('auth-verify-email-basic');
         Route::get('verify-email-cover', [AuthenticationController::class, 'verify_email_cover'])->name('auth-verify-email-cover');
         Route::get('two-steps-basic', [AuthenticationController::class, 'two_steps_basic'])->name('auth-two-steps-basic');

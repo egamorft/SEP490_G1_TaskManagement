@@ -56,7 +56,7 @@ class AdminUserController extends Controller
         $role = "";
         if ($data['is_admin'] == 1) {
             $role = "ADMIN";
-        }else{
+        } else {
             $role = "USER";
         }
         $account = Account::insertGetId($data);
@@ -83,12 +83,33 @@ class AdminUserController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $id = $request->input('id');
+        // Retrieve the record from the database
+        $account = Account::find($id);
+
+        if ($account) {
+            // Prepare the data to be sent back to the client
+            $data = [
+                'fullname' => $account->fullname,
+                'email' => $account->email,
+                'is_admin' => $account->is_admin,
+            ];
+
+            return response()->json([
+                'success' => true,
+                'data' => $data,
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Record not found',
+        ], 404);
     }
 
     /**
@@ -111,7 +132,22 @@ class AdminUserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'user-fullname' => 'required|max:50',
+            'user-role' => 'required',
+        ]);
+        // validation passed
+        $account = Account::findOrFail($id);
+        $account->fullname = $request->input('user-fullname');
+        $account->is_admin = $request->input('user-role');
+
+        // Save the model to the database
+        $account->save();
+
+        $email = $account->email;
+
+        Session::flash('success', 'Successfully edit user ' . $email);
+        return response()->json(['success' => true]);
     }
 
     /**
