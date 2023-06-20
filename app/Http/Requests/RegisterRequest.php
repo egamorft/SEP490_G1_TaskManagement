@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Rules\Captcha;
 
 class RegisterRequest extends FormRequest
 {
@@ -28,6 +29,7 @@ class RegisterRequest extends FormRequest
             'register-password' => 'required|min:8|max:50|regex:/^(?=.*[A-Z])(?=.*[\W])/',
             'register-confirm-password' => 'required|same:register-password',
             'register-email' => 'required|email|max:100|unique:accounts,email',
+            'g-recaptcha-response' => new Captcha(),
         ];
         return $rules;
     }

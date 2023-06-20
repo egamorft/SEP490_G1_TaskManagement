@@ -107,7 +107,8 @@
                             <div class="input-group input-group-merge form-password-toggle">
                                 <input class="form-control form-control-merge" id="register-password" type="password"
                                     name="register-password" placeholder="············"
-                                    aria-describedby="register-password" tabindex="3" title="You must have minimum 8 characters long, uppercase & symbol" />
+                                    aria-describedby="register-password" tabindex="3"
+                                    title="You must have minimum 8 characters long, uppercase & symbol" />
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
                         </div>
@@ -126,6 +127,13 @@
                         @error('register-confirm-password')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
+                        <div class="g-recaptcha" data-sitekey="{{ env('CAPTCHA_KEY') }}"></div>
+                        @error('g-recaptcha-response')
+                            <span style="color: red">
+                                {{ $errors->first('g-recaptcha-response') }}
+                            </span>
+                        @enderror
+                        <br>
                         <button type="submit" class="btn btn-primary w-100" tabindex="5">Sign up</button>
                     </form>
                     <p class="text-center mt-2">
@@ -152,4 +160,5 @@
 
 @section('page-script')
     <script src="{{ asset('js/scripts/pages/auth-register.js') }}"></script>
+    <script src="https://www.google.com/recaptcha/api.js" async defer></script>
 @endsection
