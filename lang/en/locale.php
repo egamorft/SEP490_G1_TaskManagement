@@ -135,7 +135,7 @@ return [
     "Extensions" => "Extensions",
     "Media Player" => "Media Player",
     "User Settings" => "User Settings",
-    "User" => "User",
+    "User Management" => "User Management",
     "List" => "List",
     "View" => "View",
     "Edit" => "Edit",

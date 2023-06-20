@@ -14,19 +14,14 @@ $(function () {
     newUserSidebar = $('.new-user-modal'),
     newUserForm = $('.add-new-user'),
     select = $('.select2'),
-    dtContact = $('.dt-contact'),
-    statusObj = {
-      1: { title: 'Pending', class: 'badge-light-warning' },
-      2: { title: 'Active', class: 'badge-light-success' },
-      3: { title: 'Inactive', class: 'badge-light-secondary' }
-    };
+    dtContact = $('.dt-contact')
 
   var assetPath = '../../../app-assets/',
     userView = 'app-user-view-account.html';
 
   if ($('body').attr('data-framework') === 'laravel') {
     assetPath = $('body').attr('data-asset-path');
-    userView = assetPath + 'app/user/view/account';
+    userView = assetPath + 'admin/user/details/';
   }
 
   select.each(function () {
@@ -44,113 +39,7 @@ $(function () {
   // Users List datatable
   if (dtUserTable.length) {
     dtUserTable.DataTable({
-      ajax: assetPath + 'data/user-list.json', // JSON file to add data
-      columns: [
-        // columns according to JSON
-        { data: '' },
-        { data: 'full_name' },
-        { data: 'role' },
-        { data: 'current_plan' },
-        { data: 'billing' },
-        { data: 'status' },
-        { data: '' }
-      ],
       columnDefs: [
-        {
-          // For Responsive
-          className: 'control',
-          orderable: false,
-          responsivePriority: 2,
-          targets: 0,
-          render: function (data, type, full, meta) {
-            return '';
-          }
-        },
-        {
-          // User full name and username
-          targets: 1,
-          responsivePriority: 4,
-          render: function (data, type, full, meta) {
-            var $name = full['full_name'],
-              $email = full['email'],
-              $image = full['avatar'];
-            if ($image) {
-              // For Avatar image
-              var $output =
-                '<img src="' + assetPath + 'images/avatars/' + $image + '" alt="Avatar" height="32" width="32">';
-            } else {
-              // For Avatar badge
-              var stateNum = Math.floor(Math.random() * 6) + 1;
-              var states = ['success', 'danger', 'warning', 'info', 'dark', 'primary', 'secondary'];
-              var $state = states[stateNum],
-                $name = full['full_name'],
-                $initials = $name.match(/\b\w/g) || [];
-              $initials = (($initials.shift() || '') + ($initials.pop() || '')).toUpperCase();
-              $output = '<span class="avatar-content">' + $initials + '</span>';
-            }
-            var colorClass = $image === '' ? ' bg-light-' + $state + ' ' : '';
-            // Creates full output for row
-            var $row_output =
-              '<div class="d-flex justify-content-left align-items-center">' +
-              '<div class="avatar-wrapper">' +
-              '<div class="avatar ' +
-              colorClass +
-              ' me-1">' +
-              $output +
-              '</div>' +
-              '</div>' +
-              '<div class="d-flex flex-column">' +
-              '<a href="' +
-              userView +
-              '" class="user_name text-truncate text-body"><span class="fw-bolder">' +
-              $name +
-              '</span></a>' +
-              '<small class="emp_post text-muted">' +
-              $email +
-              '</small>' +
-              '</div>' +
-              '</div>';
-            return $row_output;
-          }
-        },
-        {
-          // User Role
-          targets: 2,
-          render: function (data, type, full, meta) {
-            var $role = full['role'];
-            var roleBadgeObj = {
-              Subscriber: feather.icons['user'].toSvg({ class: 'font-medium-3 text-primary me-50' }),
-              Author: feather.icons['settings'].toSvg({ class: 'font-medium-3 text-warning me-50' }),
-              Maintainer: feather.icons['database'].toSvg({ class: 'font-medium-3 text-success me-50' }),
-              Editor: feather.icons['edit-2'].toSvg({ class: 'font-medium-3 text-info me-50' }),
-              Admin: feather.icons['slack'].toSvg({ class: 'font-medium-3 text-danger me-50' })
-            };
-            return "<span class='text-truncate align-middle'>" + roleBadgeObj[$role] + $role + '</span>';
-          }
-        },
-        {
-          targets: 4,
-          render: function (data, type, full, meta) {
-            var $billing = full['billing'];
-
-            return '<span class="text-nowrap">' + $billing + '</span>';
-          }
-        },
-        {
-          // User Status
-          targets: 5,
-          render: function (data, type, full, meta) {
-            var $status = full['status'];
-
-            return (
-              '<span class="badge rounded-pill ' +
-              statusObj[$status].class +
-              '" text-capitalized>' +
-              statusObj[$status].title +
-              '</span>'
-            );
-          }
-        },
         {
           // Actions
           targets: -1,
@@ -164,20 +53,18 @@ $(function () {
               '</a>' +
               '<div class="dropdown-menu dropdown-menu-end">' +
               '<a href="' +
-              userView +
+              userView + full[0] +
               '" class="dropdown-item">' +
               feather.icons['file-text'].toSvg({ class: 'font-small-4 me-50' }) +
               'Details</a>' +
-              '<a href="javascript:;" class="dropdown-item delete-record">' +
-              feather.icons['trash-2'].toSvg({ class: 'font-small-4 me-50' }) +
-              'Delete</a></div>' +
+              '</div>' +
               '</div>' +
               '</div>'
             );
           }
         }
       ],
-      order: [[1, 'desc']],
+      order: [[0, 'asc']],
       dom:
         '<"d-flex justify-content-between align-items-center header-actions mx-2 row mt-75"' +
         '<"col-sm-12 col-lg-4 d-flex justify-content-center justify-content-lg-start" l>' +
@@ -203,31 +90,31 @@ $(function () {
               extend: 'print',
               text: feather.icons['printer'].toSvg({ class: 'font-small-4 me-50' }) + 'Print',
               className: 'dropdown-item',
-              exportOptions: { columns: [1, 2, 3, 4, 5] }
+              exportOptions: { columns: [1, 2, 3, 4] }
             },
             {
               extend: 'csv',
               text: feather.icons['file-text'].toSvg({ class: 'font-small-4 me-50' }) + 'Csv',
               className: 'dropdown-item',
-              exportOptions: { columns: [1, 2, 3, 4, 5] }
+              exportOptions: { columns: [1, 2, 3, 4] }
             },
             {
               extend: 'excel',
               text: feather.icons['file'].toSvg({ class: 'font-small-4 me-50' }) + 'Excel',
               className: 'dropdown-item',
-              exportOptions: { columns: [1, 2, 3, 4, 5] }
+              exportOptions: { columns: [1, 2, 3, 4] }
             },
             {
               extend: 'pdf',
               text: feather.icons['clipboard'].toSvg({ class: 'font-small-4 me-50' }) + 'Pdf',
               className: 'dropdown-item',
-              exportOptions: { columns: [1, 2, 3, 4, 5] }
+              exportOptions: { columns: [1, 2, 3, 4] }
             },
             {
               extend: 'copy',
               text: feather.icons['copy'].toSvg({ class: 'font-small-4 me-50' }) + 'Copy',
               className: 'dropdown-item',
-              exportOptions: { columns: [1, 2, 3, 4, 5] }
+              exportOptions: { columns: [1, 2, 3, 4] }
             }
           ],
           init: function (api, node, config) {
@@ -264,18 +151,18 @@ $(function () {
             var data = $.map(columns, function (col, i) {
               return col.columnIndex !== 6 // ? Do not show row in modal popup if title is blank (for check box)
                 ? '<tr data-dt-row="' +
-                    col.rowIdx +
-                    '" data-dt-column="' +
-                    col.columnIndex +
-                    '">' +
-                    '<td>' +
-                    col.title +
-                    ':' +
-                    '</td> ' +
-                    '<td>' +
-                    col.data +
-                    '</td>' +
-                    '</tr>'
+                col.rowIdx +
+                '" data-dt-column="' +
+                col.columnIndex +
+                '">' +
+                '<td>' +
+                col.title +
+                ':' +
+                '</td> ' +
+                '<td>' +
+                col.data +
+                '</td>' +
+                '</tr>'
                 : '';
             }).join('');
             return data ? $('<table class="table"/>').append('<tbody>' + data + '</tbody>') : false;
@@ -292,7 +179,7 @@ $(function () {
       initComplete: function () {
         // Adding role filter once table initialized
         this.api()
-          .columns(2)
+          .columns(3)
           .every(function () {
             var column = this;
             var label = $('<label class="form-label" for="UserRole">Role</label>').appendTo('.user_role');
@@ -302,7 +189,7 @@ $(function () {
               .appendTo('.user_role')
               .on('change', function () {
                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                column.search(val ? '^' + val + '$' : '', true, false).draw();
+                column.search(val, true, false).draw();
               });
 
             column
@@ -310,35 +197,15 @@ $(function () {
               .unique()
               .sort()
               .each(function (d, j) {
-                select.append('<option value="' + d + '" class="text-capitalize">' + d + '</option>');
-              });
-          });
-        // Adding plan filter once table initialized
-        this.api()
-          .columns(3)
-          .every(function () {
-            var column = this;
-            var label = $('<label class="form-label" for="UserPlan">Plan</label>').appendTo('.user_plan');
-            var select = $(
-              '<select id="UserPlan" class="form-select text-capitalize mb-md-0 mb-2"><option value=""> Select Plan </option></select>'
-            )
-              .appendTo('.user_plan')
-              .on('change', function () {
-                var val = $.fn.dataTable.util.escapeRegex($(this).val());
-                column.search(val ? '^' + val + '$' : '', true, false).draw();
-              });
-
-            column
-              .data()
-              .unique()
-              .sort()
-              .each(function (d, j) {
-                select.append('<option value="' + d + '" class="text-capitalize">' + d + '</option>');
+                var userText = $('<td>').html(d).contents().filter(function () {
+                  return this.nodeType === 3;
+                }).text().trim();
+                select.append('<option value="' + userText + '" class="text-capitalize">' + userText + '</option>');
               });
           });
         // Adding status filter once table initialized
         this.api()
-          .columns(5)
+          .columns(4)
           .every(function () {
             var column = this;
             var label = $('<label class="form-label" for="FilterTransaction">Status</label>').appendTo('.user_status');
@@ -358,10 +225,10 @@ $(function () {
               .each(function (d, j) {
                 select.append(
                   '<option value="' +
-                    statusObj[d].title +
-                    '" class="text-capitalize">' +
-                    statusObj[d].title +
-                    '</option>'
+                  $(d).html() +
+                  '" class="text-capitalize">' +
+                  $(d).html() +
+                  '</option>'
                 );
               });
           });
@@ -377,30 +244,83 @@ $(function () {
         'user-fullname': {
           required: true
         },
-        'user-name': {
-          required: true
-        },
         'user-email': {
           required: true
         }
       }
     });
 
-    newUserForm.on('submit', function (e) {
-      var isValid = newUserForm.valid();
-      e.preventDefault();
-      if (isValid) {
-        newUserSidebar.modal('hide');
+    $(document).ready(function () {
+      $('#generatePassword').click(function () {
+        var password = generateRandomPassword();
+        $('.user-password').val(password);
+      });
+
+      function generateRandomPassword() {
+        var length = 10;
+        var charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789!@#$%^&*()_+~`|}{[]:;?><,./-=";
+        var password = "";
+
+        for (var i = 0; i < length; i++) {
+          var randomChar = charset.charAt(Math.floor(Math.random() * charset.length));
+          password += randomChar;
+        }
+
+        if (!/[A-Z]/.test(password) || !/[!@#$%^&*()_+~`|}{[\]:;?><,./-=]/.test(password)) {
+          password = generateRandomPassword(); // Regenerate password if it doesn't meet the criteria
+        }
+
+        return password;
       }
     });
-  }
 
-  // Phone Number
-  if (dtContact.length) {
-    dtContact.each(function () {
-      new Cleave($(this), {
-        phone: true,
-        phoneRegionCode: 'US'
+
+    $(document).ready(function () {
+      newUserForm.submit(function (event) {
+        event.preventDefault(); // Prevent the default form submission
+
+        var form = $(this);
+        var url = form.attr('action');
+        var method = form.attr('method');
+        var data = form.serialize();
+
+        $.ajax({
+          url: url,
+          method: method,
+          data: data,
+          dataType: 'json',
+          beforeSend: function () {
+            $('#spinnerBtn').removeAttr('hidden');
+            $('#submitBtn').hide();
+            $('#resetBtn').hide();
+          },
+          success: function (response) {
+            // Handle the success response
+            if (response.success) {
+              // Form submission was successful
+              // Reset the form or perform any other actions
+              form[0].reset();
+              form.hide();
+              location.reload();
+            }
+          },
+          error: function (response) {
+            // Handle the error response
+            if (response.status === 422) {
+              var errors = response.responseJSON.errors;
+              // Display the validation errors next to the form fields
+
+              // Hide the error messages
+              $('.error').text('').hide();
+              for (var field in errors) {
+                var errorContainer = $('#' + field + "ErrorAdd");
+                errorContainer.addClass('text-danger');
+                errorContainer.text(errors[field][0]);
+                errorContainer.show();
+              }
+            }
+          }
+        });
       });
     });
   }
