@@ -369,6 +369,7 @@ $(function () {
 
   //Edit user form submission
   $(document).ready(function () {
+    //Get data
     $('.edit-user-btn').click(function () {
       var button = $(this);
       var modal = $(button.data('bs-target')); // Get the target modal
@@ -386,6 +387,7 @@ $(function () {
             var data = response.data;
             modal.find('#user-fullname').val(data.fullname);
             modal.find('#user-email').val(data.email);
+            modal.find('#user-address').val(data.address);
 
             // Set the selected option based on data.is_admin using Select2
             modal.find('#user-role').val(data.is_admin).trigger('change');
@@ -397,7 +399,7 @@ $(function () {
       });
     });
 
-
+    //Save data
     $('#edit-user-form').submit(function (event) {
       event
         .preventDefault(); // Prevent the default form submission
@@ -406,7 +408,6 @@ $(function () {
       var url = form.attr('action');
       var method = form.attr('method');
       var data = form.serialize();
-      console.log(data)
       $.ajax({
         url: url,
         method: method,

@@ -49,12 +49,12 @@ Route::get('/api/check-auth', function () {
 });
 
 //Login facebook
-Route::get('/login-facebook',[AuthController::class , 'login_facebook'])->name('login.facebook');
-Route::get('/facebook/callback',[AuthController::class , 'callback_facebook']);
+Route::get('/login-facebook', [AuthController::class, 'login_facebook'])->name('login.facebook');
+Route::get('/facebook/callback', [AuthController::class, 'callback_facebook']);
 
 //Login google
-Route::get('/login-google',[AuthController::class , 'login_google'])->name('login.google');
-Route::get('/google/callback',[AuthController::class , 'callback_google']);
+Route::get('/login-google', [AuthController::class, 'login_google'])->name('login.google');
+Route::get('/google/callback', [AuthController::class, 'callback_google']);
 
 /* Route verify */
 Route::group(['prefix' => 'verify'], function () {
@@ -102,6 +102,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('get-specific-user', [AdminUserController::class, 'show'])->name('user.show');
         Route::post('user/create', [AdminUserController::class, 'create'])->name('user.create');
         Route::post('user/update/{id}', [AdminUserController::class, 'update'])->name('user.update');
+        Route::get('user/details/{id}', [AdminUserController::class, 'edit'])->name('user.edit');
     });
     /* Route Admin */
 

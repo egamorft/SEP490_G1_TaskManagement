@@ -133,7 +133,7 @@
                                 {{ $errors->first('g-recaptcha-response') }}
                             </span>
                         @enderror
-                        <br>
+                        <br class="mb-5">
                         <button type="submit" class="btn btn-primary w-100" tabindex="5">Sign up</button>
                     </form>
                     <p class="text-center mt-2">
@@ -143,7 +143,7 @@
                     <div class="divider my-2">
                         <div class="divider-text">or</div>
                     </div>
-                    <div class="auth-footer-btn d-flex justify-content-center">
+                    <div class="auth-footer-btn d-flex justify-content-center mt-5">
                         <a class="btn btn-facebook" href="#"><i data-feather="facebook"></i></a>
                         <a class="btn btn-google" href="#"><i data-feather="mail"></i></a>
                     </div>

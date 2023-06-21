@@ -104,7 +104,7 @@
                     </thead>
                     <tbody>
                         @forelse ($getAllAccount as $key => $account)
-                            <tr class="odd" id="row{{$account->id}}">
+                            <tr class="odd" id="row{{ $account->id }}">
                                 <td>{{ $key + 1 }}</td>
                                 <td>{{ $account->fullname }}</td>
                                 <td>{{ $account->email }}</td>
@@ -229,7 +229,8 @@
             <!-- Modal to add new user starts-->
             <div class="modal modal-slide-in new-user-modal fade" id="edit-user-modal">
                 <div class="modal-dialog">
-                    <form id="edit-user-form" class="edit-user-form modal-content pt-0" method="POST" action="{{ route('user.update', ':id') }}">
+                    <form id="edit-user-form" class="edit-user-form modal-content pt-0" method="POST"
+                        action="{{ route('user.update', ':id') }}">
                         @csrf
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
                         <div class="modal-header mb-1">
@@ -245,11 +246,15 @@
 
                             <div class="mb-1">
                                 <label class="form-label" for="basic-icon-default-email">Email</label>
-                                <input id="user-email" type="text" id="basic-icon-default-email" class="form-control dt-email"
-                                    placeholder="your_email@example.com" name="user-email" disabled/>
+                                <input id="user-email" type="text" id="basic-icon-default-email"
+                                    class="form-control dt-email" placeholder="your_email@example.com" name="user-email"
+                                    disabled />
                             </div>
                             <span id="user-emailErrorEdit" style="color: red"></span>
-
+                            <div class="mb-1">
+                                <label class="form-label" for="user-address">Address</label>
+                                <textarea id="user-address" name="user-address" class="form-control" placeholder="Enter user address"></textarea>
+                            </div>
                             <div class="mb-1">
                                 <label class="form-label" for="user-role">User Role</label>
                                 <select id="user-role" class="select2 form-select" name="user-role">

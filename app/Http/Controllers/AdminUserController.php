@@ -98,6 +98,7 @@ class AdminUserController extends Controller
                 'fullname' => $account->fullname,
                 'email' => $account->email,
                 'is_admin' => $account->is_admin,
+                'address' => $account->address
             ];
 
             return response()->json([
@@ -120,7 +121,10 @@ class AdminUserController extends Controller
      */
     public function edit($id)
     {
-        //
+        $pageConfigs = ['pageHeader' => false];
+
+        $account = Account::findOrFail($id);
+        return view('content.apps.admin.app-admin-view-account', ['pageConfigs' => $pageConfigs])->with(compact('account'));
     }
 
     /**
@@ -140,6 +144,7 @@ class AdminUserController extends Controller
         $account = Account::findOrFail($id);
         $account->fullname = $request->input('user-fullname');
         $account->is_admin = $request->input('user-role');
+        $account->address = $request->input('user-address');
 
         // Save the model to the database
         $account->save();
