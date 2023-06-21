@@ -98,22 +98,9 @@
     {
       "name": "Roles & Permission",
       "icon": "shield",
-      "slug": "",
+      "slug": "admin-access-roles",
       "admin": "",
-      "submenu": [
-        {
-          "url": "app/access-roles",
-          "name": "Roles",
-          "icon": "circle",
-          "slug": "app-access-roles"
-        },
-        {
-          "url": "app/access-permission",
-          "name": "Permission",
-          "icon": "circle",
-          "slug": "app-access-permission"
-        }
-      ]
+      "url": "admin/access/roles"
     },
     {
       "name": "eCommerce",

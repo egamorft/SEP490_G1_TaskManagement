@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\AdminAccessController;
 use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\LanguageController;
@@ -103,6 +104,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('user/create', [AdminUserController::class, 'create'])->name('user.create');
         Route::post('user/update/{id}', [AdminUserController::class, 'update'])->name('user.update');
         Route::get('user/details/{id}', [AdminUserController::class, 'edit'])->name('user.edit');
+        Route::get('access/roles', [AdminAccessController::class, 'index'])->name('admin-access-roles');
     });
     /* Route Admin */
 
@@ -123,8 +125,6 @@ Route::middleware(['auth'])->group(function () {
         Route::get('ecommerce/wishlist', [AppsController::class, 'ecommerce_wishlist'])->name('app-ecommerce-wishlist');
         Route::get('ecommerce/checkout', [AppsController::class, 'ecommerce_checkout'])->name('app-ecommerce-checkout');
         Route::get('file-manager', [AppsController::class, 'file_manager'])->name('app-file-manager');
-        Route::get('access-roles', [AppsController::class, 'access_roles'])->name('app-access-roles');
-        Route::get('access-permission', [AppsController::class, 'access_permission'])->name('app-access-permission');
         Route::get('user/view/billing', [AppsController::class, 'user_view_billing'])->name('app-user-view-billing');
         Route::get('user/view/notifications', [AppsController::class, 'user_view_notifications'])->name('app-user-view-notifications');
         Route::get('user/view/connections', [AppsController::class, 'user_view_connections'])->name('app-user-view-connections');
