@@ -241,14 +241,5 @@ $(function () {
       }
     });
   }
-  $(document).ready(function () {
-    $('#selectAll').click(function () {
-      if ($(this).is(':checked')) {
-        $('input[type="radio"][value="1"]').prop('checked', true);
-      } else {
-        $('input[type="radio"][value="0"]').prop('checked', true);
-      }
-    });
-  });
 
 });

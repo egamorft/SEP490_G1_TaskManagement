@@ -74,23 +74,6 @@
                                     <div class="table-responsive">
                                         <table class="table table-flush-spacing">
                                             <tbody>
-                                                <tr>
-                                                    <td class="text-nowrap fw-bolder">
-                                                        Project permission access
-                                                        <span data-bs-toggle="tooltip" data-bs-placement="top"
-                                                            title="Allows a full access to the project">
-                                                            <i data-feather="info"></i>
-                                                        </span>
-                                                    </td>
-                                                    <td>
-                                                        <div class="form-check">
-                                                            <input class="form-check-input" type="checkbox"
-                                                                id="selectAll" />
-                                                            <label class="form-check-label" for="selectAll"> Select All
-                                                            </label>
-                                                        </div>
-                                                    </td>
-                                                </tr>
                                                 @foreach ($permissions as $p)
                                                     <tr>
                                                         <td class="text-nowrap fw-bolder">{{ $p->name }}</td>
@@ -153,7 +136,7 @@
                     </div>
                     <div class="col-sm-7">
                         <div class="card-body text-sm-end text-center ps-sm-0">
-                            <a href="javascript:void(0)" data-bs-target="#addRoleModal" data-bs-toggle="modal"
+                            <a href="#" data-bs-target="#addRoleModal" data-bs-toggle="modal"
                                 class="stretched-link text-nowrap add-new-role">
                                 <span class="btn btn-primary mb-1">Add New Role</span>
                             </a>

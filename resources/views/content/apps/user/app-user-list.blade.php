@@ -226,7 +226,7 @@
             </div>
             <!-- Modal to add new user Ends-->
 
-            <!-- Modal to add new user starts-->
+            <!-- Modal to edit user starts-->
             <div class="modal modal-slide-in new-user-modal fade" id="edit-user-modal">
                 <div class="modal-dialog">
                     <form id="edit-user-form" class="edit-user-form modal-content pt-0" method="POST"
@@ -275,7 +275,7 @@
                     </form>
                 </div>
             </div>
-            <!-- Modal to add new user Ends-->
+            <!-- Modal to edit user Ends-->
         </div>
         <!-- list and filter end -->
     </section>
