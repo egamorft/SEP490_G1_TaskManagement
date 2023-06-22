@@ -36,40 +36,46 @@ use PhpParser\Node\Stmt\Return_;
 // 'middleware' => check.permissions:slug
 
 // Main Page Route
+
 Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
-Route::get('/login', [AuthController::class, 'login'])->name('login');
-Route::get('/register', [AuthController::class, 'register'])->name('register');
-Route::get('/forgot-password', [AuthController::class, 'forgot_password'])->name('forgot-password');
-Route::post('/new-register', [AuthController::class, 'new_register'])->name('create.account');
-Route::post('/login-form', [AuthController::class, 'login_now'])->name('form.login');
-Route::post('/check-email-forgot', [AuthController::class, 'check_forgot_password'])->name('check.forgotpassword');
+
+
+Route::middleware(['guest'])->group(function () {
+    Route::get('/login', [AuthController::class, 'login'])->name('login');
+    Route::get('/register', [AuthController::class, 'register'])->name('register');
+    Route::get('/forgot-password', [AuthController::class, 'forgot_password'])->name('forgot-password');
+    Route::post('/new-register', [AuthController::class, 'new_register'])->name('create.account');
+    Route::post('/login-form', [AuthController::class, 'login_now'])->name('form.login');
+    Route::post('/check-email-forgot', [AuthController::class, 'check_forgot_password'])->name('check.forgotpassword');
+
+    //Login facebook
+    Route::get('/login-facebook', [AuthController::class, 'login_facebook'])->name('login.facebook');
+    Route::get('/facebook/callback', [AuthController::class, 'callback_facebook']);
+
+    //Login google
+    Route::get('/login-google', [AuthController::class, 'login_google'])->name('login.google');
+    Route::get('/google/callback', [AuthController::class, 'callback_google']);
+
+    /* Route verify */
+    Route::group(['prefix' => 'verify'], function () {
+        //Verify Account
+        Route::get('view-verify-code', [AuthController::class, 'two_steps_cover'])->name('verify.account');
+
+        Route::get('confirm-account', [SendMailController::class, 'confirm_account'])->name('mail.verify.account');
+
+        Route::post('check-code', [AuthController::class, 'check_code'])->name('check.verifycode');
+
+        //Reset password
+        Route::get('reset-password/{token}', [AuthController::class, 'reset_password_cover'])->name('reset.password');
+
+        Route::post('reset-password', [AuthController::class, 'reset_password'])->name('reset.password.submit');
+    });
+});
+
 Route::get('/api/check-auth', function () {
     $authenticated = Auth::check();
     $fullname = Auth::user()->fullname;
     return response()->json(['authenticated' => $authenticated, 'fullname' => $fullname]);
-});
-
-//Login facebook
-Route::get('/login-facebook', [AuthController::class, 'login_facebook'])->name('login.facebook');
-Route::get('/facebook/callback', [AuthController::class, 'callback_facebook']);
-
-//Login google
-Route::get('/login-google', [AuthController::class, 'login_google'])->name('login.google');
-Route::get('/google/callback', [AuthController::class, 'callback_google']);
-
-/* Route verify */
-Route::group(['prefix' => 'verify'], function () {
-    //Verify Account
-    Route::get('view-verify-code', [AuthController::class, 'two_steps_cover'])->name('verify.account');
-
-    Route::get('confirm-account', [SendMailController::class, 'confirm_account'])->name('mail.verify.account');
-
-    Route::post('check-code', [AuthController::class, 'check_code'])->name('check.verifycode');
-
-    //Reset password
-    Route::get('reset-password/{token}', [AuthController::class, 'reset_password_cover'])->name('reset.password');
-
-    Route::post('reset-password', [AuthController::class, 'reset_password'])->name('reset.password.submit');
 });
 
 
