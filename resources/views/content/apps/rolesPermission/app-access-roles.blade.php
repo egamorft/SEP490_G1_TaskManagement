@@ -97,22 +97,20 @@
                                                         <td>
                                                             <div class="d-flex">
                                                                 <div class="form-check me-3 me-lg-5">
-                                                                    <input data-slug="{{ $p->slug }}"
-                                                                        data-id="{{ $p->id }}"
-                                                                        class="form-check-input permission-radio"
-                                                                        type="radio" id="{{ $p->slug }}Yes"
-                                                                        name="{{ $p->name }}Option" value="1" />
+                                                                    <input class="form-check-input" type="radio"
+                                                                        id="{{ $p->slug }}Yes"
+                                                                        name="{{ $p->slug }}Option" value="1" 
+                                                                        @if (in_array($p->id, $rolePermissions[$r->id])) checked @endif />
                                                                     <label class="form-check-label"
                                                                         for="{{ $p->slug }}Yes">
                                                                         Yes
                                                                     </label>
                                                                 </div>
                                                                 <div class="form-check me-3 me-lg-5">
-                                                                    <input data-slug="{{ $p->slug }}"
-                                                                        data-id="{{ $p->id }}"
-                                                                        class="form-check-input permission-radio"
-                                                                        type="radio" id="{{ $p->slug }}No"
-                                                                        name="{{ $p->name }}Option" value="0" />
+                                                                    <input class="form-check-input" type="radio"
+                                                                        id="{{ $p->slug }}No"
+                                                                        name="{{ $p->slug }}Option" value="0" 
+                                                                        @if (!in_array($p->id, $rolePermissions[$r->id])) checked @endif />
                                                                     <label class="form-check-label"
                                                                         for="{{ $p->slug }}No">
                                                                         No

@@ -20,12 +20,19 @@ class AdminAccessController extends Controller
         $roles = Role::all();
         $rolesWithCount = Role::withCount('accounts')->get();
         $permissions = Permission::all();
+        $rolePermissions = []; // Array to store the role permissions
+
+        foreach ($roles as $role) {
+            $permissionIds = $role->permissions()->pluck('permissions.id')->toArray();
+            $rolePermissions[$role->id] = $permissionIds;
+        }
 
         return view('content.apps.rolesPermission.app-access-roles', ['pageConfigs' => $pageConfigs])
             ->with(compact(
                 'roles',
                 'rolesWithCount',
                 'permissions',
+                'rolePermissions',
             ));
     }
 
@@ -58,20 +65,7 @@ class AdminAccessController extends Controller
      */
     public function show($id)
     {
-        $role = Role::find($id);
-        $rolePermissions = $role->permissions->pluck('id')->toArray();
-        $roleSlug = $role->permissions->pluck('slug')->toArray();
-        if ($role) {
-            return response()->json([
-                'success' => true,
-                'id' => $rolePermissions,
-                'slug' => $roleSlug
-            ]);
-        }
-        return response()->json([
-            'success' => false,
-            'message' => 'Record not found',
-        ], 404);
+        //
     }
 
     /**

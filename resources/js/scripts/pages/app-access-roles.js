@@ -249,37 +249,6 @@ $(function () {
         $('input[type="radio"][value="0"]').prop('checked', true);
       }
     });
-
-    //Edit role permission form submission
-    //Get data
-    $('.role-edit-modal').click(function () {
-      var button = $(this);
-      var modal = $(button.data('bs-target')); // Get the target modal
-      var id = button.data('id'); // Get the ID from data attribute
-      $('.permission-radio').prop('checked', false);
-      // Make an AJAX request to fetch the data
-      $.ajax({
-        url: '/admin/get-permission-role/' + id, // Replace with your server route
-        method: 'GET',
-        dataType: 'json',
-        success: function (response) {
-          if (response.success) {
-            $('.permission-radio').each(function () {
-              var permissionId = $(this).data('id');
-              var permissionSlug = $(this).data('slug');
-              if (response.id.includes(permissionId)) {
-                $('#' + permissionSlug + 'Yes').prop('checked', true);
-              } else {
-                $('#' + permissionSlug + 'No').prop('checked', true);
-              }
-            });
-          }
-        },
-        error: function () {
-          console.log("err get user");
-        }
-      });
-    });
   });
 
 });
