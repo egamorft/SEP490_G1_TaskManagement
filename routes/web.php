@@ -104,7 +104,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('user/create', [AdminUserController::class, 'create'])->name('user.create');
         Route::post('user/update/{id}', [AdminUserController::class, 'update'])->name('user.update');
         Route::get('user/details/{id}', [AdminUserController::class, 'edit'])->name('user.edit');
+
         Route::get('access/roles', [AdminAccessController::class, 'index'])->name('admin-access-roles');
+        Route::get('get-permission-role/{id}', [AdminAccessController::class, 'show'])->name('roles.show');
     });
     /* Route Admin */
 

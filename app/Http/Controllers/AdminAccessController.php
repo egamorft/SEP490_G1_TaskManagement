@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 
@@ -18,10 +19,13 @@ class AdminAccessController extends Controller
 
         $roles = Role::all();
         $rolesWithCount = Role::withCount('accounts')->get();
+        $permissions = Permission::all();
+
         return view('content.apps.rolesPermission.app-access-roles', ['pageConfigs' => $pageConfigs])
             ->with(compact(
                 'roles',
-                'rolesWithCount'
+                'rolesWithCount',
+                'permissions',
             ));
     }
 
@@ -54,7 +58,20 @@ class AdminAccessController extends Controller
      */
     public function show($id)
     {
-        //
+        $role = Role::find($id);
+        $rolePermissions = $role->permissions->pluck('id')->toArray();
+        $roleSlug = $role->permissions->pluck('slug')->toArray();
+        if ($role) {
+            return response()->json([
+                'success' => true,
+                'id' => $rolePermissions,
+                'slug' => $roleSlug
+            ]);
+        }
+        return response()->json([
+            'success' => false,
+            'message' => 'Record not found',
+        ], 404);
     }
 
     /**

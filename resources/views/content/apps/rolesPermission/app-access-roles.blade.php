@@ -38,7 +38,7 @@
                             <div class="role-heading">
                                 <h4 class="fw-bolder text-uppercase">{{ $r->name }}</h4>
                                 <a href="javascript:;" class="role-edit-modal" data-bs-toggle="modal"
-                                    data-bs-target="#addRoleModal">
+                                    data-bs-target="#editRoleModal{{ $r->id }}" data-id="{{ $r->id }}">
                                     <small class="fw-bolder">Edit Role</small>
                                 </a>
                             </div>
@@ -48,6 +48,99 @@
                     </div>
                 </div>
             </div>
+            <!-- Edit Role Modal -->
+            <div class="modal fade" id="editRoleModal{{ $r->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+                tabindex="-1" aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
+                    <div class="modal-content">
+                        <div class="modal-header bg-transparent">
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body px-5 pb-5">
+                            <div class="text-center mb-4">
+                                <h1 class="role-title">Edit Role {{ $r->name }}</h1>
+                                <p>Set role permissions</p>
+                            </div>
+                            <!-- Edit role form -->
+                            <form id="addRoleForm" class="row" method="POST" action="">
+                                <div class="col-12">
+                                    <label class="form-label" for="modalRoleName">Role Name</label>
+                                    <input type="text" id="modalRoleName" name="modalRoleName" class="form-control"
+                                        value="{{ $r->name }}" readonly />
+                                </div>
+                                <div class="col-12">
+                                    <h4 class="mt-2 pt-50">User's role Permissions</h4>
+                                    <!-- Permission table -->
+                                    <div class="table-responsive">
+                                        <table class="table table-flush-spacing">
+                                            <tbody>
+                                                <tr>
+                                                    <td class="text-nowrap fw-bolder">
+                                                        Project permission access
+                                                        <span data-bs-toggle="tooltip" data-bs-placement="top"
+                                                            title="Allows a full access to the project">
+                                                            <i data-feather="info"></i>
+                                                        </span>
+                                                    </td>
+                                                    <td>
+                                                        <div class="form-check">
+                                                            <input class="form-check-input" type="checkbox"
+                                                                id="selectAll" />
+                                                            <label class="form-check-label" for="selectAll"> Select All
+                                                            </label>
+                                                        </div>
+                                                    </td>
+                                                </tr>
+                                                @foreach ($permissions as $p)
+                                                    <tr>
+                                                        <td class="text-nowrap fw-bolder">{{ $p->name }}</td>
+                                                        <td>
+                                                            <div class="d-flex">
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input data-slug="{{ $p->slug }}"
+                                                                        data-id="{{ $p->id }}"
+                                                                        class="form-check-input permission-radio"
+                                                                        type="radio" id="{{ $p->slug }}Yes"
+                                                                        name="{{ $p->name }}Option" value="1" />
+                                                                    <label class="form-check-label"
+                                                                        for="{{ $p->slug }}Yes">
+                                                                        Yes
+                                                                    </label>
+                                                                </div>
+                                                                <div class="form-check me-3 me-lg-5">
+                                                                    <input data-slug="{{ $p->slug }}"
+                                                                        data-id="{{ $p->id }}"
+                                                                        class="form-check-input permission-radio"
+                                                                        type="radio" id="{{ $p->slug }}No"
+                                                                        name="{{ $p->name }}Option" value="0" />
+                                                                    <label class="form-check-label"
+                                                                        for="{{ $p->slug }}No">
+                                                                        No
+                                                                    </label>
+                                                                </div>
+                                                            </div>
+                                                        </td>
+                                                    </tr>
+                                                @endforeach
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                    <!-- Permission table -->
+                                </div>
+                                <div class="col-12 text-center mt-2">
+                                    <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                    <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                                        aria-label="Close">
+                                        Discard
+                                    </button>
+                                </div>
+                            </form>
+                            <!--/ Edit role form -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--/ Edit Role Modal -->
         @empty
 
         @endforelse
@@ -76,7 +169,7 @@
     <!--/ Role cards -->
 
 
-    @include('content/_partials/_modals/modal-add-role')
+    @include('content._partials._modals.modal-add-role')
 @endsection
 
 @section('vendor-script')

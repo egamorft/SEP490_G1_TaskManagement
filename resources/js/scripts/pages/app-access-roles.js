@@ -189,18 +189,18 @@ $(function () {
             var data = $.map(columns, function (col, i) {
               return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
                 ? '<tr data-dt-row="' +
-                    col.rowIdx +
-                    '" data-dt-column="' +
-                    col.columnIndex +
-                    '">' +
-                    '<td>' +
-                    col.title +
-                    ':' +
-                    '</td> ' +
-                    '<td>' +
-                    col.data +
-                    '</td>' +
-                    '</tr>'
+                col.rowIdx +
+                '" data-dt-column="' +
+                col.columnIndex +
+                '">' +
+                '<td>' +
+                col.title +
+                ':' +
+                '</td> ' +
+                '<td>' +
+                col.data +
+                '</td>' +
+                '</tr>'
                 : '';
             }).join('');
 
@@ -241,16 +241,45 @@ $(function () {
       }
     });
   }
+  $(document).ready(function () {
+    $('#selectAll').click(function () {
+      if ($(this).is(':checked')) {
+        $('input[type="radio"][value="1"]').prop('checked', true);
+      } else {
+        $('input[type="radio"][value="0"]').prop('checked', true);
+      }
+    });
 
-  // On edit role click, update text
-  var roleEdit = $('.role-edit-modal'),
-    roleAdd = $('.add-new-role'),
-    roleTitle = $('.role-title');
+    //Edit role permission form submission
+    //Get data
+    $('.role-edit-modal').click(function () {
+      var button = $(this);
+      var modal = $(button.data('bs-target')); // Get the target modal
+      var id = button.data('id'); // Get the ID from data attribute
+      $('.permission-radio').prop('checked', false);
+      // Make an AJAX request to fetch the data
+      $.ajax({
+        url: '/admin/get-permission-role/' + id, // Replace with your server route
+        method: 'GET',
+        dataType: 'json',
+        success: function (response) {
+          if (response.success) {
+            $('.permission-radio').each(function () {
+              var permissionId = $(this).data('id');
+              var permissionSlug = $(this).data('slug');
+              if (response.id.includes(permissionId)) {
+                $('#' + permissionSlug + 'Yes').prop('checked', true);
+              } else {
+                $('#' + permissionSlug + 'No').prop('checked', true);
+              }
+            });
+          }
+        },
+        error: function () {
+          console.log("err get user");
+        }
+      });
+    });
+  });
 
-  roleAdd.on('click', function () {
-    roleTitle.text('Add New Role'); // reset text
-  });
-  roleEdit.on('click', function () {
-    roleTitle.text('Edit Role');
-  });
 });
