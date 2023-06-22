@@ -211,7 +211,7 @@
                                     <option value="1">Admin</option>
                                 </select>
                             </div>
-                            <button hidden id="spinnerBtn" class="btn btn-outline-primary waves-effect" type="button"
+                            <button style="display: none" id="spinnerBtn" class="btn btn-outline-primary waves-effect" type="button"
                                 disabled="">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="ms-25 align-middle">Loading...</span>

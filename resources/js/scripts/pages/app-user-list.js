@@ -250,19 +250,19 @@ $(function () {
   }
 
   // Form Validation
-  if (newUserForm.length) {
-    newUserForm.validate({
-      errorClass: 'error',
-      rules: {
-        'user-fullname': {
-          required: true
-        },
-        'user-email': {
-          required: true
-        }
-      }
-    });
-  }
+  // if (newUserForm.length) {
+  //   newUserForm.validate({
+  //     errorClass: 'error',
+  //     rules: {
+  //       'user-fullname': {
+  //         required: true
+  //       },
+  //       'user-email': {
+  //         required: true
+  //       }
+  //     }
+  //   });
+  // }
 
 
   //Generate password
@@ -307,7 +307,7 @@ $(function () {
         data: data,
         dataType: 'json',
         beforeSend: function () {
-          $('#spinnerBtn').removeAttr('hidden');
+          $('#spinnerBtn').show();
           $('#submitBtn').hide();
           $('#resetBtn').hide();
         },
@@ -323,19 +323,24 @@ $(function () {
         },
         error: function (response) {
           // Handle the error response
-          if (response.status === 422) {
-            var errors = response.responseJSON.errors;
-            // Display the validation errors next to the form fields
+          setTimeout(function () {
+            $('#spinnerBtn').hide();
+            $('#submitBtn').show();
+            $('#resetBtn').show();
+            if (response.status === 422) {
+              var errors = response.responseJSON.errors;
+              // Display the validation errors next to the form fields
 
-            // Hide the error messages
-            $('.error').text('').hide();
-            for (var field in errors) {
-              var errorContainer = $('#' + field + "ErrorAdd");
-              errorContainer.addClass('text-danger');
-              errorContainer.text(errors[field][0]);
-              errorContainer.show();
+              // Hide the error messages
+              // $('.error').text('').hide();
+              for (var field in errors) {
+                var errorContainer = $('#' + field + "ErrorAdd");
+                errorContainer.addClass('text-danger');
+                errorContainer.text(errors[field][0]);
+                errorContainer.show();
+              }
             }
-          }
+          }, 500);
         }
       });
     });
