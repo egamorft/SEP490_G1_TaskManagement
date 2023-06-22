@@ -14,30 +14,7 @@
 @endsection
 
 @section('content')
-<h3>Permissions List</h3>
-<p>Each category (Basic, Professional, and Business) includes the four predefined roles shown below.</p>
 
-<!-- Permission Table -->
-<div class="card">
-  <div class="card-datatable table-responsive">
-    <table class="datatables-permissions table">
-      <thead class="table-light">
-        <tr>
-          <th></th>
-          <th></th>
-          <th>Name</th>
-          <th>Assigned To</th>
-          <th>Created Date</th>
-          <th>Actions</th>
-        </tr>
-      </thead>
-    </table>
-  </div>
-</div>
-<!--/ Permission Table -->
-
-@include('content/_partials/_modals/modal-add-permission')
-@include('content/_partials/_modals/modal-edit-permission')
 @endsection
 
 @section('vendor-script')

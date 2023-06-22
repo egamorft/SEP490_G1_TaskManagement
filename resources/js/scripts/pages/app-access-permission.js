@@ -18,72 +18,7 @@ $(function () {
   // Users List datatable
   if (dataTablePermissions.length) {
     dt_permission = dataTablePermissions.DataTable({
-      ajax: assetPath + 'data/permissions-list.json', // JSON file to add data
-      columns: [
-        // columns according to JSON
-        { data: '' },
-        { data: 'id' },
-        { data: 'name' },
-        { data: 'assigned_to' },
-        { data: 'created_date' },
-        { data: '' }
-      ],
       columnDefs: [
-        {
-          // For Responsive
-          className: 'control',
-          orderable: false,
-          responsivePriority: 2,
-          targets: 0,
-          render: function (data, type, full, meta) {
-            return '';
-          }
-        },
-        {
-          targets: 1,
-          visible: false
-        },
-        {
-          // remove ordering from Name
-          targets: 2,
-          orderable: false
-        },
-        {
-          // User Role
-          targets: 3,
-          orderable: false,
-          render: function (data, type, full, meta) {
-            var $assignedTo = full['assigned_to'],
-              $output = '';
-            var roleBadgeObj = {
-              Admin:
-                '<a href="' +
-                userList +
-                '" class="me-50"><span class="badge rounded-pill badge-light-primary">Administrator</span></a>',
-              Manager:
-                '<a href="' +
-                userList +
-                '" class="me-50"><span class="badge rounded-pill badge-light-warning">Manager</span></a>',
-              Users:
-                '<a href="' +
-                userList +
-                '" class="me-50"><span class="badge rounded-pill badge-light-success">Users</span></a>',
-              Support:
-                '<a href="' +
-                userList +
-                '" class="me-50"><span class="badge rounded-pill badge-light-info">Support</span></a>',
-              Restricted:
-                '<a href="' +
-                userList +
-                '" class="me-50"><span class="badge rounded-pill badge-light-danger">Restricted User</span></a>'
-            };
-            for (var i = 0; i < $assignedTo.length; i++) {
-              var val = $assignedTo[i];
-              $output += roleBadgeObj[val];
-            }
-            return $output;
-          }
-        },
         {
           // Actions
           targets: -1,
@@ -101,7 +36,7 @@ $(function () {
           }
         }
       ],
-      order: [[1, 'asc']],
+      order: [[0, 'asc']],
       dom:
         '<"d-flex justify-content-between align-items-center header-actions text-nowrap mx-1 row mt-75"' +
         '<"col-sm-12 col-lg-4 d-flex justify-content-center justify-content-lg-start" l>' +
@@ -144,18 +79,18 @@ $(function () {
             var data = $.map(columns, function (col, i) {
               return col.title !== '' // ? Do not show row in modal popup if title is blank (for check box)
                 ? '<tr data-dt-row="' +
-                    col.rowIndex +
-                    '" data-dt-column="' +
-                    col.columnIndex +
-                    '">' +
-                    '<td>' +
-                    col.title +
-                    ':' +
-                    '</td> ' +
-                    '<td>' +
-                    col.data +
-                    '</td>' +
-                    '</tr>'
+                col.rowIndex +
+                '" data-dt-column="' +
+                col.columnIndex +
+                '">' +
+                '<td>' +
+                col.title +
+                ':' +
+                '</td> ' +
+                '<td>' +
+                col.data +
+                '</td>' +
+                '</tr>'
                 : '';
             }).join('');
 
@@ -177,22 +112,28 @@ $(function () {
           .every(function () {
             var column = this;
             var select = $(
-              '<select id="UserRole" class="form-select text-capitalize"><option value=""> Select Role </option><option value="Administrator" class="text-capitalize">Administrator</option><option value="Manager" class="text-capitalize">Manager</option><option value="Users" class="text-capitalize">users</option><option value="Support" class="text-capitalize">Support</option><option value="Restricted" class="text-capitalize">Restricted User</option></select>'
+              '<select id="UserRole" class="form-select text-capitalize"><option value=""> Select Role </option></select>'
             )
               .appendTo('.user_role')
               .on('change', function () {
                 var val = $.fn.dataTable.util.escapeRegex($(this).val());
                 column.search(val ? val : '', true, false).draw();
               });
+            var uniqueTexts = []; // Array to store unique text values
+
+            $('span.roleNames').each(function () {
+              var userText = $(this).text().trim();
+
+              // Check if the text value already exists in the array
+              if (uniqueTexts.indexOf(userText) === -1) {
+                uniqueTexts.push(userText); // Add the unique text value to the array
+                select.append('<option value="' + userText + '" class="text-capitalize">' + userText + '</option>');
+              }
+            });
           });
       }
     });
   }
-
-  // Delete Record
-  $('.datatables-permissions tbody').on('click', '.delete-record', function () {
-    dt_permission.row($(this).parents('tr')).remove().draw();
-  });
 
   // Filter form control to default size
   // ? setTimeout used for multilingual table initialization

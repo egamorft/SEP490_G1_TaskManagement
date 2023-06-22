@@ -82,7 +82,7 @@
                                                                 <div class="form-check me-3 me-lg-5">
                                                                     <input class="form-check-input" type="radio"
                                                                         id="{{ $p->slug }}Yes"
-                                                                        name="{{ $p->slug }}Option" value="1" 
+                                                                        name="{{ $p->slug }}Option" value="1"
                                                                         @if (in_array($p->id, $rolePermissions[$r->id])) checked @endif />
                                                                     <label class="form-check-label"
                                                                         for="{{ $p->slug }}Yes">
@@ -92,7 +92,7 @@
                                                                 <div class="form-check me-3 me-lg-5">
                                                                     <input class="form-check-input" type="radio"
                                                                         id="{{ $p->slug }}No"
-                                                                        name="{{ $p->slug }}Option" value="0" 
+                                                                        name="{{ $p->slug }}Option" value="0"
                                                                         @if (!in_array($p->id, $rolePermissions[$r->id])) checked @endif />
                                                                     <label class="form-check-label"
                                                                         for="{{ $p->slug }}No">
@@ -146,26 +146,100 @@
                 </div>
             </div>
         </div>
-    </div>
-    <!--/ Role cards -->
+        <h3>Permissions List</h3>
+        <p>Each category (Basic, Professional, and Business) includes the four predefined roles shown below.</p>
 
+        <!-- Permission Table -->
+        <div class="card">
+            <div class="card-datatable table-responsive">
+                <table class="datatables-permissions table">
+                    <thead class="table-light">
+                        <tr>
+                            <th>STT</th>
+                            <th>Name</th>
+                            <th>Slug</th>
+                            <th>Assigned To</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @forelse ($permissions as $key => $per)
+                            <tr>
+                                <td>
+                                    {{ $key + 1 }}
+                                </td>
+                                <td>
+                                    {{ $per->name }}
+                                </td>
+                                <td>
+                                    {{ $per->slug }}
+                                </td>
+                                <td>
+                                    @foreach ($per->roles as $role)
+                                        <span style="display: none" class="roleNames">{{ $role->name }}</span>
+                                        @switch($role->name)
+                                            @case('pm')
+                                                <span class="badge rounded-pill badge-light-primary">{{ $role->name }}</span>
+                                            @break
 
-    @include('content._partials._modals.modal-add-role')
-@endsection
+                                            @case('dev')
+                                                <span class="badge rounded-pill badge-light-success">{{ $role->name }}</span>
+                                            @break
 
-@section('vendor-script')
-    <!-- Vendor js files -->
-    <script src="{{ asset(mix('vendors/js/tables/datatable/jquery.dataTables.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.bootstrap5.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.responsive.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/responsive.bootstrap5.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.bootstrap5.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.checkboxes.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
-@endsection
-@section('page-script')
-    <!-- Page js files -->
-    <script src="{{ asset(mix('js/scripts/pages/modal-add-role.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/pages/app-access-roles.js')) }}"></script>
-@endsection
+                                            @case('supervisor')
+                                                <span class="badge rounded-pill badge-light-warning">{{ $role->name }}</span>
+                                            @break
+
+                                            @case('ba')
+                                                <span class="badge rounded-pill badge-light-info">{{ $role->name }}</span>
+                                            @break
+
+                                            @case('tester')
+                                                <span class="badge rounded-pill badge-light-danger">{{ $role->name }}</span>
+                                            @break
+
+                                            @default
+                                                <span class="badge rounded-pill badge-light-dark">{{ $role->name }}</span>
+                                        @endswitch
+                                    @endforeach
+                                </td>
+                                <td></td>
+                            </tr>
+                            @empty
+                                <tr>
+                                    <td colspan="5">No permissions found</td>
+                                </tr>
+                            @endforelse
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+            <!--/ Permission Table -->
+
+            @include('content/_partials/_modals/modal-add-permission')
+            @include('content/_partials/_modals/modal-edit-permission')
+        </div>
+        <!--/ Role cards -->
+
+        @include('content._partials._modals.modal-add-role')
+    @endsection
+
+    @section('vendor-script')
+        <!-- Vendor js files -->
+        <script src="{{ asset(mix('vendors/js/tables/datatable/jquery.dataTables.min.js')) }}"></script>
+        <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.bootstrap5.min.js')) }}"></script>
+        <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.responsive.min.js')) }}"></script>
+        <script src="{{ asset(mix('vendors/js/tables/datatable/responsive.bootstrap5.js')) }}"></script>
+        <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.buttons.min.js')) }}"></script>
+        <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.bootstrap5.min.js')) }}"></script>
+        <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.checkboxes.min.js')) }}"></script>
+        <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
+    @endsection
+    @section('page-script')
+        <!-- Page js files -->
+        <script src="{{ asset(mix('js/scripts/pages/modal-add-role.js')) }}"></script>
+        <script src="{{ asset(mix('js/scripts/pages/app-access-roles.js')) }}"></script>
+        <script src="{{ asset(mix('js/scripts/pages/modal-add-permission.js')) }}"></script>
+        <script src="{{ asset(mix('js/scripts/pages/modal-edit-permission.js')) }}"></script>
+        <script src="{{ asset(mix('js/scripts/pages/app-access-permission.js')) }}"></script>
+    @endsection
