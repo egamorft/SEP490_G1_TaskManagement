@@ -115,6 +115,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('store-role-permissions', [AdminAccessController::class, 'store'])->name('store.role.permissions');
         Route::post('update-role-permissions/{id}', [AdminAccessController::class, 'update'])->name('update.role.permissions');
         Route::delete('destroy-role-permission/{id}', [AdminAccessController::class, 'destroy'])->name('destroy.role.permission');
+        Route::post('create-permissions', [AdminAccessController::class, 'create'])->name('create.permissions');
+        Route::post('edit-permissions/{id}', [AdminAccessController::class, 'edit'])->name('edit.permissions');
+        Route::get('get-specific-permission', [AdminAccessController::class, 'show'])->name('permission.show');
+        Route::delete('remove-permission-role/{id}', [AdminAccessController::class, 'remove'])->name('remove.permission.role');
 
     });
     /* Route Admin */

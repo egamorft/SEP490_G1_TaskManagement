@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\PermissionRoleRequest;
 use App\Http\Requests\RolePermissionRequest;
 use App\Models\Permission;
 use App\Models\Role;
@@ -43,9 +44,18 @@ class AdminAccessController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function create()
+    public function create(PermissionRoleRequest $request)
     {
-        //
+        Permission::create([
+            'name' => $request->input('modalPermissionName'),
+            'slug' => $request->input('modalPermissionSlug'),
+        ]);
+
+        // Optionally, you can perform additional actions after creating the permission
+
+        Session::flash('success', 'Create successfully permission to ' . $request->input('modalPermissionName'));
+        // Redirect or return a response
+        return response()->json(['success' => true, 'message' => 'Permission created successfully']);
     }
 
     /**
@@ -84,9 +94,29 @@ class AdminAccessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Request $request)
     {
-        //
+        $id = $request->input('id');
+        // Retrieve the record from the database
+        $permission = Permission::find($id);
+
+        if ($permission) {
+            // Prepare the data to be sent back to the client
+            $data = [
+                'name' => $permission->name,
+                'slug' => $permission->slug,
+            ];
+
+            return response()->json([
+                'success' => true,
+                'data' => $data,
+            ]);
+        }
+
+        return response()->json([
+            'success' => false,
+            'message' => 'Record not found',
+        ], 404);
     }
 
     /**
@@ -95,9 +125,15 @@ class AdminAccessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(PermissionRoleRequest $request, $id)
     {
-        //
+        $permission = Permission::findOrFail($id);
+        $permission->name = $request->input('modalPermissionName');
+        $permission->slug = $request->input('modalPermissionSlug');
+        $permission->save();
+
+        Session::flash('success', 'Successfully edit permission for ' . $permission->name);
+        return response()->json(['success' => true]);
     }
 
     /**
@@ -123,7 +159,7 @@ class AdminAccessController extends Controller
                 }
             }
         }
-        Session::flash('success', 'You have changed permission for role '. $role->name);
+        Session::flash('success', 'You have changed permission for role ' . $role->name);
         return redirect()->route('admin-access-roles');
     }
 
@@ -140,9 +176,26 @@ class AdminAccessController extends Controller
         // Delete the role and its permissions
         $role->permissions()->detach();
         $role->delete();
-        
-        Session::flash('success', 'You have deleted role '. $role->name);
-        return response()->json(['message' => 'Role and permissions deleted successfully']);
 
+        Session::flash('success', 'You have deleted role ' . $role->name);
+        return response()->json(['message' => 'Role and permissions deleted successfully']);
+    }
+
+    /**
+     * Remove the specified resource from storage.
+     *
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function remove($id)
+    {
+        $permission = Permission::findOrFail($id);
+
+        // Delete the permission and its permissions
+        $permission->roles()->detach();
+        $permission->delete();
+
+        Session::flash('success', 'You have deleted permission ' . $permission->name);
+        return response()->json(['success' => true, 'message' => 'Permissions deleted successfully']);
     }
 }

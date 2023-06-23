@@ -185,7 +185,7 @@
                     </thead>
                     <tbody>
                         @forelse ($permissions as $key => $per)
-                            <tr>
+                            <tr id="row{{ $per->id }}">
                                 <td>
                                     {{ $key + 1 }}
                                 </td>
@@ -237,8 +237,9 @@
             </div>
             <!--/ Permission Table -->
 
-            @include('content/_partials/_modals/modal-add-permission')
-            @include('content/_partials/_modals/modal-edit-permission')
+            @include('content._partials._modals.modal-add-permission')
+            @include('content._partials._modals.modal-edit-permission')
+            @include('content._partials._modals.modal-delete-permission')
         </div>
         <!--/ Role cards -->
 

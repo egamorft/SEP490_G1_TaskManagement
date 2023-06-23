@@ -4,15 +4,15 @@ $(document).ready(function () {
   var addRoleForm = $('#addRoleForm1');
 
   // add role form validation
-  if (addRoleForm.length) {
-    addRoleForm.validate({
-      rules: {
-        modalRoleName: {
-          required: true
-        }
-      }
-    });
-  }
+  // if (addRoleForm.length) {
+  //   addRoleForm.validate({
+  //     rules: {
+  //       modalRoleName: {
+  //         required: true
+  //       }
+  //     }
+  //   });
+  // }
 
   // reset form on modal hidden
   $('.modal').on('hidden.bs.modal', function () {
@@ -50,6 +50,8 @@ $(document).ready(function () {
           $('.error').text('').hide();
           for (var field in errors) {
             var errorContainer = $('#' + field + "ErrorAdd");
+            var errorInput = $('.' + field);
+            errorInput.addClass('error');
             errorContainer.addClass('text-danger');
             errorContainer.text(errors[field][0]);
             errorContainer.show();

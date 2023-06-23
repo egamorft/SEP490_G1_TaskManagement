@@ -16,7 +16,7 @@
                     @csrf
                     <div class="col-12">
                         <label class="form-label" for="modalRoleName">Role Name</label>
-                        <input type="text" id="modalRoleName" name="modalRoleName" class="form-control"
+                        <input type="text" id="modalRoleName" name="modalRoleName" class="form-control modalRoleName"
                             placeholder="Enter role name" tabindex="-1" data-msg="Please enter role name" />
                         <span id="modalRoleNameErrorAdd" style="color: red"></span>
                     </div>

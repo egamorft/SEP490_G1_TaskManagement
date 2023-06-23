@@ -15,7 +15,7 @@ $(function () {
     userList = assetPath + 'app/user/list';
   }
 
-  // Users List datatable
+  // Permission Role datatable
   if (dataTablePermissions.length) {
     dt_permission = dataTablePermissions.DataTable({
       columnDefs: [
@@ -25,11 +25,19 @@ $(function () {
           title: 'Actions',
           orderable: false,
           render: function (data, type, full, meta) {
+            //Get ID
+            var str = full.DT_RowId;
+            var regex = /row(\d+)/;
+            var match = str.match(regex);
+
+            if (match) {
+              var rowId = parseInt(match[1]);
+            }
             return (
-              '<button class="btn btn-sm btn-icon" data-bs-toggle="modal" data-bs-target="#editPermissionModal">' +
+              '<button class="btn btn-sm btn-icon edit-permission-btn" data-bs-toggle="modal" data-bs-target="#editPermissionModal" data-id="'+ rowId +'">' +
               feather.icons['edit'].toSvg({ class: 'font-medium-2 text-body' }) +
               '</i></button>' +
-              '<button class="btn btn-sm btn-icon delete-record">' +
+              '<button class="btn btn-sm btn-icon edit-permission-btn" data-bs-toggle="modal" data-bs-target="#deletePermissionModal" data-id="'+ rowId +'">' +
               feather.icons['trash'].toSvg({ class: 'font-medium-2 text-body' }) +
               '</button>'
             );

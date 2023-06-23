@@ -293,6 +293,12 @@ $(function () {
 
   //Add user form submission
   $(document).ready(function () {
+    newUserForm.on('hidden.bs.modal', function () {
+      // Clear the input fields when the modal is closed
+      form.attr('action', action);
+      $('input', $(this)).val('');
+      $('.error').text('').hide();
+    });
     newUserForm.submit(function (event) {
       event.preventDefault(); // Prevent the default form submission
 
@@ -366,6 +372,7 @@ $(function () {
       // Clear the input fields when the modal is closed
       form.attr('action', action);
       $('input', $(this)).val('');
+      $('.error').text('').hide();
 
       // Refresh the CSRF token
       $('input[name="_token"]').val(csrfToken);
@@ -418,11 +425,6 @@ $(function () {
         method: method,
         data: data,
         dataType: 'json',
-        beforeSend: function () {
-          $('#spinnerBtn').removeAttr('hidden');
-          $('#submitBtn').hide();
-          $('#resetBtn').hide();
-        },
         success: function (response) {
           // Handle the success response
           if (response.success) {
