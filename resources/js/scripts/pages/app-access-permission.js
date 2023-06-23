@@ -141,4 +141,101 @@ $(function () {
     $('.dataTables_filter .form-control').removeClass('form-control-sm');
     $('.dataTables_length .form-select').removeClass('form-select-sm');
   }, 300);
+
+  const deleteRoles = document.querySelectorAll('.delete-role');
+
+  if (deleteRoles) {
+    deleteRoles.forEach((deleteRole) => {
+      deleteRole.onclick = function () {
+        const roleId = this.getAttribute('data-id');
+
+        Swal.fire({
+          title: 'Are you sure?',
+          text: "You won't be able to revert the role!",
+          icon: 'warning',
+          showCancelButton: true,
+          confirmButtonText: 'Yes, Delete Role!',
+          customClass: {
+            confirmButton: 'btn btn-primary',
+            cancelButton: 'btn btn-outline-danger ms-1'
+          },
+          buttonsStyling: false
+        }).then(function (result) {
+          if (result.isConfirmed) {
+            // Perform the delete operation or make an AJAX request to delete the role
+            deleteRoleById(roleId);
+          } else {
+
+            Swal.fire({
+              title: 'Cancelled',
+              text: 'Cancelled Suspension :)',
+              icon: 'error',
+              customClass: {
+                confirmButton: 'btn btn-success'
+              }
+            });
+          }
+        });
+      };
+    });
+  }
+
+  function deleteRoleById(roleId) {
+    var csrfToken = $('#csrfToken').val();
+    // Perform the necessary actions to delete the role (e.g., make an AJAX request)
+    $.ajax({
+      url: '/admin/destroy-role-permission/' + roleId,
+      type: 'DELETE',
+      headers: {
+        'X-CSRF-TOKEN': csrfToken
+      },
+      beforeSend: function () {
+        // setting a timeout
+        let timerInterval
+        Swal.fire({
+          title: 'Auto close alert!',
+          html: 'I will close in <b></b> milliseconds.',
+          timer: 1000,
+          timerProgressBar: true,
+          didOpen: () => {
+            Swal.showLoading()
+            const b = Swal.getHtmlContainer().querySelector('b')
+            timerInterval = setInterval(() => {
+              b.textContent = Swal.getTimerLeft()
+            }, 100)
+          },
+          willClose: () => {
+            clearInterval(timerInterval)
+          }
+        }).then((result) => {
+          /* Read more about handling dismissals below */
+          if (result.dismiss === Swal.DismissReason.timer) {
+            console.log('I was closed by the timer')
+          }
+        })
+      },
+      success: function (response) {
+        // Handle the success response
+        Swal.fire({
+          icon: 'success',
+          title: 'Deleted!',
+          text: 'This role has been deleted.',
+          showConfirmButton: false,
+        });
+        setTimeout(function () {
+          location.reload();
+        }, 1200);
+        // Refresh the page or update the UI as needed
+      },
+      error: function (xhr, status, error) {
+        // Handle the error response
+        Swal.fire(
+          'Opps?',
+          'Something went wrong',
+          'question'
+        )
+        // Display an error message or perform any necessary actions
+      }
+    });
+  }
 });

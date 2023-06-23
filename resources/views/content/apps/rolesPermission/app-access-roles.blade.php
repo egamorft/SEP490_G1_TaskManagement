@@ -4,6 +4,8 @@
 
 @section('vendor-style')
     <!-- Vendor css files -->
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/animate/animate.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/sweetalert2.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/dataTables.bootstrap5.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap5.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap5.min.css')) }}">
@@ -11,6 +13,7 @@
 @section('page-style')
     <!-- Page css files -->
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css')) }}">
 @endsection
 
 @section('content')
@@ -42,15 +45,31 @@
                                     <small class="fw-bolder">Edit Role</small>
                                 </a>
                             </div>
-                            <a href="javascript:void(0);" class="text-body"><i data-feather="copy"
-                                    class="font-medium-5"></i></a>
+                            @if ($r->name == 'pm' || $r->name == 'dev' || $r->name == 'supervisor')
+                                <button type="button" class="btn btn-icon rounded-circle btn-outline-primary waves-effect"
+                                    data-bs-trigger="hover" data-bs-toggle="popover" data-bs-placement="top"
+                                    data-bs-container="body"
+                                    data-bs-content="This role will help user to the develop the project."
+                                    data-bs-original-title="Core role" aria-describedby="popover921362">
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14"
+                                        viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"
+                                        stroke-linecap="round" stroke-linejoin="round" class="feather feather-search">
+                                        <circle cx="11" cy="11" r="8"></circle>
+                                        <line x1="21" y1="21" x2="16.65" y2="16.65"></line>
+                                    </svg>
+                                </button>
+                            @else
+                                <a data-id="{{ $r->id }}" class="text-body delete-role"><i data-feather="trash-2"
+                                        class="font-medium-5"></i></a>
+                            @endif
                         </div>
                     </div>
                 </div>
             </div>
+            <input type="hidden" id="csrfToken" value="{{ csrf_token() }}">
             <!-- Edit Role Modal -->
-            <div class="modal fade" id="editRoleModal{{ $r->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
-                tabindex="-1" aria-hidden="true">
+            <div class="modal fade" id="editRoleModal{{ $r->id }}" data-bs-backdrop="static"
+                data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
                 <div class="modal-dialog modal-lg modal-dialog-centered modal-add-new-role">
                     <div class="modal-content">
                         <div class="modal-header bg-transparent">
@@ -62,7 +81,9 @@
                                 <p>Set role permissions</p>
                             </div>
                             <!-- Edit role form -->
-                            <form id="addRoleForm" class="row" method="POST" action="">
+                            <form id="addRoleForm" class="row" method="POST"
+                                action="{{ route('update.role.permissions', $r->id) }}">
+                                @csrf
                                 <div class="col-12">
                                     <label class="form-label" for="modalRoleName">Role Name</label>
                                     <input type="text" id="modalRoleName" name="modalRoleName" class="form-control"
@@ -81,21 +102,21 @@
                                                             <div class="d-flex">
                                                                 <div class="form-check me-3 me-lg-5">
                                                                     <input class="form-check-input" type="radio"
-                                                                        id="{{ $p->slug }}Yes"
-                                                                        name="{{ $p->slug }}Option" value="1"
+                                                                        id="{{ $p->slug }}Yes{{ $r->id }}"
+                                                                        name="{{ $p->slug }}" value="1"
                                                                         @if (in_array($p->id, $rolePermissions[$r->id])) checked @endif />
                                                                     <label class="form-check-label"
-                                                                        for="{{ $p->slug }}Yes">
+                                                                        for="{{ $p->slug }}Yes{{ $r->id }}">
                                                                         Yes
                                                                     </label>
                                                                 </div>
                                                                 <div class="form-check me-3 me-lg-5">
                                                                     <input class="form-check-input" type="radio"
-                                                                        id="{{ $p->slug }}No"
-                                                                        name="{{ $p->slug }}Option" value="0"
+                                                                        id="{{ $p->slug }}No{{ $r->id }}"
+                                                                        name="{{ $p->slug }}" value="0"
                                                                         @if (!in_array($p->id, $rolePermissions[$r->id])) checked @endif />
                                                                     <label class="form-check-label"
-                                                                        for="{{ $p->slug }}No">
+                                                                        for="{{ $p->slug }}No{{ $r->id }}">
                                                                         No
                                                                     </label>
                                                                 </div>
@@ -234,6 +255,7 @@
         <script src="{{ asset(mix('vendors/js/tables/datatable/buttons.bootstrap5.min.js')) }}"></script>
         <script src="{{ asset(mix('vendors/js/tables/datatable/datatables.checkboxes.min.js')) }}"></script>
         <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
+        <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
     @endsection
     @section('page-script')
         <!-- Page js files -->
@@ -242,4 +264,5 @@
         <script src="{{ asset(mix('js/scripts/pages/modal-add-permission.js')) }}"></script>
         <script src="{{ asset(mix('js/scripts/pages/modal-edit-permission.js')) }}"></script>
         <script src="{{ asset(mix('js/scripts/pages/app-access-permission.js')) }}"></script>
+        <script src="{{ asset(mix('js/scripts/components/components-popovers.js')) }}"></script>
     @endsection

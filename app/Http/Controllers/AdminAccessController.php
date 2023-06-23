@@ -6,6 +6,7 @@ use App\Http\Requests\RolePermissionRequest;
 use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
 
 class AdminAccessController extends Controller
 {
@@ -72,7 +73,7 @@ class AdminAccessController extends Controller
                 }
             }
         }
-
+        Session::flash('success', 'Create successfully role ' . $request->input('modalRoleName'));
         // Return a response indicating the success of the operation
         return response()->json(['success' => true, 'message' => 'Role created successfully']);
     }
@@ -108,7 +109,22 @@ class AdminAccessController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $role = Role::findOrFail($id);
+        $permissions = $request->except('_token', 'modalRoleName');
+
+        // Attach the selected permissions to the role
+        foreach ($permissions as $slug => $value) {
+            $permission = Permission::where('slug', $slug)->first();
+            if ($permission) {
+                if ($value == 1) {
+                    $role->permissions()->attach($permission);
+                } elseif ($value == 0) {
+                    $role->permissions()->detach($permission);
+                }
+            }
+        }
+        Session::flash('success', 'You have changed permission for role '. $role->name);
+        return redirect()->route('admin-access-roles');
     }
 
     /**
@@ -119,6 +135,14 @@ class AdminAccessController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $role = Role::findOrFail($id);
+
+        // Delete the role and its permissions
+        $role->permissions()->detach();
+        $role->delete();
+        
+        Session::flash('success', 'You have deleted role '. $role->name);
+        return response()->json(['message' => 'Role and permissions deleted successfully']);
+
     }
 }

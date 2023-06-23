@@ -113,6 +113,9 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('access/roles', [AdminAccessController::class, 'index'])->name('admin-access-roles');
         Route::post('store-role-permissions', [AdminAccessController::class, 'store'])->name('store.role.permissions');
+        Route::post('update-role-permissions/{id}', [AdminAccessController::class, 'update'])->name('update.role.permissions');
+        Route::delete('destroy-role-permission/{id}', [AdminAccessController::class, 'destroy'])->name('destroy.role.permission');
+
     });
     /* Route Admin */
 
