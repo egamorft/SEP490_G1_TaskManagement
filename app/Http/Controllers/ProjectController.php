@@ -3,7 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
+use App\Models\AccountProject;
+use App\Models\PermissionRole;
+use App\Models\Project;
+use App\Models\ProjectRolePermission;
 use Illuminate\Http\Request;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Str;
 
 class ProjectController extends Controller
 {
@@ -35,7 +42,84 @@ class ProjectController extends Controller
      */
     public function store(ProjectRequest $request)
     {
-        dd($request->all());
+        $dates = $this->extractDatesFromDuration($request->input('duration'));
+        // Access the start date and end date
+        $startDate = $dates['start_date'];
+        $endDate = $dates['end_date'];
+        $project_name = $request->input('modalAddProjectName');
+
+        $project_slug = Str::slug($project_name, '-');
+        // Check if the slug already exists in the database
+        if (Project::where('slug', $project_slug)->exists()) {
+            // Slug already exists, create a random string to distinguish
+            $random_string = Str::random(8); // Adjust the length of the random string as needed
+
+            // Append the random string in reverse order to the slug
+            $project_slug = $project_slug . '-' . strrev($random_string);
+        }
+
+        $project = Project::create([
+            'name' => $project_name,
+            'project_status' => 0,
+            'slug' => $project_slug,
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+            'description' => $request->input('modalAddDesc'),
+            'created_at' => Carbon::now(),
+        ]);
+
+        /**
+         * Add a record to the database.
+         *
+         * @return AccountProject table
+         */
+
+        // Associate pm with the project
+        $pmId = $request->input('modalAddPM');
+        AccountProject::create([
+            'project_id' => $project->id,
+            'account_id' => $pmId,
+        ]);
+
+        // Associate supervisor with the project
+        $supervisorId = $request->input('modalAddSupervisor');
+        AccountProject::create([
+            'project_id' => $project->id,
+            'account_id' => $supervisorId,
+        ]);
+
+        // Associate members with the project
+        $memberIds = $request->input('modalAddMembers');
+        foreach ($memberIds as $memberId) {
+            AccountProject::create([
+                'project_id' => $project->id,
+                'account_id' => $memberId,
+            ]);
+        }
+
+        /**
+         * Add a record to the database.
+         *
+         * @return ProjectRolePermission table
+         */
+
+        $permissionRoles = PermissionRole::whereHas('role', function ($query) {
+            $query->whereIn('name', ['pm', 'supervisor']);
+        })->get();
+
+        foreach ($permissionRoles as $permissionRole) {
+            $roleId = $permissionRole->role_id;
+            $permissionId = $permissionRole->permission_id;
+
+            ProjectRolePermission::created([
+                'project_id' => $project->id,
+                'role_id' => $roleId,
+                'permission_id' => $permissionId,
+            ]);
+        }
+        Session::flash('success', 'Create successfully project ' . $project_name);
+        // Return a response indicating the success of the operation
+        return response()->json(['success' => true, 'message' => $project_name . ' created successfully']);
     }
 
     /**
@@ -81,5 +165,21 @@ class ProjectController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    public function extractDatesFromDuration($duration)
+    {
+        $startDate = '';
+        $endDate = '';
+
+        // Extract start date and end date
+        if (strpos($duration, ' to ') !== false) {
+            [$startDate, $endDate] = explode(' to ', $duration);
+        }
+
+        return [
+            'start_date' => $startDate,
+            'end_date' => $endDate,
+        ];
     }
 }

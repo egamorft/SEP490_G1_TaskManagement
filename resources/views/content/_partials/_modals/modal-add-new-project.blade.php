@@ -25,13 +25,13 @@
                                 <option value="{{ $acc->id }}"
                                     {{ Auth::user()->id == $acc->id ? 'selected' : '' }}>{{ $acc->fullname }}</option>
                             @empty
-                                <option value="" disabled>No data available</option>
+                                <option value="" selected disabled>No data available</option>
                             @endforelse
                         </select>
                         <span id="error-modalAddPM" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="form-label" for="select2-modalAddSupervisor">Project Manager</label>
+                        <label class="form-label" for="select2-modalAddSupervisor">Project Supervisor</label>
                         <select name="modalAddSupervisor" class="select2 form-select" id="select2-modalAddSupervisor">
                             @forelse ($accounts as $acc)
                                 <option value="{{ $acc->id }}">{{ $acc->fullname }}</option>

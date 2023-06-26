@@ -7,6 +7,7 @@ use App\Models\Project;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
+use Illuminate\Support\Str;
 
 class ProjectSeeder extends Seeder
 {
@@ -18,8 +19,8 @@ class ProjectSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $name = $faker->sentence;
-        $slug = str_slug($name, '-');
+        $name = $faker->word;
+        $slug = Str::slug($name, '-');
 
         for ($i = 0; $i < 5; $i++) {
             $project = Project::create([
