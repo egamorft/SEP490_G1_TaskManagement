@@ -65,10 +65,10 @@
             @if (isset($menuData[0]))
                 @foreach ($menuData[0]->menu as $menu)
                     @if (Auth::user())
-                    {{-- User loggedin check --}}
+                        {{-- User loggedin menu --}}
                         @if (Auth::user()->is_admin == 1)
                             @if (isset($menu->admin))
-                            {{-- ADMIN role --}}
+                                {{-- ADMIN role --}}
                                 @if (isset($menu->navheader))
                                     <li class="navigation-header">
                                         <span>{{ __('locale.' . $menu->navheader) }}</span>
@@ -102,17 +102,82 @@
                                     </li>
                                 @endif
                             @endif
-                            {{-- USER role --}}
-                            
+                        @else
+                            {{-- USER role -> Comp chung của user --}}
+                            @if (isset($menu->user))
+                                @if (isset($menu->navheader))
+                                    <li class="navigation-header">
+                                        <span>{{ __('locale.' . $menu->navheader) }}</span>
+                                        <i data-feather="more-horizontal"></i>
+                                    </li>
+                                @else
+                                    {{-- Add Custom Class with nav-item --}}
+                                    @php
+                                        $custom_classes = '';
+                                        if (isset($menu->classlist)) {
+                                            $custom_classes = $menu->classlist;
+                                        }
+                                    @endphp
+                                    <li
+                                        class="nav-item {{ $custom_classes }} {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }}">
+                                        <a href="{{ isset($menu->url) ? url($menu->url) : 'javascript:void(0)' }}"
+                                            class="d-flex align-items-center"
+                                            target="{{ isset($menu->newTab) ? '_blank' : '_self' }}">
+                                            <i data-feather="{{ $menu->icon }}"></i>
+                                            <span
+                                                class="menu-title text-truncate">{{ __('locale.' . $menu->name) }}</span>
+                                            @if (isset($menu->badge))
+                                                <?php $badgeClasses = 'badge rounded-pill badge-light-primary ms-auto me-1'; ?>
+                                                <span
+                                                    class="{{ isset($menu->badgeClass) ? $menu->badgeClass : $badgeClasses }}">{{ $menu->badge }}</span>
+                                            @endif
+                                        </a>
+                                        @if (isset($menu->submenu))
+                                            @include('panels/submenu', ['menu' => $menu->submenu])
+                                        @endif
+                                    </li>
+                                @endif
+                            @endif
                         @endif
                     @else
-                    {{-- Not loggedin check --}}
-
+                        {{-- Not loggedin menu --}}
                     @endif
                 @endforeach
+                @if (Auth::user())
+                    @if (Auth::user()->is_admin == 0)
+                        {{-- USER role -> Comp riêng của từng user --}}
+                        {{-- Nav header --}}
+                        <li class="nav-item bg-light">
+                            <a data-bs-toggle="modal" data-bs-target="#addNewProject" href="{{ isset($p->slug) ? url($p->slug) : 'javascript:void(0)' }}"
+                                class="d-flex align-items-center" target="_self" style="color: black; font-weight: bold">
+                                <i data-feather='plus-square'></i>
+                                <span class="menu-title text-truncate">Add new project</span>
+                            </a>
+                        </li>
+                        <li class="navigation-header">
+                            <span>My project</span>
+                            <i data-feather="more-horizontal"></i>
+                        </li>
+                        @foreach ($projects as $p)
+                            @php
+                                $logo = Str::substr($p->name, 0, 1) . '.png';
+                            @endphp
+                            <li class="nav-item {{ Route::currentRouteName() === $p->name ? 'active' : '' }}">
+                                <a href="{{ isset($p->slug) ? url($p->slug) : 'javascript:void(0)' }}"
+                                    class="d-flex align-items-center" target="_self">
+                                    <img class="rounded me-1"
+                                        src="{{ Auth::user() ? asset('images/avatars/' . $logo) : '' }}"
+                                        alt="avatar" height="25" width="25">
+                                    <span class="menu-title text-truncate">{{ $p->name }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
+                @endif
             @endif
             {{-- Foreach menu item ends --}}
         </ul>
     </div>
 </div>
 <!-- END: Main Menu-->
+@include('content._partials._modals.modal-add-new-project')

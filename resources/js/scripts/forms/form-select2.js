@@ -64,9 +64,9 @@
   maxLength.wrap('<div class="position-relative"></div>').select2({
     dropdownAutoWidth: true,
     width: '100%',
-    maximumSelectionLength: 2,
+    maximumSelectionLength: 4,
     dropdownParent: maxLength.parent(),
-    placeholder: 'Select maximum 2 items'
+    placeholder: 'Select maximum 4 teammates'
   });
 
   // Hide Search Box

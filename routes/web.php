@@ -18,6 +18,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SendMailController;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
@@ -80,6 +81,8 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
+
     Route::post('/log-out', function () {
         Auth::logout();
         return redirect()->route('login');

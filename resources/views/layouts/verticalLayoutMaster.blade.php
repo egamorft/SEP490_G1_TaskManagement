@@ -58,10 +58,10 @@ data-asset-path="{{ asset('/')}}">
   <div class="drag-target"></div>
 
   {{-- include footer --}}
-  @include('panels/footer')
+  @include('panels.footer')
 
   {{-- include default scripts --}}
-  @include('panels/scripts')
+  @include('panels.scripts')
 
   <script type="text/javascript">
     $(window).on('load', function() {

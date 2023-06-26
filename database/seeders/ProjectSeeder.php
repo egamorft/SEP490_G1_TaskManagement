@@ -18,12 +18,15 @@ class ProjectSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
+        $name = $faker->sentence;
+        $slug = str_slug($name, '-');
 
         for ($i = 0; $i < 5; $i++) {
             $project = Project::create([
-                'name' => $faker->word,
+                'name' => $name,
                 'project_type' => $faker->randomElement(['Type A', 'Type B', 'Type C']),
-                'project_status' => $faker->randomElement([-1, 0 , 1]),
+                'project_status' => $faker->randomElement([-1, 0, 1]),
+                'slug' => $slug,
                 'start_date' => $faker->date(),
                 'end_date' => $faker->date(),
                 'description' => $faker->paragraph,
