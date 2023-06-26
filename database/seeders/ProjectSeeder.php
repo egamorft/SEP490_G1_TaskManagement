@@ -24,7 +24,6 @@ class ProjectSeeder extends Seeder
         for ($i = 0; $i < 5; $i++) {
             $project = Project::create([
                 'name' => $name,
-                'project_type' => $faker->randomElement(['Type A', 'Type B', 'Type C']),
                 'project_status' => $faker->randomElement([-1, 0, 1]),
                 'slug' => $slug,
                 'start_date' => $faker->date(),

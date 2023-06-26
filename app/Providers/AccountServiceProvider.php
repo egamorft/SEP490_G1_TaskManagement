@@ -2,12 +2,11 @@
 
 namespace App\Providers;
 
-use App\Models\Project;
-use Illuminate\Support\Facades\Auth;
+use App\Models\Account;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
-class ProjectsComposerServiceProvider extends ServiceProvider
+class AccountServiceProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -26,10 +25,9 @@ class ProjectsComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('panels.sidebar', function ($view) {
-            $account = Auth::user();
-            $projects = $account->projects;
-            $view->with('projects', $projects);
+        View::composer('content._partials._modals.modal-add-new-project', function ($view) {
+            $accounts = Account::all()->where('is_admin', 0);
+            $view->with('accounts', $accounts);
         });
     }
 }

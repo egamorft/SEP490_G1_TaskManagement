@@ -10,7 +10,7 @@
                 <div class="text-center mb-2">
                     <h1 class="mb-1">Create new project</h1>
                 </div>
-                <form id="editUserForm" class="row gy-1 pt-75" action="{{ route("add.project") }}" method="POST">
+                <form id="addProjectForm" class="row gy-1 pt-75" action="{{ route('add.project') }}" method="POST">
                     @csrf
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="modalAddProjectName">Project Name</label>
@@ -19,31 +19,45 @@
                         <span id="error-modalAddProjectName" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddPM">Project Manager</label>
-                        <input type="text" id="modalAddPM" name="modalAddPM" class="form-control" value=""
-                            placeholder="@your_pm" />
+                        <label class="form-label" for="select2-modalAddPM">Project Manager</label>
+                        <select name="modalAddPM" class="select2 form-select" id="select2-modalAddPM">
+                            @forelse ($accounts as $acc)
+                                <option value="{{ $acc->id }}"
+                                    {{ Auth::user()->id == $acc->id ? 'selected' : '' }}>{{ $acc->fullname }}</option>
+                            @empty
+                                <option value="" disabled>No data available</option>
+                            @endforelse
+                        </select>
                         <span id="error-modalAddPM" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="form-label" for="modalAddSupervisor">Project Supervisor</label>
-                        <input type="text" id="modalAddSupervisor" name="modalAddSupervisor" class="form-control"
-                            value="" placeholder="@supervisor" />
+                        <label class="form-label" for="select2-modalAddSupervisor">Project Manager</label>
+                        <select name="modalAddSupervisor" class="select2 form-select" id="select2-modalAddSupervisor">
+                            @forelse ($accounts as $acc)
+                                <option value="{{ $acc->id }}">{{ $acc->fullname }}</option>
+                            @empty
+                                <option value="" disabled>No data available</option>
+                            @endforelse
+                        </select>
                         <span id="error-modalAddSupervisor" style="color: red; display: none"></span>
                     </div>
                     <!-- Limit Selected Options -->
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="select2-limited">Project Member</label>
                         <select name="modalAddMembers[]" class="max-length form-select" id="select2-limited" multiple>
-                            <option value="red">Red</option>
-                            <option value="green">Green</option>
-                            <option value="blue">Blue</option>
-                            <option value="purple">Purple</option>
+                            @forelse ($accounts as $acc)
+                                <option value="{{ $acc->id }}">{{ $acc->fullname }}</option>
+                            @empty
+                                <option value="" disabled>No data available</option>
+                            @endforelse
                         </select>
+                        <span id="error-modalAddMembers" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="fp-range">Pick your project duration</label>
                         <input name="duration" type="text" id="fp-range" class="form-control flatpickr-range"
                             placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+                        <span id="error-duration" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12">
                         <label class="form-label" for="modalAddDesc">Description</label>

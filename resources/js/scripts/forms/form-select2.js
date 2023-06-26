@@ -204,3 +204,76 @@
     });
   });
 })(window, document, jQuery);
+
+$(document).ready(function () {
+  var $select2 = $('#select2-modalAddSupervisor');
+  var $select3 = $('#select2-limited');
+
+  // Function to disable options in the select element based on the selected values
+  function disableOptions($select, selectedValues) {
+    $select.find('option').each(function () {
+      if (selectedValues.includes($(this).val())) {
+        $(this).prop('disabled', true);
+      } else {
+        $(this).prop('disabled', false);
+      }
+    });
+  }
+
+  // Disable options in the second and third select elements based on the initially selected value in the first select element
+  disableOptions($select2, [$('#select2-modalAddPM').val()]);
+  disableOptions($select3, [$('#select2-modalAddPM').val(), $select2.val()]);
+
+  // Listen for change event on the first select element
+  $('#select2-modalAddPM').on('change', function () {
+    var selectedValue = $(this).val();
+
+    // Reset the disabled options in the second and third select elements
+    $select2.find('option').prop('disabled', false);
+    $select3.find('option').prop('disabled', false);
+
+    // Disable options in the second and third select elements based on the selected value in the first select element
+    disableOptions($select2, [selectedValue]);
+    disableOptions($select3, [selectedValue, $select2.val()]);
+  });
+
+  // Listen for change event on the second select element
+  $select2.on('change', function () {
+    var selectedValue = $(this).val();
+
+    // Reset the disabled options in the third select element
+    $select3.find('option').prop('disabled', false);
+
+    // Disable options in the third select element based on the selected values in the first and second select elements
+    disableOptions($select3, [$('#select2-modalAddPM').val(), selectedValue]);
+  });
+
+  //Save data
+  $('#addProjectForm').submit(function (event) {
+    event.preventDefault();
+    var form = $(this);
+    var url = form.attr('action');
+    var method = form.attr('method');
+    var _token = form.serialize();
+    $.ajax({
+      url: url,
+      method: method,
+      data: _token,
+      dataType: 'json',
+      success: function (response) {
+        // handle success
+        location.reload();
+      },
+      error: function (xhr, status, error) {
+        var response = JSON.parse(xhr.responseText);
+        var errors = response.errors;
+        for (var key in errors) {
+          $('#' + key).addClass(' is-invalid');
+          $('#error-' + key).show();
+          $('#error-' + key).text(errors[key][0])
+        }
+      }
+    });
+  });
+});
+
