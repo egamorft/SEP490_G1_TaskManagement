@@ -61,14 +61,14 @@
 						<nav class="navbar navbar-expand-lg navbar-light">
 							<div class="collapse navbar-collapse" id="calendar-navbar">
 								<ul class="navbar-nav mr-auto">
+									<li class="nav-item calendar-action">
+										<a class="nav-link" href="task_list">Task List</a>
+									</li>
+									<li class="nav-item calendar-action">
+										<a class="nav-link" href="gantt">Gantt</a>
+									</li>
 									<li class="nav-item calendar-action active">
-										<a class="nav-link" href="#">Task List</a>
-									</li>
-									<li class="nav-item calendar-action">
-										<a class="nav-link" href="#">Gantt</a>
-									</li>
-									<li class="nav-item calendar-action">
-										<a class="nav-link" href="#">Calendar</a>
+										<a class="nav-link" href="calendar">Calendar</a>
 									</li>
 									<li class="nav-item calendar-action">
 										<a class="nav-link" href="#">Report</a>

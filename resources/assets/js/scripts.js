@@ -9,4 +9,4 @@
 
 })(window);
 
-require("./calendar/app");
+import {data_task, data_user} from "./calendar/app";

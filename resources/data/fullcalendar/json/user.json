@@ -1,26 +1,22 @@
 [
     {
         "id": "all",
-        "color": "",
-        "content": "All",
-        "value": "all"
+        "color": "#7367F0",
+        "content": "All"
     },
     {
         "id": "creator",
-        "color": "",
-        "content": "Creator",
-        "value": "creator"
+        "color": "#7367F0",
+        "content": "Creator"
     },
     {
         "id": "assignee",
-        "color": "",
-        "content": "Assignee",
-        "value": "assignee"
+        "color": "#7367F0",
+        "content": "Assignee"
     },
     {
         "id": "reviewer",
-        "color": "",
-        "content": "Reviewer",
-        "value": "reviewer"
+        "color": "#7367F0",
+        "content": "Reviewer"
     }
 ]

@@ -72,3 +72,24 @@
         padding: 10px 15px;
     }
 }
+
+.fc-toolbar-chunk {
+
+    .button-action {
+        padding: 5px 10px;
+        min-width: 125px;
+    }
+
+    .buttons-user, .buttons-task {
+        display: flex;
+        justify-content: right;
+    }
+}
+
+.navigation-header-search {
+    margin: 15px 20px;
+
+    input.form-control {
+        height: 35px;
+    }
+}

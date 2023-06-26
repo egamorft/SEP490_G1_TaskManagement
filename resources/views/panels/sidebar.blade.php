@@ -109,6 +109,11 @@
                                         <span>{{ __($menu->navheader) }}</span>
                                         <i data-feather="more-horizontal"></i>
                                     </li>
+                                @elseif (isset($menu->search))
+                                    <li class="navigation-header-search">
+                                        <input type="text" class="form-control" placeholder="Search">
+                                        <i class="{{ $menu->icon }}"></i>
+                                    </li>
                                 @else
                                     @if (isset($menu->navitems))
                                         <li
