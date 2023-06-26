@@ -1,0 +1,26 @@
+[
+    {
+        "id": "all",
+        "color": "",
+        "content": "All",
+        "value": "all"
+    },
+    {
+        "id": "creator",
+        "color": "",
+        "content": "Creator",
+        "value": "creator"
+    },
+    {
+        "id": "assignee",
+        "color": "",
+        "content": "Assignee",
+        "value": "assignee"
+    },
+    {
+        "id": "reviewer",
+        "color": "",
+        "content": "Reviewer",
+        "value": "reviewer"
+    }
+]
