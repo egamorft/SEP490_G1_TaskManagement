@@ -27,7 +27,11 @@ class AccountServiceProvider extends ServiceProvider
     {
         View::composer('content._partials._modals.modal-add-new-project', function ($view) {
             $accounts = Account::all()->where('is_admin', 0);
-            $view->with('accounts', $accounts);
+            if(auth()->user()){
+                $view->with('accounts', $accounts);
+            }else{
+                $view->with('accounts', []);
+            }
         });
     }
 }

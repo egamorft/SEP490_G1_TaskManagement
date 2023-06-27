@@ -28,8 +28,13 @@ class ProjectsComposerServiceProvider extends ServiceProvider
     {
         View::composer('panels.sidebar', function ($view) {
             $account = Auth::user();
-            $projects = $account->projects;
-            $view->with('projects', $projects);
+            if($account){
+                $projects = $account->projects;
+                $view->with('projects', $projects);
+            }else{
+                $view->with('projects', []);
+            }
+            
         });
     }
 }
