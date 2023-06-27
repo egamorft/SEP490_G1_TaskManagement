@@ -81,7 +81,7 @@
                         @csrf
                         <div class="mb-1">
                             <label class="form-label" for="login-email">Email</label>
-                            <input class="form-control" id="login-email" type="text" name="login-email"
+                            <input class="form-control @error('login-email') is-invalid @enderror" id="login-email" type="text" name="login-email"
                                 placeholder="Enter your email" aria-describedby="login-email" autofocus="" tabindex="1"
                                 value="{{ old('login-email') }}" />
                         </div>

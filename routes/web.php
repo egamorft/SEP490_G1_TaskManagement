@@ -83,6 +83,11 @@ Route::get('/api/check-auth', function () {
 Route::middleware(['auth'])->group(function () {
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
 
+    Route::group(['prefix' => 'project'], function () {
+        Route::get('{slug}', [ProjectController::class, 'index'])->name('project.settings');
+        Route::post('update-information/{id}', [ProjectController::class, 'update'])->name('project.update');
+    });
+
     Route::post('/log-out', function () {
         Auth::logout();
         return redirect()->route('login');
@@ -122,7 +127,6 @@ Route::middleware(['auth'])->group(function () {
         Route::post('edit-permissions/{id}', [AdminAccessController::class, 'edit'])->name('edit.permissions');
         Route::get('get-specific-permission', [AdminAccessController::class, 'show'])->name('permission.show');
         Route::delete('remove-permission-role/{id}', [AdminAccessController::class, 'remove'])->name('remove.permission.role');
-
     });
     /* Route Admin */
 

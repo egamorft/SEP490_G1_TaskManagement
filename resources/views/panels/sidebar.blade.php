@@ -148,8 +148,10 @@
                         {{-- USER role -> Comp riêng của từng user --}}
                         {{-- Nav header --}}
                         <li class="nav-item bg-light">
-                            <a data-bs-toggle="modal" data-bs-target="#addNewProject" href="{{ isset($p->slug) ? url($p->slug) : 'javascript:void(0)' }}"
-                                class="d-flex align-items-center" target="_self" style="color: black; font-weight: bold">
+                            <a data-bs-toggle="modal" data-bs-target="#addNewProject"
+                                href="{{ isset($p->slug) ? url($p->slug) : 'javascript:void(0)' }}"
+                                class="d-flex align-items-center" target="_self"
+                                style="color: black; font-weight: bold">
                                 <i data-feather='plus-square'></i>
                                 <span class="menu-title text-truncate">Add new project</span>
                             </a>
@@ -161,9 +163,11 @@
                         @foreach ($projects as $p)
                             @php
                                 $logo = Str::substr($p->name, 0, 1) . '.png';
+                                $currentUrl = request()->url();
+                                $slug = Str::after($currentUrl, 'project/');
                             @endphp
-                            <li class="nav-item {{ Route::currentRouteName() === $p->name ? 'active' : '' }}">
-                                <a href="{{ isset($p->slug) ? url($p->slug) : 'javascript:void(0)' }}"
+                            <li class="nav-item {{ $slug === $p->slug ? 'active' : '' }}">
+                                <a href="{{ isset($p->slug) ? url('project/' . $p->slug) : 'javascript:void(0)' }}"
                                     class="d-flex align-items-center" target="_self">
                                     <img class="rounded me-1"
                                         src="{{ Auth::user() ? asset('images/avatars/' . $logo) : '' }}"

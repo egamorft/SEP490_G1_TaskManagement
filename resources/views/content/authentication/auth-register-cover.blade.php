@@ -86,16 +86,18 @@
                         </div>
                         <div class="mb-1">
                             <label class="form-label" for="register-email">Email</label>
-                            <input class="form-control" id="register-email" type="text" name="register-email"
-                                placeholder="your_email@example.com" aria-describedby="register-email" tabindex="1"
-                                autofocus="" value="{{ old('register-email') }}" />
+                            <input class="form-control @error('register-email') is-invalid @enderror" id="register-email"
+                                type="text" name="register-email" placeholder="your_email@example.com"
+                                aria-describedby="register-email" tabindex="1" autofocus=""
+                                value="{{ old('register-email') }}" />
                         </div>
                         @error('register-email')
                             <span style="color: red">{{ $message }}</span>
                         @enderror
                         <div class="mb-1">
                             <label class="form-label" for="register-fullname">Full name</label>
-                            <input class="form-control" id="register-fullname" type="text" name="register-fullname"
+                            <input class="form-control @error('register-fullname') is-invalid @enderror"
+                                id="register-fullname" type="text" name="register-fullname"
                                 placeholder="Enter your fullname" aria-describedby="register-fullname" tabindex="2"
                                 value="{{ old('register-fullname') }}" />
                         </div>
@@ -105,9 +107,10 @@
                         <div class="mb-1">
                             <label class="form-label" for="register-password">Password</label>
                             <div class="input-group input-group-merge form-password-toggle">
-                                <input class="form-control form-control-merge" id="register-password" type="password"
-                                    name="register-password" placeholder="············"
-                                    aria-describedby="register-password" tabindex="3"
+                                <input
+                                    class="form-control form-control-merge"
+                                    id="register-password" type="password" name="register-password"
+                                    placeholder="············" aria-describedby="register-password" tabindex="3"
                                     title="You must have minimum 8 characters long, uppercase & symbol" />
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
@@ -118,9 +121,10 @@
                         <div class="mb-1">
                             <label class="form-label" for="register-confirm-password">Confirm password</label>
                             <div class="input-group input-group-merge form-password-toggle">
-                                <input class="form-control form-control-merge" id="register-confirm-password"
-                                    type="password" name="register-confirm-password" placeholder="············"
-                                    aria-describedby="register-password" tabindex="4" />
+                                <input
+                                    class="form-control form-control-merge"
+                                    id="register-confirm-password" type="password" name="register-confirm-password"
+                                    placeholder="············" aria-describedby="register-password" tabindex="4" />
                                 <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
                             </div>
                         </div>

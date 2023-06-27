@@ -19,9 +19,13 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index($slug)
     {
-        //
+        $project = Project::where('slug', $slug)->first();
+        return view('content.components.component-tabs')
+            ->with(compact(
+                'project'
+            ));
     }
 
     /**
@@ -153,7 +157,40 @@ class ProjectController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $validatedData = $request->validate([
+            'settingProjectName' => 'required|max:50',
+            'settingDuration' => 'required',
+            'settingDesc' => 'nullable'
+        ]);
+
+        $project = Project::findOrFail($id);
+
+        $project_slug = Str::slug($request->input('settingProjectName'), '-');
+        // Check if the slug already exists in the database
+        if (Project::where('slug', $project_slug)->exists()) {
+            // Slug already exists, create a random string to distinguish
+            $random_string = Str::random(8); // Adjust the length of the random string as needed
+
+            // Append the random string in reverse order to the slug
+            $project_slug = $project_slug . '-' . strrev($random_string);
+        }
+
+        $dates = $this->extractDatesFromDuration($request->input('settingDuration'));
+        // Access the start date and end date
+        $startDate = $dates['start_date'];
+        $endDate = $dates['end_date'];
+
+        $project->name = $request->input('settingProjectName');
+        $project->slug = $project_slug;
+        $project->start_date = $startDate;
+        $project->end_date = $endDate;
+        $project->description = $request->input('settingDesc');
+
+        $project->save();
+
+        Session::flash('success', 'Edit successfully project-' . $request->input('settingProjectName'));
+        // Return a response indicating the success of the operation
+        return redirect(url('/project/' . $project_slug));
     }
 
     /**
