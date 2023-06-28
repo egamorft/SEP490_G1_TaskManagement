@@ -114,17 +114,6 @@
                                                     </span>
                                                 </button>
                                             </div>
-                                            <div class="step" data-target="#email-notifications" role="tab"
-                                                id="email-notifications-trigger">
-                                                <button type="button" class="step-trigger">
-                                                    <span class="bs-stepper-box">
-                                                        <i data-feather='mail' class="font-medium-5"></i>
-                                                    </span>
-                                                    <span class="bs-stepper-label">
-                                                        <span class="bs-stepper-title">Email notifications</span>
-                                                    </span>
-                                                </button>
-                                            </div>
                                         </div>
                                         <div class="bs-stepper-content">
                                             <div id="project-information" class="content" role="tabpanel"
@@ -135,8 +124,10 @@
                                                         <label class="form-label" for="settingProjectName">Project
                                                             Name</label>
                                                         <input type="text" id="settingProjectName"
-                                                            name="settingProjectName" class="form-control @error('settingProjectName') is-invalid @enderror"
-                                                            placeholder="Project Name" value="{{ old('settingProjectName', $project->name) }}"
+                                                            name="settingProjectName"
+                                                            class="form-control @error('settingProjectName') is-invalid @enderror"
+                                                            placeholder="Project Name"
+                                                            value="{{ old('settingProjectName', $project->name) }}"
                                                             data-msg="Please enter your project name" />
                                                         @error('settingProjectName')
                                                             <span style="color: red">{{ $message }}</span>
@@ -148,10 +139,10 @@
                                                         <input name="settingDuration" type="text" id="fp-range-1"
                                                             class="form-control flatpickr-range @error('settingDuration') is-invalid @enderror"
                                                             placeholder="YYYY-MM-DD to YYYY-MM-DD"
-                                                            value="{{ old('settingDuration', $project->start_date .' to '. $project->end_date) }}" />
-                                                            @error('settingDuration')
-                                                                <span style="color: red">{{ $message }}</span>
-                                                            @enderror
+                                                            value="{{ old('settingDuration', $project->start_date . ' to ' . $project->end_date) }}" />
+                                                        @error('settingDuration')
+                                                            <span style="color: red">{{ $message }}</span>
+                                                        @enderror
                                                     </div>
                                                     <div class="col-12 mb-2">
                                                         <label class="form-label" for="settingDesc">Description</label>
@@ -167,60 +158,135 @@
                                             </div>
                                             <div id="project-members" class="content" role="tabpanel"
                                                 aria-labelledby="project-members-trigger">
-                                                <div class="content-header">
-                                                    <h5 class="mb-0">Personal Info</h5>
-                                                    <small>Enter Your Personal Info.</small>
+                                                <div class="content-header row">
+                                                    <div class="col-6">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-1">
+                                                            <h5 class="mb-0" style="font-size: 1rem;">Project Manager
+                                                            </h5>
+                                                            <a data-toggle="modal" data-target="#popupModal">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                                    height="20" fill="currentColor"
+                                                                    class="bi bi-pencil" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                                                                </svg>
+                                                            </a>
+                                                        </div>
+                                                        <div class="d-flex align-items-center">
+                                                            <img class="round me-1"
+                                                                src="{{ Auth::user() ? asset('images/avatars/1.png') : '' }}"
+                                                                alt="avatar" height="40" width="40">
+                                                            <div>
+                                                                <h5 class="mb-0" style="font-size: 1rem;">Personal Info
+                                                                </h5>
+                                                                <small style="font-size: 0.7rem;">@email</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-1">
+                                                            <h6 class="mb-0">Project Supervisor
+                                                            </h6>
+                                                            <a data-toggle="modal" data-target="#popupModal">
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                                    height="20" fill="currentColor"
+                                                                    class="bi bi-pencil" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
+                                                                </svg>
+                                                            </a>
+                                                        </div>
+                                                        <div class="d-flex align-items-center">
+                                                            <img class="round me-1"
+                                                                src="{{ Auth::user() ? asset('images/avatars/1.png') : '' }}"
+                                                                alt="avatar" height="40" width="40">
+                                                            <div>
+                                                                <h6 class="mb-0">Personal Info
+                                                                </h6>
+                                                                <small style="font-size: 0.7rem;">@email</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
                                                 </div>
+                                                <hr class="my-2">
                                                 <div class="row">
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="vertical-modern-first-name">First
-                                                            Name</label>
-                                                        <input type="text" id="vertical-modern-first-name"
-                                                            class="form-control" placeholder="John" />
+                                                    <div class="mb-3 col-md-12">
+                                                        <div class="d-flex justify-content-between">
+                                                            <h6 class="mb-0">Project Members</h6>
+                                                            <a data-toggle="modal" data-target="#popupModal">
+                                                                <div class="d-flex align-items-center">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18"
+                                                                        height="18" fill="currentColor"
+                                                                        class="bi bi-person-plus-fill me-1"
+                                                                        viewBox="0 0 16 16">
+                                                                        <path
+                                                                            d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                                                                    </svg>
+                                                                    <h6 class="mb-0">Add new member</h6>
+                                                                </div>
+                                                            </a>
+                                                        </div>
+
                                                     </div>
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="vertical-modern-last-name">Last
-                                                            Name</label>
-                                                        <input type="text" id="vertical-modern-last-name"
-                                                            class="form-control" placeholder="Doe" />
+                                                    <div class="mb-1 col-md-4">
+                                                        <div class="d-flex align-items-center">
+                                                            <img class="round me-1"
+                                                                src="{{ Auth::user() ? asset('images/avatars/1.png') : '' }}"
+                                                                alt="avatar" height="40" width="40">
+                                                            <div>
+                                                                <h6 class="mb-0">Personal Info
+                                                                </h6>
+                                                                <small style="font-size: 0.7rem;">@email</small>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label"
-                                                            for="vertical-modern-country">Country</label>
-                                                        <select class="select2 w-100" id="vertical-modern-country">
-                                                            <option label=" "></option>
-                                                            <option>UK</option>
-                                                            <option>USA</option>
-                                                            <option>Spain</option>
-                                                            <option>France</option>
-                                                            <option>Italy</option>
-                                                            <option>Australia</option>
-                                                        </select>
+                                                    <div class="mb-1 col-md-3">
+                                                        <div class="d-flex align-items-center">
+                                                            <h5 class="mb-0">Role</h5>
+                                                            <a data-toggle="modal" data-target="#popupModal">
+
+                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                    height="16" fill="currentColor"
+                                                                    class="bi bi-pencil-fill ms-2" viewBox="0 0 16 16">
+                                                                    <path
+                                                                        d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
+                                                                </svg>
+                                                            </a>
+                                                        </div>
                                                     </div>
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label"
-                                                            for="vertical-modern-language">Language</label>
-                                                        <select class="select2 w-100" id="vertical-modern-language"
-                                                            multiple>
-                                                            <option>English</option>
-                                                            <option>French</option>
-                                                            <option>Spanish</option>
-                                                        </select>
+                                                    <div class="mb-1 col-md-5">
+                                                        <div class="d-flex justify-content-end">
+                                                            <div class="d-flex align-items-center me-5">
+                                                                <a class="d-flex align-items-center">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                                        height="20" fill="currentColor"
+                                                                        class="bi bi-c-circle me-1" viewBox="0 0 16 16">
+                                                                        <path
+                                                                            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM8.146 4.992c-1.212 0-1.927.92-1.927 2.502v1.06c0 1.571.703 2.462 1.927 2.462.979 0 1.641-.586 1.729-1.418h1.295v.093c-.1 1.448-1.354 2.467-3.03 2.467-2.091 0-3.269-1.336-3.269-3.603V7.482c0-2.261 1.201-3.638 3.27-3.638 1.681 0 2.935 1.054 3.029 2.572v.088H9.875c-.088-.879-.768-1.512-1.729-1.512Z" />
+                                                                    </svg>
+                                                                    <h5 class="mb-0">Set as new manager</h5>
+                                                                </a>
+                                                            </div>
+                                                            <div class="d-flex align-items-center">
+
+                                                                <a class="d-flex align-items-center">
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20"
+                                                                        height="20" fill="currentColor"
+                                                                        class="bi bi-person-x-fill me-1"
+                                                                        viewBox="0 0 16 16">
+                                                                        <path fill-rule="evenodd"
+                                                                            d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z" />
+                                                                    </svg>
+                                                                    <h5 class="mb-0">Remove</h5>
+                                                                </a>
+                                                            </div>
+                                                        </div>
                                                     </div>
-                                                </div>
-                                                <div class="d-flex justify-content-between">
-                                                    <button class="btn btn-primary btn-prev">
-                                                        <i data-feather="arrow-left"
-                                                            class="align-middle me-sm-25 me-0"></i>
-                                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                                    </button>
-                                                    <button class="btn btn-primary btn-next">
-                                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
-                                                        <i data-feather="arrow-right"
-                                                            class="align-middle ms-sm-25 ms-0"></i>
-                                                    </button>
+
                                                 </div>
                                             </div>
                                             <div id="permission-role" class="content" role="tabpanel"
@@ -267,50 +333,6 @@
                                                         <i data-feather="arrow-right"
                                                             class="align-middle ms-sm-25 ms-0"></i>
                                                     </button>
-                                                </div>
-                                            </div>
-                                            <div id="email-notifications" class="content" role="tabpanel"
-                                                aria-labelledby="email-notifications-trigger">
-                                                <div class="content-header">
-                                                    <h5 class="mb-0">Social Links</h5>
-                                                    <small>Enter Your Social Links.</small>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label"
-                                                            for="vertical-modern-twitter">Twitter</label>
-                                                        <input type="text" id="vertical-modern-twitter"
-                                                            class="form-control" placeholder="https://twitter.com/abc" />
-                                                    </div>
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label"
-                                                            for="vertical-modern-facebook">Facebook</label>
-                                                        <input type="text" id="vertical-modern-facebook"
-                                                            class="form-control" placeholder="https://facebook.com/abc" />
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label"
-                                                            for="vertical-modern-google">Google+</label>
-                                                        <input type="text" id="vertical-modern-google"
-                                                            class="form-control"
-                                                            placeholder="https://plus.google.com/abc" />
-                                                    </div>
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label"
-                                                            for="vertical-modern-linkedin">Linkedin</label>
-                                                        <input type="text" id="vertical-modern-linkedin"
-                                                            class="form-control" placeholder="https://linkedin.com/abc" />
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-between">
-                                                    <button class="btn btn-primary btn-prev">
-                                                        <i data-feather="arrow-left"
-                                                            class="align-middle me-sm-25 me-0"></i>
-                                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                                    </button>
-                                                    <button class="btn btn-success btn-submit">Submit</button>
                                                 </div>
                                             </div>
                                         </div>

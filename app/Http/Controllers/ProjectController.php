@@ -22,6 +22,7 @@ class ProjectController extends Controller
     public function index($slug)
     {
         $project = Project::where('slug', $slug)->first();
+        $accounts = $project->accounts()->get();
         return view('content.components.component-tabs')
             ->with(compact(
                 'project'
