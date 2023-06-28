@@ -28,6 +28,20 @@ class ProjectController extends Controller
             ));
     }
 
+	/**
+     * Listing all task in project.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function listTasks($slug)
+    {
+        $project = Project::where('slug', $slug)->first();
+        return view('content.components.component-tabs')
+            ->with(compact(
+                'project'
+            ));
+    }
+
     /**
      * Show the form for creating a new resource.
      *

@@ -19,6 +19,7 @@ use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TasksController;
 use App\Http\Controllers\SendMailController;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
@@ -40,6 +41,7 @@ use PhpParser\Node\Stmt\Return_;
 
 Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
 
+Route::resource('/tasks', TasksController::class);
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -81,6 +83,11 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+
+	Route::group(['prefix' => 'projects'], function () {
+		Route::get('{slug}', [ProjectController::class, 'listTasks'])->name('project.tasks');
+    });
+
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
 
     Route::group(['prefix' => 'project'], function () {
