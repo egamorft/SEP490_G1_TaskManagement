@@ -36,7 +36,7 @@ class ProjectController extends Controller
     public function listTasks($slug)
     {
         $project = Project::where('slug', $slug)->first();
-        return view('content.components.component-tabs')
+        return view('projects.index')
             ->with(compact(
                 'project'
             ));
