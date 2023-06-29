@@ -19,6 +19,7 @@ use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\TasksController;
 use App\Http\Controllers\SendMailController;
 use Illuminate\Support\Facades\Auth;
@@ -85,7 +86,7 @@ Route::get('/api/check-auth', function () {
 Route::middleware(['auth'])->group(function () {
 
 	Route::group(['prefix' => 'projects'], function () {
-		Route::get('{slug}', [ProjectController::class, 'listTasks'])->name('project.tasks');
+		Route::get('{slug}', [ProjectsController::class, 'index'])->name('index');
     });
 
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
