@@ -60,7 +60,7 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-primary">Team</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-primary">Team</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Aug 08</small>
                                                 <div class="avatar">
@@ -86,8 +86,8 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-primary">Team</span>
-                                                    <span class="badge rounded-pill badge-light-danger">High</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-primary">Team</span> --}}
+                                                    {{-- <span class="badge rounded-pill badge-light-danger">High</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Aug 30</small>
                                                 <div class="avatar bg-light-warning">
@@ -113,8 +113,8 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-info">Update</span>
-                                                    <span class="badge rounded-pill badge-light-warning">Medium</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-info">Update</span> --}}
+                                                    {{-- <span class="badge rounded-pill badge-light-warning">Medium</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Aug 28</small>
                                                 <div class="avatar">
@@ -140,7 +140,7 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-danger">High</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-danger">High</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Aug 18</small>
                                                 <div class="avatar">
@@ -165,8 +165,8 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-warning">Medium</span>
-                                                    <span class="badge rounded-pill badge-light-success">Low</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-warning">Medium</span> --}}
+                                                    {{-- <span class="badge rounded-pill badge-light-success">Low</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Aug 22</small>
                                                 <div class="avatar bg-light-danger">
@@ -192,8 +192,8 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-primary">Team</span>
-                                                    <span class="badge rounded-pill badge-light-success">Low</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-primary">Team</span> --}}
+                                                    {{-- <span class="badge rounded-pill badge-light-success">Low</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Aug 24</small>
                                                 <div class="avatar">
@@ -219,8 +219,8 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-primary">Team</span>
-                                                    <span class="badge rounded-pill badge-light-warning">Medium</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-primary">Team</span> --}}
+                                                    {{-- <span class="badge rounded-pill badge-light-warning">Medium</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Aug 27</small>
                                                 <div class="avatar">
@@ -246,8 +246,8 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-success">Low</span>
-                                                    <span class="badge rounded-pill badge-light-warning">Medium</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-success">Low</span> --}}
+                                                    {{-- <span class="badge rounded-pill badge-light-warning">Medium</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Aug 27</small>
                                                 <div class="avatar bg-light-success">
@@ -296,7 +296,7 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-success">Low</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-success">Low</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Aug 28</small>
                                                 <div class="avatar">
@@ -345,7 +345,7 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-info">Update</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-info">Update</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Sept 02</small>
                                                 <div class="avatar bg-light-danger">
@@ -394,7 +394,7 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-danger">High</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-danger">High</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Sept 07</small>
                                                 <div class="avatar bg-light-info">
@@ -419,8 +419,7 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span
-                                                        class="badge rounded-pill badge-light-primary">Frontend</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-primary">Frontend</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Sept 12</small>
                                                 <div class="avatar bg-light-success">
@@ -444,9 +443,9 @@
                                             </div>
                                             <div class="todo-item-action">
                                                 <div class="badge-wrapper me-1">
-                                                    <span class="badge rounded-pill badge-light-info">Update</span>
-                                                    <span class="badge rounded-pill badge-light-warning">Medium</span>
-                                                    <span class="badge rounded-pill badge-light-success">Low</span>
+                                                    {{-- <span class="badge rounded-pill badge-light-info">Update</span> --}}
+                                                    {{-- <span class="badge rounded-pill badge-light-warning">Medium</span> --}}
+                                                    {{-- <span class="badge rounded-pill badge-light-success">Low</span> --}}
                                                 </div>
                                                 <small class="text-nowrap text-muted me-1">Aug 10</small>
                                                 <div class="avatar">
