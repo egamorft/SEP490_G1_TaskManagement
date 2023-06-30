@@ -13,7 +13,8 @@ class AccountProject extends Model
     protected $fillable = [
         'project_id',
         'account_id',
-        'role_id'
+        'role_id',
+        'status'
     ];
 
     public function project()

@@ -30,6 +30,7 @@ class ProjectSeeder extends Seeder
                 'start_date' => $faker->date(),
                 'end_date' => $faker->date(),
                 'description' => $faker->paragraph,
+                'token' => $faker->uuid,
                 'created_at' => $faker->date(),
                 'deleted_at' => $faker->randomElement([$faker->date(), null]),
             ]);

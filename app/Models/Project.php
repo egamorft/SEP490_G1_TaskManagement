@@ -17,9 +17,22 @@ class Project extends Model
         'start_date',
         'end_date',
         'description',
+        'token',
         'created_at',
         'deleted_at',
     ];
+
+    public function accountsWithRole($roleName)
+    {
+        return $this->belongsToMany(Account::class, 'account_project')
+            ->wherePivot('role_id', function ($query) use ($roleName) {
+                $query->from('roles')
+                    ->where('name', $roleName)
+                    ->select('id');
+            })
+            ->withPivot('role_id');
+    }
+
 
     public function accounts()
     {

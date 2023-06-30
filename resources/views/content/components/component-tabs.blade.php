@@ -175,12 +175,14 @@
                                                         </div>
                                                         <div class="d-flex align-items-center">
                                                             <img class="round me-1"
-                                                                src="{{ Auth::user() ? asset('images/avatars/1.png') : '' }}"
+                                                                src="{{ Auth::user() ? asset('images/avatars/' . $pmAccount->avatar) : '' }}"
                                                                 alt="avatar" height="40" width="40">
                                                             <div>
-                                                                <h5 class="mb-0" style="font-size: 1rem;">Personal Info
+                                                                <h5 class="mb-0" style="font-size: 1rem;">
+                                                                    {{ $pmAccount->fullname }}
                                                                 </h5>
-                                                                <small style="font-size: 0.7rem;">@email</small>
+                                                                <small
+                                                                    style="font-size: 0.7rem;">{{ $pmAccount->email }}</small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -200,12 +202,13 @@
                                                         </div>
                                                         <div class="d-flex align-items-center">
                                                             <img class="round me-1"
-                                                                src="{{ Auth::user() ? asset('images/avatars/1.png') : '' }}"
+                                                                src="{{ Auth::user() ? asset('images/avatars/' . $supervisorAccount->avatar) : '' }}"
                                                                 alt="avatar" height="40" width="40">
                                                             <div>
-                                                                <h6 class="mb-0">Personal Info
+                                                                <h6 class="mb-0">{{ $supervisorAccount->fullname }}
                                                                 </h6>
-                                                                <small style="font-size: 0.7rem;">@email</small>
+                                                                <small
+                                                                    style="font-size: 0.7rem;">{{ $supervisorAccount->email }}</small>
                                                             </div>
                                                         </div>
                                                     </div>
@@ -215,7 +218,7 @@
                                                     <div class="mb-3 col-md-12">
                                                         <div class="d-flex justify-content-between">
                                                             <h6 class="mb-0">Project Members</h6>
-                                                            <a data-toggle="modal" data-target="#popupModal">
+                                                            <a data-bs-toggle="modal" data-bs-target="#inviteToProject">
                                                                 <div class="d-flex align-items-center">
                                                                     <svg xmlns="http://www.w3.org/2000/svg" width="18"
                                                                         height="18" fill="currentColor"
@@ -230,62 +233,68 @@
                                                                 </div>
                                                             </a>
                                                         </div>
-
                                                     </div>
-                                                    <div class="mb-1 col-md-4">
-                                                        <div class="d-flex align-items-center">
-                                                            <img class="round me-1"
-                                                                src="{{ Auth::user() ? asset('images/avatars/1.png') : '' }}"
-                                                                alt="avatar" height="40" width="40">
-                                                            <div>
-                                                                <h6 class="mb-0">Personal Info
-                                                                </h6>
-                                                                <small style="font-size: 0.7rem;">@email</small>
-                                                            </div>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-1 col-md-3">
-                                                        <div class="d-flex align-items-center">
-                                                            <h5 class="mb-0">Role</h5>
-                                                            <a data-toggle="modal" data-target="#popupModal">
-
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="16"
-                                                                    height="16" fill="currentColor"
-                                                                    class="bi bi-pencil-fill ms-2" viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
-                                                                </svg>
-                                                            </a>
-                                                        </div>
-                                                    </div>
-                                                    <div class="mb-1 col-md-5">
-                                                        <div class="d-flex justify-content-end">
-                                                            <div class="d-flex align-items-center me-5">
-                                                                <a class="d-flex align-items-center">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                                                        height="20" fill="currentColor"
-                                                                        class="bi bi-c-circle me-1" viewBox="0 0 16 16">
-                                                                        <path
-                                                                            d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM8.146 4.992c-1.212 0-1.927.92-1.927 2.502v1.06c0 1.571.703 2.462 1.927 2.462.979 0 1.641-.586 1.729-1.418h1.295v.093c-.1 1.448-1.354 2.467-3.03 2.467-2.091 0-3.269-1.336-3.269-3.603V7.482c0-2.261 1.201-3.638 3.27-3.638 1.681 0 2.935 1.054 3.029 2.572v.088H9.875c-.088-.879-.768-1.512-1.729-1.512Z" />
-                                                                    </svg>
-                                                                    <h5 class="mb-0">Set as new manager</h5>
-                                                                </a>
-                                                            </div>
+                                                    @foreach ($memberAccount as $mem)
+                                                        <div class="mb-1 col-md-4">
                                                             <div class="d-flex align-items-center">
+                                                                <img class="round me-1"
+                                                                    src="{{ Auth::user() ? asset('images/avatars/' . $mem->avatar) : '' }}"
+                                                                    alt="avatar" height="40" width="40">
+                                                                <div>
+                                                                    <h6 class="mb-0">{{ $mem->fullname }}
+                                                                    </h6>
+                                                                    <small
+                                                                        style="font-size: 0.7rem;">{{ $mem->email }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-1 col-md-3">
+                                                            <div class="d-flex align-items-center">
+                                                                <h5 class="mb-0">Member</h5>
+                                                                <a data-toggle="modal" data-target="#popupModal">
 
-                                                                <a class="d-flex align-items-center">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                                                        height="20" fill="currentColor"
-                                                                        class="bi bi-person-x-fill me-1"
+                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="16"
+                                                                        height="16" fill="currentColor"
+                                                                        class="bi bi-pencil-fill ms-2"
                                                                         viewBox="0 0 16 16">
-                                                                        <path fill-rule="evenodd"
-                                                                            d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z" />
+                                                                        <path
+                                                                            d="M12.854.146a.5.5 0 0 0-.707 0L10.5 1.793 14.207 5.5l1.647-1.646a.5.5 0 0 0 0-.708l-3-3zm.646 6.061L9.793 2.5 3.293 9H3.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.207l6.5-6.5zm-7.468 7.468A.5.5 0 0 1 6 13.5V13h-.5a.5.5 0 0 1-.5-.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.5-.5V10h-.5a.499.499 0 0 1-.175-.032l-.179.178a.5.5 0 0 0-.11.168l-2 5a.5.5 0 0 0 .65.65l5-2a.5.5 0 0 0 .168-.11l.178-.178z" />
                                                                     </svg>
-                                                                    <h5 class="mb-0">Remove</h5>
                                                                 </a>
                                                             </div>
                                                         </div>
-                                                    </div>
+                                                        <div class="mb-1 col-md-5">
+                                                            <div class="d-flex justify-content-end">
+                                                                <div class="d-flex align-items-center me-5">
+                                                                    <a class="d-flex align-items-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="20" height="20"
+                                                                            fill="currentColor"
+                                                                            class="bi bi-c-circle me-1"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM8.146 4.992c-1.212 0-1.927.92-1.927 2.502v1.06c0 1.571.703 2.462 1.927 2.462.979 0 1.641-.586 1.729-1.418h1.295v.093c-.1 1.448-1.354 2.467-3.03 2.467-2.091 0-3.269-1.336-3.269-3.603V7.482c0-2.261 1.201-3.638 3.27-3.638 1.681 0 2.935 1.054 3.029 2.572v.088H9.875c-.088-.879-.768-1.512-1.729-1.512Z" />
+                                                                        </svg>
+                                                                        <h5 class="mb-0">Set as new manager</h5>
+                                                                    </a>
+                                                                </div>
+                                                                <div class="d-flex align-items-center">
+
+                                                                    <a class="d-flex align-items-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="20" height="20"
+                                                                            fill="currentColor"
+                                                                            class="bi bi-person-x-fill me-1"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path fill-rule="evenodd"
+                                                                                d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z" />
+                                                                        </svg>
+                                                                        <h5 class="mb-0">Remove</h5>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    @endforeach
 
                                                 </div>
                                             </div>
@@ -344,6 +353,7 @@
                     </div>
                 </div>
             </div>
+            @include('content._partials._modals.modal-refer-earn')
             <!-- Tabs with Icon ends -->
         </div>
     </section>
@@ -355,6 +365,7 @@
 @endsection
 
 @section('page-script')
+    <script src="{{ asset(mix('js/scripts/extensions/ext-component-clipboard.js')) }}"></script>
     <script src="{{ asset('js/scripts/components/components-navs.js') }}"></script>
     <script src="{{ asset(mix('js/scripts/forms/form-wizard.js')) }}"></script>
 @endsection

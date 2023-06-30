@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
+use App\Models\Account;
 use App\Models\AccountProject;
 use App\Models\PermissionRole;
 use App\Models\Project;
@@ -24,9 +25,17 @@ class ProjectController extends Controller
     {
         $project = Project::where('slug', $slug)->first();
         $accounts = $project->accounts()->get();
+
+        $pmAccount = Project::findOrFail($project->id)->accountsWithRole("pm")->first();
+        $supervisorAccount = Project::findOrFail($project->id)->accountsWithRole("supervisor")->first();
+        $memberAccount = Project::findOrFail($project->id)->accountsWithRole("member")->get();
+
         return view('content.components.component-tabs')
             ->with(compact(
-                'project'
+                'project',
+                'pmAccount',
+                'supervisorAccount',
+                'memberAccount'
             ));
     }
 
