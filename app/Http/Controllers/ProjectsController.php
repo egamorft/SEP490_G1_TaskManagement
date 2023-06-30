@@ -23,12 +23,17 @@ class ProjectsController extends Controller
     {
         $project = Project::where('slug', $slug)->first();
 		$pageConfigs = [
-            'pageHeader' => false,
+            'pageHeader' => true,
             'contentLayout' => "content-left-sidebar",
             'pageClass' => 'todo-application',
         ];
 
-		return view('projects.index', [
+		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+        return view('projects.page-account-settings-account', ['breadcrumbs' => $breadcrumbs])->with(compact('project'));
+
+        return view('projects.index1', ['breadcrumbs' => $breadcrumbs,  'pageConfigs' => $pageConfigs])->with(compact('project'));
+
+		return view('projects.index1', [
             'pageConfigs' => $pageConfigs
         ])->with(compact('project'));
     }
