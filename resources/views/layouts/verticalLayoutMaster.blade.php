@@ -30,6 +30,9 @@ data-asset-path="{{ asset('/')}}">
       </div>
       <div class="{{ $configData['contentsidebarClass'] }}">
         <div class="content-wrapper">
+			@if($configData['pageHeader'] === true && isset($configData['pageHeader']))
+		@include('panels.breadcrumb')
+		@endif
           <div class="content-body">
             {{-- Include Page Content --}}
             @yield('content')

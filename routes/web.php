@@ -87,6 +87,11 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::group(['prefix' => 'projects'], function () {
 		Route::get('{slug}', [ProjectsController::class, 'index'])->name('index');
+		Route::get('{slug}/gantt', [ProjectsController::class, 'gantt'])->name('gantt');
+		Route::get('{slug}/kanban', [ProjectsController::class, 'kanban'])->name('kanban');
+		Route::get('{slug}/calendar', [ProjectsController::class, 'calendar'])->name('index');
+		Route::get('{slug}/report', [ProjectsController::class, 'report'])->name('report');
+		Route::get('{slug}/settings', [ProjectsController::class, 'settings'])->name('settings');
     });
 
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');

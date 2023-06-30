@@ -24,31 +24,95 @@ class ProjectsController extends Controller
         $project = Project::where('slug', $slug)->first();
 		$pageConfigs = [
             'pageHeader' => true,
-            'contentLayout' => "content-left-sidebar",
             'pageClass' => 'todo-application',
         ];
 
 		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
-        return view('projects.page-account-settings-account', ['breadcrumbs' => $breadcrumbs])->with(compact('project'));
-
-        return view('projects.index1', ['breadcrumbs' => $breadcrumbs,  'pageConfigs' => $pageConfigs])->with(compact('project'));
-
-		return view('projects.index1', [
-            'pageConfigs' => $pageConfigs
-        ])->with(compact('project'));
+        return view('projects.task-list', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project'));
     }
 
-	/**
-     * Listing all task in project.
+	 /**
+     * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function listTasks($slug)
+    public function gantt($slug)
     {
         $project = Project::where('slug', $slug)->first();
-        return view('projects.index')
-            ->with(compact(
-                'project'
-            ));
+		$pageConfigs = [
+            'pageHeader' => true,
+            'pageClass' => 'todo-application',
+        ];
+
+		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+        return view('projects.gantt', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'gantt'])->with(compact('project'));
+    }
+
+	 /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function kanban($slug)
+    {
+        $project = Project::where('slug', $slug)->first();
+		$pageConfigs = [
+            'pageHeader' => true,
+            'pageClass' => 'todo-application',
+        ];
+
+		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+        return view('projects.kanban', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'kanban'])->with(compact('project'));
+    }
+
+	 /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function calendar($slug)
+    {
+        $project = Project::where('slug', $slug)->first();
+		$pageConfigs = [
+            'pageHeader' => true,
+            'pageClass' => 'todo-application',
+        ];
+
+		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+        return view('projects.calendar', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'calendar'])->with(compact('project'));
+    }
+
+	 /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function report($slug)
+    {
+        $project = Project::where('slug', $slug)->first();
+		$pageConfigs = [
+            'pageHeader' => true,
+            'pageClass' => 'todo-application',
+        ];
+
+		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+        return view('projects.report', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'report'])->with(compact('project'));
+    }
+
+	 /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function settings($slug)
+    {
+        $project = Project::where('slug', $slug)->first();
+		$pageConfigs = [
+            'pageHeader' => true,
+            'pageClass' => 'todo-application',
+        ];
+
+		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+        return view('projects.settings', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'settings'])->with(compact('project'));
     }
 }
