@@ -25,8 +25,7 @@ class ProjectsController extends Controller
 		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
 		$pageConfigs = [
-            'pageHeader' => false,
-            'contentLayout' => "content-left-sidebar",
+            'pageHeader' => true,
             'pageClass' => 'todo-application',
         ];
 

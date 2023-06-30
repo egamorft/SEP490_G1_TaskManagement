@@ -27,3 +27,48 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	border: none;
 }
 
+.todo-task-list li.todo-item {
+    cursor: pointer;
+    padding: 0.893rem 2rem;
+    position: relative;
+    transition: all .2s,border-color 0s;
+}
+
+.todo-task-list li .todo-title-wrapper {
+    display: flex;
+    justify-content: space-between;
+}
+
+.todo-task-list li .title-wrapper, .todo-task-list li .todo-item-action,  .todo-task-list li .todo-title-area {
+    align-items: center;
+    display: flex;
+}
+
+.todo-item .drag-icon {
+    cursor: move;
+    height: 4rem;
+    left: 0.2rem;
+    padding: 0 5px;
+    position: absolute;
+    visibility: hidden;
+    width: 1.75rem;
+}
+
+.todo-title {
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+}
+
+.todo-task-list li .badge-wrapper {
+    display: flex;
+}
+
+.todo-task-list li .todo-item-action>small {
+    margin-left: auto;
+}
+
+.todo-task-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}

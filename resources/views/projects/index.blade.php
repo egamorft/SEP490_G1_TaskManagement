@@ -3,8 +3,8 @@
 @section('title', 'Project - ' . $project->name)
 
 @section('content')
-	@include('projects.nav')
-	@include('tasks.list')
+    @include('projects.nav')
+    @include('tasks.list')
 @endsection
 
 
@@ -26,6 +26,12 @@
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-todo.css')) }}">
+
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-flat-pickr.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-calendar.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
+
+
 @endsection
 
 @section('vendor-script')

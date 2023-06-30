@@ -4,7 +4,7 @@
 
 @section('content')
 @include('projects.nav')
-@include('tasks.calendar')
+@include('tasks.gantt')
 @endsection
 
 
