@@ -22,13 +22,15 @@ class ProjectsController extends Controller
     public function index($slug)
     {
         $project = Project::where('slug', $slug)->first();
+		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
+
 		$pageConfigs = [
-            'pageHeader' => true,
+            'pageHeader' => false,
+            'contentLayout' => "content-left-sidebar",
             'pageClass' => 'todo-application',
         ];
 
-		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
-        return view('projects.task-list', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project'));
+        return view('projects.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project'));
     }
 
 	 /**
@@ -44,7 +46,7 @@ class ProjectsController extends Controller
             'pageClass' => 'todo-application',
         ];
 
-		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
         return view('projects.gantt', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'gantt'])->with(compact('project'));
     }
 
@@ -58,10 +60,10 @@ class ProjectsController extends Controller
         $project = Project::where('slug', $slug)->first();
 		$pageConfigs = [
             'pageHeader' => true,
-            'pageClass' => 'todo-application',
+            'pageClass' => 'kanban-application',
         ];
 
-		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
         return view('projects.kanban', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'kanban'])->with(compact('project'));
     }
 
@@ -75,10 +77,9 @@ class ProjectsController extends Controller
         $project = Project::where('slug', $slug)->first();
 		$pageConfigs = [
             'pageHeader' => true,
-            'pageClass' => 'todo-application',
         ];
 
-		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
         return view('projects.calendar', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'calendar'])->with(compact('project'));
     }
 
@@ -95,7 +96,7 @@ class ProjectsController extends Controller
             'pageClass' => 'todo-application',
         ];
 
-		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
         return view('projects.report', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'report'])->with(compact('project'));
     }
 
@@ -112,7 +113,7 @@ class ProjectsController extends Controller
             'pageClass' => 'todo-application',
         ];
 
-		$breadcrumbs = [['link' => "/", 'name' => "Project Status"]];
+		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
         return view('projects.settings', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'settings'])->with(compact('project'));
     }
 }
