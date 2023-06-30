@@ -20,17 +20,17 @@ class CommentSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $subTasks = SubTask::all();
-        $accounts = Account::all();
+        $subTasks = SubTask::pluck('id')->toArray();
+        $accounts = Account::pluck('id')->toArray();
 
         foreach ($subTasks as $subTask) {
             for ($i = 0; $i < 5; $i++) {
                 Comment::create([
-                    'sub_task_id' => $subTask->id,
+                    'sub_task_id' => $faker->randomElement($subTasks),
                     'content' => $faker->sentence,
                     'visible' => $faker->boolean,
-                    'created_by' => $accounts->random()->id,
-                    'updated_at' => $faker->date(),
+                    'created_by' => $faker->randomElement($accounts),
+                    'updated_at' => $faker->randomElement([$faker->date(), null]),
                 ]);
             }
         }

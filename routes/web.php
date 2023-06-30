@@ -34,7 +34,7 @@ use PhpParser\Node\Stmt\Return_;
 |
 */
 // 'middleware' => 'admin'
-// 'middleware' => check.permissions:slug
+// 'middleware' => 'project.permission:$slug'
 
 // Main Page Route
 

@@ -4,6 +4,7 @@ namespace App\Http\Middleware;
 
 use Closure;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CheckPermissions
 {
@@ -14,16 +15,20 @@ class CheckPermissions
      * @param  \Closure(\Illuminate\Http\Request): (\Illuminate\Http\Response|\Illuminate\Http\RedirectResponse)  $next
      * @return \Illuminate\Http\Response|\Illuminate\Http\RedirectResponse
      */
-    public function handle($request, Closure $next, ...$permissions)
+    public function handle($request, Closure $next, $permissionSlug)
     {
-        // Get the currently authenticated user
-        $user = auth()->user();
+        // Get the project slug from the request
+        $projectSlug = $request->route('slug');
 
-        if ($user && $user->hasAnyPermission($permissions)) {
+        // Retrieve the authenticated user
+        $user = Auth::user();
+
+        // Check if the user is assigned to the project and has the required permission
+        if ($user && $user->hasPermission($permissionSlug, $projectSlug)) {
             return $next($request);
         }
 
-        // Redirect or return a forbidden response
-        return redirect()->route('dashboard')->with('error', 'Insufficient permissions.');
+        // Redirect or return an error response if the user doesn't have the required permission
+        return redirect()->back()->with('error', 'You do not have permission to access this resource.');
     }
 }

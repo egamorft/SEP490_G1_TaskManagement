@@ -7,6 +7,7 @@ use App\Models\AccountProject;
 use App\Models\PermissionRole;
 use App\Models\Project;
 use App\Models\ProjectRolePermission;
+use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
@@ -57,7 +58,7 @@ class ProjectController extends Controller
         // Check if the slug already exists in the database
         if (Project::where('slug', $project_slug)->exists()) {
             // Slug already exists, create a random string to distinguish
-            $random_string = Str::random(8); // Adjust the length of the random string as needed
+            $random_string = Str::random(6); // Adjust the length of the random string as needed
 
             // Append the random string in reverse order to the slug
             $project_slug = $project_slug . '-' . strrev($random_string);
@@ -79,47 +80,47 @@ class ProjectController extends Controller
          * @return AccountProject table
          */
 
+        $pmRoleId = Role::where('name', 'pm')->pluck('id')->first();
         // Associate pm with the project
-        $pmId = $request->input('modalAddPM');
         AccountProject::create([
             'project_id' => $project->id,
-            'account_id' => $pmId,
+            'account_id' => auth()->user()->id,
+            'role_id' => $pmRoleId
         ]);
 
+        $supervisorRoleId = Role::where('name', 'supervisor')->pluck('id')->first();
         // Associate supervisor with the project
         $supervisorId = $request->input('modalAddSupervisor');
         AccountProject::create([
             'project_id' => $project->id,
             'account_id' => $supervisorId,
+            'role_id' => $supervisorRoleId
         ]);
 
+        $memberRoleId = Role::where('name', 'member')->pluck('id')->first();
         // Associate members with the project
         $memberIds = $request->input('modalAddMembers');
         foreach ($memberIds as $memberId) {
             AccountProject::create([
                 'project_id' => $project->id,
                 'account_id' => $memberId,
+                'role_id' => $memberRoleId
             ]);
         }
 
         /**
-         * Add a record to the database.
-         *
+         * @return PermisisonRole as default
+         * Add a record to the database. 
          * @return ProjectRolePermission table
          */
 
-        $permissionRoles = PermissionRole::whereHas('role', function ($query) {
-            $query->whereIn('name', ['pm', 'supervisor']);
-        })->get();
+        $defaultPermissions = PermissionRole::all();
 
-        foreach ($permissionRoles as $permissionRole) {
-            $roleId = $permissionRole->role_id;
-            $permissionId = $permissionRole->permission_id;
-
-            ProjectRolePermission::created([
+        foreach ($defaultPermissions as $dp) {
+            ProjectRolePermission::create([
                 'project_id' => $project->id,
-                'role_id' => $roleId,
-                'permission_id' => $permissionId,
+                'role_id' => $dp->role_id,
+                'permission_id' => $dp->permission_id,
             ]);
         }
         Session::flash('success', 'Create successfully project ' . $project_name);

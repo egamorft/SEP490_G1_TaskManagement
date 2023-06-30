@@ -21,9 +21,11 @@ return new class extends Migration
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('follower');
             $table->unsignedBigInteger('object_id');
-            $table->text('description');
-            $table->dateTime('created_at');
+            $table->text('description')->nullable();
+            $table->dateTime('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             // $table->timestamps();
+            
+            $table->foreign('sender_id')->references('id')->on('accounts')->onDelete('cascade');
         });
     }
 

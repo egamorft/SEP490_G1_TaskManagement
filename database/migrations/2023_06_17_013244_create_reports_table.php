@@ -20,7 +20,7 @@ return new class extends Migration
             $table->unsignedBigInteger('reported');
             $table->text('image');
             $table->integer('status')->default(0);
-            $table->text('response')->nullable();
+            $table->text('response');
             // $table->timestamps();
 
             $table->foreign('created_by')->references('id')->on('accounts')->onDelete('cascade');

@@ -9,7 +9,7 @@ class Project extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table ='projects';
+    protected $table = 'projects';
     protected $fillable = [
         'name',
         'project_status',
@@ -23,7 +23,13 @@ class Project extends Model
 
     public function accounts()
     {
-        return $this->belongsToMany(Account::class, 'account_project');
+        return $this->belongsToMany(Account::class, 'account_project')
+            ->withPivot('role_id');
+    }
+
+    public function projectRolePermissions()
+    {
+        return $this->hasMany(ProjectRolePermission::class);
     }
 
     public function tasks()

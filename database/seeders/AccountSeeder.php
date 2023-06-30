@@ -34,12 +34,8 @@ class AccountSeeder extends Seeder
                 'token' => null,
                 'is_admin' => $faker->boolean,
                 'status' => $faker->boolean,
-                'deleted_at' => null,
+                'deleted_at' => $faker->randomElement([$faker->date(), null]),
             ]);
-            
-            // Assign random roles to the account
-            $roles = Role::inRandomOrder()->limit(2)->get();
-            $account->roles()->sync($roles->pluck('id'));
         }
     }
 }

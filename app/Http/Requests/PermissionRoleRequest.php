@@ -3,6 +3,7 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Route;
 
 class PermissionRoleRequest extends FormRequest
 {
@@ -24,8 +25,8 @@ class PermissionRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'modalPermissionName' => 'required|max:100|unique:permissions,name',
-            'modalPermissionSlug' => 'required|max:100|unique:permissions,slug',
+            'modalPermissionName' => 'required|max:100',
+            'modalPermissionSlug' => 'required|max:100',
         ];
     }
 }

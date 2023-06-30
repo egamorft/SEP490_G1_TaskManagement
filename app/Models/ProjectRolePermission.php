@@ -18,16 +18,16 @@ class ProjectRolePermission extends Model
 
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function role()
     {
-        return $this->belongsTo(Role::class);
+        return $this->belongsTo(Role::class, 'role_id');
     }
 
     public function permission()
     {
-        return $this->belongsTo(Permission::class);
+        return $this->belongsTo(Permission::class, 'permission_id');
     }
 }

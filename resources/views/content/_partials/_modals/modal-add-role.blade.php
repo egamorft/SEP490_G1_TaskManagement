@@ -26,7 +26,7 @@
                         <div class="table-responsive">
                             <table class="table table-flush-spacing">
                                 <tbody>
-                                    @foreach ($permissions as $p)
+                                    @foreach ($permissionsWithRoles as $p)
                                         <tr>
                                             <td class="text-nowrap fw-bolder">{{ $p->name }}</td>
                                             <td>

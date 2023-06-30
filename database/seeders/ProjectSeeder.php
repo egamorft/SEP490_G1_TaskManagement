@@ -31,12 +31,8 @@ class ProjectSeeder extends Seeder
                 'end_date' => $faker->date(),
                 'description' => $faker->paragraph,
                 'created_at' => $faker->date(),
-                'deleted_at' => null,
+                'deleted_at' => $faker->randomElement([$faker->date(), null]),
             ]);
-
-            // Assign random accounts to the project
-            $accounts = Account::inRandomOrder()->limit(3)->get();
-            $project->accounts()->sync($accounts->pluck('id'));
         }
     }
 }

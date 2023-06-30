@@ -18,19 +18,17 @@ class ProjectRolePermissionSeeder extends Seeder
      */
     public function run()
     {
-        $projects = Project::all();
-        $permissions = Permission::all();
-        $roles = Role::all();
+        $projects = Project::pluck('id')->toArray();
+        $roles = Role::pluck('id')->toArray();
+        $permissions = Permission::pluck('id')->toArray();
 
         foreach ($projects as $project) {
-            $randomRoles = $roles->random(3);
-            foreach ($randomRoles as $role) {
-                $randomPermissions = $permissions->random(3);
-                foreach ($randomPermissions as $permission) {
+            foreach ($roles as $role) {
+                foreach ($permissions as $permission) {
                     ProjectRolePermission::create([
-                        'project_id' => $project->id,
-                        'role_id' => $role->id,
-                        'permission_id' => $permission->id,
+                        'project_id' => $project,
+                        'role_id' => $role,
+                        'permission_id' => $permission,
                     ]);
                 }
             }
