@@ -260,18 +260,32 @@ $(document).ready(function () {
       method: method,
       data: _token,
       dataType: 'json',
+      beforeSend: function () {
+        $('#spinnerBtnProject').show();
+        $('#submitBtnProject').hide();
+        $('#resetBtnProject').hide();
+      },
       success: function (response) {
         // handle success
-        location.reload();
-      },
-      error: function (xhr, status, error) {
-        var response = JSON.parse(xhr.responseText);
-        var errors = response.errors;
-        for (var key in errors) {
-          $('#' + key).addClass(' is-invalid');
-          $('#error-' + key).show();
-          $('#error-' + key).text(errors[key][0])
+        if (response.success) {
+          location.reload();
         }
+      },
+      error: function (response) {
+
+        setTimeout(function () {
+          $('#spinnerBtnProject').hide();
+          $('#submitBtnProject').show();
+          $('#resetBtnProject').show();
+          if (response.status == 422) {
+            var errors = response.responseJSON.errors;
+            for (var key in errors) {
+              $('#' + key).addClass(' is-invalid');
+              $('#error-' + key).show();
+              $('#error-' + key).text(errors[key][0])
+            }
+          }
+        }, 500);
       }
     });
   });

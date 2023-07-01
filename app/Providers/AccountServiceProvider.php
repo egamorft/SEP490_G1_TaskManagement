@@ -26,7 +26,7 @@ class AccountServiceProvider extends ServiceProvider
     public function boot()
     {
         View::composer('content._partials._modals.modal-add-new-project', function ($view) {
-            $accounts = Account::all();
+            $accounts = Account::all()->where('is_admin', 0);
             $supervisors = $accounts->filter(function ($account) {
                 return strpos($account->email, '@fe.edu.vn') !== false;
             });
