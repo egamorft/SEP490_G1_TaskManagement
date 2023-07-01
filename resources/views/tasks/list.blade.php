@@ -54,9 +54,8 @@
 										</p>
 										<div class="collapse show" id="collapseUncategorized">
 											<li class="todo-item">
-												<div class="todo-title-wrapper">
+												<a href="{{$project->slug}}/tasks/0" class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck5" />
@@ -75,12 +74,11 @@
 															<div class="avatar-content">LM</div>
 														</div>
 													</div>
-												</div>
+												</a>
 											</li>
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck6" />
@@ -106,7 +104,6 @@
 											<li class="todo-item completed">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck7" checked />
@@ -131,7 +128,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck8" />
@@ -156,7 +152,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck9" />
@@ -178,7 +173,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck10" />
@@ -202,7 +196,6 @@
 											<li class="todo-item completed">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck11" checked />
@@ -223,7 +216,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck12" />
@@ -248,7 +240,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck13" />
@@ -270,7 +261,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck1" />
@@ -294,7 +284,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck2" />
@@ -319,7 +308,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck3" />
@@ -354,7 +342,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck1" />
@@ -378,7 +365,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck2" />
@@ -403,7 +389,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck3" />
@@ -438,7 +423,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck1" />
@@ -462,7 +446,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck2" />
@@ -487,7 +470,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck3" />
@@ -513,7 +495,6 @@
 											<li class="todo-item">
 												<div class="todo-title-wrapper">
 													<div class="todo-title-area">
-														<i data-feather="more-vertical" class="drag-icon"></i>
 														<div class="title-wrapper">
 															<div class="form-check">
 																<input type="checkbox" class="form-check-input" id="customCheck1" />
@@ -534,108 +515,103 @@
 													</div>
 												</div>
 											</li>
-
-
+											<li class="todo-item completed">
+												<div class="todo-title-wrapper">
+													<div class="todo-title-area">
+														<div class="title-wrapper">
+															<div class="form-check">
+																<input type="checkbox" class="form-check-input" id="customCheck4" checked />
+																<label class="form-check-label" for="customCheck4"></label>
+															</div>
+															<span class="todo-title">Skype Tommy for project status &
+																report</span>
+														</div>
+													</div>
+													<div class="todo-item-action">
+														<div class="badge-wrapper me-1">
+															{{-- <span class="badge rounded-pill badge-light-danger">High</span> --}}
+														</div>
+														<small class="text-nowrap text-muted me-1">Aug 18</small>
+														<div class="avatar">
+															<img src="{{ asset('images/portrait/small/avatar-s-8.jpg') }}" alt="user-avatar" height="32" width="32" />
+														</div>
+													</div>
+												</div>
+											</li>
+											<li class="todo-item completed">
+												<div class="todo-title-wrapper">
+													<div class="todo-title-area">
+														<div class="title-wrapper">
+															<div class="form-check">
+																<input type="checkbox" class="form-check-input" id="customCheck14" checked />
+																<label class="form-check-label" for="customCheck14"></label>
+															</div>
+															<span class="todo-title">Test functionality of apps developed by
+																dev team for enhancements.
+															</span>
+														</div>
+													</div>
+													<div class="todo-item-action">
+														<div class="badge-wrapper me-1">
+															{{-- <span class="badge rounded-pill badge-light-danger">High</span> --}}
+														</div>
+														<small class="text-nowrap text-muted me-1">Sept 07</small>
+														<div class="avatar bg-light-info">
+															<div class="avatar-content">VB</div>
+														</div>
+													</div>
+												</div>
+											</li>
+											<li class="todo-item">
+												<div class="todo-title-wrapper">
+													<div class="todo-title-area">
+														<div class="title-wrapper">
+															<div class="form-check">
+																<input type="checkbox" class="form-check-input" id="customCheck15" />
+																<label class="form-check-label" for="customCheck15"></label>
+															</div>
+															<span class="todo-title">Answer the support tickets and close
+																completed tickets. </span>
+														</div>
+													</div>
+													<div class="todo-item-action">
+														<div class="badge-wrapper me-1">
+															{{-- <span class="badge rounded-pill badge-light-primary">Frontend</span> --}}
+														</div>
+														<small class="text-nowrap text-muted me-1">Sept 12</small>
+														<div class="avatar bg-light-success">
+															<div class="avatar-content">SW</div>
+														</div>
+													</div>
+												</div>
+											</li>
+											<li class="todo-item">
+												<div class="todo-title-wrapper">
+													<div class="todo-title-area">
+														<div class="title-wrapper">
+															<div class="form-check">
+																<input type="checkbox" class="form-check-input" id="customCheck16" />
+																<label class="form-check-label" for="customCheck16"></label>
+															</div>
+															<span class="todo-title">Meet Jane and ask for coffee ❤️</span>
+														</div>
+													</div>
+													<div class="todo-item-action">
+														<div class="badge-wrapper me-1">
+															{{-- <span class="badge rounded-pill badge-light-info">Update</span> --}}
+															{{-- <span class="badge rounded-pill badge-light-warning">Medium</span> --}}
+															{{-- <span class="badge rounded-pill badge-light-success">Low</span> --}}
+														</div>
+														<small class="text-nowrap text-muted me-1">Aug 10</small>
+														<div class="avatar">
+															<img src="{{ asset('images/portrait/small/avatar-s-2.jpg') }}" alt="user-avatar" height="32" width="32" />
+														</div>
+													</div>
+												</div>
+											</li>
 										</div>
 									</div>
-									<li class="todo-item completed">
-										<div class="todo-title-wrapper">
-											<div class="todo-title-area">
-												<i data-feather="more-vertical" class="drag-icon"></i>
-												<div class="title-wrapper">
-													<div class="form-check">
-														<input type="checkbox" class="form-check-input" id="customCheck4" checked />
-														<label class="form-check-label" for="customCheck4"></label>
-													</div>
-													<span class="todo-title">Skype Tommy for project status &
-														report</span>
-												</div>
-											</div>
-											<div class="todo-item-action">
-												<div class="badge-wrapper me-1">
-													{{-- <span class="badge rounded-pill badge-light-danger">High</span> --}}
-												</div>
-												<small class="text-nowrap text-muted me-1">Aug 18</small>
-												<div class="avatar">
-													<img src="{{ asset('images/portrait/small/avatar-s-8.jpg') }}" alt="user-avatar" height="32" width="32" />
-												</div>
-											</div>
-										</div>
-									</li>
-									<li class="todo-item completed">
-										<div class="todo-title-wrapper">
-											<div class="todo-title-area">
-												<i data-feather="more-vertical" class="drag-icon"></i>
-												<div class="title-wrapper">
-													<div class="form-check">
-														<input type="checkbox" class="form-check-input" id="customCheck14" checked />
-														<label class="form-check-label" for="customCheck14"></label>
-													</div>
-													<span class="todo-title">Test functionality of apps developed by
-														dev team for enhancements.
-													</span>
-												</div>
-											</div>
-											<div class="todo-item-action">
-												<div class="badge-wrapper me-1">
-													{{-- <span class="badge rounded-pill badge-light-danger">High</span> --}}
-												</div>
-												<small class="text-nowrap text-muted me-1">Sept 07</small>
-												<div class="avatar bg-light-info">
-													<div class="avatar-content">VB</div>
-												</div>
-											</div>
-										</div>
-									</li>
-									<li class="todo-item">
-										<div class="todo-title-wrapper">
-											<div class="todo-title-area">
-												<i data-feather="more-vertical" class="drag-icon"></i>
-												<div class="title-wrapper">
-													<div class="form-check">
-														<input type="checkbox" class="form-check-input" id="customCheck15" />
-														<label class="form-check-label" for="customCheck15"></label>
-													</div>
-													<span class="todo-title">Answer the support tickets and close
-														completed tickets. </span>
-												</div>
-											</div>
-											<div class="todo-item-action">
-												<div class="badge-wrapper me-1">
-													{{-- <span class="badge rounded-pill badge-light-primary">Frontend</span> --}}
-												</div>
-												<small class="text-nowrap text-muted me-1">Sept 12</small>
-												<div class="avatar bg-light-success">
-													<div class="avatar-content">SW</div>
-												</div>
-											</div>
-										</div>
-									</li>
-									<li class="todo-item">
-										<div class="todo-title-wrapper">
-											<div class="todo-title-area">
-												<i data-feather="more-vertical" class="drag-icon"></i>
-												<div class="title-wrapper">
-													<div class="form-check">
-														<input type="checkbox" class="form-check-input" id="customCheck16" />
-														<label class="form-check-label" for="customCheck16"></label>
-													</div>
-													<span class="todo-title">Meet Jane and ask for coffee ❤️</span>
-												</div>
-											</div>
-											<div class="todo-item-action">
-												<div class="badge-wrapper me-1">
-													{{-- <span class="badge rounded-pill badge-light-info">Update</span> --}}
-													{{-- <span class="badge rounded-pill badge-light-warning">Medium</span> --}}
-													{{-- <span class="badge rounded-pill badge-light-success">Low</span> --}}
-												</div>
-												<small class="text-nowrap text-muted me-1">Aug 10</small>
-												<div class="avatar">
-													<img src="{{ asset('images/portrait/small/avatar-s-2.jpg') }}" alt="user-avatar" height="32" width="32" />
-												</div>
-											</div>
-										</div>
-									</li>
+
 								</ul>
 								<div class="no-results">
 									<h5>No Items Found</h5>

@@ -92,6 +92,8 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{slug}/calendar', [ProjectsController::class, 'calendar'])->name('index');
 		Route::get('{slug}/report', [ProjectsController::class, 'report'])->name('report');
 		Route::get('{slug}/settings', [ProjectsController::class, 'settings'])->name('settings');
+
+		Route::get('{slug}/tasks/{id}', [TasksController::class, 'index'])->name('settings');
     });
 
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
