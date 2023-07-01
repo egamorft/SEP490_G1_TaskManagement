@@ -3,7 +3,7 @@
 	<div class="app-calendar overflow-hidden border">
 	  <div class="row g-0">
 		<!-- Sidebar -->
-		<div class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column" id="app-calendar-sidebar">
+		<!-- <div class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column" id="app-calendar-sidebar">
 		  <div class="sidebar-wrapper">
 			<div class="card-body d-flex justify-content-center">
 			  <button
@@ -71,8 +71,9 @@
 			  class="img-fluid"
 			/>
 		  </div>
-		</div>
+		</div> -->
 		<!-- /Sidebar -->
+		@include('tasks.filter')
   
 		<!-- Calendar -->
 		<div class="col position-relative">

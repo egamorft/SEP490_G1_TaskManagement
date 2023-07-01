@@ -37,7 +37,7 @@
                 <label class="form-check-label" for="select-all">View All</label>
             </div>
             <div class="calendar-events-filter">
-                <div class="form-check form-check-danger mb-1">
+                <div class="form-check form-check-info mb-1">
                     <input type="checkbox" class="form-check-input input-filter" id="personal" data-value="personal"
                         checked />
                     <label class="form-check-label" for="personal">Todo</label>
@@ -52,21 +52,22 @@
                         checked />
                     <label class="form-check-label" for="family">Reviewing</label>
                 </div>
-                <div class="form-check form-check-success mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="holiday" data-value="holiday"
-                        checked />
-                    <label class="form-check-label" for="holiday">Overdue</label>
-                </div>
 				<div class="form-check form-check-success mb-1">
                     <input type="checkbox" class="form-check-input input-filter" id="holiday" data-value="holiday"
                         checked />
                     <label class="form-check-label" for="holiday">Done Ontime</label>
                 </div>
-				<div class="form-check form-check-info">
+				<div class="form-check form-check-secondary mb-1">
                     <input type="checkbox" class="form-check-input input-filter" id="etc" data-value="etc"
                         checked />
                     <label class="form-check-label" for="etc">Done Late</label>
                 </div>
+                <div class="form-check form-check-danger mb-1">
+                    <input type="checkbox" class="form-check-input input-filter" id="holiday" data-value="holiday"
+                        checked />
+                    <label class="form-check-label" for="holiday">Overdue</label>
+                </div>
+
             </div>
         </div>
     </div>

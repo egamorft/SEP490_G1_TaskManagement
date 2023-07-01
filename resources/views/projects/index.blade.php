@@ -23,6 +23,10 @@
 
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/charts/apexcharts.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
+
+	<link rel="stylesheet" href="{{ asset(mix('vendors/css/charts/apexcharts.css')) }}">
+	  <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/toastr.min.css')) }}">
+
 @endsection
 
 @section('page-style')

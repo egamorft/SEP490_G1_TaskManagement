@@ -30,6 +30,7 @@ $(window).on('load', function () {
   var $browserStateChartSecondary = document.querySelector('#browser-state-chart-secondary');
   var $browserStateChartInfo = document.querySelector('#browser-state-chart-info');
   var $browserStateChartDanger = document.querySelector('#browser-state-chart-danger');
+  var $browserStateChartSuccess = document.querySelector('#browser-state-chart-success');
   var $goalOverviewChart = document.querySelector('#goal-overview-radial-bar-chart');
 
   var statisticsOrderChartOptions;
@@ -42,6 +43,7 @@ $(window).on('load', function () {
   var browserStateSecondaryChartOptions;
   var browserStateInfoChartOptions;
   var browserStateDangerChartOptions;
+  var browserStateSuccessChartOptions;
   var goalOverviewChartOptions;
 
   var statisticsOrderChart;
@@ -51,6 +53,7 @@ $(window).on('load', function () {
   var budgetChart;
   var browserStatePrimaryChart;
   var browserStateDangerChart;
+  var browserStateSuccessChart;
   var browserStateInfoChart;
   var browserStateSecondaryChart;
   var browserStateWarningChart;
@@ -656,6 +659,50 @@ $(window).on('load', function () {
   };
   browserStateDangerChart = new ApexCharts($browserStateChartDanger, browserStateDangerChartOptions);
   browserStateDangerChart.render();
+
+   // State Success Chart
+   browserStateSuccessChartOptions = {
+    chart: {
+      height: 30,
+      width: 30,
+      type: 'radialBar'
+    },
+    grid: {
+      show: false,
+      padding: {
+        left: -15,
+        right: -15,
+        top: -12,
+        bottom: -15
+      }
+    },
+    colors: [window.colors.solid.success],
+    series: [8.4],
+    plotOptions: {
+      radialBar: {
+        hollow: {
+          size: '22%'
+        },
+        track: {
+          background: $trackBgColor
+        },
+        dataLabels: {
+          showOn: 'always',
+          name: {
+            show: false
+          },
+          value: {
+            show: false
+          }
+        }
+      }
+    },
+    stroke: {
+      lineCap: 'round'
+    }
+  };
+  browserStateSuccessChart = new ApexCharts($browserStateChartSuccess, browserStateSuccessChartOptions);
+  browserStateSuccessChart.render();
 
   //------------ Goal Overview Chart ------------
   //---------------------------------------------
