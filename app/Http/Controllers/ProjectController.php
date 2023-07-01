@@ -17,6 +17,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
+use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
@@ -381,9 +382,15 @@ class ProjectController extends Controller
      */
     public function invite_email(Request $request)
     {
+        $loggedInUserEmail = Auth::user()->email;
         //Handle the invitation to email
         $validatedData = $request->validate([
-            'modalInviteEmail' => ['required', 'email', 'exists:accounts,email'],
+            'modalInviteEmail' => [
+                'required', 'email',
+                Rule::exists('accounts', 'email')->where(function ($query) use ($loggedInUserEmail) {
+                    $query->where('email', '!=', $loggedInUserEmail);
+                }),
+            ],
             'modalInviteToken' => 'nullable',
             'modalInviteSlug' => 'nullable'
         ]);

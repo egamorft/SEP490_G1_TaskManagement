@@ -29,7 +29,7 @@ class ProjectsComposerServiceProvider extends ServiceProvider
         View::composer('panels.sidebar', function ($view) {
             $account = Auth::user();
             if($account){
-                $projects = $account->projects;
+                $projects = $account->projects()->wherePivot('status', 1)->get();
                 $view->with('projects', $projects);
             }else{
                 $view->with('projects', []);

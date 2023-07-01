@@ -160,6 +160,7 @@
                             <span>My project</span>
                             <i data-feather="more-horizontal"></i>
                         </li>
+                        {{-- Project List --}}
                         @foreach ($projects as $p)
                             @php
                                 $logo = Str::substr($p->name, 0, 1) . '.png';
