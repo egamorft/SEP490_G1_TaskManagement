@@ -86,6 +86,8 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['prefix' => 'project'], function () {
         Route::get('{slug}', [ProjectController::class, 'index'])->name('project.settings');
         Route::post('update-information/{id}', [ProjectController::class, 'update'])->name('project.update');
+        Route::get('invite/{slug}/{token}', [ProjectController::class, 'show'])->name('project.invite');
+        Route::post('invitation/{slug}/{token}', [ProjectController::class, 'invitation'])->name('invitation.submit');
     });
 
     Route::post('/log-out', function () {

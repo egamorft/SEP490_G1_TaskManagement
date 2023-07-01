@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
+use App\Mail\ProjectInvitation;
 use App\Models\Account;
 use App\Models\AccountProject;
 use App\Models\PermissionRole;
@@ -11,6 +12,7 @@ use App\Models\ProjectRolePermission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 
@@ -72,6 +74,7 @@ class ProjectController extends Controller
             // Append the random string in reverse order to the slug
             $project_slug = $project_slug . '-' . strrev($random_string);
         }
+        $project_token = Str::uuid()->toString();
 
         $project = Project::create([
             'name' => $project_name,
@@ -80,6 +83,7 @@ class ProjectController extends Controller
             'start_date' => $startDate,
             'end_date' => $endDate,
             'description' => $request->input('modalAddDesc'),
+            'token' => $project_token,
             'created_at' => Carbon::now(),
         ]);
 
@@ -94,7 +98,8 @@ class ProjectController extends Controller
         AccountProject::create([
             'project_id' => $project->id,
             'account_id' => auth()->user()->id,
-            'role_id' => $pmRoleId
+            'role_id' => $pmRoleId,
+            'status' => 1
         ]);
 
         $supervisorRoleId = Role::where('name', 'supervisor')->pluck('id')->first();
@@ -103,8 +108,11 @@ class ProjectController extends Controller
         AccountProject::create([
             'project_id' => $project->id,
             'account_id' => $supervisorId,
-            'role_id' => $supervisorRoleId
+            'role_id' => $supervisorRoleId,
+            'status' => 0
         ]);
+        $supervisor = Account::find($supervisorId);
+        Mail::to($supervisor->email)->send(new ProjectInvitation($project_slug, $project_token, $project_name, $supervisor->fullname, 'Supervisor'));
 
         $memberRoleId = Role::where('name', 'member')->pluck('id')->first();
         // Associate members with the project
@@ -113,8 +121,11 @@ class ProjectController extends Controller
             AccountProject::create([
                 'project_id' => $project->id,
                 'account_id' => $memberId,
-                'role_id' => $memberRoleId
+                'role_id' => $memberRoleId,
+                'status' => 0
             ]);
+            $member = Account::find($memberId);
+            Mail::to($member->email)->send(new ProjectInvitation($project_slug, $project_token, $project_name, $member->fullname, 'Member'));
         }
 
         /**
@@ -140,12 +151,61 @@ class ProjectController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $slug
+     * @param  string  $token
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($slug, $token)
     {
-        //
+        //Invitation page
+        $project = Project::where('slug', $slug)->where('token', $token)->first();
+
+        $accountId = Auth::user()->id;
+        $check_account_project_invitation_valid = AccountProject::where('project_id', $project->id)
+            ->where('account_id', $accountId)->where('status', 0)
+            ->first();
+
+        if ($check_account_project_invitation_valid) {
+            if ($project) {
+
+                //Get members in project
+                $accounts = $project->accounts()->wherePivot('status', 1)->withPivot('role_id')->get();
+                $accountsInProject = [];
+
+                foreach ($accounts as $account) {
+                    $roleId = $account->pivot->role_id;
+                    $role = Role::find($roleId);
+
+                    if ($role) {
+                        $roleName = $role->name;
+                        $accountName = $account->fullname;
+                        $accountEmail = $account->email;
+                        $accountAvatar = $account->avatar;
+
+                        $accountsInProject[] = [
+                            'accountEmail' => $accountEmail,
+                            'accountName' => $accountName,
+                            'accountAvatar' => $accountAvatar,
+                            'roleName' => $roleName,
+                        ];
+                    }
+                }
+
+                //Get total members in project
+                $totalAccounts = AccountProject::where('project_id', $project->id)->where('status', 1)->count();
+
+                return view('content.project.app-project-invitation')
+                    ->with(compact(
+                        'project',
+                        'accountsInProject',
+                        'totalAccounts'
+                    ));
+            } else {
+                abort(404);
+            }
+        } else {
+            abort(404);
+        }
     }
 
     /**
@@ -229,5 +289,49 @@ class ProjectController extends Controller
             'start_date' => $startDate,
             'end_date' => $endDate,
         ];
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function invitation(Request $request, $slug, $token)
+    {
+        //Handle the invitation submit
+        $project = Project::where('slug', $slug)->where('token', $token)->first();
+        $accountId = Auth::user()->id;
+        if ($project) {
+            $accountProject = AccountProject::where('project_id', $project->id)
+                ->where('account_id', $accountId)
+                ->first();
+            if ($accountProject) {
+                if ($request->input('approve') == 1) {
+                    $accountProject->status = 1;
+                    $accountProject->save();
+                    Session::flash('success', 'You have success to join the ' . $project->name);
+                    // Return a response indicating the success of the operation
+                    return redirect(url('/project/' . $project->slug));
+                } elseif ($request->input('decline') == 1) {
+                    $accountProject->status = -1;
+                    $accountProject->save();
+                    Session::flash('success', 'You have decline the invitation');
+                    // Return a response indicating the success of the operation
+                    return redirect()->route('dashboard');
+                } else {
+                    Session::flash('error', 'Something went wrong');
+                    return redirect()->back();
+                }
+                // Perform any additional actions or return a response as needed
+            } else {
+                Session::flash('error', 'Something went wrong');
+                return redirect()->back();
+            }
+        } else {
+            Session::flash('error', 'Something went wrong or this invitation is expired');
+            return redirect()->back();
+        }
     }
 }

@@ -33,7 +33,7 @@
                             </div>
                             <div class="text-center">
                                 <h6 class="fw-bolder mb-1">Send Invitation 🤟🏻</h6>
-                                <p>Send your referral link to your friend</p>
+                                <p>Send your referral link to your member</p>
                             </div>
                         </div>
                         <div class="col-12 col-lg-4">
@@ -74,8 +74,8 @@
                                 </div>
                             </div>
                             <div class="text-center">
-                                <h6 class="fw-bolder mb-1">Free Trial 🎉</h6>
-                                <p>Your friend will get 30 days free trial</p>
+                                <h6 class="fw-bolder mb-1">Joining team 🎉</h6>
+                                <p>Your teammate will accept/ decline the invitation</p>
                             </div>
                         </div>
                     </div>
@@ -84,11 +84,11 @@
                 <hr />
 
                 <div class="px-sm-5 mx-50">
-                    <h4 class="fw-bolder mt-5 mb-1">Invite your friends</h4>
+                    <h4 class="fw-bolder mt-5 mb-1">Invite your teammate</h4>
                     <form class="row g-1" onsubmit="return false">
                         <div class="col-lg-10">
                             <label class="form-label" for="modalRnFEmail">
-                                Enter your friend’s email address and invite them to join Vuexy 😍
+                                Enter your teammate email address and invite them to join FTask 😍
                             </label>
                             <input type="text" id="modalRnFEmail" class="form-control"
                                 placeholder="example@domain.com" aria-label="example@domain.com" />
@@ -106,19 +106,19 @@
                             </label>
                             <div class="input-group input-group-merge">
                                 <input type="text" id="copy-to-clipboard-input" class="form-control"
-                                    value="{{url('project/invite/' . $project->token)}}" />
-                                    <button class="btn btn-outline-primary" id="btn-copy">Copy!</button>
+                                    value="{{ url('project/invite/' . $project->slug . '/' . $project->token) }}" />
+                                <button class="btn btn-outline-primary" id="btn-copy">Copy!</button>
                             </div>
                         </div>
                         <div class="col-lg-3 d-flex align-items-end">
                             <div class="social-btns">
                                 <button type="button" class="btn btn-icon btn-facebook me-50">
                                     <a style="color: white" target="_blank"
-                                        href="https://www.facebook.com/sharer/sharer.php?u={{url('project/invite/' . $project->token)}}&amp;src=sdkpreparse"
+                                        href="https://www.facebook.com/sharer/sharer.php?u={{ url('project/invite/' . $project->token) }}&amp;src=sdkpreparse"
                                         class="fb-xfbml-parse-ignore">
                                         <i data-feather="facebook" class="font-medium-2"></i>
                                         <div class="fb-share-button"
-                                            data-href="{{url('project/invite/' . $project->token)}}" data-layout=""
+                                            data-href="{{ url('project/invite/' . $project->token) }}" data-layout=""
                                             data-size=""></div>
                                     </a>
                                 </button>

@@ -25,10 +25,10 @@ class Account extends Model implements Authenticatable
         'deleted_at',
     ];
 
-    public function roles()
-    {
-        return $this->belongsToMany(Role::class, 'account_role');
-    }
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class, 'account_role');
+    // }
 
     public function projects()
     {
