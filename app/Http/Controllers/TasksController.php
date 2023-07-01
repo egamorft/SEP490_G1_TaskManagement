@@ -52,7 +52,7 @@ class TasksController extends Controller
         Task::create($task);
 
         Session::flash('success', "Create Task successfully!");
-        return redirect()->route("layouts/tasks/create");
+        return redirect()->route("layouts/tasks");
         // return response()->json(['success' => true, "message" => "Task created"]);
     }
 
@@ -63,9 +63,9 @@ class TasksController extends Controller
     public function update(TasksRequest $request, $id) {
         $task = Task::findOrFail($id);
         
-        $task->name = $request->input("name");
-        $task->limitation = $request->input("limitation");
-        $task->description = $request->input("description");
+        $task->name = $request->input("task_name");
+        $task->limitation = $request->input("task_limitation");
+        $task->description = $request->input("task_description");
 
         $task->save();
 
@@ -86,5 +86,6 @@ class TasksController extends Controller
         $user = Auth::user();
         
         // $account_role = 
+        return false;
     }
 }
