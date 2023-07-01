@@ -85,16 +85,25 @@
 
                 <div class="px-sm-5 mx-50">
                     <h4 class="fw-bolder mt-5 mb-1">Invite your teammate</h4>
-                    <form class="row g-1" onsubmit="return false">
+                    <form id="modalInviteForm" class="row g-1" action="{{ route('invite.member') }}" method="POST">
+                        @csrf
                         <div class="col-lg-10">
-                            <label class="form-label" for="modalRnFEmail">
+                            <label class="form-label" for="modalInviteEmail">
                                 Enter your teammate email address and invite them to join FTask 😍
                             </label>
-                            <input type="text" id="modalRnFEmail" class="form-control"
-                                placeholder="example@domain.com" aria-label="example@domain.com" />
+                            <input type="hidden" name="modalInviteToken" value="{{ $project->token }}">
+                            <input type="hidden" name="modalInviteSlug" value="{{ $project->slug }}">
+                            <input type="text" id="modalInviteEmail" class="form-control" name="modalInviteEmail"
+                                placeholder="Enter your teammate email" aria-label="example@domain.com" />
+                            <span id="error-modalInviteEmail" style="color: red; display: none"></span>
                         </div>
                         <div class="col-lg-2 d-flex align-items-end">
-                            <button type="button" class="btn btn-primary w-100">Send</button>
+                            <button style="display: none" id="spinnerBtnInvite"
+                                class="btn btn-outline-primary waves-effect w-100" type="button" disabled="">
+                                <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                                <span class="visually-hidden">Loading...</span>
+                            </button>
+                            <button type="submit" id="submitBtnInvite" class="btn btn-primary w-100">Send</button>
                         </div>
                     </form>
 

@@ -11,6 +11,7 @@ use App\Models\Project;
 use App\Models\ProjectRolePermission;
 use App\Models\Role;
 use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
@@ -32,6 +33,19 @@ class ProjectController extends Controller
         $pmAccount = Project::findOrFail($project->id)->accountsWithRole("pm")->first();
         $supervisorAccount = Project::findOrFail($project->id)->accountsWithRole("supervisor")->first();
         $memberAccount = Project::findOrFail($project->id)->accountsWithRole("member")->get();
+
+        // //Get all account not in project and active
+        // $excludedAccounts = [$pmAccount->id, $supervisorAccount->id];
+        // $excludedAccounts = array_merge($excludedAccounts, $memberAccount->pluck('id')->toArray());
+
+        // $accountsBeside = Account::whereNotIn('id', $excludedAccounts)
+        //     ->where('is_admin', 0)
+        //     ->where('status', 1)
+        //     ->whereNull('deleted_at')
+        //     ->get();
+        // $accountsNotInProject = $accountsBeside->filter(function ($account) {
+        //     return strpos($account->email, '@fe.edu.vn') === false;
+        // });
 
         return view('content.components.component-tabs')
             ->with(compact(
@@ -333,6 +347,52 @@ class ProjectController extends Controller
         } else {
             Session::flash('error', 'Something went wrong or this invitation is expired');
             return redirect()->back();
+        }
+    }
+
+    /**
+     * Update the specified resource in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @param  int  $id
+     * @return \Illuminate\Http\Response
+     */
+    public function invite_email(Request $request)
+    {
+        //Handle the invitation to email
+        $validatedData = $request->validate([
+            'modalInviteEmail' => ['required', 'email', 'exists:accounts,email'],
+            'modalInviteToken' => 'nullable',
+            'modalInviteSlug' => 'nullable'
+        ]);
+        $project_slug = $validatedData['modalInviteSlug'];
+        $project_token = $validatedData['modalInviteToken'];
+
+        $project = Project::where('slug', $project_slug)->where('token', $project_token)->first();
+        $invitedAccount = Account::where('email', $validatedData['modalInviteEmail'])->first();
+        if (
+            $invitedAccount &&
+            $invitedAccount->is_admin == 0 &&
+            $invitedAccount->status == 1 &&
+            $invitedAccount->deleted_at == null
+        ) {
+            $memberRoleId = Role::where('name', 'member')->pluck('id')->first();
+
+            AccountProject::create([
+                'project_id' => $project->id,
+                'account_id' => $invitedAccount->id,
+                'role_id' => $memberRoleId,
+                'status' => 0
+            ]);
+
+            Mail::to($invitedAccount->email)->send(new ProjectInvitation($project_slug, $project_token, $project->name, $invitedAccount->fullname, 'Member'));
+
+            Session::flash('success', 'Successfully invite ' . $invitedAccount->fullname);
+            // Return a response indicating the success of the operation
+            return response()->json(['success' => true]);
+        } else {
+            // Return a response indicating the success of the operation
+            return response()->json(['message' => 'Something went wrong with ' . $invitedAccount->fullname . ' account'], Response::HTTP_BAD_REQUEST);
         }
     }
 }
