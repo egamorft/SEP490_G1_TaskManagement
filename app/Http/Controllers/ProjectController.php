@@ -30,9 +30,29 @@ class ProjectController extends Controller
         $project = Project::where('slug', $slug)->first();
         $accounts = $project->accounts()->get();
 
-        $pmAccount = Project::findOrFail($project->id)->accountsWithRole("pm")->first();
-        $supervisorAccount = Project::findOrFail($project->id)->accountsWithRole("supervisor")->first();
-        $memberAccount = Project::findOrFail($project->id)->accountsWithRole("member")->get();
+        $pmAccount = Project::findOrFail($project->id)->accountsWithRole("pm")
+            ->whereHas('accountProject', function ($query) {
+                $query->where('status', 1);
+            })->first();
+        $supervisorAccount = Project::findOrFail($project->id)->accountsWithRole("supervisor")
+            ->whereHas('accountProject', function ($query) {
+                $query->where('status', 1);
+            })->first();
+
+        $pendingSupervisorAccount = Project::findOrFail($project->id)->accountsWithRole("supervisor")
+            ->whereHas('accountProject', function ($query) {
+                $query->where('status', 0);
+            })->first();
+
+        $memberAccount = Project::findOrFail($project->id)->accountsWithRole("member")
+            ->whereHas('accountProject', function ($query) {
+                $query->where('status', 1);
+            })->get();
+
+        $pendingInvitedMemberAccount = Project::findOrFail($project->id)->accountsWithRole("member")
+            ->whereHas('accountProject', function ($query) {
+                $query->where('status', 0);
+            })->get();
 
         // //Get all account not in project and active
         // $excludedAccounts = [$pmAccount->id, $supervisorAccount->id];
@@ -52,7 +72,9 @@ class ProjectController extends Controller
                 'project',
                 'pmAccount',
                 'supervisorAccount',
-                'memberAccount'
+                'memberAccount',
+                'pendingInvitedMemberAccount',
+                'pendingSupervisorAccount'
             ));
     }
 

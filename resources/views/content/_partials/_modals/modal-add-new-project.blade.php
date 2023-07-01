@@ -46,11 +46,9 @@
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="select2-limited">Project Member</label>
                         <select name="modalAddMembers[]" class="max-length form-select" id="select2-limited" multiple>
-                            @forelse ($students as $acc)
+                            @foreach ($students as $acc)
                                 <option value="{{ $acc->id }}">{{ $acc->fullname }} - {{ $acc->email }}</option>
-                            @empty
-                                <option value="" selected disabled>No data available</option>
-                            @endforelse
+                            @endforeach
                         </select>
                         <span id="error-modalAddMembers" style="color: red; display: none"></span>
                     </div>
@@ -66,14 +64,14 @@
                             placeholder="Enter project description"></textarea>
                     </div>
                     <div class="col-12 text-center mt-2 pt-50">
-                        <button style="display: none" id="spinnerBtnProject" class="btn btn-outline-primary waves-effect"
-                            type="button" disabled="">
+                        <button style="display: none" id="spinnerBtnProject"
+                            class="btn btn-outline-primary waves-effect" type="button" disabled="">
                             <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                             <span class="ms-25 align-middle">Loading...</span>
                         </button>
                         <button type="submit" id="submitBtnProject" class="btn btn-primary me-1">Submit</button>
-                        <button type="reset" id="resetBtnProject" class="btn btn-outline-secondary" data-bs-dismiss="modal"
-                            aria-label="Close">
+                        <button type="reset" id="resetBtnProject" class="btn btn-outline-secondary"
+                            data-bs-dismiss="modal" aria-label="Close">
                             Discard
                         </button>
                     </div>

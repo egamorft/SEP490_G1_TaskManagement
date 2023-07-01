@@ -22,6 +22,12 @@ class Project extends Model
         'deleted_at',
     ];
 
+    public function accountProject()
+    {
+        return $this->belongsToMany(Account::class, 'account_project')
+            ->withPivot('status');
+    }
+
     public function accountsWithRole($roleName)
     {
         return $this->belongsToMany(Account::class, 'account_project')
