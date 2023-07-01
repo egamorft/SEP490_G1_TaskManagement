@@ -19,6 +19,7 @@ use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\SendMailController;
+use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
 
@@ -119,6 +120,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('edit-permissions/{id}', [AdminAccessController::class, 'edit'])->name('edit.permissions');
         Route::get('get-specific-permission', [AdminAccessController::class, 'show'])->name('permission.show');
         Route::delete('remove-permission-role/{id}', [AdminAccessController::class, 'remove'])->name('remove.permission.role');
+
 
     });
     /* Route Admin */
@@ -316,3 +318,8 @@ Route::middleware(['auth'])->group(function () {
 });
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
+
+Route::get("tasks/{id}", [TasksController::class, 'index'])->name("index");
+Route::get("tasks/create", [TasksController::class, 'create'])->name("create");
+Route::post("tasks/store-task-controller", [TasksController::class, 'store'])->name("store.task.controller");
+
