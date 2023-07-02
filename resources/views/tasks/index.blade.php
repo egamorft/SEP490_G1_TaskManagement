@@ -140,6 +140,8 @@
 <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/charts/chart-apex.css')) }}">
 <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-toastr.css')) }}">
 
+<link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-chat.css')) }}">
+<link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-chat-list.css')) }}">
 @endsection
 
 @section('vendor-script')
@@ -161,4 +163,6 @@
 <!-- Page js files -->
 <script src="{{ asset(mix('js/scripts/pages/app-todo.js')) }}"></script>
 <script src="{{ asset(mix('js/scripts/pages/dashboard-ecommerce.js')) }}"></script>
+<script src="{{ asset(mix('js/scripts/pages/app-chat.js')) }}"></script>
+
 @endsection

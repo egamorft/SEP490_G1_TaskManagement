@@ -6,7 +6,7 @@
 				Add Task
 			</button>
 		</div>
-		<div class="card-body pb-0">
+		<div class="card-body pb-0 pt-0">
 			<div class="list-group list-group-filters">
 				<ul class="todo-task-list media-list" id="todo-task-list">
 					<div class="d-flex align-content-center justify-content-between w-100">
@@ -33,7 +33,8 @@
 								<a href="{{$project->slug}}/tasks/0" class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Send PPT with real-time reports</span>
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Send PPT with real-time reports</span>
 										</div>
 									</div>
 								</a>
@@ -42,7 +43,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Submit quotation for Abid's ecommerce
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Submit quotation for Abid's ecommerce
 												website and admin project
 											</span>
 										</div>
@@ -53,7 +55,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Reminder to mail clients for
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Reminder to mail clients for
 												holidays</span>
 										</div>
 									</div>
@@ -63,7 +66,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Refactor Code and fix the bugs and test it
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Refactor Code and fix the bugs and test it
 												on server </span>
 										</div>
 									</div>
@@ -74,7 +78,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">List out all the SEO resources and send it
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">List out all the SEO resources and send it
 												to new SEO team.
 											</span>
 										</div>
@@ -86,7 +91,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Finish documentation and make it
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Finish documentation and make it
 												live</span>
 										</div>
 									</div>
@@ -97,7 +103,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Pick up Nats from her school and drop at
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Pick up Nats from her school and drop at
 												dance class😁 </span>
 										</div>
 									</div>
@@ -108,7 +115,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Plan new dashboard design with design team
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Plan new dashboard design with design team
 												for Google app store.
 											</span>
 										</div>
@@ -120,7 +128,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Conduct a mini awareness meeting regarding
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Conduct a mini awareness meeting regarding
 												health care. </span>
 										</div>
 									</div>
@@ -132,7 +141,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Fix Responsiveness for new structure
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Fix Responsiveness for new structure
 												💻</span>
 										</div>
 									</div>
@@ -143,7 +153,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Plan a party for development team
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Plan a party for development team
 												🎁</span>
 										</div>
 									</div>
@@ -154,7 +165,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Hire 5 new Fresher or Experienced,
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Hire 5 new Fresher or Experienced,
 												frontend and backend developers
 											</span>
 										</div>
@@ -175,7 +187,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Fix Responsiveness for new structure
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Fix Responsiveness for new structure
 												💻</span>
 										</div>
 									</div>
@@ -186,7 +199,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Plan a party for development team
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Plan a party for development team
 												🎁</span>
 										</div>
 									</div>
@@ -197,7 +211,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Hire 5 new Fresher or Experienced,
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Hire 5 new Fresher or Experienced,
 												frontend and backend developers
 											</span>
 										</div>
@@ -218,7 +233,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Fix Responsiveness for new structure
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Fix Responsiveness for new structure
 												💻</span>
 										</div>
 									</div>
@@ -229,7 +245,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Plan a party for development team
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Plan a party for development team
 												🎁</span>
 										</div>
 									</div>
@@ -240,7 +257,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Hire 5 new Fresher or Experienced,
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Hire 5 new Fresher or Experienced,
 												frontend and backend developers
 											</span>
 										</div>
@@ -252,7 +270,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Fix Responsiveness for new structure
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Fix Responsiveness for new structure
 												💻</span>
 										</div>
 									</div>
@@ -262,7 +281,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Skype Tommy for project status &
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Skype Tommy for project status &
 												report</span>
 										</div>
 									</div>
@@ -272,7 +292,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Test functionality of apps developed by
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Test functionality of apps developed by
 												dev team for enhancements.
 											</span>
 										</div>
@@ -283,7 +304,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Answer the support tickets and close
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Answer the support tickets and close
 												completed tickets. </span>
 										</div>
 									</div>
@@ -293,7 +315,8 @@
 								<div class="todo-title-wrapper">
 									<div class="todo-title-area">
 										<div class="title-wrapper">
-											<span class="todo-title">Meet Jane and ask for coffee ❤️</span>
+											<i class="text-success" data-feather='check-circle'></i>
+											<span class="todo-title d-inline-block text-truncate" style="max-width: 150px;">Meet Jane and ask for coffee ❤️</span>
 										</div>
 									</div>
 								</div>
