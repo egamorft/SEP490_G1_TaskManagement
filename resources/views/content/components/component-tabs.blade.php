@@ -164,14 +164,6 @@
                                                             class="d-flex justify-content-between align-items-center mb-1">
                                                             <h5 class="mb-0" style="font-size: 1rem;">Project Manager
                                                             </h5>
-                                                            <a data-toggle="modal" data-target="#popupModal">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                                                    height="20" fill="currentColor"
-                                                                    class="bi bi-pencil" viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                                                                </svg>
-                                                            </a>
                                                         </div>
                                                         <div class="d-flex align-items-center">
                                                             <img class="round me-1"
@@ -191,14 +183,6 @@
                                                             class="d-flex justify-content-between align-items-center mb-1">
                                                             <h6 class="mb-0">Project Supervisor
                                                             </h6>
-                                                            <a data-toggle="modal" data-target="#popupModal">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" width="20"
-                                                                    height="20" fill="currentColor"
-                                                                    class="bi bi-pencil" viewBox="0 0 16 16">
-                                                                    <path
-                                                                        d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                                                                </svg>
-                                                            </a>
                                                         </div>
                                                         @if (isset($supervisorAccount))
                                                             <div class="d-flex align-items-center">
@@ -214,7 +198,8 @@
                                                             </div>
                                                         @endif
                                                         @if (isset($pendingSupervisorAccount))
-                                                            <div class="d-flex justify-content-between bg-light opacity-50">
+                                                            <div
+                                                                class="d-flex justify-content-between bg-light opacity-50">
                                                                 <div class="d-flex align-items-center">
                                                                     <img class="round me-1"
                                                                         src="{{ Auth::user() ? asset('images/avatars/' . $pendingSupervisorAccount->avatar) : '' }}"
@@ -241,23 +226,43 @@
                                                     <div class="mb-3 col-md-12">
                                                         <div class="d-flex justify-content-between">
                                                             <h6 class="mb-0">Project Members</h6>
-                                                            <a data-bs-toggle="modal" data-bs-target="#inviteToProject">
-                                                                <div class="d-flex align-items-center">
-                                                                    <svg xmlns="http://www.w3.org/2000/svg" width="18"
-                                                                        height="18" fill="currentColor"
-                                                                        class="bi bi-person-plus-fill me-1"
-                                                                        viewBox="0 0 16 16">
-                                                                        <path
-                                                                            d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                                                                        <path fill-rule="evenodd"
-                                                                            d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
-                                                                    </svg>
-                                                                    <h6 class="mb-0">Add new member</h6>
+                                                            @if ($checkLimitation < 4)
+                                                                <a data-bs-toggle="modal"
+                                                                    data-bs-target="#inviteToProject">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="18" height="18"
+                                                                            fill="currentColor"
+                                                                            class="bi bi-person-plus-fill me-1"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                                                            <path fill-rule="evenodd"
+                                                                                d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                                                                        </svg>
+                                                                        <h6 class="mb-0">Add new member</h6>
+                                                                    </div>
+                                                                </a>
+                                                            @else
+                                                                <div class="alert alert-warning">
+                                                                    <div class="d-flex align-items-center alert-body">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="18" height="18"
+                                                                            fill="currentColor"
+                                                                            class="bi bi-person-slash me-1"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M13.879 10.414a2.501 2.501 0 0 0-3.465 3.465l3.465-3.465Zm.707.707-3.465 3.465a2.501 2.501 0 0 0 3.465-3.465Zm-4.56-1.096a3.5 3.5 0 1 1 4.949 4.95 3.5 3.5 0 0 1-4.95-4.95ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
+                                                                        </svg>
+                                                                        <h6 class="mb-0">Your team have reached limit of
+                                                                            <strong>4</strong> invitaion & member
+                                                                        </h6>
+                                                                    </div>
                                                                 </div>
-                                                            </a>
+                                                            @endif
                                                         </div>
                                                     </div>
-                                                    @foreach ($memberAccount as $mem)
+                                                    @forelse ($memberAccount as $mem)
                                                         <div class="mb-1 col-md-4">
                                                             <div class="d-flex align-items-center">
                                                                 <img class="round me-1"
@@ -279,7 +284,9 @@
                                                         <div class="mb-1 col-md-5">
                                                             <div class="d-flex justify-content-end">
                                                                 <div class="d-flex align-items-center me-5">
-                                                                    <a class="d-flex align-items-center">
+                                                                    <a data-bs-toggle="modal"
+                                                                        data-bs-target="#setNewPMModal{{ $mem->id }}"
+                                                                        class="d-flex align-items-center">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                             width="20" height="20"
                                                                             fill="currentColor"
@@ -293,7 +300,9 @@
                                                                 </div>
                                                                 <div class="d-flex align-items-center">
 
-                                                                    <a class="d-flex align-items-center">
+                                                                    <a data-bs-toggle="modal"
+                                                                        data-bs-target="#removeMemberModal{{ $mem->id }}"
+                                                                        class="d-flex align-items-center">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                             width="20" height="20"
                                                                             fill="currentColor"
@@ -307,8 +316,12 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @endforeach
-                                                    @foreach ($pendingInvitedMemberAccount as $penAcc)
+                                                        @include('content._partials._modals.modal-change-pm')
+                                                        @include('content._partials._modals.modal-remove-member')
+                                                    @empty
+                                                    @endforelse
+
+                                                    @forelse ($pendingInvitedMemberAccount as $penAcc)
                                                         <div class="mb-1 col-md-4 bg-light opacity-50">
                                                             <div class="d-flex align-items-center">
                                                                 <img class="round me-1"
@@ -329,11 +342,12 @@
                                                                     aria-hidden="true"></div>
                                                             </div>
                                                         </div>
-                                                        <div class="mb-1 col-md-5">
+                                                        <div class="mb-1 col-md-5 bg-light opacity-50">
                                                             <div class="d-flex justify-content-end">
                                                                 <div class="d-flex align-items-center">
-
-                                                                    <a class="d-flex align-items-center">
+                                                                    <a data-bs-toggle="modal"
+                                                                        data-bs-target="#cancelInvitationModal{{ $penAcc->id }}"
+                                                                        class="d-flex align-items-center">
                                                                         <svg xmlns="http://www.w3.org/2000/svg"
                                                                             width="20" height="20"
                                                                             fill="currentColor"
@@ -347,7 +361,33 @@
                                                                 </div>
                                                             </div>
                                                         </div>
-                                                    @endforeach
+                                                        @include('content._partials._modals.modal-cancel-invitation')
+                                                    @empty
+                                                    @endforelse
+
+                                                    @forelse ($removedMember as $rev)
+                                                        <div
+                                                            class="mb-1 col-md-4 bg-light opacity-50 text-decoration-line-through">
+                                                            <div class="d-flex align-items-center">
+                                                                <img class="round me-1"
+                                                                    src="{{ Auth::user() ? asset('images/avatars/' . $rev->avatar) : '' }}"
+                                                                    alt="avatar" height="40" width="40">
+                                                                <div>
+                                                                    <h6 class="mb-0">{{ $rev->fullname }}
+                                                                    </h6>
+                                                                    <small
+                                                                        style="font-size: 0.7rem;">{{ $rev->email }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="mb-1 col-md-8 bg-light opacity-50 text-decoration-line-through">
+                                                            <div class="d-flex align-items-center">
+                                                                <strong>Member</strong>
+                                                            </div>
+                                                        </div>
+                                                    @empty
+                                                    @endforelse
 
                                                 </div>
                                             </div>

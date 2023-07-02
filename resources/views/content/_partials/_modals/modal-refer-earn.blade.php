@@ -1,5 +1,6 @@
 <!-- refer and earn modal -->
-<div class="modal fade" id="inviteToProject" tabindex="-1" aria-labelledby="referEarnTitle" aria-hidden="true">
+<div class="modal fade" data-bs-backdrop="static" data-bs-keyboard="false" id="inviteToProject" tabindex="-1"
+    aria-labelledby="referEarnTitle" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered modal-lg modal-refer-earn">
         <div class="modal-content">
             <div class="modal-header bg-transparent">
@@ -93,8 +94,10 @@
                             </label>
                             <input type="hidden" name="modalInviteToken" value="{{ $project->token }}">
                             <input type="hidden" name="modalInviteSlug" value="{{ $project->slug }}">
-                            <input type="text" id="modalInviteEmail" class="form-control" name="modalInviteEmail"
-                                placeholder="Enter your teammate email" aria-label="example@domain.com" />
+                            <input {{ $checkLimitation >= 4 ? 'disabled' : '' }} type="text" id="modalInviteEmail"
+                                class="form-control" name="modalInviteEmail"
+                                placeholder="{{ $checkLimitation >= 4 ? 'Your team have reached limitation of invitation' : 'Enter your teammate email' }}"
+                                aria-label="example@domain.com" />
                             <span id="error-modalInviteEmail" style="color: red; display: none"></span>
                         </div>
                         <div class="col-lg-2 d-flex align-items-end">
@@ -103,7 +106,7 @@
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="visually-hidden">Loading...</span>
                             </button>
-                            <button type="submit" id="submitBtnInvite" class="btn btn-primary w-100">Send</button>
+                            <button {{ $checkLimitation >= 4 ? 'disabled' : '' }} type="submit" id="submitBtnInvite" class="btn btn-primary w-100">{{ $checkLimitation >= 4 ? 'Limited' : 'Send' }}</button>
                         </div>
                     </form>
 

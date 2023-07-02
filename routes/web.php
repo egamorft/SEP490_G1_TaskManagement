@@ -89,6 +89,9 @@ Route::middleware(['auth'])->group(function () {
         Route::get('invite/{slug}/{token}', [ProjectController::class, 'show'])->name('project.invite');
         Route::post('invitation/{slug}/{token}', [ProjectController::class, 'invitation'])->name('invitation.submit');
         Route::post('invite-email', [ProjectController::class, 'invite_email'])->name('invite.member');
+        Route::post('cancel-invitation', [ProjectController::class, 'cancel_invitation'])->name('cancel.invitation');
+        Route::post('remove-member', [ProjectController::class, 'remove_member'])->name('remove.member');
+        Route::post('set-pm', [ProjectController::class, 'set_pm'])->name('set.pm');
     });
 
     Route::post('/log-out', function () {

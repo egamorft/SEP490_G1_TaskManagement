@@ -14,7 +14,7 @@
     <section class="invoice-preview-wrapper">
         <div class="row invoice-preview">
             <!-- Invoice -->
-            <div class="col-xl-9 col-md-8 col-12">
+            <div class="{{ isset($check_account_project_invitation_valid) ? 'col-xl-9 col-md-8' : 'col-xl-12 col-md-12' }} col-12">
                 <div class="card invoice-preview-card">
                     <div class="card-body invoice-padding pb-0">
                         <!-- Header starts -->
@@ -138,22 +138,25 @@
             <!-- /Invoice -->
 
             <!-- Invoice Actions -->
-            <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
-                <div class="card">
-                    <form method="POST"
-                        action="{{ route('invitation.submit', ['slug' => $project->slug, 'token' => $project->token]) }}">
-                        @csrf
-                        <div class="card-body">
-                            <button type="submit" name="approve" value="1" class="btn btn-success w-100 mb-75">
-                                Approve
-                            </button>
-                            <button type="submit" name="decline" value="1" class="btn btn-danger w-100">
-                                Decline
-                            </button>
-                        </div>
-                    </form>
+            @if (isset($check_account_project_invitation_valid))
+                <div class="col-xl-3 col-md-4 col-12 invoice-actions mt-md-0 mt-2">
+                    <div class="card">
+                        <form method="POST"
+                            action="{{ route('invitation.submit', ['slug' => $project->slug, 'token' => $project->token]) }}">
+                            @csrf
+                            <div class="card-body">
+                                <button type="submit" name="approve" value="1"
+                                    class="btn btn-success w-100 mb-75">
+                                    Accept
+                                </button>
+                                <button type="submit" name="decline" value="1" class="btn btn-danger w-100">
+                                    Decline
+                                </button>
+                            </div>
+                        </form>
+                    </div>
                 </div>
-            </div>
+            @endif
             <!-- /Invoice Actions -->
         </div>
     </section>

@@ -31,29 +31,31 @@ class ProjectController extends Controller
         $project = Project::where('slug', $slug)->first();
         $accounts = $project->accounts()->get();
 
-        $pmAccount = Project::findOrFail($project->id)->accountsWithRole("pm")
-            ->whereHas('accountProject', function ($query) {
-                $query->where('status', 1);
-            })->first();
-        $supervisorAccount = Project::findOrFail($project->id)->accountsWithRole("supervisor")
-            ->whereHas('accountProject', function ($query) {
-                $query->where('status', 1);
-            })->first();
+        $pmAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('pm', 1)
+            ->first();
 
-        $pendingSupervisorAccount = Project::findOrFail($project->id)->accountsWithRole("supervisor")
-            ->whereHas('accountProject', function ($query) {
-                $query->where('status', 0);
-            })->first();
+        $supervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 1)
+            ->first();
 
-        $memberAccount = Project::findOrFail($project->id)->accountsWithRole("member")
-            ->whereHas('accountProject', function ($query) {
-                $query->where('status', 1);
-            })->get();
+        $pendingSupervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 0)
+            ->first();
 
-        $pendingInvitedMemberAccount = Project::findOrFail($project->id)->accountsWithRole("member")
-            ->whereHas('accountProject', function ($query) {
-                $query->where('status', 0);
-            })->get();
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
+        $pendingInvitedMemberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 0)
+            ->get();
+
+        $removedMember = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', -2)
+            ->get();
+
+        $checkLimitation = count($pendingInvitedMemberAccount) + count($memberAccount);
 
         // //Get all account not in project and active
         // $excludedAccounts = [$pmAccount->id, $supervisorAccount->id];
@@ -75,7 +77,9 @@ class ProjectController extends Controller
                 'supervisorAccount',
                 'memberAccount',
                 'pendingInvitedMemberAccount',
-                'pendingSupervisorAccount'
+                'pendingSupervisorAccount',
+                'checkLimitation',
+                'removedMember'
             ));
     }
 
@@ -203,46 +207,44 @@ class ProjectController extends Controller
             ->where('account_id', $accountId)->where('status', 0)
             ->first();
 
-        if ($check_account_project_invitation_valid) {
-            if ($project) {
+        if ($project) {
 
-                //Get members in project
-                $accounts = $project->accounts()->wherePivot('status', 1)->withPivot('role_id')->get();
-                $accountsInProject = [];
+            //Get members in project
+            $accounts = $project->accounts()->wherePivot('status', 1)->withPivot('role_id')->get();
+            $accountsInProject = [];
 
-                foreach ($accounts as $account) {
-                    $roleId = $account->pivot->role_id;
-                    $role = Role::find($roleId);
+            foreach ($accounts as $account) {
+                $roleId = $account->pivot->role_id;
+                $role = Role::find($roleId);
 
-                    if ($role) {
-                        $roleName = $role->name;
-                        $accountName = $account->fullname;
-                        $accountEmail = $account->email;
-                        $accountAvatar = $account->avatar;
+                if ($role) {
+                    $roleName = $role->name;
+                    $accountName = $account->fullname;
+                    $accountEmail = $account->email;
+                    $accountAvatar = $account->avatar;
 
-                        $accountsInProject[] = [
-                            'accountEmail' => $accountEmail,
-                            'accountName' => $accountName,
-                            'accountAvatar' => $accountAvatar,
-                            'roleName' => $roleName,
-                        ];
-                    }
+                    $accountsInProject[] = [
+                        'accountEmail' => $accountEmail,
+                        'accountName' => $accountName,
+                        'accountAvatar' => $accountAvatar,
+                        'roleName' => $roleName,
+                    ];
                 }
-
-                //Get total members in project
-                $totalAccounts = AccountProject::where('project_id', $project->id)->where('status', 1)->count();
-
-                return view('content.project.app-project-invitation')
-                    ->with(compact(
-                        'project',
-                        'accountsInProject',
-                        'totalAccounts'
-                    ));
-            } else {
-                abort(404);
             }
+
+            //Get total members in project
+            $totalAccounts = AccountProject::where('project_id', $project->id)->where('status', 1)->count();
+
+            return view('content.project.app-project-invitation')
+                ->with(compact(
+                    'project',
+                    'accountsInProject',
+                    'totalAccounts',
+                    'check_account_project_invitation_valid'
+                ));
         } else {
-            abort(404);
+            Session::flash('error', 'Something went wrong or this invitation is expired');
+            return redirect()->route('dashboard');
         }
     }
 
@@ -387,9 +389,13 @@ class ProjectController extends Controller
         $validatedData = $request->validate([
             'modalInviteEmail' => [
                 'required', 'email',
-                Rule::exists('accounts', 'email')->where(function ($query) use ($loggedInUserEmail) {
-                    $query->where('email', '!=', $loggedInUserEmail);
-                }),
+                Rule::exists('accounts', 'email')
+                    ->where(function ($query) use ($loggedInUserEmail) {
+                        $query->where('email', '!=', $loggedInUserEmail);
+                    })
+                    ->where(function ($query) {
+                        $query->whereRaw("LOCATE('@fe.edu.vn', email) = 0");
+                    }),
             ],
             'modalInviteToken' => 'nullable',
             'modalInviteSlug' => 'nullable'
@@ -422,6 +428,71 @@ class ProjectController extends Controller
         } else {
             // Return a response indicating the success of the operation
             return response()->json(['message' => 'Something went wrong with ' . $invitedAccount->fullname . ' account'], Response::HTTP_BAD_REQUEST);
+        }
+    }
+
+    public function cancel_invitation(Request $request)
+    {
+        $project_id = $request->input('project');
+        $account_id = $request->input('account');
+        $account = Account::findOrFail($account_id);
+        $accountProject = AccountProject::where('project_id', $project_id)->where('account_id', $account_id)->first();
+        if ($accountProject) {
+            $accountProject->delete();
+            // Row deleted successfully
+            Session::flash('success', 'Cancel invitation for ' . $account->email);
+            return redirect()->back();
+        } else {
+            // Row not found
+            Session::flash('error', 'Something went wrong');
+            return redirect()->back();
+        }
+    }
+
+    public function remove_member(Request $request)
+    {
+        $project_id = $request->input('project');
+        $account_id = $request->input('account');
+        $account = Account::findOrFail($account_id);
+        $project = Project::findOrFail($project_id);
+        $accountProject = AccountProject::where('project_id', $project_id)->where('account_id', $account_id)->first();
+        if ($accountProject) {
+            $accountProject->status = -2;
+            $accountProject->save();
+            // Row deleted successfully
+            Session::flash('success', 'Remove ' . $account->email . ' from ' . $project->name);
+            return redirect()->back();
+        } else {
+            // Row not found
+            Session::flash('error', 'Something went wrong');
+            return redirect()->back();
+        }
+    }
+
+    public function set_pm(Request $request)
+    {
+        $old_pm_id = Auth::user()->id;
+        $project_id = $request->input('project');
+        $new_pm_id = $request->input('account');
+        $newPmAccount = Account::findOrFail($new_pm_id);
+        $oldPmAccount = Account::findOrFail($old_pm_id);
+        // $project = Project::findOrFail($project_id);
+        $newPmAccountProject = AccountProject::where('project_id', $project_id)->where('account_id', $new_pm_id)->first();
+        $oldPmAccountProject = AccountProject::where('project_id', $project_id)->where('account_id', $old_pm_id)->first();
+        if ($newPmAccountProject && $oldPmAccountProject) {
+            //Set new pm role
+            $newPmAccountProject->role_id = 1;
+            $newPmAccountProject->save();
+            //Set old pm role
+            $oldPmAccountProject->role_id = 3;
+            $oldPmAccountProject->save();
+            // Row deleted successfully
+            Session::flash('success', 'Change role of ' . $newPmAccount->email . ' and ' . $oldPmAccount->email);
+            return redirect()->back();
+        } else {
+            // Row not found
+            Session::flash('error', 'Something went wrong');
+            return redirect()->back();
         }
     }
 }

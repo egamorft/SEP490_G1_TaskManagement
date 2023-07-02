@@ -22,13 +22,13 @@ class Project extends Model
         'deleted_at',
     ];
 
-    public function accountProject()
-    {
-        return $this->belongsToMany(Account::class, 'account_project')
-            ->withPivot('status');
-    }
+    // public function accountProject()
+    // {
+    //     return $this->belongsToMany(Account::class, 'account_project')
+    //         ->withPivot('status');
+    // }
 
-    public function accountsWithRole($roleName)
+    public function findAccountWithRoleNameAndStatus($roleName, $status)
     {
         return $this->belongsToMany(Account::class, 'account_project')
             ->wherePivot('role_id', function ($query) use ($roleName) {
@@ -36,7 +36,8 @@ class Project extends Model
                     ->where('name', $roleName)
                     ->select('id');
             })
-            ->withPivot('role_id');
+            ->wherePivot('status', $status)
+            ->withPivot('status');
     }
 
 
