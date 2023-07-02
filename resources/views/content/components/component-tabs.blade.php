@@ -394,47 +394,93 @@
                                             <div id="permission-role" class="content" role="tabpanel"
                                                 aria-labelledby="permission-role-trigger">
                                                 <div class="content-header">
-                                                    <h5 class="mb-0">Address</h5>
-                                                    <small>Enter Your Address.</small>
+                                                    <h4 class="mb-0">Sets of project privilege</h4>
                                                 </div>
-                                                <div class="row">
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label"
-                                                            for="vertical-modern-address">Address</label>
-                                                        <input type="text" id="vertical-modern-address"
-                                                            class="form-control"
-                                                            placeholder="98  Borough bridge Road, Birmingham" />
+                                                <div class="col-12">
+                                                    <!-- Permission table -->
+                                                    <div class="table-responsive">
+                                                        <table class="table table-flush-spacing">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="text-nowrap fw-bolder">
+                                                                        Permission by roles
+                                                                    </td>
+                                                                    @php
+                                                                        $role_count = $roles->count();
+                                                                    @endphp
+                                                                    @forelse ($roles as $r)
+                                                                        <td class="align-middle text-center">
+                                                                            @if ($r->name == 'pm')
+                                                                                Project manager
+                                                                                <span data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="top" title=""
+                                                                                    data-bs-original-title="Have all role in a project">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="14" height="14"
+                                                                                        viewBox="0 0 24 24" fill="none"
+                                                                                        stroke="currentColor"
+                                                                                        stroke-width="2"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        class="feather feather-info">
+                                                                                        <circle cx="12"
+                                                                                            cy="12" r="10">
+                                                                                        </circle>
+                                                                                        <line x1="12"
+                                                                                            y1="16" x2="12"
+                                                                                            y2="12"></line>
+                                                                                        <line x1="12"
+                                                                                            y1="8" x2="12.01"
+                                                                                            y2="8"></line>
+                                                                                    </svg>
+                                                                                </span>
+                                                                            @else
+                                                                                {{ $r->name }}
+                                                                            @endif
+                                                                        </td>
+                                                                    @empty
+                                                                    @endforelse
+                                                                </tr>
+                                                                @forelse ($permissions as $p)
+                                                                    <tr>
+                                                                        <td class="text-nowrap fw-bolder py-2">
+                                                                            {{ $p->name }} <svg
+                                                                                xmlns="http://www.w3.org/2000/svg"
+                                                                                width="18" height="18"
+                                                                                fill="currentColor"
+                                                                                class="bi bi-arrow-right-circle"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path fill-rule="evenodd"
+                                                                                    d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
+                                                                            </svg> {{ $p->slug }}</td>
+                                                                        <td class="align-middle text-center">
+                                                                            <input class="form-check-input"
+                                                                                type="checkbox" id="userManagementRead">
+                                                                        </td>
+                                                                        <td class="align-middle text-center">
+                                                                            <input class="form-check-input"
+                                                                                type="checkbox" id="userManagementRead">
+                                                                        </td>
+                                                                        <td class="align-middle text-center">
+                                                                            <input class="form-check-input"
+                                                                                type="checkbox" id="userManagementRead">
+                                                                        </td>
+                                                                        <td class="align-middle text-center">
+                                                                            <input class="form-check-input"
+                                                                                type="checkbox" id="userManagementRead">
+                                                                        </td>
+                                                                    </tr>
+                                                                @empty
+                                                                    <tr>
+                                                                        <td colspan="{{ $role_count }}">
+                                                                            No permission found
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforelse
+                                                            </tbody>
+                                                        </table>
                                                     </div>
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label"
-                                                            for="vertical-modern-landmark">Landmark</label>
-                                                        <input type="text" id="vertical-modern-landmark"
-                                                            class="form-control" placeholder="Borough bridge" />
-                                                    </div>
-                                                </div>
-                                                <div class="row">
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="pincode4">Pincode</label>
-                                                        <input type="text" id="pincode4" class="form-control"
-                                                            placeholder="658921" />
-                                                    </div>
-                                                    <div class="mb-1 col-md-6">
-                                                        <label class="form-label" for="city4">City</label>
-                                                        <input type="text" id="city4" class="form-control"
-                                                            placeholder="Birmingham" />
-                                                    </div>
-                                                </div>
-                                                <div class="d-flex justify-content-between">
-                                                    <button class="btn btn-primary btn-prev">
-                                                        <i data-feather="arrow-left"
-                                                            class="align-middle me-sm-25 me-0"></i>
-                                                        <span class="align-middle d-sm-inline-block d-none">Previous</span>
-                                                    </button>
-                                                    <button class="btn btn-primary btn-next">
-                                                        <span class="align-middle d-sm-inline-block d-none">Next</span>
-                                                        <i data-feather="arrow-right"
-                                                            class="align-middle ms-sm-25 ms-0"></i>
-                                                    </button>
+                                                    <!-- Permission table -->
                                                 </div>
                                             </div>
                                         </div>

@@ -49,6 +49,7 @@ $(document).ready(function () {
           $('#spinnerBtnInvite').hide();
           $('#submitBtnInvite').show();
           if (response.status == 422) {
+            $('#submitBtnInvite').addClass(' mb-2');
             var errors = response.responseJSON.errors;
             for (var key in errors) {
               $('#' + key).addClass(' is-invalid');
@@ -56,6 +57,7 @@ $(document).ready(function () {
               $('#error-' + key).text(errors[key][0])
             }
           } else if (response.status == 400) {
+            $('#submitBtnInvite').addClass(' mb-2');
             $('#error-modalInviteEmail').addClass(' is-invalid');
             $('#error-modalInviteEmail').show();
             $('#error-modalInviteEmail').text(response.responseJSON.message);

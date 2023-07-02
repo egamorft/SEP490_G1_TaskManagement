@@ -6,6 +6,7 @@ use App\Http\Requests\ProjectRequest;
 use App\Mail\ProjectInvitation;
 use App\Models\Account;
 use App\Models\AccountProject;
+use App\Models\Permission;
 use App\Models\PermissionRole;
 use App\Models\Project;
 use App\Models\ProjectRolePermission;
@@ -28,6 +29,7 @@ class ProjectController extends Controller
      */
     public function index($slug)
     {
+        //Project info & members
         $project = Project::where('slug', $slug)->first();
         $accounts = $project->accounts()->get();
 
@@ -70,6 +72,14 @@ class ProjectController extends Controller
         //     return strpos($account->email, '@fe.edu.vn') === false;
         // });
 
+        //-----------------------------------------------------------------------------------
+
+        //Project role & permissions
+        $roles = Role::all();
+        $permissions = Permission::all();
+
+
+
         return view('content.components.component-tabs')
             ->with(compact(
                 'project',
@@ -79,7 +89,9 @@ class ProjectController extends Controller
                 'pendingInvitedMemberAccount',
                 'pendingSupervisorAccount',
                 'checkLimitation',
-                'removedMember'
+                'removedMember',
+                'roles',
+                'permissions'
             ));
     }
 
@@ -384,15 +396,18 @@ class ProjectController extends Controller
      */
     public function invite_email(Request $request)
     {
+        $get_project = Project::where('slug', $request->input('modalInviteSlug'))->first();
+        $removedMembers = Project::findOrFail($get_project->id)
+            ->findAccountWithRoleNameAndStatus('member', -2)
+            ->get();
         $loggedInUserEmail = Auth::user()->email;
+        $exceptEmails = $removedMembers->pluck('email')->concat([$loggedInUserEmail]);
         //Handle the invitation to email
         $validatedData = $request->validate([
             'modalInviteEmail' => [
                 'required', 'email',
                 Rule::exists('accounts', 'email')
-                    ->where(function ($query) use ($loggedInUserEmail) {
-                        $query->where('email', '!=', $loggedInUserEmail);
-                    })
+                    ->whereNotIn('email', $exceptEmails)
                     ->where(function ($query) {
                         $query->whereRaw("LOCATE('@fe.edu.vn', email) = 0");
                     }),
@@ -400,6 +415,7 @@ class ProjectController extends Controller
             'modalInviteToken' => 'nullable',
             'modalInviteSlug' => 'nullable'
         ]);
+        //
         $project_slug = $validatedData['modalInviteSlug'];
         $project_token = $validatedData['modalInviteToken'];
 
