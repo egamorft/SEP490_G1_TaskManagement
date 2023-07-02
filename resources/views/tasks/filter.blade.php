@@ -6,6 +6,22 @@
                 Add Task
             </button>
         </div>
+        <div class="pt-0 pb-0 card-body d-flex justify-content-center">
+            <!-- Todo search starts -->
+            <div class="app-fixed-search d-flex align-items-center">
+                <div class="sidebar-toggle d-block d-lg-none ms-1">
+                    <i data-feather="menu" class="font-medium-5"></i>
+                </div>
+                <div class="d-flex align-content-center justify-content-between w-100">
+                    <div class="input-group input-group-merge">
+                        <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
+                        <input type="text" class="form-control" id="todo-search" placeholder="Search task"
+                            aria-label="Search..." aria-describedby="todo-search" />
+                    </div>
+                </div>
+            </div>
+            <!-- Todo search ends -->
+        </div>
         <div class="card-body pb-0">
             <h5 class="section-label mb-1">
                 <span class="align-middle">Filter By Role</span>
@@ -52,12 +68,12 @@
                         checked />
                     <label class="form-check-label" for="family">Reviewing</label>
                 </div>
-				<div class="form-check form-check-success mb-1">
+                <div class="form-check form-check-success mb-1">
                     <input type="checkbox" class="form-check-input input-filter" id="holiday" data-value="holiday"
                         checked />
                     <label class="form-check-label" for="holiday">Done Ontime</label>
                 </div>
-				<div class="form-check form-check-secondary mb-1">
+                <div class="form-check form-check-secondary mb-1">
                     <input type="checkbox" class="form-check-input input-filter" id="etc" data-value="etc"
                         checked />
                     <label class="form-check-label" for="etc">Done Late</label>

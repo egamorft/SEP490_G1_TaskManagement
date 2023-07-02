@@ -323,29 +323,29 @@ $(function () {
   });
 
   // To open todo list item modal on click of item
-  $(document).on('click', '.todo-task-list-wrapper .todo-item', function (e) {
-    newTaskModal.modal('show');
-    addBtn.addClass('d-none');
-    updateBtns.removeClass('d-none');
-    if ($(this).hasClass('completed')) {
-      modalTitle.html(
-        '<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-bs-dismiss="modal">Completed</button>'
-      );
-    } else {
-      modalTitle.html(
-        '<button type="button" class="btn btn-sm btn-outline-secondary complete-todo-item waves-effect waves-float waves-light" data-bs-dismiss="modal">Mark Complete</button>'
-      );
-    }
-    taskTag.val('').trigger('change');
-    var quill_editor = $('#task-desc .ql-editor'); // ? Dummy data as not connected with API or anything else
-    quill_editor[0].innerHTML =
-      'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.';
-    taskTitle = $(this).find('.todo-title');
-    var $title = $(this).find('.todo-title').html();
+//   $(document).on('click', '.todo-task-list-wrapper .todo-item', function (e) {
+//     newTaskModal.modal('show');
+//     addBtn.addClass('d-none');
+//     updateBtns.removeClass('d-none');
+//     if ($(this).hasClass('completed')) {
+//       modalTitle.html(
+//         '<button type="button" class="btn btn-sm btn-outline-success complete-todo-item waves-effect waves-float waves-light" data-bs-dismiss="modal">Completed</button>'
+//       );
+//     } else {
+//       modalTitle.html(
+//         '<button type="button" class="btn btn-sm btn-outline-secondary complete-todo-item waves-effect waves-float waves-light" data-bs-dismiss="modal">Mark Complete</button>'
+//       );
+//     }
+//     taskTag.val('').trigger('change');
+//     var quill_editor = $('#task-desc .ql-editor'); // ? Dummy data as not connected with API or anything else
+//     quill_editor[0].innerHTML =
+//       'Chocolate cake topping bonbon jujubes donut sweet wafer. Marzipan gingerbread powder brownie bear claw. Chocolate bonbon sesame snaps jelly caramels oat cake.';
+//     taskTitle = $(this).find('.todo-title');
+//     var $title = $(this).find('.todo-title').html();
 
-    // apply all variable values to fields
-    newTaskForm.find('.new-todo-item-title').val($title);
-  });
+//     // apply all variable values to fields
+//     newTaskForm.find('.new-todo-item-title').val($title);
+//   });
 
   // Updating Data Values to Fields
   if (updateTodoItem.length) {

@@ -22,7 +22,7 @@
                              </a>
                          </div>
                      </div>
-                     <a href="/projects/{{ $project->slug }}">
+                     <a class="text-dark" href="/projects/{{ $project->slug }}">
                          <i data-feather="x-circle"
                              class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
                      </a>
@@ -45,7 +45,7 @@
              <hr />
 
 			 <div class="row">
-				 <div class="mt-2 col">
+				 <div class=" col">
 					 <div class="avatar float-start bg-warning rounded me-1">
 						 <div class="avatar-content">
 							 <i data-feather="square" class="avatar-icon font-medium-3"></i>
@@ -56,7 +56,7 @@
 						 <small>Click to change for Reviewer</small>
 					 </div>
 				 </div>
-				 <div class="mt-2 col">
+				 <div class=" col border-right">
 					<div class="avatar float-start bg-white rounded me-1">
 						<div class="avatar bg-light-danger">
 							<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar" width="33"
@@ -68,7 +68,7 @@
 						<h6 class="mb-0">Tran Ngoc Hieu</h6>
 					</div>
 				</div>
-				<div class="mt-2 col">
+				<div class=" col">
 					<div class="avatar float-start bg-success rounded me-1">
 						<div class="avatar-content">
 							<i data-feather="square" class="avatar-icon font-medium-3"></i>
@@ -79,7 +79,7 @@
 						<small>Click to mark as done</small>
 					</div>
 				</div>
-				<div class="mt-2 col">
+				<div class=" col">
 					<div class="avatar float-start bg-white rounded me-1">
 						<div class="avatar bg-light-danger">
 							<img src="{{ asset('images/portrait/small/avatar-s-9.jpg') }}" alt="Avatar" width="33"
@@ -96,13 +96,8 @@
              <hr />
 
              <div class="mt-2">
-                 <div class="avatar float-start bg-light-primary rounded me-1">
-                     <div class="avatar-content">
-                         <i data-feather="file-text" class="avatar-icon font-medium-3"></i>
-                     </div>
-                 </div>
                  <div class="more-info">
-                     <h6 class="mb-0">Description</h6>
+                     <h6 class="mb-2">Task Description</h6>
                      <small>FTask là dự án quản lý Task dành cho sinh viên chuyên ngành SE giúp cho sinh viên quản lý,
                          theo dõi, ....</small>
                  </div>
@@ -110,6 +105,15 @@
 
              <hr />
 
+			 <div class="mt-2">
+				<div class="more-info">
+					<h6 class="mb-2">Task Result</h6>
+					<small>FTask là dự án quản lý Task dành cho sinh viên chuyên ngành SE giúp cho sinh viên quản lý,
+						theo dõi, ....</small>
+				</div>
+			</div>
+
+			<hr />
              <div class="mt-2">
                  <!-- User Chat messages -->
                  <div class="user-chats">
