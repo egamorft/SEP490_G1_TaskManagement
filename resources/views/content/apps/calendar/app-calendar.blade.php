@@ -94,7 +94,7 @@
       <!-- /Sidebar -->
 
       <!-- Calendar -->
-      <div class="col position-relative">
+      <div class="col position-relative bg-white">
         <div class="card shadow-none border-0 mb-0 rounded-0">
           <div class="card-body pb-0">
             <div id="calendar"></div>

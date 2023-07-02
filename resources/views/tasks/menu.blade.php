@@ -9,7 +9,19 @@
 		<div class="card-body pb-0">
 			<div class="list-group list-group-filters">
 				<ul class="todo-task-list media-list" id="todo-task-list">
-
+					<div class="d-flex align-content-center justify-content-between w-100">
+						<div class="input-group input-group-merge">
+						  <span class="input-group-text"><i data-feather="search" class="text-muted"></i></span>
+						  <input
+							type="text"
+							class="form-control"
+							id="todo-search"
+							placeholder="Search task"
+							aria-label="Search..."
+							aria-describedby="todo-search"
+						  />
+						</div>
+					  </div>
 					<div class="task-list">
 						<p class="mb-2 demo-inline-spacing">
 							<a class="me-1" data-bs-toggle="collapse" href="#collapseUncategorized" role="button" aria-expanded="false" aria-controls="collapseUncategorized">

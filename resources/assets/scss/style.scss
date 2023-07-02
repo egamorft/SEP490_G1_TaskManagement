@@ -17,4 +17,7 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 section {
 	box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
 }
+.input-group-text {
+	border-right: 0;
+}
 @import 'project-layout';
