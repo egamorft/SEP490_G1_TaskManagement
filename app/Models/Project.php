@@ -28,6 +28,12 @@ class Project extends Model
     //         ->withPivot('status');
     // }
 
+    public function roles()
+    {
+        return $this->belongsToMany(Role::class, 'project_role_permission')
+            ->withPivot('permission_id');
+    }
+
     public function findAccountWithRoleNameAndStatus($roleName, $status)
     {
         return $this->belongsToMany(Account::class, 'account_project')

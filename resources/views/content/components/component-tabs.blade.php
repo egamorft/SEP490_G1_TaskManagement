@@ -15,7 +15,7 @@
 @section('content')
     <!-- Basic tabs start -->
     <section id="basic-tabs-components">
-        <div class="row match-height">
+        <div class="row match-height" id="section-block">
 
             <!-- Tabs with Icon starts -->
             <div class="col-lg-12">
@@ -452,23 +452,40 @@
                                                                                 viewBox="0 0 16 16">
                                                                                 <path fill-rule="evenodd"
                                                                                     d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
-                                                                            </svg> {{ $p->slug }}</td>
-                                                                        <td class="align-middle text-center">
-                                                                            <input class="form-check-input"
-                                                                                type="checkbox" id="userManagementRead">
+                                                                            </svg> {{ $p->slug }}
                                                                         </td>
-                                                                        <td class="align-middle text-center">
-                                                                            <input class="form-check-input"
-                                                                                type="checkbox" id="userManagementRead">
-                                                                        </td>
-                                                                        <td class="align-middle text-center">
-                                                                            <input class="form-check-input"
-                                                                                type="checkbox" id="userManagementRead">
-                                                                        </td>
-                                                                        <td class="align-middle text-center">
-                                                                            <input class="form-check-input"
-                                                                                type="checkbox" id="userManagementRead">
-                                                                        </td>
+                                                                        @forelse ($roles as $r)
+                                                                            <td class="align-middle text-center">
+                                                                                @php
+                                                                                    $isChecked = $r->projectRolePermissions->contains(function ($permission) use ($p, $project) {
+                                                                                        return $permission->permission_id == $p->id && $permission->project_id == $project->id;
+                                                                                    });
+                                                                                @endphp
+                                                                                @if ($r->name == 'pm')
+                                                                                    <div
+                                                                                        class="form-check form-check-secondary align-middle text-center ms-5">
+                                                                                        <input disabled
+                                                                                            class="form-check-input"
+                                                                                            type="checkbox"
+                                                                                            id="{{ $r->id }}_{{ $p->id }}"
+                                                                                            checked>
+                                                                                    </div>
+                                                                                @else
+                                                                                    <div
+                                                                                        class="form-check form-check-primary ms-2">
+                                                                                        <input type="hidden"
+                                                                                            name="csrf-token"
+                                                                                            value="{{ csrf_token() }}">
+                                                                                        <input
+                                                                                            class="form-check-input permission-role-editor"
+                                                                                            type="checkbox"
+                                                                                            id="{{ $r->id }}_{{ $p->id }}"
+                                                                                            {{ $isChecked ? 'checked' : '' }}>
+                                                                                    </div>
+                                                                                @endif
+                                                                            </td>
+                                                                        @empty
+                                                                        @endforelse
                                                                     </tr>
                                                                 @empty
                                                                     <tr>

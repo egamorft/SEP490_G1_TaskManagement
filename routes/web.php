@@ -92,6 +92,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('cancel-invitation', [ProjectController::class, 'cancel_invitation'])->name('cancel.invitation');
         Route::post('remove-member', [ProjectController::class, 'remove_member'])->name('remove.member');
         Route::post('set-pm', [ProjectController::class, 'set_pm'])->name('set.pm');
+        Route::post('update-permission', [ProjectController::class, 'updatePermission'])->name('update.permission');
     });
 
     Route::post('/log-out', function () {

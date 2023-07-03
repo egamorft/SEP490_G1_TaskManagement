@@ -23,6 +23,10 @@
 })(window, document, jQuery);
 
 $(document).ready(function () {
+  var isRtl = $('html').attr('data-textdirection') === 'rtl',
+    typeSuccess = $('#success-alert:hidden'),
+    typeError = $('#error-alert:hidden');
+  //Handle invitation through email
   $('#modalInviteForm').submit(function (event) {
     event.preventDefault();
     var form = $(this);
@@ -63,6 +67,74 @@ $(document).ready(function () {
             $('#error-modalInviteEmail').text(response.responseJSON.message);
           }
         }, 300);
+      }
+    });
+  });
+
+  //Handle checkbox in permission role editor
+  $('.permission-role-editor').change(function () {
+    var csrfToken = $('input[name="csrf-token"]').val();
+    var roleId = $(this).attr('id').split('_')[0];
+    var permissionId = $(this).attr('id').split('_')[1];
+    var isChecked = $(this).prop('checked');
+
+    var currentUrl = window.location.href;
+    var projectName = currentUrl.split('/').pop();
+
+    var section = $('#section-block');
+    // Make AJAX request to update project_role_permission table
+    $.ajax({
+      url: '/project/update-permission',
+      method: 'POST',
+      headers: {
+        'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
+      },
+      data: {
+        projectName: projectName,
+        roleId: roleId,
+        permissionId: permissionId,
+        isChecked: isChecked
+      },
+      beforeSend: function () {
+        section.block({
+          message:
+            '<div class="d-flex justify-content-center align-items-center"><p class="me-50 mb-0">Please wait...</p><div class="spinner-grow spinner-grow-sm text-white" role="status"></div> </div>',
+          timeout: 2000,
+          css: {
+            backgroundColor: 'transparent',
+            color: '#fff',
+            border: '0'
+          },
+          overlayCSS: {
+            opacity: 0.5
+          }
+        });
+      },
+      success: function (response) {
+        // Handle success response
+        setTimeout(function () {
+          toastr['success'](response.message, 'Success!', {
+            showMethod: 'slideDown',
+            hideMethod: 'slideUp',
+            progressBar: true,
+            closeButton: true,
+            tapToDismiss: false,
+            rtl: isRtl
+          });
+        }, 2000);
+      },
+      error: function (response) {
+        // Handle error response
+        setTimeout(function () {
+          toastr['error'](response.message, 'Error!', {
+            showMethod: 'slideDown',
+            hideMethod: 'slideUp',
+            progressBar: true,
+            closeButton: true,
+            tapToDismiss: false,
+            rtl: isRtl
+          });
+        }, 2000);
       }
     });
   });

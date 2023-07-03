@@ -16,6 +16,7 @@ use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
@@ -510,5 +511,32 @@ class ProjectController extends Controller
             Session::flash('error', 'Something went wrong');
             return redirect()->back();
         }
+    }
+    public function updatePermission(Request $request)
+    {
+        $projectName = $request->input('projectName');
+        $roleId = $request->input('roleId');
+        $permissionId = $request->input('permissionId');
+        $isChecked = $request->input('isChecked');
+
+        // Find the project and role
+        $project = Project::where('slug', $projectName)->first();
+        $role = Role::find($roleId);
+
+        if ($project && $role) {
+            if ($isChecked === "true") {
+                // Attach the permission to the role in the project
+                $project->roles()->attach($roleId, ['permission_id' => $permissionId]);
+                return response()->json(['message' => 'Permission attach successfully']);
+            } else {
+                // Detach the permission from the role in the project
+                ProjectRolePermission::where('project_id', $project->id)->where('role_id', $roleId)
+                    ->where('permission_id', $permissionId)
+                    ->delete();
+                return response()->json(['message' => 'Permission detach successfully']);
+            }
+        }
+
+        return response()->json(['message' => 'Project or role not found'], 404);
     }
 }
