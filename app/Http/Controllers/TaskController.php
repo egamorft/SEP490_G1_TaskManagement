@@ -28,7 +28,8 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
 	public function index($slug, $id) {
-		$project = Project::where('slug', $slug)->first();
+		$project = Project::where('slug', 2)->first();
+        $task = Task::where('project_id', $project->id)->get();
 		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
 		$pageConfigs = [
@@ -105,7 +106,7 @@ class TaskController extends Controller
             ]);
         }
 
-        $subTasks = SubTask::where("task_id", $task->id);
+        $subTasks = SubTask::where("task_id", $task->id)->get();
         if (count($subTasks) > 0) {
             return response()->json([
                 'success' => false,
