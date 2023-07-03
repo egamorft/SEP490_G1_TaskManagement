@@ -4,7 +4,22 @@
       "search": 1,
       "icon": "search",
       "slug": "",
-      "admin": ""
+      "admin": "",
+      "user": "",
+      "submenu": [
+        {
+          "url": "dashboard/analytics",
+          "name": "Analytics",
+          "icon": "circle",
+          "slug": "dashboard-analytics"
+        },
+        {
+          "url": "/",
+          "name": "eCommerce",
+          "icon": "circle",
+          "slug": "dashboard-ecommerce"
+        }
+      ]
     },
 
     {

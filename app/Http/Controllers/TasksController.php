@@ -2,26 +2,51 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\AccountProject;
 use App\Models\Task;
+use App\Models\PermissionRole;
+use App\Models\ProjectRolePermission;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\TasksRequest;
+use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Carbon;
+use Illuminate\Support\Str;
+
 
 class TasksController extends Controller
 {
-    public function index($id) {
-        $tasks = DB::select("select * from Tasks where project_id = :project_id", [
-            "project_id" => $id
-        ]);
 
-        return view("layouts/tasks/index", [
-            "tasks" => $tasks
-        ]);
-    }
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+	public function index($slug, $id) {
+		$project = Project::where('slug', $slug)->first();
+		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
+
+		$pageConfigs = [
+            'pageHeader' => true,
+            'pageClass' => 'todo-application',
+        ];
+
+        return view('tasks.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project'));
+
+	}
+    // public function index($id) {
+    //     $tasks = DB::select("select * from Tasks where project_id = :project_id", [
+    //         "project_id" => $id
+    //     ]);
+
+    //     return view("layouts/tasks/index", [
+    //         "tasks" => $tasks
+    //     ]);
+    // }
 
     public function task_list(TasksRequest $request, $project_id) {
         $project = Project::findOrFail($project_id);

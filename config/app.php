@@ -179,6 +179,10 @@ return [
         App\Providers\RouteServiceProvider::class,
         // custom theme menu provider
         App\Providers\MenuServiceProvider::class,
+        //Menu sidebar
+        App\Providers\ProjectsComposerServiceProvider::class,
+        //Account provider
+        App\Providers\AccountServiceProvider::class,
     ],
 
     /*

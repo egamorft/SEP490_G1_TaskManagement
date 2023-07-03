@@ -24,17 +24,6 @@ $chat-widget-height: 390px;
 // User chat window css
 .chat-app-window {
   // User chats
-  .user-chats {
-    background-color: $chat-image-back-color;
-    padding: 1rem;
-    position: relative;
-    height: calc(100% - #{$chat-head-footer-height} - #{$chat-head-footer-height});
-    .avatar {
-      img {
-        border: 2px solid $white;
-      }
-    }
-  }
   .active-chat {
     height: inherit;
     .chat-header {

@@ -18,6 +18,9 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\ProjectsController;
+use App\Http\Controllers\TasksController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Auth;
@@ -40,6 +43,7 @@ use PhpParser\Node\Stmt\Return_;
 
 Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
 
+Route::resource('/tasks', TasksController::class);
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -81,6 +85,25 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+
+	Route::group(['prefix' => 'projects'], function () {
+		Route::get('{slug}', [ProjectsController::class, 'index'])->name('index');
+		Route::get('{slug}/gantt', [ProjectsController::class, 'gantt'])->name('gantt');
+		Route::get('{slug}/kanban', [ProjectsController::class, 'kanban'])->name('kanban');
+		Route::get('{slug}/calendar', [ProjectsController::class, 'calendar'])->name('index');
+		Route::get('{slug}/report', [ProjectsController::class, 'report'])->name('report');
+		Route::get('{slug}/settings', [ProjectsController::class, 'settings'])->name('settings');
+
+		Route::get('{slug}/tasks/{id}', [TasksController::class, 'index'])->name('settings');
+    });
+
+    Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
+
+    Route::group(['prefix' => 'project'], function () {
+        Route::get('{slug}', [ProjectController::class, 'index'])->name('project.settings');
+        Route::post('update-information/{id}', [ProjectController::class, 'update'])->name('project.update');
+    });
+
     Route::post('/log-out', function () {
         Auth::logout();
         return redirect()->route('login');
@@ -120,8 +143,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('edit-permissions/{id}', [AdminAccessController::class, 'edit'])->name('edit.permissions');
         Route::get('get-specific-permission', [AdminAccessController::class, 'show'])->name('permission.show');
         Route::delete('remove-permission-role/{id}', [AdminAccessController::class, 'remove'])->name('remove.permission.role');
+<<<<<<< HEAD
 
 
+=======
+>>>>>>> 464a3ac80dd9d104f42a1c947802eab051fb8137
     });
     /* Route Admin */
 
