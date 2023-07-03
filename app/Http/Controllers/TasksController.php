@@ -23,7 +23,7 @@ class TasksController extends Controller
         ]);
     }
 
-    public function taskList(TasksRequest $request, $project_id) {
+    public function task_list(TasksRequest $request, $project_id) {
         $project = Project::findOrFail($project_id);
 
         $tasks = DB::select("select * from Tasks where project_id = :project_id", [
@@ -80,12 +80,5 @@ class TasksController extends Controller
 
         Session::flash("success", "Successfully delete task");
         return response()->json(["success" => true, "message" => "Task Deleted"]);
-    }
-
-    private function hasPermission() {
-        $user = Auth::user();
-        
-        // $account_role = 
-        return false;
     }
 }

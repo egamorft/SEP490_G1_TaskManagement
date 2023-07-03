@@ -13,17 +13,17 @@ use Illuminate\Support\Facades\Session;
 
 class SubTasksController extends Controller
 {
-    public function taskList(TasksRequest $request, $task_id) {
-        $task = Task::findOrFail($task_id);
+    public function task_list(TasksRequest $request, $taskId) {
+        $task = Task::findOrFail($taskId);
 
-        $sub_tasks = DB::select("select * from SubTasks where task_id = :task_id", [
-            "task_id" => $task_id
+        $subTasks = DB::select("select * from SubTasks where task_id = :task_id", [
+            "task_id" => $taskId
         ]);
 
         Session::flash("success", "Get data successfully");
         return response()->json([
             'success' => true,
-            'data' => $sub_tasks
+            'data' => $subTasks
         ]);
     }
 
@@ -32,7 +32,7 @@ class SubTasksController extends Controller
     }
 
     public function store(TasksRequest $request) {
-        $sub_task = [
+        $subTask = [
             "name" => $request->input("sub_task_name"),
             "image" => $request->file("images"),
             "description" => $request->input("sub_task_description"),
@@ -40,7 +40,7 @@ class SubTasksController extends Controller
             "due_date" => $request->date("due_date"),
         ];
 
-        SubTask::create($sub_task);
+        SubTask::create($subTask);
 
         Session::flash('success', "Create Sub Task successfully!");
         return redirect()->route("layouts/tasks/sub.tasks");
@@ -52,43 +52,31 @@ class SubTasksController extends Controller
     }
 
     public function update(TasksRequest $request, $id) {
-        $sub_task = SubTask::findOrFail($id);
+        $subTask = SubTask::findOrFail($id);
         
-        $sub_task->name = $request->input("sub_task_name");
-        $sub_task->image = $request->file("image");
-        $sub_task->description = $request->input("sub_task_description");
-        $sub_task->attachment = $request->file("attachment");
-        $sub_task->due_date = $request->date("due_date");
+        $subTask->name = $request->input("sub_task_name");
+        $subTask->image = $request->file("image");
+        $subTask->description = $request->input("sub_task_description");
+        $subTask->attachment = $request->file("attachment");
+        $subTask->due_date = $request->date("due_date");
 
-        $sub_task->save();
+        $subTask->save();
 
         Session::flash("success", "Successfully update sub task");
         return response()->json(["success" => true]);
     }
 
-    public function delete(TasksRequest $request, $id) {
-        $sub_task = Task::findOrFail($id);
+    public function delete($id) {
+        $subTask = Task::findOrFail($id);
         
-        $sub_task->delete();
+        $subTask->delete();
 
         Session::flash("success", "Successfully delete sub task");
         return response()->json(["success" => true, "message" => "Sub Task Deleted"]);
     }
 
-    private function hasPermission() {
-        $user = Auth::user();
-        
-        // $account_role = 
-        return false;
-    }
-
     public function assign(TasksRequest $request, $id) {
         $task = Task::findOrFail($id);
-
-        if (!$this->hasPermission()) {
-            return response()->json(["success" => false, "message" => "User don't have permission to assign sub task"]);
-        }
-
         
     }
 }
