@@ -110,7 +110,7 @@ class TaskController extends Controller
             return response()->json([
                 'success' => false,
                 'message' => "Cannot delete Task contains Subtasks"
-            ])
+            ]);
         }
 
         $task->delete();
