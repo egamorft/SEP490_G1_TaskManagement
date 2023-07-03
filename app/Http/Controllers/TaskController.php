@@ -28,8 +28,8 @@ class TaskController extends Controller
      * @return \Illuminate\Http\Response
      */
 	public function index($slug, $id) {
-		$project = Project::where('slug', 2)->first();
-        $task = Task::where('project_id', $project->id)->get();
+		$project = Project::where('slug', $slug)->first();
+        // $task = Task::where('project_id', $project->id)->get();
 		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
 		$pageConfigs = [

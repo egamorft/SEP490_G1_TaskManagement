@@ -94,7 +94,7 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{slug}/settings', [ProjectsController::class, 'settings'])->name('settings');
         
         // Router Tasks Action
-        Route::get('{slug}/tasks/{id}', [TaskController::class, 'index'])->name('settings');
+        Route::get('{slug}/tasks/{id}', [TaskController::class, 'index'])->name('index');
         Route::get('{slug}/tasks/create', [TaskController::class, 'create'])->name('task.create');
         Route::post('{slug}/tasks/project-task-create', [TaskController::class, 'store'])->name('task.store');
         Route::get('{slug}/tasks/update/{id}', [TaskController::class, 'update'])->name('task.update');
