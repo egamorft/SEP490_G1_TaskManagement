@@ -618,6 +618,20 @@
                                 <input type="text" id="todoTitleAdd" name="todoTitleAdd"
                                     class="new-todo-item-title form-control" placeholder="Enter your task name" />
                             </div>
+							<div class="mb-1 position-relative">
+                                <label for="task-list" class="form-label d-block">Task List</label>
+                                <select class="select2 form-select" id="task-list" name="task-list">
+                                    <option value="uncategorizd" selected>
+                                        Uncategorized
+                                    </option>
+									<option value="List Bug UI" >
+                                        List Bug UI
+                                    </option>
+									<option value="List Bug UI" >
+                                        List Task For Tester
+                                    </option>
+                                </select>
+                            </div>
                             <div class="mb-1 position-relative">
                                 <label for="task-assigned" class="form-label d-block">Assignee</label>
                                 <select class="select2 form-select" id="task-assigned" name="task-assigned">

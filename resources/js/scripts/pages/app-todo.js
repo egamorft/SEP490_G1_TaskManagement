@@ -37,7 +37,9 @@ $(function () {
     listItemFilter = $('.list-group-filters'),
     noResults = $('.no-results'),
     checkboxId = 100,
-    isRtl = $('html').attr('data-textdirection') === 'rtl';
+    isRtl = $('html').attr('data-textdirection') === 'rtl',
+	editBtn = $('#edit-task-btn'),
+	removeBtn = $('#remove-task-btn');
 
   var assetPath = '../../../app-assets/';
   if ($('body').attr('data-framework') === 'laravel') {
@@ -205,6 +207,21 @@ $(function () {
       updateBtns.addClass('d-none');
       modalTitle.text('Add Task');
       // newTaskModal.modal('show');
+      sidebarLeft.removeClass('show');
+      overlay.removeClass('show');
+      newTaskModal.find('.new-todo-item-title').val('');
+      var quill_editor = taskDesc.find('.ql-editor');
+      quill_editor[0].innerHTML = '';
+    });
+  }
+
+  // On edit item button click, clear sidebar-right field fields
+  if (editBtn.length) {
+    editBtn.on('click', function (e) {
+		addBtn.removeClass('d-none');
+      updateBtns.addClass('d-none');
+      modalTitle.text('Add Task');
+      newTaskModal.modal('show');
       sidebarLeft.removeClass('show');
       overlay.removeClass('show');
       newTaskModal.find('.new-todo-item-title').val('');

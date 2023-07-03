@@ -11,11 +11,11 @@
  						<i class="font-medium-2 cursor-pointer" data-feather="more-vertical" role="button" id="fileActions" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
  						</i>
  						<div class="dropdown-menu dropdown-menu-end" aria-labelledby="fileActions">
- 							<a class="dropdown-item" href="#">
+ 							<a class="dropdown-item" href="#" id="edit-task-btn">
  								<i data-feather="edit" class="cursor-pointer me-50"></i>
  								<span class="align-middle">Edit</span>
  							</a>
- 							<a class="dropdown-item" href="#">
+ 							<a class="dropdown-item" href="#" id="remove-task-btn">
  								<i data-feather="trash" class="cursor-pointer me-50"></i>
  								<span class="align-middle">Remove</span>
  							</a>
