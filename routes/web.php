@@ -20,7 +20,6 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectsController;
-use App\Http\Controllers\TasksController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\TasksController;
 use Illuminate\Support\Facades\Auth;
