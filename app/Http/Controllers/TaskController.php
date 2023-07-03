@@ -41,8 +41,8 @@ class TaskController extends Controller
 
 	}
 
-    public function create() {
-        return view("tasks/create");
+    public function create($slug) {
+        return view("tasks.create");
     }
 
     public function store(TasksRequest $request, $slug) {

@@ -66,7 +66,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-warning" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Submit quotation for Abid's
+                                                            <span class="text-dark todo-title">Submit quotation for
+                                                                Abid's
                                                                 ecommerce
                                                                 website and admin project
                                                             </span>
@@ -90,7 +91,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-success" data-feather='check-circle'></i>
-                                                            <span class="text-dark todo-title">Reminder to mail clients for
+                                                            <span class="text-dark todo-title">Reminder to mail clients
+                                                                for
                                                                 holidays</span>
                                                         </div>
                                                     </div>
@@ -111,8 +113,9 @@
                                                 <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
-															<i class="text-secondary" data-feather='check-circle'></i>
-                                                            <span class="text-dark todo-title">Refactor Code and fix the bugs and
+                                                            <i class="text-secondary" data-feather='check-circle'></i>
+                                                            <span class="text-dark todo-title">Refactor Code and fix the
+                                                                bugs and
                                                                 test it
                                                                 on server </span>
                                                         </div>
@@ -134,7 +137,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-danger" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">List out all the SEO resources and
+                                                            <span class="text-dark todo-title">List out all the SEO
+                                                                resources and
                                                                 send it
                                                                 to new SEO team.
                                                             </span>
@@ -154,7 +158,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Finish documentation and make it
+                                                            <span class="text-dark todo-title">Finish documentation and
+                                                                make it
                                                                 live</span>
                                                         </div>
                                                     </div>
@@ -175,7 +180,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Pick up Nats from her school and
+                                                            <span class="text-dark todo-title">Pick up Nats from her
+                                                                school and
                                                                 drop at
                                                                 dance class😁 </span>
                                                         </div>
@@ -193,7 +199,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Plan new dashboard design with
+                                                            <span class="text-dark todo-title">Plan new dashboard
+                                                                design with
                                                                 design team
                                                                 for Google app store.
                                                             </span>
@@ -215,7 +222,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Conduct a mini awareness meeting
+                                                            <span class="text-dark todo-title">Conduct a mini awareness
+                                                                meeting
                                                                 regarding
                                                                 health care. </span>
                                                         </div>
@@ -234,9 +242,10 @@
                                                 <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
-                                                            															<i class="text-secondary" data-feather='check-circle'></i>
+                                                            <i class="text-secondary" data-feather='check-circle'></i>
 
-                                                            <span class="text-dark todo-title">Fix Responsiveness for new
+                                                            <span class="text-dark todo-title">Fix Responsiveness for
+                                                                new
                                                                 structure
                                                                 💻</span>
                                                         </div>
@@ -257,9 +266,10 @@
                                                 <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
-                                                            															<i class="text-secondary" data-feather='check-circle'></i>
+                                                            <i class="text-secondary" data-feather='check-circle'></i>
 
-                                                            <span class="text-dark todo-title">Plan a party for development team
+                                                            <span class="text-dark todo-title">Plan a party for
+                                                                development team
                                                                 🎁</span>
                                                         </div>
                                                     </div>
@@ -279,9 +289,10 @@
                                                 <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
-                                                            															<i class="text-secondary" data-feather='check-circle'></i>
+                                                            <i class="text-secondary" data-feather='check-circle'></i>
 
-                                                            <span class="text-dark todo-title">Hire 5 new Fresher or Experienced,
+                                                            <span class="text-dark todo-title">Hire 5 new Fresher or
+                                                                Experienced,
                                                                 frontend and backend developers
                                                             </span>
                                                         </div>
@@ -314,7 +325,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Fix Responsiveness for new
+                                                            <span class="text-dark todo-title">Fix Responsiveness for
+                                                                new
                                                                 structure
                                                                 💻</span>
                                                         </div>
@@ -336,7 +348,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Plan a party for development team
+                                                            <span class="text-dark todo-title">Plan a party for
+                                                                development team
                                                                 🎁</span>
                                                         </div>
                                                     </div>
@@ -357,7 +370,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Hire 5 new Fresher or Experienced,
+                                                            <span class="text-dark todo-title">Hire 5 new Fresher or
+                                                                Experienced,
                                                                 frontend and backend developers
                                                             </span>
                                                         </div>
@@ -390,7 +404,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Fix Responsiveness for new
+                                                            <span class="text-dark todo-title">Fix Responsiveness for
+                                                                new
                                                                 structure
                                                                 💻</span>
                                                         </div>
@@ -412,7 +427,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Plan a party for development team
+                                                            <span class="text-dark todo-title">Plan a party for
+                                                                development team
                                                                 🎁</span>
                                                         </div>
                                                     </div>
@@ -433,7 +449,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Hire 5 new Fresher or Experienced,
+                                                            <span class="text-dark todo-title">Hire 5 new Fresher or
+                                                                Experienced,
                                                                 frontend and backend developers
                                                             </span>
                                                         </div>
@@ -456,7 +473,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Fix Responsiveness for new
+                                                            <span class="text-dark todo-title">Fix Responsiveness for
+                                                                new
                                                                 structure
                                                                 💻</span>
                                                         </div>
@@ -478,7 +496,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Skype Tommy for project status &
+                                                            <span class="text-dark todo-title">Skype Tommy for project
+                                                                status &
                                                                 report</span>
                                                         </div>
                                                     </div>
@@ -499,7 +518,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Test functionality of apps
+                                                            <span class="text-dark todo-title">Test functionality of
+                                                                apps
                                                                 developed by
                                                                 dev team for enhancements.
                                                             </span>
@@ -521,7 +541,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Answer the support tickets and
+                                                            <span class="text-dark todo-title">Answer the support
+                                                                tickets and
                                                                 close
                                                                 completed tickets. </span>
                                                         </div>
@@ -542,7 +563,8 @@
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Meet Jane and ask for coffee
+                                                            <span class="text-dark todo-title">Meet Jane and ask for
+                                                                coffee
                                                                 ❤️</span>
                                                         </div>
                                                     </div>
@@ -581,21 +603,20 @@
     <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-task-modal">
         <div class="modal-dialog sidebar-lg">
             <div class="modal-content p-0">
-                <form id="form-modal-todo" class="todo-modal needs-validation" novalidate onsubmit="return false">
-                    <div class="modal-header align-items-center mb-1">
+                <form id="form-modal-todo" class="todo-modal needs-validation" action="{{ route('task.create', ["slug" => $project->slug]) }}" method="POST">
+                    @csrf
+					<div class="modal-header align-items-center mb-1">
                         <h5 class="modal-title">Add Task</h5>
                         <div class="todo-item-action d-flex align-items-center justify-content-between ms-auto">
-                            <span class="todo-item-favorite cursor-pointer me-75"><i data-feather="star"
-                                    class="font-medium-2"></i></span>
                             <i data-feather="x" class="cursor-pointer" data-bs-dismiss="modal" stroke-width="3"></i>
                         </div>
                     </div>
                     <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
                         <div class="action-tags">
                             <div class="mb-1">
-                                <label for="todoTitleAdd" class="form-label">Title</label>
+                                <label for="todoTitleAdd" class="form-label">Task Name</label>
                                 <input type="text" id="todoTitleAdd" name="todoTitleAdd"
-                                    class="new-todo-item-title form-control" placeholder="Title" />
+                                    class="new-todo-item-title form-control" placeholder="Enter your task name" />
                             </div>
                             <div class="mb-1 position-relative">
                                 <label for="task-assigned" class="form-label d-block">Assignee</label>
@@ -626,21 +647,39 @@
                                     </option>
                                 </select>
                             </div>
+                            <div class="mb-1 position-relative">
+                                <label for="task-reviewer" class="form-label d-block">Reviewer</label>
+                                <select class="select2 form-select" id="task-reviewer" name="task-reviewer">
+                                    <option data-img="{{ asset('images/portrait/small/avatar-s-3.jpg') }}"
+                                        value="Phill Buffer" selected>
+                                        Phill Buffer
+                                    </option>
+                                    <option data-img="{{ asset('images/portrait/small/avatar-s-1.jpg') }}"
+                                        value="Chandler Bing">
+                                        Chandler Bing
+                                    </option>
+                                    <option data-img="{{ asset('images/portrait/small/avatar-s-4.jpg') }}"
+                                        value="Ross Geller">
+                                        Ross Geller
+                                    </option>
+                                    <option data-img="{{ asset('images/portrait/small/avatar-s-6.jpg') }}"
+                                        value="Monica Geller">
+                                        Monica Geller
+                                    </option>
+                                    <option data-img="{{ asset('images/portrait/small/avatar-s-2.jpg') }}"
+                                        value="Joey Tribbiani">
+                                        Joey Tribbiani
+                                    </option>
+                                    <option data-img="{{ asset('images/portrait/small/avatar-s-11.jpg') }}"
+                                        value="Rachel Green">
+                                        Rachel Green
+                                    </option>
+                                </select>
+                            </div>
                             <div class="mb-1">
                                 <label for="task-due-date" class="form-label">Due Date</label>
                                 <input type="text" class="form-control task-due-date" id="task-due-date"
                                     name="task-due-date" />
-                            </div>
-                            <div class="mb-1">
-                                <label for="task-tag" class="form-label d-block">Tag</label>
-                                <select class="form-select task-tag" id="task-tag" name="task-tag"
-                                    multiple="multiple">
-                                    <option value="Team">Team</option>
-                                    <option value="Low">Low</option>
-                                    <option value="Medium">Medium</option>
-                                    <option value="High">High</option>
-                                    <option value="Update">Update</option>
-                                </select>
                             </div>
                             <div class="mb-1">
                                 <label class="form-label">Description</label>

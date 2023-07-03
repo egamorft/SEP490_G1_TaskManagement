@@ -86,7 +86,7 @@ Route::get('/api/check-auth', function () {
 Route::middleware(['auth'])->group(function () {
 
 	Route::group(['prefix' => 'projects'], function () {
-		Route::get('{slug}', [ProjectsController::class, 'index'])->name('index');
+		Route::get('{slug}', [ProjectsController::class, 'index'])->name('project.index');
 		Route::get('{slug}/gantt', [ProjectsController::class, 'gantt'])->name('gantt');
 		Route::get('{slug}/kanban', [ProjectsController::class, 'kanban'])->name('kanban');
 		Route::get('{slug}/calendar', [ProjectsController::class, 'calendar'])->name('index');
@@ -94,8 +94,8 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{slug}/settings', [ProjectsController::class, 'settings'])->name('settings');
         
         // Router Tasks Action
-        Route::get('{slug}/tasks/{id}', [TaskController::class, 'index'])->name('index');
-        Route::get('{slug}/tasks/create', [TaskController::class, 'create'])->name('task.create');
+        Route::get('{slug}/tasks/{id}', [TaskController::class, 'index'])->name('task.index');
+        Route::post('{slug}/tasks/create', [TaskController::class, 'create'])->name('task.create');
         Route::post('{slug}/tasks/project-task-create', [TaskController::class, 'store'])->name('task.store');
         Route::get('{slug}/tasks/update/{id}', [TaskController::class, 'update'])->name('task.update');
         Route::post('{slug}/tasks/project-task-edit/{id}', [TaskController::class, 'edit'])->name('task.edit');

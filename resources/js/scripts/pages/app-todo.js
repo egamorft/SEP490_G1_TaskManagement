@@ -22,6 +22,7 @@ $(function () {
     updateBtns = $('.update-btn'),
     taskDesc = $('#task-desc'),
     taskAssignSelect = $('#task-assigned'),
+    taskReviewSelect = $('#task-reviewer'),
     taskTag = $('#task-tag'),
     overlay = $('.body-content-overlay'),
     menuToggle = $('.menu-toggle'),
@@ -131,8 +132,22 @@ $(function () {
   if (taskAssignSelect.length) {
     taskAssignSelect.wrap('<div class="position-relative"></div>');
     taskAssignSelect.select2({
-      placeholder: 'Unassigned',
+      placeholder: 'No Reviewer',
       dropdownParent: taskAssignSelect.parent(),
+      templateResult: assignTask,
+      templateSelection: assignTask,
+      escapeMarkup: function (es) {
+        return es;
+      }
+    });
+  }
+
+  // Task Assign Select2
+  if (taskReviewSelect.length) {
+    taskReviewSelect.wrap('<div class="position-relative"></div>');
+    taskReviewSelect.select2({
+      placeholder: 'Unassigned',
+      dropdownParent: taskReviewSelect.parent(),
       templateResult: assignTask,
       templateSelection: assignTask,
       escapeMarkup: function (es) {
@@ -211,6 +226,9 @@ $(function () {
         'task-assigned': {
           required: true
         },
+		'task-reviewer': {
+			required: true
+		  },
         'task-due-date': {
           required: true
         }
@@ -322,7 +340,7 @@ $(function () {
     event.stopPropagation();
   });
 
-  // To open todo list item modal on click of item
+//   // To open todo list item modal on click of item
 //   $(document).on('click', '.todo-task-list-wrapper .todo-item', function (e) {
 //     newTaskModal.modal('show');
 //     addBtn.addClass('d-none');

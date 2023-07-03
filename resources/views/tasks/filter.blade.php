@@ -1,7 +1,7 @@
 <!-- Sidebar -->
 <div class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column" id="app-calendar-sidebar">
     <div class="sidebar-wrapper">
-        <div class="card-body d-flex justify-content-center">
+        <div class="card-body add-task d-flex justify-content-center">
             <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#new-task-modal">
                 Add Task
             </button>
