@@ -603,7 +603,7 @@
     <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-task-modal">
         <div class="modal-dialog sidebar-lg">
             <div class="modal-content p-0">
-                <form id="form-modal-todo" class="todo-modal needs-validation" action="{{ route('task.create', ["slug" => $project->slug]) }}" method="POST">
+                <form id="form-modal-todo-a" class="todo-modal needs-validation" action="{{ route('task.create', ["slug" => $project->slug]) }}" method="POST">
                     @csrf
 					<div class="modal-header align-items-center mb-1">
                         <h5 class="modal-title">Add Task</h5>
@@ -698,16 +698,10 @@
                             </div>
                         </div>
                         <div class="my-1">
-                            <button type="submit" class="btn btn-primary d-none add-todo-item me-1">Add</button>
-                            <button type="button" class="btn btn-outline-secondary add-todo-item d-none"
+                            <button type="submit" class="btn btn-primary add-todo-item me-1">Add</button>
+                            <button type="button" class="btn btn-outline-secondary add-todo-item"
                                 data-bs-dismiss="modal">
                                 Cancel
-                            </button>
-                            <button type="button"
-                                class="btn btn-primary d-none update-btn update-todo-item me-1">Update</button>
-                            <button type="button" class="btn btn-outline-danger update-btn d-none"
-                                data-bs-dismiss="modal">
-                                Delete
                             </button>
                         </div>
                     </div>
