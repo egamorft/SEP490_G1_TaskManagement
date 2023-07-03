@@ -31,4 +31,6 @@ class SubTask extends Model
     {
         return $this->hasMany(Comment::class, 'sub_task_id');
     }
+
+    public static $DEFAULT_ASSIGNEE = 0;
 }

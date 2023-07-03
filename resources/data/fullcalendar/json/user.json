@@ -1,0 +1,22 @@
+[
+    {
+        "id": "all",
+        "color": "#7367F0",
+        "content": "All"
+    },
+    {
+        "id": "creator",
+        "color": "#7367F0",
+        "content": "Creator"
+    },
+    {
+        "id": "assignee",
+        "color": "#7367F0",
+        "content": "Assignee"
+    },
+    {
+        "id": "reviewer",
+        "color": "#7367F0",
+        "content": "Reviewer"
+    }
+]

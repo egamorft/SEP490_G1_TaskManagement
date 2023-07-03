@@ -247,7 +247,6 @@ document.addEventListener('DOMContentLoaded', function () {
 
   // Calendar plugins
   var calendar = new FullCalendar.Calendar(calendarEl, {
-    initialView: 'dayGridMonth',
     events: fetchEvents,
     editable: true,
     dragScroll: true,
@@ -260,7 +259,7 @@ document.addEventListener('DOMContentLoaded', function () {
     },
     headerToolbar: {
       start: 'sidebarToggle, prev,next, title',
-      end: 'dayGridMonth,timeGridWeek,timeGridDay,listMonth'
+      end: ''
     },
     direction: direction,
     initialDate: new Date(),
