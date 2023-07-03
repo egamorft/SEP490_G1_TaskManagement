@@ -143,11 +143,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('edit-permissions/{id}', [AdminAccessController::class, 'edit'])->name('edit.permissions');
         Route::get('get-specific-permission', [AdminAccessController::class, 'show'])->name('permission.show');
         Route::delete('remove-permission-role/{id}', [AdminAccessController::class, 'remove'])->name('remove.permission.role');
-<<<<<<< HEAD
 
 
-=======
->>>>>>> 464a3ac80dd9d104f42a1c947802eab051fb8137
     });
     /* Route Admin */
 
