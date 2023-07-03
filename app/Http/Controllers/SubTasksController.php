@@ -13,17 +13,25 @@ use Illuminate\Support\Facades\Session;
 
 class SubTasksController extends Controller
 {
-    public function task_list(TasksRequest $request, $taskId) {
-        $task = Task::findOrFail($taskId);
+    public function task_list(TasksRequest $request, $slug, $taskId) {
+        $task = Task::findOrFail($taskId)->first();
+        if (!$task) {
+            return response()->json([
+                'success' => false,
+                'message' => "Task not found"
+            ]);
+        }
 
         $subTasks = DB::select("select * from SubTasks where task_id = :task_id", [
-            "task_id" => $taskId
+            "task_id" => $task->id
         ]);
 
         Session::flash("success", "Get data successfully");
         return response()->json([
             'success' => true,
-            'data' => $subTasks
+            'data' => [
+                "subTasks" => $subTasks
+            ]
         ]);
     }
 

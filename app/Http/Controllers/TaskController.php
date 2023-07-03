@@ -10,6 +10,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\TasksRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Models\Project;
+use App\Models\SubTask;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -18,7 +19,7 @@ use Illuminate\Support\Carbon;
 use Illuminate\Support\Str;
 
 
-class TasksController extends Controller
+class TaskController extends Controller
 {
 
     /**
@@ -35,50 +36,41 @@ class TasksController extends Controller
             'pageClass' => 'todo-application',
         ];
 
-        return view('tasks.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project'));
+        return view('tasks/index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project'));
 
 	}
-    // public function index($id) {
-    //     $tasks = DB::select("select * from Tasks where project_id = :project_id", [
-    //         "project_id" => $id
-    //     ]);
-
-    //     return view("layouts/tasks/index", [
-    //         "tasks" => $tasks
-    //     ]);
-    // }
-
-    public function task_list(TasksRequest $request, $project_id) {
-        $project = Project::findOrFail($project_id);
-
-        $tasks = DB::select("select * from Tasks where project_id = :project_id", [
-            "project_id" => $project_id
-        ]);
-
-        Session::flash("success", "Get data successfully");
-        return response()->json([
-            'success' => true,
-            'data' => $tasks
-        ]);
-    }
 
     public function create() {
-        return view("layouts/tasks/create");
+        return view("tasks/create");
     }
 
-    public function store(TasksRequest $request) {
+    public function store(TasksRequest $request, $slug) {
+        $project = Project::where("slug", $slug)->first();
+
+        if (!$project) {
+            return response()->json([
+                'success' => false,
+                'message' => "Can't find project"
+            ]);
+        }
+
         $task = [
             "name" => $request->input("task_name"),
-            "project_id" => $request->input("project_id"),
+            "project_id" => $project->id,
             "limitation" => $request->input("task_limitation"),
             "description" => $request->input("task_description")
         ];
 
-        Task::create($task);
+        $taskCreated = Task::create($task);
+        if (!$taskCreated) {
+            return response()->json([
+                'success' => false,
+                "message" => "Can't create task for project {$project->name}"
+            ]);
+        }
 
         Session::flash('success', "Create Task successfully!");
-        return redirect()->route("layouts/tasks");
-        // return response()->json(['success' => true, "message" => "Task created"]);
+        return redirect()->route("{$slug}/tasks/{$taskCreated->id}");
     }
 
     public function edit() {
@@ -86,7 +78,13 @@ class TasksController extends Controller
     }
 
     public function update(TasksRequest $request, $id) {
-        $task = Task::findOrFail($id);
+        $task = Task::findOrFail($id)->first();
+        if (!$task) {
+            return response()->json([
+                'success' => false,
+                'message' => "Task not found!"
+            ]);
+        }
         
         $task->name = $request->input("task_name");
         $task->limitation = $request->input("task_limitation");
@@ -98,9 +96,23 @@ class TasksController extends Controller
         return response()->json(["success" => true]);
     }
 
-    public function delete(TasksRequest $request, $id) {
-        $task = Task::findOrFail($id);
-        
+    public function delete($id) {
+        $task = Task::findOrFail($id)->first();
+        if (!$task) {
+            return response()->json([
+                'success' => false,
+                'message' => "Task not found!"
+            ]);
+        }
+
+        $subTasks = SubTask::where("task_id", $task->id);
+        if (count($subTasks) > 0) {
+            return response()->json([
+                'success' => false,
+                'message' => "Cannot delete Task contains Subtasks"
+            ])
+        }
+
         $task->delete();
 
         Session::flash("success", "Successfully delete task");

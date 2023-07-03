@@ -21,7 +21,7 @@ use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\SendMailController;
-use App\Http\Controllers\TasksController;
+use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
 
@@ -42,7 +42,7 @@ use PhpParser\Node\Stmt\Return_;
 
 Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
 
-Route::resource('/tasks', TasksController::class);
+Route::resource('/tasks', TaskController::class);
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -92,8 +92,14 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{slug}/calendar', [ProjectsController::class, 'calendar'])->name('index');
 		Route::get('{slug}/report', [ProjectsController::class, 'report'])->name('report');
 		Route::get('{slug}/settings', [ProjectsController::class, 'settings'])->name('settings');
-
-		Route::get('{slug}/tasks/{id}', [TasksController::class, 'index'])->name('settings');
+        
+        // Router Tasks Action
+        Route::get('{slug}/tasks/{id}', [TaskController::class, 'index'])->name('settings');
+        Route::get('{slug}/tasks/create', [TaskController::class, 'create'])->name('task.create');
+        Route::post('{slug}/tasks/project-task-create', [TaskController::class, 'store'])->name('task.store');
+        Route::get('{slug}/tasks/update/{id}', [TaskController::class, 'update'])->name('task.update');
+        Route::post('{slug}/tasks/project-task-edit/{id}', [TaskController::class, 'edit'])->name('task.edit');
+        Route::delete('{slug}/tasks/task-remove/{id}', [TaskController::class, 'remove'])->name('task.remove');
     });
 
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
@@ -340,8 +346,3 @@ Route::middleware(['auth'])->group(function () {
 });
 // locale Route
 Route::get('lang/{locale}', [LanguageController::class, 'swap']);
-
-Route::get("tasks/{id}", [TasksController::class, 'index'])->name("index");
-Route::get("tasks/create", [TasksController::class, 'create'])->name("create");
-Route::post("tasks/store-task-controller", [TasksController::class, 'store'])->name("store.task.controller");
-
