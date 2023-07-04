@@ -25,8 +25,8 @@ class PermissionRoleRequest extends FormRequest
     public function rules()
     {
         return [
-            'modalPermissionName' => 'required|max:100',
-            'modalPermissionSlug' => 'required|max:100',
+            'modalPermissionName' => 'required|max:100|unique:permission,name',
+            'modalPermissionSlug' => 'required|max:100|unique:permission,slug',
         ];
     }
 }
