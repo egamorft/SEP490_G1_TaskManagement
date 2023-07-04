@@ -26,7 +26,7 @@
                                                 Uncategorized
                                             </a>
 											<div class="d-inline-block mt-0 mr-0">
-												<a class="mt-0 mr-0 text-dark">
+												<a class="mt-0 mr-0 text-dark" data-bs-toggle="modal" data-bs-target="#new-task-list-modal">
 													<i data-feather="edit" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
 												</a>
 												<a class="mt-0 mr-0 text-dark">
