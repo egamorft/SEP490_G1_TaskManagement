@@ -1,3 +1,7 @@
+<!-- Right Sidebar starts -->
+@include('tasks.form-create')
+@include('tasks.form-create-list')
+<!-- Right Sidebar ends -->
 <!-- Sidebar -->
 <div class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column" id="app-calendar-sidebar">
 	<div class="sidebar-wrapper">

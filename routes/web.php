@@ -92,12 +92,12 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{slug}/calendar', [ProjectsController::class, 'calendar'])->name('index');
 		Route::get('{slug}/report', [ProjectsController::class, 'report'])->name('report');
 		Route::get('{slug}/settings', [ProjectsController::class, 'settings'])->name('settings');
-        
+
         // Router Tasks Action
-        Route::get('{slug}/tasks/{id}', [TaskController::class, 'index'])->name('task.index');
-        Route::post('{slug}/tasks/create', [TaskController::class, 'create'])->name('task.create');
-        Route::post('{slug}/tasks/project-task-create', [TaskController::class, 'store'])->name('task.store');
-        Route::get('{slug}/tasks/update/{id}', [TaskController::class, 'update'])->name('task.update');
+        Route::get('{slug}/tasks/{id}', [TaskController::class, 'index'])->name('show.task');
+        Route::post('{slug}/tasks/create', [TaskController::class, 'create'])->name('create.task');
+        Route::post('{slug}/tasks/create-list', [TaskController::class, 'create_list'])->name('create.task.list');
+        Route::get('{slug}/tasks/update/{id}', [TaskController::class, 'update'])->name('update.task');
         Route::post('{slug}/tasks/project-task-edit/{id}', [TaskController::class, 'edit'])->name('task.edit');
         Route::delete('{slug}/tasks/task-remove/{id}', [TaskController::class, 'remove'])->name('task.remove');
     });
