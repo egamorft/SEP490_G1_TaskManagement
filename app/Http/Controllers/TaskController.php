@@ -29,14 +29,7 @@ class TaskController extends Controller
      */
 	public function index($slug, $id) {
 		$project = Project::where('slug', $slug)->first();
-        if (!$project) {
-            return response()->json([
-                "success" => false,
-                "message" => "Project not found"
-            ]);
-        }
-
-        $tasks = Task::where("project_id", $project->id)->get();
+        // $task = Task::where('project_id', $project->id)->get();
 		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
 		$pageConfigs = [
@@ -44,19 +37,11 @@ class TaskController extends Controller
             'pageClass' => 'todo-application',
         ];
 
-        return view('tasks/index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project, tasks'));
+        return view('tasks/index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project'));
 
 	}
 
-    public function create($slug) {
-        return view("tasks.index");
-    }
-
-	public function create_list($slug) {
-        return view("tasks.index");
-    }
-
-    public function store(TasksRequest $request, $slug) {
+    public function create(TasksRequest $request, $slug) {
         $project = Project::where("slug", $slug)->first();
 
         if (!$project) {
@@ -67,10 +52,10 @@ class TaskController extends Controller
         }
 
         $task = [
-            "name" => $request->input("task_name"),
+            "name" => $request->input("listTitleAdd"),
             "project_id" => $project->id,
-            "limitation" => $request->input("task_limitation"),
-            "description" => $request->input("task_description")
+            "limitation" =>  10, //$request->input("task_limitation"),
+            "description" => "No description" //$request->input("task_description")
         ];
 
         $taskCreated = Task::create($task);
@@ -81,8 +66,9 @@ class TaskController extends Controller
             ]);
         }
 
-        Session::flash('success', "Create Task successfully!");
-        return redirect()->route("{$slug}/tasks/{$taskCreated->id}");
+        Session::flash('success', 'Create successfully task list ' . $taskCreated->name);
+        return redirect("projects/{$project->slug}");
+
     }
 
     public function edit() {

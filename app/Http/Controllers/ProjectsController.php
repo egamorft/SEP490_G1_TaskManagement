@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\ProjectRequest;
+use App\Models\Account;
 use App\Models\AccountProject;
 use App\Models\PermissionRole;
 use App\Models\Project;
 use App\Models\ProjectRolePermission;
+use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\Session;
@@ -22,6 +24,16 @@ class ProjectsController extends Controller
     public function index($slug)
     {
         $project = Project::where('slug', $slug)->first();
+        $tasks = Task::where('project_id', $project->id)->get();
+        $accountsProject = AccountProject::where('project_id', $project->id)->get();
+        
+        $accountIds = [];
+        foreach($accountsProject as $accProj) {
+            $accountIds[] = $accProj->account_id;
+        }
+
+        $accounts = Account::whereIn("id", $accountIds)->get();
+
 		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
 		$pageConfigs = [
@@ -29,7 +41,7 @@ class ProjectsController extends Controller
             'pageClass' => 'todo-application',
         ];
 
-        return view('projects.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project'));
+        return view('projects.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project', 'tasks', 'accounts'));
     }
 
 	 /**

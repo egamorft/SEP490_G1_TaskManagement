@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
 
-class SubTasksController extends Controller
+class SubTaskController extends Controller
 {
     public function task_list(TasksRequest $request, $slug, $taskId) {
         $task = Task::findOrFail($taskId)->first();
@@ -35,18 +35,8 @@ class SubTasksController extends Controller
         ]);
     }
 
-    public function create() {
-        return view("layouts/tasks/sub.tasks/create");
-    }
-
-    public function store(TasksRequest $request, $taskId) {
+    public function create(TasksRequest $request, $taskId) {
         $task = Task::where("id", $taskId)->first();
-        if (!$task) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Task not found'
-            ]);
-        }
         $subTask = [
             "name" => $request->input("sub_task_name"),
             "task_id" => $task->id,

@@ -19,7 +19,7 @@
 					</div>
 					<div class="my-1">
 						<button type="submit" class="btn btn-primary add-todo-item me-1">Add</button>
-						<button type="button" class="btn btn-outline-secondary add-todo-item"
+						<button type="reset" class="btn btn-outline-secondary add-todo-item"
 							data-bs-dismiss="modal">
 							Cancel
 						</button>
