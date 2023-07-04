@@ -30,26 +30,22 @@
 								<div class="action-tags">
 									<div class="mb-1">
 										<label for="todoTitleAdd" class="form-label">Task Name</label>
-										<input type="text" id="todoTitleAdd" name="todoTitleAdd"
+										<input type="text" id="todoTitleAdd" name="sub_task_name"
 											class="new-todo-item-title form-control" placeholder="Enter your task name" />
 									</div>
 									<div class="mb-1 position-relative">
 										<label for="task-list" class="form-label d-block">Task List</label>
-										<select class="select2 form-select" id="task-list" name="task-list">
-											<option value="uncategorizd" selected>
-												Uncategorized
-											</option>
-											<option value="List Bug UI" >
-												List Bug UI
-											</option>
-											<option value="List Bug UI" >
-												List Task For Tester
-											</option>
+										<select class="select2 form-select" id="task-list" name="task_id">
+											@foreach ($tasks as $task)
+												<option value=`${task.id}` selected>
+													Uncategorized
+												</option>
+											@endforeach
 										</select>
 									</div>
 									<div class="mb-1 position-relative">
 										<label for="task-assigned" class="form-label d-block">Assignee</label>
-										<select class="select2 form-select" id="task-assigned" name="task-assigned">
+										<select class="select2 form-select" id="task-assigned" name="sub_task_assignee">
 											<option data-img="{{ asset('images/portrait/small/avatar-s-3.jpg') }}"
 												value="Phill Buffer" selected>
 												Phill Buffer
@@ -78,7 +74,7 @@
 									</div>
 									<div class="mb-1 position-relative">
 										<label for="task-reviewer" class="form-label d-block">Reviewer</label>
-										<select class="select2 form-select" id="task-reviewer" name="task-reviewer">
+										<select class="select2 form-select" id="task-reviewer" name="sub_task_reviewer">
 											<option data-img="{{ asset('images/portrait/small/avatar-s-3.jpg') }}"
 												value="Phill Buffer" selected>
 												Phill Buffer
@@ -107,12 +103,12 @@
 									</div>
 									<div class="mb-1">
 										<label for="task-due-date" class="form-label">Due Date</label>
-										<input type="text" class="form-control task-due-date" id="task-due-date"
+										<input type="text" class="form-control task-due-date" id="sub_task_due_date"
 											name="task-due-date" />
 									</div>
 									<div class="mb-1">
 										<label class="form-label">Description</label>
-										<div id="task-desc" class="border-bottom-0"
+										<div id="task-desc" class="border-bottom-0" name="sub_task_description"
 											data-placeholder="Write Your Description">
 										</div>
 										<div class="d-flex justify-content-end desc-toolbar border-top-0">

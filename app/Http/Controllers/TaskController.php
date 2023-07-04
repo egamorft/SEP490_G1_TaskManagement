@@ -29,7 +29,14 @@ class TaskController extends Controller
      */
 	public function index($slug, $id) {
 		$project = Project::where('slug', $slug)->first();
-        // $task = Task::where('project_id', $project->id)->get();
+        if (!$project) {
+            return response()->json([
+                "success" => false,
+                "message" => "Project not found"
+            ]);
+        }
+
+        $tasks = Task::where("project_id", $project->id)->get();
 		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
 		$pageConfigs = [
@@ -37,7 +44,7 @@ class TaskController extends Controller
             'pageClass' => 'todo-application',
         ];
 
-        return view('tasks/index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project'));
+        return view('tasks/index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project, tasks'));
 
 	}
 

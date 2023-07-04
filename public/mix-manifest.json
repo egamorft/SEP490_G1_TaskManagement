@@ -1457,6 +1457,7 @@
     "/data/fullcalendar/json/events.json": "/data/fullcalendar/json/events.json",
     "/data/fullcalendar/json/task.json": "/data/fullcalendar/json/task.json",
     "/data/fullcalendar/json/user.json": "/data/fullcalendar/json/user.json",
+    "/data/fullcalendar/json/user_task.json": "/data/fullcalendar/json/user_task.json",
     "/data/fullcalendar/php/get-events.php": "/data/fullcalendar/php/get-events.php",
     "/data/fullcalendar/php/get-timezones.php": "/data/fullcalendar/php/get-timezones.php",
     "/data/fullcalendar/php/utils.php": "/data/fullcalendar/php/utils.php",
