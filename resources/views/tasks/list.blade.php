@@ -18,14 +18,22 @@
                             <div class="todo-task-list-wrapper list-group">
                                 <ul class="todo-task-list media-list" id="todo-task-list">
 
-                                    <div class="task-list">
-                                        <p class="mb-2 demo-inline-spacing">
+                                    <div class="task-list card mb-0">
+                                        <div class="card-header pl-0 mb-0 demo-inline-spacing">
                                             <a class="me-1 mt-0" data-bs-toggle="collapse" href="#collapseUncategorized"
                                                 role="button" aria-expanded="false"
                                                 aria-controls="collapseUncategorized">
                                                 Uncategorized
                                             </a>
-                                        </p>
+											<div class="d-inline-block mt-0 mr-0">
+												<a class="mt-0 mr-0 text-dark">
+													<i data-feather="edit" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
+												</a>
+												<a class="mt-0 mr-0 text-dark">
+													<i data-feather="trash" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
+												</a>
+											</div>
+                                        </div>
                                         <div class="collapse show" id="collapseUncategorized">
                                             <li class="todo-item">
                                                 <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
@@ -313,12 +321,12 @@
                                         </div>
                                     </div>
                                     <div class="task-list">
-                                        <p class="mb-2 demo-inline-spacing">
+                                        <div class="mb-2 demo-inline-spacing">
                                             <a class="me-1" data-bs-toggle="collapse" href="#collapseList1"
                                                 role="button" aria-expanded="false" aria-controls="collapseList1">
                                                 List Bug UI
                                             </a>
-                                        </p>
+                                        </div>
                                         <div class="collapse show" id="collapseList1">
                                             <li class="todo-item">
                                                 <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
@@ -392,12 +400,12 @@
                                         </div>
                                     </div>
                                     <div class="task-list">
-                                        <p class="mb-2 demo-inline-spacing">
+                                        <div class="mb-2 demo-inline-spacing">
                                             <a class="me-1" data-bs-toggle="collapse" href="#collapseList2"
                                                 role="button" aria-expanded="false" aria-controls="collapseList2">
                                                 List Task for tester
                                             </a>
-                                        </p>
+                                        </div>
                                         <div class="collapse show" id="collapseList2">
                                             <li class="todo-item">
                                                 <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
