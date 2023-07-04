@@ -24,7 +24,10 @@ class SubTasksRequest extends FormRequest
     public function rules()
     {
         return [
-            //
+            "taskTitle" => 'required|max:50',
+            "taskList" => 'required',
+            "taskAssignee" => 'required',
+            "taskDueDate" => 'required'
         ];
     }
 }

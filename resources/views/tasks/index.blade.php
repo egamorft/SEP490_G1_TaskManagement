@@ -18,7 +18,7 @@
 			<div class="modal modal-slide-in sidebar-todo-modal fade" id="new-task-modal">
 				<div class="modal-dialog sidebar-lg">
 					<div class="modal-content p-0">
-						<form id="form-modal-todo-a" class="todo-modal needs-validation" action="{{ route('task.create', ["slug" => $project->slug]) }}" method="POST">
+						<form id="form-modal-todo-a" class="todo-modal needs-validation" action="{{ route('create.task', ["slug" => $project->slug]) }}" method="POST">
 							@csrf
 							<div class="modal-header align-items-center mb-1">
 								<h5 class="modal-title">Add Task</h5>
@@ -36,11 +36,6 @@
 									<div class="mb-1 position-relative">
 										<label for="task-list" class="form-label d-block">Task List</label>
 										<select class="select2 form-select" id="task-list" name="task_id">
-											@foreach ($tasks as $task)
-												<option value=`${task.id}` selected>
-													Uncategorized
-												</option>
-											@endforeach
 										</select>
 									</div>
 									<div class="mb-1 position-relative">

@@ -3,9 +3,14 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\SubTasksRequest;
 use App\Http\Requests\TasksRequest;
+use App\Models\Account;
+use App\Models\AccountProject;
+use App\Models\Project;
 use App\Models\SubTask;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -13,63 +18,62 @@ use Illuminate\Support\Facades\Session;
 
 class SubTaskController extends Controller
 {
-    public function task_list(TasksRequest $request, $slug, $taskId) {
-        $task = Task::findOrFail($taskId)->first();
-        if (!$task) {
-            return response()->json([
-                'success' => false,
-                'message' => "Task not found"
-            ]);
-        }
+    public function index($slug, $subTaskId) {
+        $project = Project::where("slug", $slug)->first();
+        $tasks = Task::where("project_id", $project->id)->get();
+        $subTask = SubTask::where("id", $subTaskId)->first();
+        $task = Task::where("id", $subTask->task_id)->first();
+        $breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
-        $subTasks = DB::select("select * from SubTasks where task_id = :task_id", [
-            "task_id" => $task->id
-        ]);
-
-        Session::flash("success", "Get data successfully");
-        return response()->json([
-            'success' => true,
-            'data' => [
-                "subTasks" => $subTasks
-            ]
-        ]);
-    }
-
-    public function create(TasksRequest $request, $taskId) {
-        $task = Task::where("id", $taskId)->first();
-        $subTask = [
-            "name" => $request->input("sub_task_name"),
-            "task_id" => $task->id,
-            "image" => $request->file("images"),
-            "description" => $request->input("sub_task_description"),
-            "assign_to" => SubTask::$DEFAULT_ASSIGNEE,
-            "attachment" => $request->file("attachment"),
-            "due_date" => $request->date("due_date"),
+		$pageConfigs = [
+            'pageHeader' => true,
+            'pageClass' => 'todo-application',
         ];
 
-        SubTask::create($subTask);
+        $accountsProject = AccountProject::where('project_id', $project->id)->get();
+        
+        $accountIds = [];
+        foreach($accountsProject as $accProj) {
+            $accountIds[] = $accProj->account_id;
+        }
 
-        Session::flash('success', "Create Sub Task successfully!");
-        return redirect()->route("layouts/tasks/sub.tasks");
+        $accounts = Account::whereIn("id", $accountIds)->get();
+        
+        return view('tasks/index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact("subTask", "tasks", "project", "task", "accounts"));
     }
 
-    public function edit() {
-        return view("tasks/sub.tasks/edit");
+    public function create(SubTasksRequest $request, $slug) {
+        $project = Project::where("slug", $slug)->first();
+        $validateInput = self::validate_input($request);
+        
+        if ($validateInput["success"] != true) {
+            return response()->json($validateInput);
+        }
+
+        $subTask = [
+            "name" => $request->input("taskTitle"),
+            "task_id" => $request->input("taskList"),
+            "image" => $request->file("images") || '',
+            "description" => $request->input("taskDescription") || '',
+            "assign_to" => $request->input("taskAssignee"), //SubTask::$DEFAULT_ASSIGNEE,
+            "attachment" => $request->file("taskAttachments"),
+            "due_date" => $request->date("taskDueDate"),
+            "created_at" => Carbon::now()
+        ];
+
+        $subTaskCreated = SubTask::create($subTask);
+
+        Session::flash('success', 'Create successfully task list ' . $subTaskCreated->name);
+        return redirect("projects/{$project->slug}");
     }
 
     public function update(TasksRequest $request, $id) {
         $subTask = SubTask::findOrFail($id)->first();
-        if (!$subTask) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Subtask not found'
-            ]);
-        }
-        $subTask->name = $request->input("sub_task_name");
-        $subTask->image = $request->file("image");
-        $subTask->description = $request->input("sub_task_description");
-        $subTask->attachment = $request->file("attachment");
-        $subTask->due_date = $request->date("due_date");
+        $subTask->name = $request->input("taskTitle");
+        $subTask->image = $request->file("images");
+        $subTask->description = $request->input("taskDescription");
+        $subTask->attachment = $request->file("taskAttachments");
+        $subTask->due_date = $request->date("taskDueDate");
 
         $subTask->save();
 
@@ -92,14 +96,62 @@ class SubTaskController extends Controller
         return response()->json(["success" => true, "message" => "Sub Task Deleted"]);
     }
 
-    public function assign(TasksRequest $request, $id) {
+    public function re_assign(TasksRequest $request, $id) {
         $subTask = Task::findOrFail($id)->first();
         
-        if (!$subTask) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Subtask not found'
-            ]);
+    }
+
+    private function validate_input($request) {
+        $stTitle = $request->input("taskTitle");
+
+        if (empty($stTitle)) {
+            return [
+                "success" => false,
+                "message" => "Title cannot be empty"
+            ];
         }
+
+        $stTaskListId = $request->input("taskList");
+        if (empty($stTaskListId)) {
+            return [
+                "success" => false,
+                "message" => "Task list Id cannot be empty"
+            ];
+        }
+
+        if (!is_int($stTaskListId)) {
+            return [
+                "success" => false,
+                "message" => "Task list Id must be a number"
+            ];
+        }
+
+        $stAssignee = $request->input("taskAssignee");
+        if (empty($stAssignee)) {
+            return [
+                "success" => false,
+                "message" => "Assignee cannot be empty"
+            ];
+        }
+
+        if (!is_int($stAssignee)) {
+            return [
+                "success" => false,
+                "message" => "Please choose a valid assignee"
+            ];
+        }
+
+        $stDueDate = $request->date("taskDueDate");
+        if (empty($stDueDate)) {
+            return [
+                "success" => false,
+                "message" => "Task due date cannot be empty"
+            ];
+        }
+
+        return [
+            "success" => true,
+            "message" => ""
+        ];
     }
 }

@@ -53,7 +53,7 @@
 						<div class="mb-1">
 							<label for="task-due-date" class="form-label">Due Date</label>
 							<input type="text" class="form-control task-due-date" id="taskDueDate"
-								name="task-due-date" />
+								name="taskDueDate" />
 						</div>
 						<div class="mb-1">
 							<label for="attachments" class="form-label">Attachments</label>

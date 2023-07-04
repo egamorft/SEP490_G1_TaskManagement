@@ -21,7 +21,7 @@ use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\SendMailController;
-use App\Http\Controllers\SubTasksController;
+use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\TaskController;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
@@ -95,11 +95,11 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{slug}/settings', [ProjectsController::class, 'settings'])->name('settings');
 
         // Router Tasks Action
-        Route::get('{slug}/tasks/{id}', [TaskController::class, 'index'])->name('show.task');
         Route::post('{slug}/tasks/create-list', [TaskController::class, 'create'])->name('create.task.list');
         Route::post('{slug}/tasks/project-task-edit/{id}', [TaskController::class, 'edit'])->name('task.edit');
         Route::delete('{slug}/tasks/task-remove/{id}', [TaskController::class, 'remove'])->name('task.remove');
         
+        Route::get('{slug}/tasks/{id}', [SubTaskController::class, 'index'])->name('show.task');
         Route::post('{slug}/tasks/update/{id}', [SubTaskController::class, 'update'])->name('update.task');
         Route::post('{slug}/tasks/create', [SubTaskController::class, 'create'])->name('create.task');
     });

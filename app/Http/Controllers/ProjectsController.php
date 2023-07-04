@@ -8,6 +8,7 @@ use App\Models\AccountProject;
 use App\Models\PermissionRole;
 use App\Models\Project;
 use App\Models\ProjectRolePermission;
+use App\Models\SubTask;
 use App\Models\Task;
 use Illuminate\Http\Request;
 use Illuminate\Support\Carbon;
@@ -24,7 +25,27 @@ class ProjectsController extends Controller
     public function index($slug)
     {
         $project = Project::where('slug', $slug)->first();
-        $tasks = Task::where('project_id', $project->id)->get();
+        $tasksQuery = Task::where('project_id', $project->id);
+        $tasks = $tasksQuery->get();
+        $taskIds = $tasksQuery->addSelect("id")->get();
+        $subTasks = SubTask::whereIn("task_id", $taskIds)->get();
+
+        $subTasksRelease = [];
+        foreach ($tasks as $task) {
+            if (isset($subTasksRelease[$task->id])) {
+                continue;
+            }
+            $subTasksRelease[$task->id] = [];
+        }
+
+        foreach($subTasks as $subTask) {
+            if (!isset($subTasksRelease[$subTask->task_id])) {
+                $subTask[$subTask->task_id] = [$subTask]; 
+                continue;
+            }
+            array_push($subTasksRelease[$subTask->task_id], $subTask);
+        }
+
         $accountsProject = AccountProject::where('project_id', $project->id)->get();
         
         $accountIds = [];
@@ -41,7 +62,7 @@ class ProjectsController extends Controller
             'pageClass' => 'todo-application',
         ];
 
-        return view('projects.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project', 'tasks', 'accounts'));
+        return view('projects.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project', 'tasks', 'accounts', "subTasksRelease"));
     }
 
 	 /**
