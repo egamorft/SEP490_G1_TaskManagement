@@ -49,7 +49,11 @@ class TaskController extends Controller
 	}
 
     public function create($slug) {
-        return view("tasks.create");
+        return view("tasks.index");
+    }
+
+	public function create_list($slug) {
+        return view("tasks.index");
     }
 
     public function store(TasksRequest $request, $slug) {

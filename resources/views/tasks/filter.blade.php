@@ -1,9 +1,18 @@
+<!-- Right Sidebar starts -->
+@include('tasks.form-create')
+@include('tasks.form-create-list')
+<!-- Right Sidebar ends -->
 <!-- Sidebar -->
 <div class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column" id="app-calendar-sidebar">
     <div class="sidebar-wrapper">
         <div class="card-body add-task d-flex justify-content-center">
-            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#new-task-modal">
+            <button type="button" class="btn btn-link border border-primary w-100" data-bs-toggle="modal" data-bs-target="#new-task-modal">
                 Add Task
+            </button>
+        </div>
+		<div class="pt-0 card-body add-task d-flex justify-content-center">
+            <button type="button" class="btn btn-link border border-primary w-100" data-bs-toggle="modal" data-bs-target="#new-task-list-modal">
+                Add Task List
             </button>
         </div>
         <div class="pt-0 pb-0 card-body d-flex justify-content-center">
