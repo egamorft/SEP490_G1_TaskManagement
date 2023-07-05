@@ -1,5 +1,5 @@
 <!-- Edit User Modal -->
-<div class="modal fade" id="addNewTask" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+<div class="modal fade" id="editTask" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
     aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
         <div class="modal-content">
@@ -8,15 +8,15 @@
             </div>
             <div class="modal-body pb-5 px-sm-5 pt-50">
                 <div class="text-center mb-2">
-                    <h1 class="mb-1">Add New Task</h1>
+                    <h1 class="mb-1">Edit Task</h1>
                 </div>
-                <form id="addTaskForm" class="row gy-1 pt-75" action="{{ route('create.task', ["slug" => $project->slug]) }}" method="POST">
+                <form id="addTaskForm" class="row gy-1 pt-75" action="{{ route('edit.task', ["slug" => $project->slug, 'task_id' => 0]) }}" method="POST">
                     @csrf
                     <div class="col-12 col-md-12">
-                        <label class="form-label" for="modalAddTaskName">Task Name</label>
-                        <input type="text" id="modalAddTaskName" name="modalAddTaskName" class="form-control"
+                        <label class="form-label" for="modalEditTaskName">Task Name</label>
+                        <input type="text" id="modalEditTaskName" name="modalEditTaskName" class="form-control"
                             placeholder="Task Name" value="" data-msg="Please enter your list name" />
-                        <span id="error-modalAddTaskName" style="color: red; display: none"></span>
+                        <span id="error-modalEditTaskName" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="select-modalTaskList">Select Task List</label>
@@ -110,7 +110,7 @@
                             placeholder="Enter project description"></textarea>
                     </div>
                     <div class="col-12 text-center mt-2 pt-50">
-                        <button type="submit" class="btn btn-primary me-1">Submit</button>
+                        <button type="submit" class="btn btn-primary me-1">Save</button>
                         <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                             aria-label="Close">
                             Cancel
