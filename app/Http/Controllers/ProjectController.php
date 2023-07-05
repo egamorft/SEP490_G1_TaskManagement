@@ -283,7 +283,7 @@ class ProjectController extends Controller
     {
         $validatedData = $request->validate([
             'settingProjectName' => 'required|max:50',
-            'settingDuration' => 'required',
+            'settingDuration' => 'required|regex:/\d{4}-\d{2}-\d{2} to \d{4}-\d{2}-\d{2}/',
             'settingDesc' => 'nullable'
         ]);
 
