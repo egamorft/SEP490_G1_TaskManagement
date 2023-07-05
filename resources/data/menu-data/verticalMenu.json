@@ -1,8 +1,10 @@
 {
   "menu": [
     {
-      "search": 1,
-      "icon": "search",
+      "name": "Dashboards",
+      "badge": "2",
+      "badgeClass": "badge badge-light-warning rounded-pill ms-auto me-1",
+      "icon": "home",
       "slug": "",
       "admin": "",
       "user": "",
@@ -20,6 +22,20 @@
           "slug": "dashboard-ecommerce"
         }
       ]
+    },
+    {
+      "name": "Roles & Permission",
+      "icon": "shield",
+      "slug": "admin-access-roles",
+      "admin": "",
+      "url": "admin/access/roles"
+    },
+    {
+      "name": "User Management",
+      "icon": "user",
+      "slug": "user-list",
+      "admin": "",
+      "url": "admin/user/list"
     },
 
     {
@@ -42,16 +58,10 @@
       "slug": "add-projects"
     },
     {
+      "name": "My Project",
       "navheader": "My Project",
       "slug": "",
       "admin": ""
-    },
-    {
-      "navitems": 1,
-      "slug": "",
-      "class": "project-nav-preview",
-      "id": "js-project-preview",
-      "html": "No project yet"
     }
   ]
 }
