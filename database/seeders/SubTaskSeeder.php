@@ -20,22 +20,22 @@ class SubTaskSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $tasks = Task::all();
-        
-        $accounts = Account::all();
+        $tasks = Task::pluck('id')->toArray();
+
+        $accounts = Account::pluck('id')->toArray();
 
         foreach ($tasks as $task) {
             for ($i = 0; $i < 5; $i++) {
                 SubTask::create([
                     'name' => $faker->word,
-                    'task_id' => $task->id,
+                    'task_id' => $faker->randomElement($tasks),
                     'image' => $faker->imageUrl(200, 200),
                     'description' => $faker->paragraph,
-                    'assign_to' => $accounts->random()->id,
+                    'assign_to' => $faker->randomElement($accounts),
                     'attachment' => $faker->imageUrl(200, 200),
                     'due_date' => $faker->date(),
                     'created_at' => $faker->date(),
-                    'deleted_at' => null,
+                    'deleted_at' => $faker->randomElement([$faker->date(), null]),
                 ]);
             }
         }

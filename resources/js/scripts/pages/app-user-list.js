@@ -335,10 +335,6 @@ $(function () {
             $('#resetBtn').show();
             if (response.status === 422) {
               var errors = response.responseJSON.errors;
-              // Display the validation errors next to the form fields
-
-              // Hide the error messages
-              // $('.error').text('').hide();
               for (var field in errors) {
                 var errorContainer = $('#' + field + "ErrorAdd");
                 errorContainer.addClass('text-danger');

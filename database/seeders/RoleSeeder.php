@@ -18,7 +18,16 @@ class RoleSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        for ($i = 0; $i < 5; $i++) {
+        Role::create([
+            'name' => 'pm',
+        ]);
+        Role::create([
+            'name' => 'supervisor',
+        ]);
+        Role::create([
+            'name' => 'member',
+        ]);
+        for ($i = 0; $i < 2; $i++) {
             Role::create([
                 'name' => $faker->word,
             ]);

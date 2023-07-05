@@ -19,14 +19,14 @@ class TaskSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $projects = Project::all();
+        $projects = Project::pluck('id')->toArray();
 
         foreach ($projects as $project) {
             for ($i = 0; $i < 5; $i++) {
                 Task::create([
                     'name' => $faker->word,
-                    'project_id' => $project->id,
-                    'limitation' => $faker->randomNumber(),
+                    'project_id' => $faker->randomElement($projects),
+                    'limitation' => $faker->numberBetween(1, 10),
                     'description' => $faker->paragraph,
                 ]);
             }

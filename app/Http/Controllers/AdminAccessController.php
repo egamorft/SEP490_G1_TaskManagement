@@ -8,6 +8,7 @@ use App\Models\Permission;
 use App\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Validation\Rule;
 
 class AdminAccessController extends Controller
 {
@@ -22,7 +23,7 @@ class AdminAccessController extends Controller
 
         $roles = Role::all();
         $rolesWithCount = Role::withCount('accounts')->get();
-        $permissions = Permission::all();
+        $permissionsWithRoles = Permission::with('roles')->get();
         $rolePermissions = []; // Array to store the role permissions
 
         foreach ($roles as $role) {
@@ -34,7 +35,7 @@ class AdminAccessController extends Controller
             ->with(compact(
                 'roles',
                 'rolesWithCount',
-                'permissions',
+                'permissionsWithRoles',
                 'rolePermissions',
             ));
     }
@@ -125,9 +126,22 @@ class AdminAccessController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function edit(PermissionRoleRequest $request, $id)
+    public function edit(Request $request, $id)
     {
         $permission = Permission::findOrFail($id);
+        $request->validate([
+            'modalPermissionName' => [
+                'required',
+                'max:100',
+                Rule::unique('permissions', 'name')->ignore($permission->id),
+            ],
+            'modalPermissionSlug' => [
+                'required',
+                'max:100',
+                Rule::unique('permissions', 'slug')->ignore($permission->id),
+            ],
+        ]);
+
         $permission->name = $request->input('modalPermissionName');
         $permission->slug = $request->input('modalPermissionSlug');
         $permission->save();
@@ -148,14 +162,15 @@ class AdminAccessController extends Controller
         $role = Role::findOrFail($id);
         $permissions = $request->except('_token', 'modalRoleName');
 
+        // Detach all existing permissions from the role
+        $role->permissions()->detach();
+
         // Attach the selected permissions to the role
         foreach ($permissions as $slug => $value) {
             $permission = Permission::where('slug', $slug)->first();
             if ($permission) {
                 if ($value == 1) {
                     $role->permissions()->attach($permission);
-                } elseif ($value == 0) {
-                    $role->permissions()->detach($permission);
                 }
             }
         }

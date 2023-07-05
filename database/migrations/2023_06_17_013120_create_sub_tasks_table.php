@@ -22,7 +22,7 @@ return new class extends Migration
             $table->integer('assign_to');
             $table->text('attachment')->nullable();
             $table->dateTime('due_date');
-            $table->dateTime('created_at');
+            $table->dateTime('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
             $table->dateTime('deleted_at')->nullable();
             // $table->timestamps();
 

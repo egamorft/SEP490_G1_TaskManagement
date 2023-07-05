@@ -19,7 +19,7 @@ return new class extends Migration
             $table->string('email', 50);
             $table->string('password', 100);
             $table->text('address')->nullable();
-            $table->text('avatar');
+            $table->text('avatar')->nullable();
             $table->string('token', 100)->nullable();
             $table->integer('is_admin')->default(0);
             $table->integer('status')->default(0);

@@ -45,7 +45,7 @@
                                     <small class="fw-bolder">Edit Role</small>
                                 </a>
                             </div>
-                            @if ($r->name == 'pm' || $r->name == 'dev' || $r->name == 'supervisor')
+                            @if ($r->name == 'pm' || $r->name == 'member' || $r->name == 'supervisor')
                                 <button type="button" class="btn btn-icon rounded-circle btn-outline-primary waves-effect"
                                     data-bs-trigger="hover" data-bs-toggle="popover" data-bs-placement="top"
                                     data-bs-container="body"
@@ -95,7 +95,7 @@
                                     <div class="table-responsive">
                                         <table class="table table-flush-spacing">
                                             <tbody>
-                                                @foreach ($permissions as $p)
+                                                @foreach ($permissionsWithRoles as $p)
                                                     <tr>
                                                         <td class="text-nowrap fw-bolder">{{ $p->name }}</td>
                                                         <td>
@@ -179,12 +179,12 @@
                             <th>STT</th>
                             <th>Name</th>
                             <th>Slug</th>
-                            <th>Assigned To</th>
+                            <th>Assigned To (Role)</th>
                             <th>Actions</th>
                         </tr>
                     </thead>
                     <tbody>
-                        @forelse ($permissions as $key => $per)
+                        @forelse ($permissionsWithRoles as $key => $per)
                             <tr id="row{{ $per->id }}">
                                 <td>
                                     {{ $key + 1 }}
@@ -203,24 +203,16 @@
                                                 <span class="badge rounded-pill badge-light-primary">{{ $role->name }}</span>
                                             @break
 
-                                            @case('dev')
-                                                <span class="badge rounded-pill badge-light-success">{{ $role->name }}</span>
-                                            @break
-
                                             @case('supervisor')
                                                 <span class="badge rounded-pill badge-light-warning">{{ $role->name }}</span>
                                             @break
 
-                                            @case('ba')
-                                                <span class="badge rounded-pill badge-light-info">{{ $role->name }}</span>
-                                            @break
-
-                                            @case('tester')
-                                                <span class="badge rounded-pill badge-light-danger">{{ $role->name }}</span>
+                                            @case('member')
+                                                <span class="badge rounded-pill badge-light-success">{{ $role->name }}</span>
                                             @break
 
                                             @default
-                                                <span class="badge rounded-pill badge-light-dark">{{ $role->name }}</span>
+                                                <span class="badge rounded-pill badge-light-info">{{ $role->name }}</span>
                                         @endswitch
                                     @endforeach
                                 </td>

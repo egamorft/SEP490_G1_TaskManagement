@@ -19,16 +19,16 @@ class ReportSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $accounts = Account::all();
+        $accounts = Account::pluck('id')->toArray();
 
         foreach ($accounts as $account) {
             for ($i = 0; $i < 5; $i++) {
                 Report::create([
-                    'created_by' => $account->id,
+                    'created_by' => $faker->randomElement($accounts),
                     'reason' => $faker->paragraph,
-                    'reported' => $account->id,
+                    'reported' => $faker->randomElement($accounts),
                     'image' => $faker->imageUrl(200, 200),
-                    'status' => $faker->randomElement([0, 1]),
+                    'status' => $faker->boolean,
                     'response' => $faker->paragraph,
                 ]);
             }

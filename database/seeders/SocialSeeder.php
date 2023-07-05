@@ -19,13 +19,13 @@ class SocialSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $accounts = Account::all();
+        $accounts = Account::pluck('id')->toArray();
 
         foreach ($accounts as $account) {
             Social::create([
                 'provider_user_id' => $faker->unique()->randomNumber(),
                 'provider' => $faker->randomElement(['Facebook', 'Google']),
-                'account_id' => $account->id,
+                'account_id' => $faker->randomElement($accounts),
             ]);
         }
 

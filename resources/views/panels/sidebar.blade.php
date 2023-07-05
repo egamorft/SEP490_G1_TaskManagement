@@ -146,11 +146,11 @@
                     @if (Auth::user()->is_admin == 0)
                         {{-- USER role -> Comp riêng của từng user --}}
                         {{-- Nav header --}}
-                        <li class="nav-item bg-light">
+                        <li class="nav-item">
                             <a data-bs-toggle="modal" data-bs-target="#addNewProject"
                                 href="{{ isset($p->slug) ? url($p->slug) : 'javascript:void(0)' }}"
                                 class="d-flex align-items-center" target="_self"
-                                style="color: black; font-weight: bold">
+                                style=" font-weight: bold">
                                 <i data-feather='plus-square'></i>
                                 <span class="menu-title text-truncate">Add new project</span>
                             </a>
@@ -159,6 +159,7 @@
                             <span>My project</span>
                             <i data-feather="more-horizontal"></i>
                         </li>
+                        {{-- Project List --}}
                         @foreach ($projects as $p)
                             @php
                                 $logo = Str::substr($p->name, 0, 1) . '.png';

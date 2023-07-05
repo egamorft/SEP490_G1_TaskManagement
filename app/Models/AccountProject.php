@@ -13,15 +13,22 @@ class AccountProject extends Model
     protected $fillable = [
         'project_id',
         'account_id',
+        'role_id',
+        'status'
     ];
 
     public function project()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(Project::class, 'project_id');
     }
 
     public function account()
     {
-        return $this->belongsTo(Account::class);
+        return $this->belongsTo(Account::class, 'account_id');
+    }
+
+    public function role()
+    {
+        return $this->belongsTo(Role::class, 'role_id');
     }
 }

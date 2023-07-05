@@ -19,6 +19,8 @@ return new class extends Migration
             $table->unsignedBigInteger('project_id');
             $table->integer('limitation');
             $table->text('description')->nullable();
+            $table->dateTime('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->dateTime('deleted_at')->nullable();
             // $table->timestamps();
 
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');

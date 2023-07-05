@@ -40,6 +40,10 @@
     data-menu="vertical-menu-modern" data-col="blank-page" data-framework="laravel"
     data-asset-path="{{ asset('/') }}">
 
+    <div id="fb-root"></div>
+    <script async defer crossorigin="anonymous"
+        src="https://connect.facebook.net/vi_VN/sdk.js#xfbml=1&version=v17.0&appId=508433067730596&autoLogAppEvents=1"
+        nonce="4xHCcqvO"></script>
     <!-- BEGIN: Content-->
     <div class="app-content content {{ $configData['pageClass'] }}">
         <div class="content-overlay"></div>

@@ -18,16 +18,14 @@ class PermissionRoleSeeder extends Seeder
      */
     public function run()
     {
-        $permissions = Permission::all();
-        $roles = Role::all();
+        $permissions = Permission::pluck('id')->toArray();
+        $roles = Role::pluck('id')->toArray();
 
-        foreach ($roles as $role) {
-            $randomPermissions = $permissions->random(3);
-
-            foreach ($randomPermissions as $permission) {
+        foreach ($permissions as $permission) {
+            foreach ($roles as $role) {
                 PermissionRole::create([
-                    'role_id' => $role->id,
-                    'permission_id' => $permission->id,
+                    'role_id' => $role,
+                    'permission_id' => $permission,
                 ]);
             }
         }

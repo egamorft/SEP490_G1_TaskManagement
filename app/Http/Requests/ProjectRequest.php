@@ -25,7 +25,7 @@ class ProjectRequest extends FormRequest
     {
         return [
             'modalAddProjectName' => 'required|max:50',
-            'modalAddPM' => 'required',
+            'modalAddPM' => 'nullable',
             'modalAddSupervisor' => 'required',
             'modalAddMembers' => 'required|array',
             'modalAddMembers.*' => 'required',

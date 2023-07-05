@@ -37,7 +37,7 @@ use PhpParser\Node\Stmt\Return_;
 |
 */
 // 'middleware' => 'admin'
-// 'middleware' => check.permissions:slug
+// 'middleware' => 'project.permission:$slug'
 
 // Main Page Route
 
@@ -116,6 +116,13 @@ Route::middleware(['auth'])->group(function () {
     Route::group(['prefix' => 'project'], function () {
         Route::get('{slug}', [ProjectController::class, 'index'])->name('project.settings');
         Route::post('update-information/{id}', [ProjectController::class, 'update'])->name('project.update');
+        Route::get('invite/{slug}/{token}', [ProjectController::class, 'show'])->name('project.invite');
+        Route::post('invitation/{slug}/{token}', [ProjectController::class, 'invitation'])->name('invitation.submit');
+        Route::post('invite-email', [ProjectController::class, 'invite_email'])->name('invite.member');
+        Route::post('cancel-invitation', [ProjectController::class, 'cancel_invitation'])->name('cancel.invitation');
+        Route::post('remove-member', [ProjectController::class, 'remove_member'])->name('remove.member');
+        Route::post('set-pm', [ProjectController::class, 'set_pm'])->name('set.pm');
+        Route::post('update-permission', [ProjectController::class, 'updatePermission'])->name('update.permission');
     });
 
     Route::post('/log-out', function () {
