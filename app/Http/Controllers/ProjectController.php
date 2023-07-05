@@ -79,7 +79,24 @@ class ProjectController extends Controller
         $roles = Role::all();
         $permissions = Permission::all();
 
+		$pageConfigs = [
+            'pageHeader' => true,
+        ];
+		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
+		return view('project.settings', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'settings'])
+            ->with(compact(
+                'project',
+                'pmAccount',
+                'supervisorAccount',
+                'memberAccount',
+                'pendingInvitedMemberAccount',
+                'pendingSupervisorAccount',
+                'checkLimitation',
+                'removedMember',
+                'roles',
+                'permissions'
+            ));
 
         return view('content.components.component-tabs')
             ->with(compact(
