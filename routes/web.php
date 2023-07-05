@@ -101,9 +101,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('{slug}/tasks/remove-list/{list_id}', [TaskController::class, 'create_list'])->name('remove.task.list');
 
 
-        Route::get('{slug}/tasks/update/{id}', [TaskController::class, 'update'])->name('update.task');
+        Route::get('{slug}/tasks/edit/{task_id}', [TaskController::class, 'update'])->name('edit.task');
+        Route::delete('{slug}/tasks/remove/{task_id}', [TaskController::class, 'remove'])->name('remove.task');
         Route::post('{slug}/tasks/project-task-edit/{id}', [TaskController::class, 'edit'])->name('task.edit');
-        Route::delete('{slug}/tasks/task-remove/{id}', [TaskController::class, 'remove'])->name('task.remove');
     });
 
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');

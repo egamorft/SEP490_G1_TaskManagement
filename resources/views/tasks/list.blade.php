@@ -317,12 +317,20 @@
                                             </li>
                                         </div>
                                     </div>
-                                    <div class="task-list">
-                                        <div class="mb-2 demo-inline-spacing">
+                                    <div class="task-list card">
+                                        <div class="card-header mb-2 demo-inline-spacing">
                                             <a class="me-1" data-bs-toggle="collapse" href="#collapseList1"
                                                 role="button" aria-expanded="false" aria-controls="collapseList1">
                                                 List Bug UI
                                             </a>
+											<div class="d-inline-block mt-0 mr-0">
+												<a class="mt-0 mr-0 text-dark" data-bs-toggle="modal" data-bs-target="#editTaskList">
+													<i data-feather="edit" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
+												</a>
+												<a class="mt-0 mr-0 text-dark" data-bs-toggle="modal" data-bs-target="#removeTaskList">
+													<i data-feather="trash" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
+												</a>
+											</div>
                                         </div>
                                         <div class="collapse show" id="collapseList1">
                                             <li class="todo-item">
@@ -396,12 +404,20 @@
                                             </li>
                                         </div>
                                     </div>
-                                    <div class="task-list">
-                                        <div class="mb-2 demo-inline-spacing">
+                                    <div class="task-list card">
+                                        <div class="card-header mb-2 demo-inline-spacing">
                                             <a class="me-1" data-bs-toggle="collapse" href="#collapseList2"
                                                 role="button" aria-expanded="false" aria-controls="collapseList2">
                                                 List Task for tester
                                             </a>
+											<div class="d-inline-block mt-0 mr-0">
+												<a class="mt-0 mr-0 text-dark" data-bs-toggle="modal" data-bs-target="#editTaskList">
+													<i data-feather="edit" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
+												</a>
+												<a class="mt-0 mr-0 text-dark" data-bs-toggle="modal" data-bs-target="#removeTaskList">
+													<i data-feather="trash" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
+												</a>
+											</div>
                                         </div>
                                         <div class="collapse show" id="collapseList2">
                                             <li class="todo-item">
