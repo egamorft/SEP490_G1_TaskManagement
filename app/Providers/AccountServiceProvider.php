@@ -33,5 +33,14 @@ class AccountServiceProvider extends ServiceProvider
                 $view->with('accounts', []);
             }
         });
+
+		View::composer('content._partials._modals.modal-add-new-task', function ($view) {
+            $accounts = Account::all()->where('is_admin', 0);
+            if(auth()->user()){
+                $view->with('accounts', $accounts);
+            }else{
+                $view->with('accounts', []);
+            }
+        });
     }
 }
