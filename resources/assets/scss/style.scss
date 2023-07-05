@@ -9,3 +9,27 @@ NOTE:
 ------
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+@import './calendar-chart.scss';
+
+.pl-5 {
+	padding-left: 50px;
+}
+
+.mr-0 {
+    margin-right: 0 !important;
+}
+
+.pl-0 {
+    padding-left: 0 !important;
+}
+
+section {
+	box-shadow: 0 4px 24px 0 rgba(34, 41, 47, 0.1);
+}
+.input-group-text {
+	border-right: 0;
+}
+@import 'project-layout';
+@import 'comment';
+

@@ -16,7 +16,7 @@
                                 <ul class="todo-task-list media-list" id="todo-task-list">
 
                                     <div class="task-list card mb-0">
-                                        <div class="card-header pl-0 mb-0 demo-inline-spacing">
+                                        <div class="card-header pt-0 pl-0 mb-0 demo-inline-spacing">
                                             <a class="me-1 mt-0" data-bs-toggle="collapse" href="#collapseUncategorized"
                                                 role="button" aria-expanded="false"
                                                 aria-controls="collapseUncategorized">
@@ -317,8 +317,8 @@
                                             </li>
                                         </div>
                                     </div>
-                                    <div class="task-list card">
-                                        <div class="card-header mb-2 demo-inline-spacing">
+                                    <div class="task-list card mb-0">
+                                        <div class="card-header pt-0 pl-0 mb-0 demo-inline-spacing">
                                             <a class="me-1" data-bs-toggle="collapse" href="#collapseList1"
                                                 role="button" aria-expanded="false" aria-controls="collapseList1">
                                                 List Bug UI
@@ -404,8 +404,8 @@
                                             </li>
                                         </div>
                                     </div>
-                                    <div class="task-list card">
-                                        <div class="card-header mb-2 demo-inline-spacing">
+                                    <div class="task-list card mb-0">
+                                        <div class="card-header pt-0 pl-0 mb-0 demo-inline-spacing">
                                             <a class="me-1" data-bs-toggle="collapse" href="#collapseList2"
                                                 role="button" aria-expanded="false" aria-controls="collapseList2">
                                                 List Task for tester

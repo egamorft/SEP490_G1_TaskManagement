@@ -1,0 +1,15 @@
+section.chat-app-window {
+	box-shadow: none;
+}
+
+section.chat-app-window .input-group-text:last-child{
+	border-right: 1px solid #ccc;
+}
+
+section.chat-app-window .input-group {
+	padding: 0;
+}
+.task-info .card {
+	border-radius: 0;
+	box-shadow: none;
+}
