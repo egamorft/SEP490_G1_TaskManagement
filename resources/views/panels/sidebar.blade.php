@@ -166,6 +166,7 @@
                                 $logo = Str::substr($p->name, 0, 1) . '.png';
                                 $currentUrl = request()->url();
                                 $slug = Str::after($currentUrl, 'project/');
+								$slug = explode('/', $slug)[0];
                             @endphp
                             <li class="nav-item {{ $slug === $p->slug ? 'active' : '' }}">
                                 <a href="{{ isset($p->slug) ? url('project/' . $p->slug) : 'javascript:void(0)' }}"

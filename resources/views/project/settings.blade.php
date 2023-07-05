@@ -17,7 +17,7 @@
     <!-- Settings Tab Wizard -->
     <section class="modern-vertical-wizard">
         <div class="bs-stepper vertical wizard-modern modern-vertical-wizard-example">
-            <div class="bg-white bs-stepper-header">
+            <div class=" bg-white bs-stepper-header">
                 <div class="step" data-target="#project-information" role="tab" id="project-information-trigger">
                     <button type="button" class="step-trigger">
                         <span class="bs-stepper-box">
@@ -49,7 +49,7 @@
                     </button>
                 </div>
             </div>
-            <div class="bs-stepper-content">
+            <div class=" bs-stepper-content">
                 <div id="project-information" class="content" role="tabpanel" aria-labelledby="project-information-trigger">
                     <form action="{{ route('project.update', $project->id) }}" method="post">
                         @csrf
