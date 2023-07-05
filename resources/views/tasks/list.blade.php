@@ -1,8 +1,5 @@
-<!-- Collapse start -->
-
-
-<!-- Collapse end -->
-
+@include('content._partials._modals.modal-edit-task-list')
+@include('content._partials._modals.modal-delete-task-list')
 <!-- Full list start -->
 <section>
     <div class="app-calendar overflow-hidden border">
@@ -26,10 +23,10 @@
                                                 Uncategorized
                                             </a>
 											<div class="d-inline-block mt-0 mr-0">
-												<a class="mt-0 mr-0 text-dark" data-bs-toggle="modal" data-bs-target="#new-task-list-modal">
+												<a class="mt-0 mr-0 text-dark" data-bs-toggle="modal" data-bs-target="#editTaskList">
 													<i data-feather="edit" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
 												</a>
-												<a class="mt-0 mr-0 text-dark">
+												<a class="mt-0 mr-0 text-dark" data-bs-toggle="modal" data-bs-target="#removeTaskList">
 													<i data-feather="trash" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
 												</a>
 											</div>
