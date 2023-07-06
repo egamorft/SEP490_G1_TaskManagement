@@ -401,8 +401,11 @@ class ProjectController extends Controller
         $removedMembers = Project::findOrFail($get_project->id)
             ->findAccountWithRoleNameAndStatus('member', -2)
             ->get();
+        $invitedMembers = Project::findOrFail($get_project->id)
+            ->findAccountWithRoleNameAndStatus('member', 0)
+            ->get();
         $loggedInUserEmail = Auth::user()->email;
-        $exceptEmails = $removedMembers->pluck('email')->concat([$loggedInUserEmail]);
+        $exceptEmails = $removedMembers->pluck('email')->concat([$loggedInUserEmail])->merge($invitedMembers->pluck('email'));
         //Handle the invitation to email
         $validatedData = $request->validate([
             'modalInviteEmail' => [
