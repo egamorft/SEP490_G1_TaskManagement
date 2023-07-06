@@ -4,11 +4,19 @@
 
 @section('vendor-style')
     <!-- vendor css files -->
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/editors/quill/katex.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/editors/quill/monokai-sublime.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/editors/quill/quill.snow.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/dragula.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/wizard/bs-stepper.min.css')) }}">
 @endsection
 
 @section('page-style')
     <!-- Page css files -->
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-quill-editor.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-flat-pickr.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-todo.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-wizard.css')) }}">
 @endsection
 
@@ -54,6 +62,30 @@
                                         data-feather='settings'></i>
                                     Settings</a>
                             </li>
+                            @can('check-permission', 'evaluate-project')
+                                <li class="nav-item ms-auto">
+                                    <div class="btn-group dropstart">
+                                        <button type="button"
+                                            class="btn btn-primary dropdown-toggle waves-effect waves-float waves-light"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Evaluate project
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#modalRejectProject">
+                                                <i data-feather='x-circle'></i>
+                                                Reject
+                                            </a>
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#modalApproveProject">
+                                                <i data-feather='check-circle'></i>
+                                                Mark as done
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endcan
+
                         </ul>
                         <div class="tab-content">
                             <div class="tab-pane" id="taskList" aria-labelledby="taskList-tab" role="tabpanel">
@@ -124,7 +156,8 @@
                                         <div class="bs-stepper-content">
                                             <div id="project-information" class="content" role="tabpanel"
                                                 aria-labelledby="project-information-trigger">
-                                                <form action="{{ route('project.update', $project->id) }}" method="post">
+                                                <form action="{{ route('project.update', $project->id) }}"
+                                                    method="post">
                                                     @csrf
                                                     <div class="col-12 col-md-12 mb-2">
                                                         <label class="form-label" for="settingProjectName">Project
@@ -227,14 +260,17 @@
                                                                 </div>
                                                             @endif
                                                         @else
-                                                            <div class="d-flex justify-content-between bg-light opacity-50">
-                                                                <div class="d-flex align-items-center me-2">
-                                                                    <strong>Waiting for supervisor to accept
-                                                                        invitation...</strong>
-                                                                    <div class="spinner-border ms-2" role="status"
-                                                                        aria-hidden="true"></div>
+                                                            @if (isset($pendingSupervisorAccount))
+                                                                <div
+                                                                    class="d-flex justify-content-between bg-light opacity-50">
+                                                                    <div class="d-flex align-items-center me-2">
+                                                                        <strong>Waiting for supervisor to accept
+                                                                            invitation...</strong>
+                                                                        <div class="spinner-border ms-2" role="status"
+                                                                            aria-hidden="true"></div>
+                                                                    </div>
                                                                 </div>
-                                                            </div>
+                                                            @endif
                                                         @endcan
                                                     </div>
                                                 </div>
@@ -522,6 +558,102 @@
                     </div>
                 </div>
             </div>
+            <!-- Left Sidebar reject project starts -->
+            <div class="modal modal-slide-in sidebar-todo-modal fade" id="modalRejectProject">
+                <div class="modal-dialog sidebar-lg" style="left: 0">
+                    <div class="modal-content p-0">
+                        <form id="formRejectProject" class="todo-modal">
+                            <div class="modal-header align-items-center mb-1">
+                                <h5 class="modal-title">Reject "{{ $project->name }}"</h5>
+                                <div class="todo-item-action d-flex align-items-center justify-content-between ms-auto">
+                                    <span class="todo-item-favorite cursor-pointer me-75"><i data-feather="star"
+                                            class="font-medium-2"></i></span>
+                                    <i data-feather="x" class="cursor-pointer" data-bs-dismiss="modal"
+                                        stroke-width="3"></i>
+                                </div>
+                            </div>
+                            <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
+                                <div class="action-tags">
+                                    <div class="alert alert-danger mb-2" role="alert">
+                                        <h6 class="alert-heading">You are trying to reject this project?</h6>
+                                        <div class="alert-body fw-normal">Your action will stop all of activities in project
+                                        </div>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label">Reason</label>
+                                        <div id="reject-project" class="border-bottom-0"
+                                            data-placeholder="Why you want reject this project?"></div>
+                                        <div class="d-flex justify-content-end desc-toolbar-2 border-top-0">
+                                            <span class="ql-formats me-0">
+                                                <button class="ql-bold"></button>
+                                                <button class="ql-italic"></button>
+                                                <button class="ql-underline"></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="my-1">
+                                    <button type="submit" class="btn btn-danger add-todo-item me-1">Reject</button>
+                                    <button type="button" class="btn btn-outline-secondary add-todo-item"
+                                        data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Left Sidebar reject project ends -->
+
+            
+            <!-- Right Sidebar approve project starts -->
+            <div class="modal modal-slide-in sidebar-todo-modal fade" id="modalApproveProject">
+                <div class="modal-dialog sidebar-lg">
+                    <div class="modal-content p-0">
+                        <form id="formApproveProject" class="todo-modal">
+                            <div class="modal-header align-items-center mb-1">
+                                <h5 class="modal-title">Approve "{{ $project->name }}"</h5>
+                                <div class="todo-item-action d-flex align-items-center justify-content-between ms-auto">
+                                    <span class="todo-item-favorite cursor-pointer me-75"><i data-feather="star"
+                                            class="font-medium-2"></i></span>
+                                    <i data-feather="x" class="cursor-pointer" data-bs-dismiss="modal"
+                                        stroke-width="3"></i>
+                                </div>
+                            </div>
+                            <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
+                                <div class="action-tags">
+                                    <div class="alert alert-success mb-2" role="alert">
+                                        <h6 class="alert-heading">You are trying to approve this project?</h6>
+                                        <div class="alert-body fw-normal">Congratulation for your project succeed
+                                        </div>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label">Reason</label>
+                                        <div id="approve-project" class="border-bottom-0"
+                                            data-placeholder="Why you want reject this project?"></div>
+                                        <div class="d-flex justify-content-end desc-toolbar-1 border-top-0">
+                                            <span class="ql-formats me-0">
+                                                <button class="ql-bold"></button>
+                                                <button class="ql-italic"></button>
+                                                <button class="ql-underline"></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="my-1">
+                                    <button type="submit" class="btn btn-success add-todo-item me-1">Approve</button>
+                                    <button type="button" class="btn btn-outline-secondary add-todo-item"
+                                        data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Right Sidebar approve project ends -->
             @include('content._partials._modals.modal-refer-earn')
             <!-- Tabs with Icon ends -->
         </div>
@@ -530,6 +662,11 @@
 
 @section('vendor-script')
     <!-- vendor files -->
+    <script src="{{ asset(mix('vendors/js/editors/quill/katex.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/editors/quill/highlight.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/editors/quill/quill.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/extensions/dragula.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/forms/wizard/bs-stepper.min.js')) }}"></script>
 @endsection
 
@@ -537,4 +674,5 @@
     <script src="{{ asset(mix('js/scripts/extensions/ext-component-clipboard.js')) }}"></script>
     <script src="{{ asset('js/scripts/components/components-navs.js') }}"></script>
     <script src="{{ asset(mix('js/scripts/forms/form-wizard.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/app-todo.js')) }}"></script>
 @endsection

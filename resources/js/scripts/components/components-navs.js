@@ -113,14 +113,7 @@ $(document).ready(function () {
       success: function (response) {
         // Handle success response
         setTimeout(function () {
-          toastr['success'](response.message, 'Success!', {
-            showMethod: 'slideDown',
-            hideMethod: 'slideUp',
-            progressBar: true,
-            closeButton: true,
-            tapToDismiss: false,
-            rtl: isRtl
-          });
+          location.reload();
         }, 2000);
       },
       error: function (response) {
