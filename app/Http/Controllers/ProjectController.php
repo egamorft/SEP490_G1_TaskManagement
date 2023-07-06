@@ -666,9 +666,9 @@ class ProjectController extends Controller
 
 		return view('project.task-list', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'task-list'])
 			->with(compact(
-				'project', 
-                'tasks', 
-                'accounts', 
+				'project',
+                'tasks',
+                'accounts',
                 'subTasksRelease',
                 'pmAccount',
                 'supervisorAccount',
