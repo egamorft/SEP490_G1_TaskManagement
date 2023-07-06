@@ -10,7 +10,30 @@
 $(window).on("load", function () {
     "use strict";
 
-	var todoFilter = $("#todo-search"), listItemFilter = $(".list-group-filters"), noResults = $(".no-results");
+	var todoFilter = $("#todo-search"), listItemFilter = $(".list-group-filters"), noResults = $(".no-results"), checkbox = $('.calendar-events-filter');
+
+	// Filter
+    function filter() {
+        $.ajax({
+			url:"task-list/filter", // đường dẫn khi gửi dữ liệu đi 'search' là tên route mình đặt bạn mở route lên xem là hiểu nó là cái j.
+			method:"GET", // phương thức gửi dữ liệu.
+			data:{
+				q: todoFilter.val().toLowerCase(),
+				role: listItemFilter.find("a.active span").html(),
+				todo: $('#todo-task').is(":checked"),
+				doing: $('#doing-task').is(":checked"),
+				reviewing: $('#reviewing-task').is(":checked"),
+				ontime: $('#ontime-task').is(":checked"),
+				late: $('#late-task').is(":checked"),
+				overdue: $('#overdue-task').is(":checked"),
+
+			},
+			success:function(data){ //dữ liệu nhận về
+				console.log("done");
+				console.log(data);
+		   }
+		 });
+    }
 
 	// Filter task
     if (todoFilter.length) {
@@ -42,4 +65,18 @@ $(window).on("load", function () {
         });
     }
 
+	// Add class active on click of sidebar filters list
+    if (listItemFilter.length) {
+        listItemFilter.find("a").on("click", function () {
+            if (listItemFilter.find("a").hasClass("active")) {
+                listItemFilter.find("a").removeClass("active");
+            }
+            $(this).addClass("active");
+			filter();
+        });
+    }
+
+	checkbox.find("input").on('change', function() {
+		filter();
+    });
 });

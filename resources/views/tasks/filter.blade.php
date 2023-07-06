@@ -63,34 +63,34 @@
             </div>
             <div class="calendar-events-filter">
                 <div class="form-check form-check-info mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="personal" data-value="personal"
+                    <input type="checkbox" class="form-check-input input-filter" id="todo-task" data-value="todo-task"
                         checked />
-                    <label class="form-check-label" for="personal">Todo</label>
+                    <label class="form-check-label" for="todo-task">Todo</label>
                 </div>
                 <div class="form-check form-check-primary mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="business" data-value="business"
+                    <input type="checkbox" class="form-check-input input-filter" id="doing-task" data-value="doing-task"
                         checked />
-                    <label class="form-check-label" for="business">Doing</label>
+                    <label class="form-check-label" for="doing-task">Doing</label>
                 </div>
                 <div class="form-check form-check-warning mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="family" data-value="family"
+                    <input type="checkbox" class="form-check-input input-filter" id="reviewing-task" data-value="reviewing-task"
                         checked />
-                    <label class="form-check-label" for="family">Reviewing</label>
+                    <label class="form-check-label" for="reviewing-task">Reviewing</label>
                 </div>
                 <div class="form-check form-check-success mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="holiday" data-value="holiday"
+                    <input type="checkbox" class="form-check-input input-filter" id="ontime-task" data-value="ontime-task"
                         checked />
-                    <label class="form-check-label" for="holiday">Done Ontime</label>
+                    <label class="form-check-label" for="ontime-task">Done Ontime</label>
                 </div>
                 <div class="form-check form-check-secondary mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="etc" data-value="etc"
+                    <input type="checkbox" class="form-check-input input-filter" id="late-task" data-value="late-task"
                         checked />
-                    <label class="form-check-label" for="etc">Done Late</label>
+                    <label class="form-check-label" for="late-task">Done Late</label>
                 </div>
                 <div class="form-check form-check-danger mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="holiday" data-value="holiday"
+                    <input type="checkbox" class="form-check-input input-filter" id="overdue-task" data-value="overdue-task"
                         checked />
-                    <label class="form-check-label" for="holiday">Overdue</label>
+                    <label class="form-check-label" for="overdue-task">Overdue</label>
                 </div>
 
             </div>

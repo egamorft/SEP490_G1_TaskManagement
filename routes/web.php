@@ -129,6 +129,8 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{slug}/report', [ProjectController::class, 'view_report'])->name('project.report');
 
 		// Router Tasks Action
+		Route::get('{slug}/task-list/filter', [SubTaskController::class, 'filter'])->name('project.task.list.filter');
+
         Route::get('{slug}/tasks/{task_id}', [SubTaskController::class, 'index'])->name('show.task');
         Route::post('{slug}/tasks/create', [TaskController::class, 'create'])->name('create.task');
         Route::post('{slug}/tasks/edit', [TaskController::class, 'edit'])->name('edit.task');

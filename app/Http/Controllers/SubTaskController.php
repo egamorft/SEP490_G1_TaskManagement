@@ -61,12 +61,28 @@ class SubTaskController extends Controller
         return view('task.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'task-list'])->with(compact("subTask", "tasks", "project", "task", "accounts", "subTasksRelease"));
     }
 
+	public function filter(Request $request) {
+
+        $subTasks = SubTask::where("name", $request->q)->get();
+        return response()->json([
+			'q' => $request->q,
+			'role' => $request->role,
+			'todo' => $request->todo,
+			'doing' => $request->doing,
+			'reviewing' => $request->reviewing,
+			'ontime' => $request->ontime,
+			'late' => $request->late,
+			'overdue' => $request->overdue,
+
+		]);
+    }
+
     public function create(SubTasksRequest $request, $slug) {
         $dates = Project::extractDatesFromDuration($request->input('duration'));
 
         $project = Project::where("slug", $slug)->first();
         $validateInput = self::validate_input($request);
-        
+
         if ($validateInput["success"] != true) {
             return response()->json($validateInput);
         }
