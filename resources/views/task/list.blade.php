@@ -38,7 +38,7 @@
                                                     $subTasksView = $subTasksRelease[$task->id];
                                                 }
                                             @endphp
-                                            
+
                                             @if (count($subTasksView) > 0)
                                                 <div class="collapse show" id="collapseUncategorized">
                                                     @foreach ($subTasksView as $st)

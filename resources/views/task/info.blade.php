@@ -24,7 +24,7 @@
                             </a>
                         </div>
                     </div>
-                    <a class="text-dark" href="{{ route('project.task.list', ['slug' => $project->slug]) }}">
+                    <a class="text-dark" href="/project/{{ $project->slug }}">
                         <i data-feather="x-circle"
                             class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
                     </a>
@@ -34,16 +34,19 @@
         <div class="card-body mt-0">
             <div class="mt-0">
                 <div class="more-info">
-                    <h4 class="card-title">Send PPT with real-time reports</h4>
+                    <h4 class="card-title">{{ $subTask->name }}</h4>
                 </div>
             </div>
             <div class="mt-0">
                 <div class="more-info">
                     <h6 class="mb-0 text-primary">Doing - Project: {{ $project->name }}</h6>
-                    <h6 class="mt-1">From Sat, May 25, 2020 - To Sat, May 25, 2020</h6>
+                    <h6 class="mt-1">From {{ date('D, M d, Y', strtotime($subTask->created_at)) }} - To
+                        {{ date('D, M d, Y', strtotime($subTask->due_date)) }}</h6>
                 </div>
             </div>
             <hr />
+
+            {{-- Assignee --}}
             <div class="row">
                 <div role="button" class="col border-right">
                     <div class="avatar float-start bg-white rounded me-1">
@@ -81,82 +84,6 @@
                         </option>
                     </select>
                 </div>
-                <div role="button" class="col border-right">
-                    <div class="avatar float-start bg-white rounded me-1">
-                        <div class="avatar bg-light-danger">
-                            <a width="33" height="33">
-                                <div class="avatar bg-light-danger">
-                                    <div class="avatar-content"><i data-feather='user-plus'></i></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div for="taskReviewer" class="more-info form-label d-block">
-                        <small>Reviewer</small>
-                        <h6 class="mb-0">Click to add Reviewer</h6>
-                    </div>
-                    <select class="select2 form-select d-none" id="taskReviewer" name="taskReviewer">
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-3.jpg') }}" value="Phill Buffer"
-                            selected>
-                            Phill Buffer
-                        </option>
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-1.jpg') }}" value="Chandler Bing">
-                            Chandler Bing
-                        </option>
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-4.jpg') }}" value="Ross Geller">
-                            Ross Geller
-                        </option>
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-6.jpg') }}" value="Monica Geller">
-                            Monica Geller
-                        </option>
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-2.jpg') }}"
-                            value="Joey Tribbiani">
-                            Joey Tribbiani
-                        </option>
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-11.jpg') }}" value="Rachel Green">
-                            Rachel Green
-                        </option>
-                    </select>
-                </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class=" col">
-                    <div class="avatar float-start bg-warning rounded me-1">
-                        <div class="avatar-content form-check form-check-warning">
-                            <input type="checkbox" class="form-check-input" id="assigneeTask" />
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <h6 class="mb-0 text-warning"><label class="form-check-label" for="assigneeTask">Waiting for
-                                Review</label></h6>
-                        <small>Click to change for Reviewer</small>
-                    </div>
-                </div>
-                <div class=" col border-right">
-                    <div class="avatar float-start bg-white rounded me-1">
-                        <div class="avatar bg-light-danger">
-                            <img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
-                                width="33" height="33" />
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <small>Assignee</small>
-                        <h6 class="mb-0">Tran Ngoc Hieu</h6>
-                    </div>
-                </div>
-                <div class=" col">
-                    <div class="avatar float-start bg-success rounded me-1">
-                        <div class="avatar-content form-check form-check-success">
-                            <input type="checkbox" class="form-check-input" id="reviewerTask" />
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <h6 class="mb-0 text-success"><label class="form-check-label" for="reviewerTask">Done</label>
-                        </h6>
-                        <small>Click to mark as done</small>
-                    </div>
-                </div>
                 <div class=" col">
                     <div class="avatar float-start bg-white rounded me-1">
                         <div class="avatar bg-light-danger">
@@ -170,7 +97,7 @@
                     </div>
                 </div>
             </div>
-            {{-- <hr />
+            <hr />
             <div class="row">
                 <div class=" col">
                     <div class="avatar float-start bg-warning rounded me-1">
@@ -218,14 +145,13 @@
                         <h6 class="mb-0">Tran Ngoc Hieu</h6>
                     </div>
                 </div>
-            </div> --}}
+            </div>
 
             <hr />
             <div class="mt-2">
                 <div class="more-info">
                     <h6 class="mb-2">Task Description</h6>
-                    <small>FTask là dự án quản lý Task dành cho sinh viên chuyên ngành SE giúp cho sinh viên quản lý,
-                        theo dõi, ....</small>
+                    <small>{{ $subTask->description }}</small>
                 </div>
             </div>
 
@@ -234,8 +160,7 @@
             <div class="mt-2">
                 <div class="more-info">
                     <h6 class="mb-2">Task Result</h6>
-                    <small>FTask là dự án quản lý Task dành cho sinh viên chuyên ngành SE giúp cho sinh viên quản lý,
-                        theo dõi, ....</small>
+                    <small>---</small>
                 </div>
             </div>
 

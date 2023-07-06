@@ -58,7 +58,7 @@ class SubTaskController extends Controller
 
         $accounts = Account::whereIn("id", $accountIds)->get();
         
-        return view('tasks/index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact("subTask", "tasks", "project", "task", "accounts", "subTasksRelease"));
+        return view('task.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'task-list'])->with(compact("subTask", "tasks", "project", "task", "accounts", "subTasksRelease"));
     }
 
     public function create(SubTasksRequest $request, $slug) {
