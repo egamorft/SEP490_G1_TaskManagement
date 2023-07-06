@@ -40,7 +40,7 @@
  				</div>
  				<div class="more-info">
  					<h6 class="mb-0 text-danger">Rejected</h6>
- 					<small>The project has been rejected: Sai định hướng, trượt deadline ...</small>
+ 					<small>The project has been rejected</small>
  				</div>
  			</div>
 

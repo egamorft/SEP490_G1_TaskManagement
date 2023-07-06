@@ -30,6 +30,13 @@ class ProjectsController extends Controller
         $taskIds = $tasksQuery->addSelect("id")->get();
         $subTasks = SubTask::whereIn("task_id", $taskIds)->get();
 
+        $todo = 0;
+        $doing = 0;
+        $reviewing = 0;
+        $doneOntime = 0;
+        $doneLate = 0;
+        $overdue = 0;
+
         $subTasksRelease = [];
         foreach ($tasks as $task) {
             if (isset($subTasksRelease[$task->id])) {
@@ -39,12 +46,46 @@ class ProjectsController extends Controller
         }
 
         foreach($subTasks as $subTask) {
+            switch ($subTask->status) {
+                case SubTask::$STATUS_TODO:
+                    $todo++;
+                    break;
+                case SubTask::$STATUS_DOING:
+                    $doing++;
+                    break;
+                case SubTask::$STATUS_REVIEWING:
+                    $reviewing++;
+                    break;
+                case SubTask::$STATUS_DONE_ONTIME:
+                    $doneOntime++;
+                    break;
+                case SubTask::$STATUS_DONE_LATE:
+                    $doneLate++;
+                    break;
+                case SubTask::$STATUS_OVERDUE:
+                    $overdue++;
+                    break;
+                default:
+                    $todo++;
+                    break;
+            }
             if (!isset($subTasksRelease[$subTask->task_id])) {
                 $subTask[$subTask->task_id] = [$subTask]; 
                 continue;
             }
             array_push($subTasksRelease[$subTask->task_id], $subTask);
         }
+
+        $totalSubTask = count($subTasks);
+
+        $subTaskStatusesPercent = [
+            "todo" => round($todo / $totalSubTask, 2),
+            "doing" => round($doing / $totalSubTask, 2),
+            "reviewing" => round($reviewing / $totalSubTask, 2),
+            "doneOntime" => round($doneOntime / $totalSubTask, 2),
+            "doneLate" => round($doneLate / $totalSubTask, 2),
+            "overdue" => round($overdue / $totalSubTask, 2)
+        ];
 
         $accountsProject = AccountProject::where('project_id', $project->id)->get();
         
@@ -62,7 +103,29 @@ class ProjectsController extends Controller
             'pageClass' => 'todo-application',
         ];
 
-        return view('projects.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project', 'tasks', 'accounts', "subTasksRelease"));
+        $pmAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('pm', 1)
+			->first();
+
+        $supervisorAccount = Project::findOrFail($project->id)
+        ->findAccountWithRoleNameAndStatus('supervisor', 1)
+        ->first();
+        
+        $memberAccounts = Project::findOrFail($project->id)
+        ->findAccountWithRoleNameAndStatus('member', 1)
+        ->get();
+
+        return view('projects.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])
+            ->with(compact(
+                'project', 
+                'tasks', 
+                'accounts', 
+                'subTasksRelease',
+                'pmAccount',
+                'supervisorAccount',
+                'memberAccounts',
+                'subTaskStatusesPercent'
+            ));
     }
 
 	 /**

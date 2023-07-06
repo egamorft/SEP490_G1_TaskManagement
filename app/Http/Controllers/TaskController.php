@@ -52,10 +52,10 @@ class TaskController extends Controller
         }
 
         $task = [
-            "name" => $request->input("listTitleAdd"),
+            "name" => $request->input("taskListTitle"),
             "project_id" => $project->id,
-            "limitation" =>  10, //$request->input("task_limitation"),
-            "description" => "No description" //$request->input("task_description")
+            "limitation" =>  10,
+            "description" => $request->input("taskListDescription")
         ];
 
         $taskCreated = Task::create($task);

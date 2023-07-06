@@ -19,6 +19,7 @@ class SubTask extends Model
         'review_by',
         'created_by',
         'attachment',
+        'start_date',
         'due_date',
         'created_at',
         'deleted_at',
@@ -35,4 +36,11 @@ class SubTask extends Model
     }
 
     public static $DEFAULT_ASSIGNEE = 0;
+
+    public static int $STATUS_TODO = 1;
+    public static int $STATUS_DOING = 10;
+    public static int $STATUS_REVIEWING = 50;
+    public static int $STATUS_DONE_ONTIME = 100;
+    public static int $STATUS_DONE_LATE = -1;
+    public static int $STATUS_OVERDUE = -10;
 }

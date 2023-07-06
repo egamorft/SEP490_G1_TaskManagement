@@ -15,13 +15,13 @@
                     @csrf
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="modalAddTaskListName">Task List Name</label>
-                        <input type="text" id="modalAddTaskListName" name="modalAddTaskListName" class="form-control"
+                        <input type="text" id="modalAddTaskListName" name="taskListTitle" class="form-control"
                             placeholder="Task List Name" value="" data-msg="Please enter your list name" />
                         <span id="error-modalAddTaskListName" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12">
                         <label class="form-label" for="modalTaskListDesc">Description</label>
-                        <textarea id="modalTaskListDesc" name="modalTaskListDesc" class="form-control" value=""
+                        <textarea id="modalTaskListDesc" name="taskListDescription" class="form-control" value=""
                             placeholder="Enter task list description"></textarea>
                     </div>
                     <div class="col-12 text-center mt-2 pt-50">
