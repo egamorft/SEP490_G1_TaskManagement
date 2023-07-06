@@ -89,10 +89,6 @@ Route::middleware(['auth'])->group(function () {
 
 	Route::group(['prefix' => 'projects'], function () {
 		Route::get('{slug}', [ProjectsController::class, 'index'])->name('project.index');
-		Route::get('{slug}/gantt', [ProjectsController::class, 'gantt'])->name('gantt');
-		Route::get('{slug}/kanban', [ProjectsController::class, 'kanban'])->name('kanban');
-		Route::get('{slug}/calendar', [ProjectsController::class, 'calendar'])->name('index');
-		Route::get('{slug}/report', [ProjectsController::class, 'report'])->name('report');
 		Route::get('{slug}/settings', [ProjectsController::class, 'settings'])->name('settings');
 
         // Router Tasks Action
@@ -126,21 +122,11 @@ Route::middleware(['auth'])->group(function () {
         Route::post('update-permission', [ProjectController::class, 'updatePermission'])->name('update.permission');
 
         // Router for project detail
-		Route::get('{slug}/task-list', [ProjectController::class, 'view_task_list'])->name('project.task.list');
+		Route::get('{slug}/task-list', [ProjectController::class, 'view_task_list'])->name('project.index');
 		Route::get('{slug}/gantt', [ProjectController::class, 'view_gantt'])->name('project.gantt');
 		Route::get('{slug}/kanban', [ProjectController::class, 'view_kanban'])->name('project.kanban');
 		Route::get('{slug}/calendar', [ProjectController::class, 'view_calendar'])->name('project.index');
 		Route::get('{slug}/report', [ProjectController::class, 'view_report'])->name('project.report');
-        
-		// Router Tasks Action
-
-        // Route::get('{slug}/tasks/{task_id}', [TaskController::class, 'index'])->name('show.task');
-        // Route::post('{slug}/tasks/create', [TaskController::class, 'create'])->name('create.task');
-        // Route::post('{slug}/tasks/edit', [TaskController::class, 'edit'])->name('edit.task');
-        // Route::post('{slug}/tasks/remove', [TaskController::class, 'remove'])->name('remove.task');
-        // Route::post('{slug}/tasks/create-list', [TaskController::class, 'create_list'])->name('create.task.list');
-        // Route::post('{slug}/tasks/edit-list/{list_id}', [TaskController::class, 'create_list'])->name('edit.task.list');
-        // Route::post('{slug}/tasks/remove-list/{list_id}', [TaskController::class, 'create_list'])->name('remove.task.list');
     });
 
     Route::post('/log-out', function () {
