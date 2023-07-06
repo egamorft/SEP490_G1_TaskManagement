@@ -1,4 +1,4 @@
-<!-- Kanban starts -->
+{{-- <!-- Kanban starts -->
 <section class="app-kanban-wrapper">
 	<div class="row">
 	  <div class="col-12">
@@ -232,4 +232,4 @@
 	</div>
 	<!-- Kanban Sidebar ends -->
   </section>
-  <!-- Kanban ends -->
+  <!-- Kanban ends --> --}}

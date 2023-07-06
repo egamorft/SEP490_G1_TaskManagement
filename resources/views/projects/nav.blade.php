@@ -1,4 +1,4 @@
-<ul class="nav nav-pills mb-2">
+{{-- <ul class="nav nav-pills mb-2">
 	<!-- Task List -->
 	<li class="nav-item">
 	  <a class="nav-link {{ $page == '' ? 'active' : ''}}" href="/projects/{{ $project->slug }}">
@@ -41,4 +41,4 @@
 		<span class="fw-bold">Settings</span>
 	  </a>
 	</li>
-  </ul>
+  </ul> --}}

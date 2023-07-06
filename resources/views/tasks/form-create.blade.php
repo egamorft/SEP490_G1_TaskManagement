@@ -1,4 +1,4 @@
-<div class="modal modal-slide-in sidebar-todo-modal fade" id="new-task-modal">
+{{-- <div class="modal modal-slide-in sidebar-todo-modal fade" id="new-task-modal">
 	<div class="modal-dialog sidebar-lg">
 		<div class="modal-content p-0">
 			<form id="form-modal-task" class="todo-modal needs-validation" action="{{ route('create.task', ["slug" => $project->slug]) }}" method="POST">
@@ -86,4 +86,4 @@
 			</form>
 		</div>
 	</div>
-</div>
+</div> --}}

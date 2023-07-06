@@ -1,4 +1,4 @@
-<!-- Main chat area -->
+{{-- <!-- Main chat area -->
 <section class="chat-app-window">
   <!-- To load Conversation -->
   <div class="start-chat-area d-none">
@@ -144,4 +144,4 @@
   </div>
   <!--/ Active Chat -->
 </section>
-<!--/ Main chat area -->
+<!--/ Main chat area --> --}}

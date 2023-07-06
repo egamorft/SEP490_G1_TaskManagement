@@ -1,4 +1,4 @@
- <!-- Timeline Card -->
+ {{-- <!-- Timeline Card -->
  <div class="">
  	<div class="card card-user-timeline">
  		<div class="card-header">
@@ -239,4 +239,4 @@
  		</div>
  	</div>
  </div>
- <!--/ Task Overview Card -->
+ <!--/ Task Overview Card --> --}}

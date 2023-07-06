@@ -1,6 +1,5 @@
-@include('content._partials._modals.modal-edit-task')
+{{-- @include('content._partials._modals.modal-edit-task')
 @include('content._partials._modals.modal-delete-task')
-<!-- Timeline Card -->
 <div class="col task-info bg-white">
     <div class="card card-user-timeline">
         <div class="card-header mb-0">
@@ -46,7 +45,6 @@
             </div>
             <hr />
 
-            {{-- Assignee --}}
             <div class="row">
                 <div role="button" class="col border-right">
                     <div class="avatar float-start bg-white rounded me-1">
@@ -171,5 +169,4 @@
             </div>
         </div>
     </div>
-</div>
-<!--/ Timeline Card -->
+</div> --}}

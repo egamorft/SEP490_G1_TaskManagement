@@ -1,4 +1,4 @@
-@include('content._partials._modals.modal-edit-task-list')
+{{-- @include('content._partials._modals.modal-edit-task-list')
 @include('content._partials._modals.modal-delete-task-list')
 <!-- Full list start -->
 <section>
@@ -79,4 +79,4 @@
         </div>
     </div>
 </section>
-<!-- Full list end -->
+<!-- Full list end --> --}}

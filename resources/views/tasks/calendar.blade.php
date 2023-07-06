@@ -1,4 +1,4 @@
-<!-- Full calendar start -->
+{{-- <!-- Full calendar start -->
 <section>
 	<div class="app-calendar overflow-hidden border">
 	  <div class="row g-0">
@@ -161,4 +161,4 @@
 	</div>
 	<!--/ Calendar Add/Update/Delete event modal-->
   </section>
-  <!-- Full calendar end -->
+  <!-- Full calendar end --> --}}

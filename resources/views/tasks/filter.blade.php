@@ -1,4 +1,4 @@
-<!-- Right Sidebar starts -->
+{{-- <!-- Right Sidebar starts -->
 @include('content._partials._modals.modal-add-new-task')
 @include('content._partials._modals.modal-add-new-task-list')
 <!-- Right Sidebar ends -->
@@ -101,4 +101,4 @@
             class="img-fluid" />
     </div>
 </div>
-<!-- /Sidebar -->
+<!-- /Sidebar --> --}}

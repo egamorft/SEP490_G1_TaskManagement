@@ -1,4 +1,4 @@
-@extends('layouts/contentLayoutMaster')
+{{-- @extends('layouts/contentLayoutMaster')
 
 @section('title', 'Project - ' . $project->name)
 
@@ -39,4 +39,4 @@
 @section('page-script')
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/pages/app-kanban.js')) }}"></script>
-@endsection
+@endsection --}}
