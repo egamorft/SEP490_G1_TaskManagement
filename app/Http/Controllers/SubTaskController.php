@@ -62,6 +62,8 @@ class SubTaskController extends Controller
     }
 
     public function create(SubTasksRequest $request, $slug) {
+        $dates = Project::extractDatesFromDuration($request->input('duration'));
+
         $project = Project::where("slug", $slug)->first();
         $validateInput = self::validate_input($request);
         

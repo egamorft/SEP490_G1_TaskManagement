@@ -345,7 +345,7 @@ class ProjectController extends Controller
 		//
 	}
 
-	public function extractDatesFromDuration($duration)
+	public static function extractDatesFromDuration($duration)
 	{
 		$startDate = '';
 		$endDate = '';

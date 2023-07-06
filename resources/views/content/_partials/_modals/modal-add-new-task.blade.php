@@ -14,13 +14,13 @@
                     @csrf
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="modalAddTaskName">Task Name</label>
-                        <input type="text" id="modalAddTaskName" name="modalAddTaskName" class="form-control"
+                        <input type="text" id="modalAddTaskName" name="taskName" class="form-control"
                             placeholder="Task Name" value="" data-msg="Please enter your list name" />
                         <span id="error-modalAddTaskName" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="select-modalTaskList">Select Task List</label>
-                        <select class="select2 form-select" id="select-modalTaskList" name="select-modalTaskList">
+                        <select class="select2 form-select" id="select-modalTaskList" name="taskListId">
 							<option value="uncategorizd" selected>
 								Uncategorized
 							</option>
@@ -36,7 +36,7 @@
                     <!-- Limit Selected Options -->
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="select2-limited">Assignee</label>
-                        <select class="select2 form-select" id="select-modalTaskAssignee" name="select-modalTaskAssignee">
+                        <select class="select2 form-select" id="select-modalTaskAssignee" name="taskAssignee">
 							<option data-img="{{ asset('images/portrait/small/avatar-s-3.jpg') }}"
 								value="Phill Buffer" selected>
 								Phill Buffer
@@ -66,7 +66,7 @@
                     </div>
 					<div class="col-12 col-md-6">
                         <label class="form-label" for="select2-limited">Reviewer</label>
-                        <select class="select2 form-select" id="select-modalTaskReviewer" name="select-modalTaskReviewer">
+                        <select class="select2 form-select" id="select-modalTaskReviewer" name="taskReviewer">
 							<option data-img="{{ asset('images/portrait/small/avatar-s-3.jpg') }}"
 								value="Phill Buffer" selected>
 								Phill Buffer
@@ -96,17 +96,17 @@
                     </div>
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="fp-range">Pick your Task duration</label>
-                        <input name="modalDuration" type="text" id="fp-range" class="form-control flatpickr-range"
+                        <input name="duration" type="text" id="fp-range" class="form-control flatpickr-range"
                             placeholder="YYYY-MM-DD to YYYY-MM-DD" />
                         <span id="error-modalDuration" style="color: red; display: none"></span>
                     </div>
 					<div class="mb-1">
 						<label for="attachments" class="form-label">Attachments</label>
-						<input class="form-control file-attachments" type="file" id="modalTaskAttachments" multiple />
+						<input class="form-control file-attachments" type="file" id="modalTaskAttachments" multiple name="taskAttachments"/>
 					</div>
                     <div class="col-12">
                         <label class="form-label" for="modalTaskDesc">Description</label>
-                        <textarea id="modalTaskDesc" name="modalTaskDesc" class="form-control" value=""
+                        <textarea id="modalTaskDesc" name="taskDescription" class="form-control" value=""
                             placeholder="Enter project description"></textarea>
                     </div>
                     <div class="col-12 text-center mt-2 pt-50">
