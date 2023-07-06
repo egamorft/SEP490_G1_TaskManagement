@@ -59,12 +59,11 @@
                                                             </a>
                                                         </li>
                                                     @endforeach
-                                                </div>  
-                                            @else
-                                                <div class="no-results">
-                                                    <h5>No Items Found</h5>
                                                 </div>
                                             @endif
+											<div class="no-results">
+												<h5>No Items Found</h5>
+											</div>
                                         </div>
                                     @endforeach
                                 </ul>

@@ -10,63 +10,36 @@
 $(window).on("load", function () {
     "use strict";
 
-	function debounce(fn, delay = 300) {
-		var timeoutID = null;
+	var todoFilter = $("#todo-search"), listItemFilter = $(".list-group-filters"), noResults = $(".no-results");
 
-		return function () {
-			clearTimeout(timeoutID);
+	// Filter task
+    if (todoFilter.length) {
+        todoFilter.on("keyup", function () {
+            var value = $(this).val().toLowerCase();
+            if (value !== "") {
+                $(".todo-item").filter(function () {
+                    $(this).toggle(
+                        $(this).text().toLowerCase().indexOf(value) > -1
+                    );
+                });
+                var tbl_row = $(".todo-item:visible").length; //here tbl_test is table name
 
-			var args = arguments;
-			var that = this;
+                //Check if table has row or not
+                if (tbl_row == 0) {
+                    if (!$(noResults).hasClass("show")) {
+                        $(noResults).addClass("show");
+                    }
+                } else {
+                    $(noResults).removeClass("show");
+                }
+            } else {
+                // If filter box is empty
+                $(".todo-item").show();
+                if ($(noResults).hasClass("show")) {
+                    $(noResults).removeClass("show");
+                }
+            }
+        });
+    }
 
-			timeoutID = setTimeout(function () {
-				fn.apply(that, args);
-			}, delay);
-		}
-	};
-
-	// this is where we integrate the v-debounce directive!
-	// We can add it globally (like now) or locally!
-	Vue.directive('debounce', (el, binding) => {
-		if (binding.value !== binding.oldValue) {
-			// window.debounce is our global function what we defined at the very top!
-			el.oninput = debounce(ev => {
-				el.dispatchEvent(new Event('change'));
-			}, parseInt(binding.value) || 300);
-		}
-	});
-
-	new Vue({
-		el: '#app',
-		data() {
-			return {
-				keywords: null,
-				posts: [
-					{id: 1, title: 'Front-end Performance – Where should we start?'},
-					{id: 2, title: 'Vue Calendar Component with Laravel API'},
-					{id: 3, title: 'Optimise Your Front-end Workflow with Prepros'},
-					{id: 4, title: 'Affinity Designer vs. Adobe Illustrator – Which One is Better for You?'},
-					{id: 5, title: 'Implementing Laravel’s Authorization on the Front-End'},
-					{id: 6, title: 'Using CodePen Can Boost Your Front-end Development Workflow'},
-					{id: 7, title: 'Connecting GitLab, Codeship and Laravel Forge'},
-					{id: 8, title: 'Dynamic Author Email with Contact Form 7'},
-					{id: 9, title: 'Impersonating Users in Laravel'},
-					{id: 10, title: 'Introduction to Affinity Designer'},
-					{id: 11, title: 'Using Contenteditable Attribute'},
-					{id: 12, title: 'Using Laravel’s Localization in JS'},
-					{id: 13, title: 'CSS Gradient Basics'},
-				]
-			}
-		},
-		computed: {
-			results() {
-				return this.keywords ? this.posts.filter(result => result.title.includes(this.keywords)) : [];
-			}
-		},
-		methods: {
-			highlight(text) {
-				return text.replace(new RegExp(this.keywords, 'gi'), '<span class="highlighted">$&</span>');
-			}
-		}
-	})
 });
