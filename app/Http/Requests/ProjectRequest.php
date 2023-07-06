@@ -29,7 +29,7 @@ class ProjectRequest extends FormRequest
             'modalAddSupervisor' => 'required',
             'modalAddMembers' => 'required|array',
             'modalAddMembers.*' => 'required',
-            'duration' => 'required'
+            'duration' => 'required|regex:/\d{4}-\d{2}-\d{2} to \d{4}-\d{2}-\d{2}/'
         ];
     }
 }

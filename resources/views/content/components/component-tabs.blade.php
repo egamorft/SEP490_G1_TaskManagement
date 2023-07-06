@@ -81,39 +81,45 @@
                                 <section class="modern-vertical-wizard">
                                     <div class="bs-stepper vertical wizard-modern modern-vertical-wizard-example">
                                         <div class="bs-stepper-header">
-                                            <div class="step" data-target="#project-information" role="tab"
-                                                id="project-information-trigger">
-                                                <button type="button" class="step-trigger">
-                                                    <span class="bs-stepper-box">
-                                                        <i data-feather='info' class="font-medium-5"></i>
-                                                    </span>
-                                                    <span class="bs-stepper-label">
-                                                        <span class="bs-stepper-title">Project information</span>
-                                                    </span>
-                                                </button>
-                                            </div>
-                                            <div class="step" data-target="#project-members" role="tab"
-                                                id="project-members-trigger">
-                                                <button type="button" class="step-trigger">
-                                                    <span class="bs-stepper-box">
-                                                        <i data-feather='users' class="font-medium-5"></i>
-                                                    </span>
-                                                    <span class="bs-stepper-label">
-                                                        <span class="bs-stepper-title">Project Members</span>
-                                                    </span>
-                                                </button>
-                                            </div>
-                                            <div class="step" data-target="#permission-role" role="tab"
-                                                id="permission-role-trigger">
-                                                <button type="button" class="step-trigger">
-                                                    <span class="bs-stepper-box">
-                                                        <i data-feather='shield' class="font-medium-5"></i>
-                                                    </span>
-                                                    <span class="bs-stepper-label">
-                                                        <span class="bs-stepper-title">Permission By Role</span>
-                                                    </span>
-                                                </button>
-                                            </div>
+                                            @can('check-permission', 'change-project-information')
+                                                <div class="step" data-target="#project-information" role="tab"
+                                                    id="project-information-trigger">
+                                                    <button type="button" class="step-trigger">
+                                                        <span class="bs-stepper-box">
+                                                            <i data-feather='info' class="font-medium-5"></i>
+                                                        </span>
+                                                        <span class="bs-stepper-label">
+                                                            <span class="bs-stepper-title">Project information</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            @endcan
+                                            @can('check-permission', 'view-member-list')
+                                                <div class="step" data-target="#project-members" role="tab"
+                                                    id="project-members-trigger">
+                                                    <button type="button" class="step-trigger">
+                                                        <span class="bs-stepper-box">
+                                                            <i data-feather='users' class="font-medium-5"></i>
+                                                        </span>
+                                                        <span class="bs-stepper-label">
+                                                            <span class="bs-stepper-title">Project Members</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            @endcan
+                                            @can('check-permission', 'set-up-project-privilege')
+                                                <div class="step" data-target="#permission-role" role="tab"
+                                                    id="permission-role-trigger">
+                                                    <button type="button" class="step-trigger">
+                                                        <span class="bs-stepper-box">
+                                                            <i data-feather='shield' class="font-medium-5"></i>
+                                                        </span>
+                                                        <span class="bs-stepper-label">
+                                                            <span class="bs-stepper-title">Permission By Role</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            @endcan
                                         </div>
                                         <div class="bs-stepper-content">
                                             <div id="project-information" class="content" role="tabpanel"
@@ -197,28 +203,39 @@
                                                                 </div>
                                                             </div>
                                                         @endif
-                                                        @if (isset($pendingSupervisorAccount))
-                                                            <div
-                                                                class="d-flex justify-content-between bg-light opacity-50">
-                                                                <div class="d-flex align-items-center">
-                                                                    <img class="round me-1"
-                                                                        src="{{ Auth::user() ? asset('images/avatars/' . $pendingSupervisorAccount->avatar) : '' }}"
-                                                                        alt="avatar" height="40" width="40">
-                                                                    <div>
-                                                                        <h6 class="mb-0">
-                                                                            {{ $pendingSupervisorAccount->fullname }}
-                                                                        </h6>
-                                                                        <small
-                                                                            style="font-size: 0.7rem;">{{ $pendingSupervisorAccount->email }}</small>
+                                                        @can('check-permission', 'control-teamsize')
+                                                            @if (isset($pendingSupervisorAccount))
+                                                                <div
+                                                                    class="d-flex justify-content-between bg-light opacity-50">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <img class="round me-1"
+                                                                            src="{{ Auth::user() ? asset('images/avatars/' . $pendingSupervisorAccount->avatar) : '' }}"
+                                                                            alt="avatar" height="40" width="40">
+                                                                        <div>
+                                                                            <h6 class="mb-0">
+                                                                                {{ $pendingSupervisorAccount->fullname }}
+                                                                            </h6>
+                                                                            <small
+                                                                                style="font-size: 0.7rem;">{{ $pendingSupervisorAccount->email }}</small>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center me-2">
+                                                                        <strong>Pending invite...</strong>
+                                                                        <div class="spinner-border ms-2" role="status"
+                                                                            aria-hidden="true"></div>
                                                                     </div>
                                                                 </div>
+                                                            @endif
+                                                        @else
+                                                            <div class="d-flex justify-content-between bg-light opacity-50">
                                                                 <div class="d-flex align-items-center me-2">
-                                                                    <strong>Pending invite...</strong>
+                                                                    <strong>Waiting for supervisor to accept
+                                                                        invitation...</strong>
                                                                     <div class="spinner-border ms-2" role="status"
                                                                         aria-hidden="true"></div>
                                                                 </div>
                                                             </div>
-                                                        @endif
+                                                        @endcan
                                                     </div>
                                                 </div>
                                                 <hr class="my-2">
@@ -226,40 +243,42 @@
                                                     <div class="mb-3 col-md-12">
                                                         <div class="d-flex justify-content-between">
                                                             <h6 class="mb-0">Project Members</h6>
-                                                            @if ($checkLimitation < 4)
-                                                                <a data-bs-toggle="modal"
-                                                                    data-bs-target="#inviteToProject">
-                                                                    <div class="d-flex align-items-center">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="18" height="18"
-                                                                            fill="currentColor"
-                                                                            class="bi bi-person-plus-fill me-1"
-                                                                            viewBox="0 0 16 16">
-                                                                            <path
-                                                                                d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
-                                                                        </svg>
-                                                                        <h6 class="mb-0">Add new member</h6>
+                                                            @can('check-permission', 'control-teamsize')
+                                                                @if ($checkLimitation < 4)
+                                                                    <a data-bs-toggle="modal"
+                                                                        data-bs-target="#inviteToProject">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="18" height="18"
+                                                                                fill="currentColor"
+                                                                                class="bi bi-person-plus-fill me-1"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path
+                                                                                    d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                                                                <path fill-rule="evenodd"
+                                                                                    d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                                                                            </svg>
+                                                                            <h6 class="mb-0">Add new member</h6>
+                                                                        </div>
+                                                                    </a>
+                                                                @else
+                                                                    <div class="alert alert-warning">
+                                                                        <div class="d-flex align-items-center alert-body">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="18" height="18"
+                                                                                fill="currentColor"
+                                                                                class="bi bi-person-slash me-1"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path
+                                                                                    d="M13.879 10.414a2.501 2.501 0 0 0-3.465 3.465l3.465-3.465Zm.707.707-3.465 3.465a2.501 2.501 0 0 0 3.465-3.465Zm-4.56-1.096a3.5 3.5 0 1 1 4.949 4.95 3.5 3.5 0 0 1-4.95-4.95ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
+                                                                            </svg>
+                                                                            <h6 class="mb-0">Your team have reached limit of
+                                                                                <strong>4</strong> invitaion & member
+                                                                            </h6>
+                                                                        </div>
                                                                     </div>
-                                                                </a>
-                                                            @else
-                                                                <div class="alert alert-warning">
-                                                                    <div class="d-flex align-items-center alert-body">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="18" height="18"
-                                                                            fill="currentColor"
-                                                                            class="bi bi-person-slash me-1"
-                                                                            viewBox="0 0 16 16">
-                                                                            <path
-                                                                                d="M13.879 10.414a2.501 2.501 0 0 0-3.465 3.465l3.465-3.465Zm.707.707-3.465 3.465a2.501 2.501 0 0 0 3.465-3.465Zm-4.56-1.096a3.5 3.5 0 1 1 4.949 4.95 3.5 3.5 0 0 1-4.95-4.95ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
-                                                                        </svg>
-                                                                        <h6 class="mb-0">Your team have reached limit of
-                                                                            <strong>4</strong> invitaion & member
-                                                                        </h6>
-                                                                    </div>
-                                                                </div>
-                                                            @endif
+                                                                @endif
+                                                            @endcan
                                                         </div>
                                                     </div>
                                                     @forelse ($memberAccount as $mem)
@@ -283,37 +302,39 @@
                                                         </div>
                                                         <div class="mb-1 col-md-5">
                                                             <div class="d-flex justify-content-end">
-                                                                <div class="d-flex align-items-center me-5">
-                                                                    <a data-bs-toggle="modal"
-                                                                        data-bs-target="#setNewPMModal{{ $mem->id }}"
-                                                                        class="d-flex align-items-center">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="20" height="20"
-                                                                            fill="currentColor"
-                                                                            class="bi bi-c-circle me-1"
-                                                                            viewBox="0 0 16 16">
-                                                                            <path
-                                                                                d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM8.146 4.992c-1.212 0-1.927.92-1.927 2.502v1.06c0 1.571.703 2.462 1.927 2.462.979 0 1.641-.586 1.729-1.418h1.295v.093c-.1 1.448-1.354 2.467-3.03 2.467-2.091 0-3.269-1.336-3.269-3.603V7.482c0-2.261 1.201-3.638 3.27-3.638 1.681 0 2.935 1.054 3.029 2.572v.088H9.875c-.088-.879-.768-1.512-1.729-1.512Z" />
-                                                                        </svg>
-                                                                        <h5 class="mb-0">Set as new manager</h5>
-                                                                    </a>
-                                                                </div>
-                                                                <div class="d-flex align-items-center">
+                                                                @can('check-permission', 'control-teamsize')
+                                                                    <div class="d-flex align-items-center me-5">
+                                                                        <a data-bs-toggle="modal"
+                                                                            data-bs-target="#setNewPMModal{{ $mem->id }}"
+                                                                            class="d-flex align-items-center">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="20" height="20"
+                                                                                fill="currentColor"
+                                                                                class="bi bi-c-circle me-1"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path
+                                                                                    d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM8.146 4.992c-1.212 0-1.927.92-1.927 2.502v1.06c0 1.571.703 2.462 1.927 2.462.979 0 1.641-.586 1.729-1.418h1.295v.093c-.1 1.448-1.354 2.467-3.03 2.467-2.091 0-3.269-1.336-3.269-3.603V7.482c0-2.261 1.201-3.638 3.27-3.638 1.681 0 2.935 1.054 3.029 2.572v.088H9.875c-.088-.879-.768-1.512-1.729-1.512Z" />
+                                                                            </svg>
+                                                                            <h5 class="mb-0">Set as new manager</h5>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center">
 
-                                                                    <a data-bs-toggle="modal"
-                                                                        data-bs-target="#removeMemberModal{{ $mem->id }}"
-                                                                        class="d-flex align-items-center">
-                                                                        <svg xmlns="http://www.w3.org/2000/svg"
-                                                                            width="20" height="20"
-                                                                            fill="currentColor"
-                                                                            class="bi bi-person-x-fill me-1"
-                                                                            viewBox="0 0 16 16">
-                                                                            <path fill-rule="evenodd"
-                                                                                d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z" />
-                                                                        </svg>
-                                                                        <h5 class="mb-0">Remove</h5>
-                                                                    </a>
-                                                                </div>
+                                                                        <a data-bs-toggle="modal"
+                                                                            data-bs-target="#removeMemberModal{{ $mem->id }}"
+                                                                            class="d-flex align-items-center">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="20" height="20"
+                                                                                fill="currentColor"
+                                                                                class="bi bi-person-x-fill me-1"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path fill-rule="evenodd"
+                                                                                    d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z" />
+                                                                            </svg>
+                                                                            <h5 class="mb-0">Remove</h5>
+                                                                        </a>
+                                                                    </div>
+                                                                @endcan
                                                             </div>
                                                         </div>
                                                         @include('content._partials._modals.modal-change-pm')
@@ -444,15 +465,7 @@
                                                                 @forelse ($permissions as $p)
                                                                     <tr>
                                                                         <td class="text-nowrap fw-bolder py-2">
-                                                                            {{ $p->name }} <svg
-                                                                                xmlns="http://www.w3.org/2000/svg"
-                                                                                width="18" height="18"
-                                                                                fill="currentColor"
-                                                                                class="bi bi-arrow-right-circle"
-                                                                                viewBox="0 0 16 16">
-                                                                                <path fill-rule="evenodd"
-                                                                                    d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zM4.5 7.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z" />
-                                                                            </svg> {{ $p->slug }}
+                                                                            {{ $p->name }}
                                                                         </td>
                                                                         @forelse ($roles as $r)
                                                                             <td class="align-middle text-center">
@@ -468,7 +481,7 @@
                                                                                             class="form-check-input"
                                                                                             type="checkbox"
                                                                                             id="{{ $r->id }}_{{ $p->id }}"
-                                                                                            checked>
+                                                                                            {{ $isChecked ? 'checked' : '' }}>
                                                                                     </div>
                                                                                 @else
                                                                                     <div

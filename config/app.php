@@ -183,6 +183,8 @@ return [
         App\Providers\ProjectsComposerServiceProvider::class,
         //Account provider
         App\Providers\AccountServiceProvider::class,
+        //Projet permisison
+        App\Providers\PermissionProjectProvider::class,
     ],
 
     /*

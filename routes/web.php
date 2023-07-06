@@ -23,6 +23,7 @@ use App\Http\Controllers\ProjectsController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\SubTaskController;
 use App\Http\Controllers\TaskController;
+use App\Http\Middleware\CheckProjectAccess;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
 
@@ -113,7 +114,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
 
     Route::group(['prefix' => 'project'], function () {
-        Route::get('{slug}', [ProjectController::class, 'index'])->name('project.settings');
+        Route::get('{slug}', [ProjectController::class, 'index'])->name('project.settings')
+            ->middleware('check.project.access');
         Route::post('update-information/{id}', [ProjectController::class, 'update'])->name('project.update');
         Route::get('invite/{slug}/{token}', [ProjectController::class, 'show'])->name('project.invite');
         Route::post('invitation/{slug}/{token}', [ProjectController::class, 'invitation'])->name('invitation.submit');
