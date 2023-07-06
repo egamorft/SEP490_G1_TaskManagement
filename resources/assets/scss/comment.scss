@@ -21,3 +21,11 @@ section.chat-app-window .input-group {
 	border-bottom: 1px solid #ebe9f1;
 	border-top: none;
 }
+
+.chat-app-window .chats .chat-left .chat-body .chat-content.chat.chat-left {
+	box-shadow: none;
+}
+
+.chat-app-window .chats .chat-body .chat-content {
+	max-width: 95%;
+}

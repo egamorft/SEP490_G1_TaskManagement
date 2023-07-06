@@ -683,20 +683,16 @@ class ProjectController extends Controller
 			));
 	}
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function update(Request $request, $id)
-    {
-        $validatedData = $request->validate([
-            'settingProjectName' => 'required|max:50',
-            'settingDuration' => 'required|regex:/\d{4}-\d{2}-\d{2} to \d{4}-\d{2}-\d{2}/',
-            'settingDesc' => 'nullable'
-        ]);
+	/**
+	 * Display a kanban view of the task
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function view_kanban($slug)
+	{
+		//Project info & members
+		$project = Project::where('slug', $slug)->first();
+		$accounts = $project->accounts()->get();
 
 		$pmAccount = Project::findOrFail($project->id)
 			->findAccountWithRoleNameAndStatus('pm', 1)
@@ -764,40 +760,9 @@ class ProjectController extends Controller
 			->findAccountWithRoleNameAndStatus('pm', 1)
 			->first();
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function invite_email(Request $request)
-    {
-        $get_project = Project::where('slug', $request->input('modalInviteSlug'))->first();
-        $removedMembers = Project::findOrFail($get_project->id)
-            ->findAccountWithRoleNameAndStatus('member', -2)
-            ->get();
-        $invitedMembers = Project::findOrFail($get_project->id)
-            ->findAccountWithRoleNameAndStatus('member', 0)
-            ->get();
-        $loggedInUserEmail = Auth::user()->email;
-        $exceptEmails = $removedMembers->pluck('email')->concat([$loggedInUserEmail])->merge($invitedMembers->pluck('email'));
-        //Handle the invitation to email
-        $validatedData = $request->validate([
-            'modalInviteEmail' => [
-                'required', 'email',
-                Rule::exists('accounts', 'email')
-                    ->whereNotIn('email', $exceptEmails)
-                    ->where(function ($query) {
-                        $query->whereRaw("LOCATE('@fe.edu.vn', email) = 0");
-                    }),
-            ],
-            'modalInviteToken' => 'nullable',
-            'modalInviteSlug' => 'nullable'
-        ]);
-        //
-        $project_slug = $validatedData['modalInviteSlug'];
-        $project_token = $validatedData['modalInviteToken'];
+		$supervisorAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('supervisor', 1)
+			->first();
 
 		$pendingSupervisorAccount = Project::findOrFail($project->id)
 			->findAccountWithRoleNameAndStatus('supervisor', 0)
