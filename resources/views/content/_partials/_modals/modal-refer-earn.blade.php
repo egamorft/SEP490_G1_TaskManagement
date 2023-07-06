@@ -130,7 +130,7 @@
                                         class="fb-xfbml-parse-ignore">
                                         <i data-feather="facebook" class="font-medium-2"></i>
                                         <div class="fb-share-button"
-                                            data-href="{{ url('project/invite/' . $project->token) }}" data-layout=""
+                                            data-href="{{ url('project/invite/' . $project->slug . '/' . $project->token) }}" data-layout=""
                                             data-size=""></div>
                                     </a>
                                 </button>

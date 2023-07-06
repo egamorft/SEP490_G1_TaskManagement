@@ -30,6 +30,16 @@ class Account extends Model implements Authenticatable
     //     return $this->belongsToMany(Role::class, 'account_role');
     // }
 
+    public function accountProjectsAccess()
+    {
+        return $this->hasMany(AccountProject::class, 'account_id');
+    }
+
+    public function accountProjects()
+    {
+        return $this->belongsToMany(Project::class, 'account_project', 'account_id', 'project_id');
+    }
+
     public function accountProject()
     {
         return $this->belongsToMany(Project::class, 'account_project')
