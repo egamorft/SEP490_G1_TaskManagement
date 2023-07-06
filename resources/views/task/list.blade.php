@@ -33,11 +33,11 @@
                                         </div>
                                         <div class="collapse show" id="collapseUncategorized">
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Send PPT with real-time
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Send PPT with real-time
                                                                 reports</span>
                                                         </div>
                                                     </div>
@@ -50,11 +50,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-primary" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Send PPT with real-time
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Send PPT with real-time
                                                                 reports</span>
                                                         </div>
                                                     </div>
@@ -67,11 +67,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-warning" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Submit quotation for
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Submit quotation for
                                                                 Abid's
                                                                 ecommerce
                                                                 website and admin project
@@ -92,11 +92,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item completed">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-success" data-feather='check-circle'></i>
-                                                            <span class="text-dark todo-title">Reminder to mail clients
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Reminder to mail clients
                                                                 for
                                                                 holidays</span>
                                                         </div>
@@ -115,11 +115,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-secondary" data-feather='check-circle'></i>
-                                                            <span class="text-dark todo-title">Refactor Code and fix the
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Refactor Code and fix the
                                                                 bugs and
                                                                 test it
                                                                 on server </span>
@@ -138,11 +138,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-danger" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">List out all the SEO
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">List out all the SEO
                                                                 resources and
                                                                 send it
                                                                 to new SEO team.
@@ -159,11 +159,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Finish documentation and
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Finish documentation and
                                                                 make it
                                                                 live</span>
                                                         </div>
@@ -181,11 +181,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item completed">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Pick up Nats from her
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Pick up Nats from her
                                                                 school and
                                                                 drop at
                                                                 dance class😁 </span>
@@ -200,11 +200,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Plan new dashboard
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Plan new dashboard
                                                                 design with
                                                                 design team
                                                                 for Google app store.
@@ -223,11 +223,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Conduct a mini awareness
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Conduct a mini awareness
                                                                 meeting
                                                                 regarding
                                                                 health care. </span>
@@ -244,12 +244,12 @@
                                             </li>
 
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-secondary" data-feather='check-circle'></i>
 
-                                                            <span class="text-dark todo-title">Fix Responsiveness for
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Fix Responsiveness for
                                                                 new
                                                                 structure
                                                                 💻</span>
@@ -268,12 +268,12 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-secondary" data-feather='check-circle'></i>
 
-                                                            <span class="text-dark todo-title">Plan a party for
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Plan a party for
                                                                 development team
                                                                 🎁</span>
                                                         </div>
@@ -291,12 +291,12 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-secondary" data-feather='check-circle'></i>
 
-                                                            <span class="text-dark todo-title">Hire 5 new Fresher or
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Hire 5 new Fresher or
                                                                 Experienced,
                                                                 frontend and backend developers
                                                             </span>
@@ -334,11 +334,11 @@
                                         </div>
                                         <div class="collapse show" id="collapseList1">
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Fix Responsiveness for
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Fix Responsiveness for
                                                                 new
                                                                 structure
                                                                 💻</span>
@@ -357,11 +357,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Plan a party for
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Plan a party for
                                                                 development team
                                                                 🎁</span>
                                                         </div>
@@ -379,11 +379,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Hire 5 new Fresher or
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Hire 5 new Fresher or
                                                                 Experienced,
                                                                 frontend and backend developers
                                                             </span>
@@ -421,11 +421,11 @@
                                         </div>
                                         <div class="collapse show" id="collapseList2">
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Fix Responsiveness for
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Fix Responsiveness for
                                                                 new
                                                                 structure
                                                                 💻</span>
@@ -444,11 +444,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Plan a party for
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Plan a party for
                                                                 development team
                                                                 🎁</span>
                                                         </div>
@@ -466,11 +466,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Hire 5 new Fresher or
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Hire 5 new Fresher or
                                                                 Experienced,
                                                                 frontend and backend developers
                                                             </span>
@@ -490,11 +490,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Fix Responsiveness for
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Fix Responsiveness for
                                                                 new
                                                                 structure
                                                                 💻</span>
@@ -513,11 +513,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item completed">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Skype Tommy for project
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Skype Tommy for project
                                                                 status &
                                                                 report</span>
                                                         </div>
@@ -535,11 +535,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item completed">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Test functionality of
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Test functionality of
                                                                 apps
                                                                 developed by
                                                                 dev team for enhancements.
@@ -558,11 +558,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Answer the support
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Answer the support
                                                                 tickets and
                                                                 close
                                                                 completed tickets. </span>
@@ -580,11 +580,11 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
-                                                            <span class="text-dark todo-title">Meet Jane and ask for
+                                                            <span class="text-dark todo-title d-inline-block text-truncate" style="max-width: 350px">Meet Jane and ask for
                                                                 coffee
                                                                 ❤️</span>
                                                         </div>

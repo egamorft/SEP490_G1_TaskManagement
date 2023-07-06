@@ -7,14 +7,14 @@
 <div class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column" id="app-calendar-sidebar">
 	<div class="sidebar-wrapper">
 		<div class="card-body add-task d-flex justify-content-center">
-            <button type="button" class="btn btn-link border border-primary w-100" data-bs-toggle="modal" data-bs-target="#addNewTask">
-                Add Task
-            </button>
-        </div>
-		<div class="pt-0 card-body add-task d-flex justify-content-center">
-            <button type="button" class="btn btn-link border border-primary w-100" data-bs-toggle="modal" data-bs-target="#addNewTaskList">
-                Add Task List
-            </button>
+            <button type="button" class="btn btn-primary dropdown-toggle w-100" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    Add Task
+                </button>
+                <ul class="dropdown-menu" style="width: 210px;"">
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addNewTask">Add New Task</a></li>
+                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addNewTaskList">Add New Task List</a></li>
+                </ul>
         </div>
 		<div class="card-body pb-0 pt-0">
 			<div class="list-group list-group-filters">
