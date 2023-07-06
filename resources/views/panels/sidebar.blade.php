@@ -164,7 +164,7 @@
                             @php
                                 $logo = Str::substr($p->name, 0, 1) . '.png';
                                 $currentUrl = request()->url();
-                                $slug = Str::after($currentUrl, 'projects/');
+                                $slug = Str::after($currentUrl, 'project/');
 								$slug = explode('/', $slug)[0];
                             @endphp
                             <li class="nav-item {{ $slug === $p->slug ? 'active' : '' }}">

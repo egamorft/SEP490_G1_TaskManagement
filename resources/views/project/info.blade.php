@@ -67,8 +67,8 @@
  					</div>
  				</div>
  				<div class="more-info">
- 					<small>From {{ date('D, M d, Y', strtotime($project->start_date)) }}</small>
- 					<h6 class="mb-0">To {{ date('D, M d, Y', strtotime($project->end_date)) }}</h6>
+ 					<small>From Sat, May 25, 2020</small>
+ 					<h6 class="mb-0">To Sat, May 25, 2020</h6>
  				</div>
  			</div>
 
@@ -81,7 +81,7 @@
  				</div>
  				<div class="more-info">
  					<small>Project Manager</small>
- 					<h6 class="mb-0">{{ $pmAccount->fullname }}</h6>
+ 					<h6 class="mb-0">Tran Ngoc Hieu</h6>
  				</div>
  			</div>
  			<div class="mt-2">
@@ -92,7 +92,7 @@
  				</div>
  				<div class="more-info">
  					<small>Project Supervisor</small>
- 					<h6 class="mb-0">{{ $supervisorAccount->fullname }}</h6>
+ 					<h6 class="mb-0">Tran Ngoc Hieu</h6>
  				</div>
  			</div>
  			<div class="mt-1 pl-5">
@@ -103,23 +103,19 @@
  					<div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Billy Hopkins" class="avatar pull-up">
  						<img src="{{ asset('images/portrait/small/avatar-s-9.jpg') }}" alt="Avatar" width="33" height="33" />
  					</div>
-					@php
-						$limitCount = 0;
-						$moreMember = 0;
-					@endphp
-					@foreach ($memberAccounts as $acc)
-						@php
-							$limitCount++;
-							if ($limitCount > 3) {
-								$moreMember++;
-								continue;
-							}
-						@endphp
-						<div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="{{ $acc->fullname }}" class="avatar pull-up">
-							<img src="{{ asset('images/portrait/small/' . $acc->avatar) }}" alt="Avatar" width="33" height="33" />
-						</div>
-					@endforeach
- 					<h6 class="align-self-center cursor-pointer ms-50 mb-0">+{{ $moreMember }}</h6>
+ 					<div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Amy Carson" class="avatar pull-up">
+ 						<img src="{{ asset('images/portrait/small/avatar-s-6.jpg') }}" alt="Avatar" width="33" height="33" />
+ 					</div>
+ 					<div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Brandon Miles" class="avatar pull-up">
+ 						<img src="{{ asset('images/portrait/small/avatar-s-8.jpg') }}" alt="Avatar" width="33" height="33" />
+ 					</div>
+ 					<div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Daisy Weber" class="avatar pull-up">
+ 						<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar" width="33" height="33" />
+ 					</div>
+ 					<div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom" title="Jenny Looper" class="avatar pull-up">
+ 						<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar" width="33" height="33" />
+ 					</div>
+ 					<h6 class="align-self-center cursor-pointer ms-50 mb-0">+2</h6>
  				</div>
  			</div>
  			<hr />
@@ -132,7 +128,7 @@
  				</div>
  				<div class="more-info">
  					<h6 class="mb-0">Description</h6>
- 					<small>{{ $project->description ? $project->description : "---" }}</small>
+ 					<small>FTask là dự án quản lý Task dành cho sinh viên chuyên ngành SE giúp cho sinh viên quản lý, theo dõi, ....</small>
  				</div>
  			</div>
 
@@ -149,7 +145,6 @@
  				<h4 class="card-title">Task Overview</h4>
  			</div>
  		</div>
-
  		<div class="card-body">
 		 <div class="browser-states">
  				<div class="d-flex">
@@ -161,7 +156,7 @@
  					<h6 class="align-self-center mb-0">Todo</h6>
  				</div>
  				<div class="d-flex align-items-center">
- 					<div class="fw-bold text-body-heading me-1">{{ $subTaskStatusesPercent["todo"] }}%</div>
+ 					<div class="fw-bold text-body-heading me-1">14.6%</div>
  					<div id="browser-state-chart-info"></div>
  				</div>
  			</div>
@@ -175,7 +170,7 @@
  					<h6 class="align-self-center mb-0 ml-2">Doing</h6>
  				</div>
  				<div class="d-flex align-items-center">
- 					<div class="fw-bold text-body-heading me-1">{{ $subTaskStatusesPercent["doing"] }}%</div>
+ 					<div class="fw-bold text-body-heading me-1">54.4%</div>
  					<div id="browser-state-chart-primary"></div>
  				</div>
  			</div>
@@ -189,7 +184,7 @@
  					<h6 class="align-self-center mb-0">Reviewing</h6>
  				</div>
  				<div class="d-flex align-items-center">
- 					<div class="fw-bold text-body-heading me-1">{{ $subTaskStatusesPercent["reviewing"] }}%</div>
+ 					<div class="fw-bold text-body-heading me-1">4.2%</div>
  					<div id="browser-state-chart-warning"></div>
  				</div>
  			</div>
@@ -203,7 +198,7 @@
  					<h6 class="align-self-center mb-0">Done Ontime</h6>
  				</div>
  				<div class="d-flex align-items-center">
- 					<div class="fw-bold text-body-heading me-1">{{ $subTaskStatusesPercent["doneOntime"] }}%</div>
+ 					<div class="fw-bold text-body-heading me-1">6.1%</div>
  					<div id="browser-state-chart-success"></div>
  				</div>
  			</div>
@@ -218,7 +213,7 @@
  					<h6 class="align-self-center mb-0">Done Late</h6>
  				</div>
  				<div class="d-flex align-items-center">
- 					<div class="fw-bold text-body-heading me-1">{{ $subTaskStatusesPercent["doneLate"] }}%</div>
+ 					<div class="fw-bold text-body-heading me-1">4.2%</div>
  					<div id="browser-state-chart-secondary"></div>
  				</div>
  			</div>
@@ -232,7 +227,7 @@
  					<h6 class="align-self-center mb-0">Overdue</h6>
  				</div>
  				<div class="d-flex align-items-center">
- 					<div class="fw-bold text-body-heading me-1">{{ $subTaskStatusesPercent["overdue"] }}%</div>
+ 					<div class="fw-bold text-body-heading me-1">8.4%</div>
  					<div id="browser-state-chart-danger"></div>
  				</div>
  			</div>
