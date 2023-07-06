@@ -1,5 +1,4 @@
-@include('content._partials._modals.modal-edit-task-list')
-@include('content._partials._modals.modal-delete-task-list')
+
 <!-- Full list start -->
 <section>
     <div class="app-calendar overflow-hidden border">
@@ -15,18 +14,20 @@
                             <div class="todo-task-list-wrapper list-group">
                                 <ul class="todo-task-list media-list" id="todo-task-list">
                                     @foreach ($tasks as $task)
+										@include('content._partials._modals.modal-edit-task-list')
+										@include('content._partials._modals.modal-delete-task-list')
                                         <div class="task-list card mb-0">
                                             <div class="card-header pl-0 mb-0 demo-inline-spacing">
-                                                <a class="me-1 mt-0" data-bs-toggle="collapse" href="#collapseUncategorized"
+                                                <a class="me-1 mt-0" data-bs-toggle="collapse" href="#list-{{ $task->name }}"
                                                     role="button" aria-expanded="false"
-                                                    aria-controls="collapseUncategorized">
+                                                    aria-controls="list-{{ $task->name }}">
                                                     {{ $task->name }}
                                                 </a>
                                                 <div class="d-inline-block mt-0 mr-0">
-                                                    <a class="mt-0 mr-0 text-dark">
+                                                    <a class="mt-0 mr-0 text-dark" data-bs-toggle="modal" data-bs-target="#editTaskList{{ $task->id }}">
                                                         <i data-feather="edit" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
                                                     </a>
-                                                    <a class="mt-0 mr-0 text-dark">
+                                                    <a class="mt-0 mr-0 text-dark"  data-bs-toggle="modal" data-bs-target="#removeTaskList{{ $task->id }}">
                                                         <i data-feather="trash" class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
                                                     </a>
                                                 </div>
@@ -40,7 +41,7 @@
                                             @endphp
 
                                             @if (count($subTasksView) > 0)
-                                                <div class="collapse show" id="collapseUncategorized">
+                                                <div class="collapse show" id="list-{{ $task->name }}">
                                                     @foreach ($subTasksView as $st)
                                                         <li class="todo-item">
                                                             <a href="{{ route("show.task", ["slug" => $project->slug, "task_id" => $st->id]) }}" class="todo-title-wrapper">
@@ -61,12 +62,12 @@
                                                     @endforeach
                                                 </div>
                                             @endif
-											<div class="no-results">
-												<h5>No Items Found</h5>
-											</div>
                                         </div>
                                     @endforeach
                                 </ul>
+								<div class="no-results">
+									<h5>No Items Found</h5>
+								</div>
                             </div>
                             <!-- Todo List ends -->
                         </div>
