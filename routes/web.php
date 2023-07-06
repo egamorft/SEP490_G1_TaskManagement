@@ -19,6 +19,7 @@ use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ProjectController;
+use App\Http\Controllers\TaskController;
 use App\Http\Controllers\SendMailController;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
@@ -102,8 +103,10 @@ Route::middleware(['auth'])->group(function () {
 		Route::get('{slug}/report', [ProjectController::class, 'view_report'])->name('project.report');
 
 		// Router Tasks Action
-        Route::get('{slug}/tasks/{id}', [TaskController::class, 'index'])->name('show.task');
+        Route::get('{slug}/tasks/{task_id}', [TaskController::class, 'index'])->name('show.task');
         Route::post('{slug}/tasks/create', [TaskController::class, 'create'])->name('create.task');
+        Route::post('{slug}/tasks/edit', [TaskController::class, 'edit'])->name('edit.task');
+        Route::post('{slug}/tasks/remove', [TaskController::class, 'remove'])->name('remove.task');
         Route::post('{slug}/tasks/create-list', [TaskController::class, 'create_list'])->name('create.task.list');
         Route::post('{slug}/tasks/edit-list/{list_id}', [TaskController::class, 'create_list'])->name('edit.task.list');
         Route::post('{slug}/tasks/remove-list/{list_id}', [TaskController::class, 'create_list'])->name('remove.task.list');

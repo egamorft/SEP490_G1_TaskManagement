@@ -33,7 +33,7 @@
                                         </div>
                                         <div class="collapse show" id="collapseUncategorized">
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -50,7 +50,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-primary" data-feather='circle'></i>
@@ -67,7 +67,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-warning" data-feather='circle'></i>
@@ -92,7 +92,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item completed">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-success" data-feather='check-circle'></i>
@@ -115,7 +115,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-secondary" data-feather='check-circle'></i>
@@ -138,7 +138,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-danger" data-feather='circle'></i>
@@ -159,7 +159,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -181,7 +181,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item completed">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -200,7 +200,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -223,7 +223,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -244,7 +244,7 @@
                                             </li>
 
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-secondary" data-feather='check-circle'></i>
@@ -268,7 +268,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-secondary" data-feather='check-circle'></i>
@@ -291,7 +291,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-secondary" data-feather='check-circle'></i>
@@ -334,7 +334,7 @@
                                         </div>
                                         <div class="collapse show" id="collapseList1">
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -357,7 +357,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -379,7 +379,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -421,7 +421,7 @@
                                         </div>
                                         <div class="collapse show" id="collapseList2">
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -444,7 +444,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -466,7 +466,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -490,7 +490,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -513,7 +513,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item completed">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -535,7 +535,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item completed">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -558,7 +558,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>
@@ -580,7 +580,7 @@
                                                 </a>
                                             </li>
                                             <li class="todo-item">
-                                                <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                                <a href="{{ route('show.task', ["slug" => $project->slug, 'task_id' => 0]) }}" class="todo-title-wrapper">
                                                     <div class="todo-title-area">
                                                         <div class="title-wrapper">
                                                             <i class="text-info" data-feather='circle'></i>

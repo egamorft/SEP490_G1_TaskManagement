@@ -37,7 +37,7 @@ class TaskController extends Controller
             'pageClass' => 'todo-application',
         ];
 
-        return view('tasks/index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact('project'));
+        return view('task.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs,  'page' => 'task-list'])->with(compact('project'));
 
 	}
 

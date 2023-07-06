@@ -24,7 +24,7 @@
                             </a>
                         </div>
                     </div>
-                    <a class="text-dark" href="/projects/{{ $project->slug }}">
+                    <a class="text-dark" href="{{ route('project.task.list', ["slug" => $project->slug]) }}">
                         <i data-feather="x-circle"
                             class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
                     </a>

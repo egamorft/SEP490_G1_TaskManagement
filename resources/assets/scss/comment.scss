@@ -13,3 +13,11 @@ section.chat-app-window .input-group {
 	border-radius: 0;
 	box-shadow: none;
 }
+
+.chat-application .chat-app-window .start-chat-area, .chat-application .chat-app-window .user-chats {
+	background: none;
+}
+.chat-app-window .chat-app-form {
+	border-bottom: 1px solid #ebe9f1;
+	border-top: none;
+}
