@@ -110,7 +110,7 @@
 					@foreach ($memberAccounts as $acc)
 						@php
 							$limitCount++;
-							if ($limitCount > 3) {
+							if ($limitCount > 2) {
 								$moreMember++;
 								continue;
 							}
