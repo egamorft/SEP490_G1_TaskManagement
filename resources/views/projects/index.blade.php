@@ -3,10 +3,10 @@
 @section('title', 'Project - ' . $project->name)
 
 @section('content')
-    @include('projects.nav')
+    @include('project.nav')
     <div class="row">
-        <div class="col-xl-9 col-md-8 col-12">@include('tasks.list')</div>
-        <div class="col-xl-3 col-md-4 col-12">@include('projects.info')</div>
+        <div class="col-xl-9 col-md-8 col-12">@include('task.list')</div>
+        <div class="col-xl-3 col-md-4 col-12">@include('project.info')</div>
     </div>
 @endsection
 

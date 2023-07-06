@@ -4,7 +4,7 @@
 <section>
     <div class="app-calendar overflow-hidden border">
         <div class="row g-0">
-            @include('tasks.filter')
+            @include('task.filter')
 
             <!-- Calendar -->
             <div class="col position-relative bg-white">

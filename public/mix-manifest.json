@@ -149,6 +149,7 @@
     "/js/scripts/pages/page-knowledge-base.js": "/js/scripts/pages/page-knowledge-base.js",
     "/js/scripts/pages/page-pricing.js": "/js/scripts/pages/page-pricing.js",
     "/js/scripts/pages/page-profile.js": "/js/scripts/pages/page-profile.js",
+    "/js/scripts/pages/task-filter.js": "/js/scripts/pages/task-filter.js",
     "/js/scripts/pagination/components-pagination.js": "/js/scripts/pagination/components-pagination.js",
     "/js/scripts/tables/table-datatables-advanced.js": "/js/scripts/tables/table-datatables-advanced.js",
     "/js/scripts/tables/table-datatables-basic.js": "/js/scripts/tables/table-datatables-basic.js",
@@ -1457,7 +1458,6 @@
     "/data/fullcalendar/json/events.json": "/data/fullcalendar/json/events.json",
     "/data/fullcalendar/json/task.json": "/data/fullcalendar/json/task.json",
     "/data/fullcalendar/json/user.json": "/data/fullcalendar/json/user.json",
-    "/data/fullcalendar/json/user_task.json": "/data/fullcalendar/json/user_task.json",
     "/data/fullcalendar/php/get-events.php": "/data/fullcalendar/php/get-events.php",
     "/data/fullcalendar/php/get-timezones.php": "/data/fullcalendar/php/get-timezones.php",
     "/data/fullcalendar/php/utils.php": "/data/fullcalendar/php/utils.php",
@@ -1470,7 +1470,5 @@
     "/data/projects-list.json": "/data/projects-list.json",
     "/data/search.json": "/data/search.json",
     "/data/table-datatable.json": "/data/table-datatable.json",
-    "/data/user-list.json": "/data/user-list.json",
-    "/data/menu-data/verticalMenu copy.json": "/data/menu-data/verticalMenu copy.json",
-    "/data/menu-data/verticalMenu1.json": "/data/menu-data/verticalMenu1.json"
+    "/data/user-list.json": "/data/user-list.json"
 }

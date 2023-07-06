@@ -3,5 +3,5 @@
 @section('title', 'Project - ' . $project->name )
 
 @section('content')
-@include('projects.nav')
+@include('project.nav')
 @endsection
