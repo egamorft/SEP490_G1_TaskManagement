@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 return new class extends Migration
@@ -20,9 +21,11 @@ return new class extends Migration
             $table->text('image')->nullable();
             $table->text('description')->nullable();
             $table->integer('assign_to');
+            $table->integer('review_by');
+            $table->integer('created_by');
             $table->text('attachment')->nullable();
             $table->dateTime('due_date');
-            $table->dateTime('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
+            $table->dateTime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
             $table->dateTime('deleted_at')->nullable();
             // $table->timestamps();
 

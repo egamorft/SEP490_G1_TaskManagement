@@ -16,6 +16,8 @@ class SubTask extends Model
         'image',
         'description',
         'assign_to',
+        'review_by',
+        'created_by',
         'attachment',
         'due_date',
         'created_at',

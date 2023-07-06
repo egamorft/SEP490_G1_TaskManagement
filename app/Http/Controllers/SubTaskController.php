@@ -20,10 +20,29 @@ class SubTaskController extends Controller
 {
     public function index($slug, $subTaskId) {
         $project = Project::where("slug", $slug)->first();
-        $tasks = Task::where("project_id", $project->id)->get();
+        $tasksQuery = Task::where("project_id", $project->id);
+        $tasks = $tasksQuery->get();
         $subTask = SubTask::where("id", $subTaskId)->first();
         $task = Task::where("id", $subTask->task_id)->first();
         $breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
+
+        $taskIds = $tasksQuery->addSelect("id")->get();
+        $subTaskView = SubTask::whereIn("task_id", $taskIds)->get();
+        $subTasksRelease = [];
+        foreach ($tasks as $task) {
+            if (isset($subTasksRelease[$task->id])) {
+                continue;
+            }
+            $subTasksRelease[$task->id] = [];
+        }
+
+        foreach($subTaskView as $subTask) {
+            if (!isset($subTasksRelease[$subTask->task_id])) {
+                $subTask[$subTask->task_id] = [$subTask]; 
+                continue;
+            }
+            array_push($subTasksRelease[$subTask->task_id], $subTask);
+        }
 
 		$pageConfigs = [
             'pageHeader' => true,
@@ -39,7 +58,7 @@ class SubTaskController extends Controller
 
         $accounts = Account::whereIn("id", $accountIds)->get();
         
-        return view('tasks/index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact("subTask", "tasks", "project", "task", "accounts"));
+        return view('tasks/index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => ''])->with(compact("subTask", "tasks", "project", "task", "accounts", "subTasksRelease"));
     }
 
     public function create(SubTasksRequest $request, $slug) {
