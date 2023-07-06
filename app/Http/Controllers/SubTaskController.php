@@ -85,7 +85,7 @@ class SubTaskController extends Controller
         $subTaskCreated = SubTask::create($subTask);
 
         Session::flash('success', 'Create successfully task list ' . $subTaskCreated->name);
-        return redirect("projects/{$project->slug}");
+        return redirect("project/{$project->slug}/task-list");
     }
 
     public function update(TasksRequest $request, $id) {

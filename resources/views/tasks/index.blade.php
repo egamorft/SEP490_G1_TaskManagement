@@ -3,14 +3,14 @@
 @section('title', 'Project - ' . $project->name)
 
 @section('content')
-@include('projects.nav')
+@include('project.nav')
 <div class="row">
 	<div class="col-xl-12 col-md-8 col-12">
 		<section>
 			<div class="app-calendar overflow-hidden border">
 				<div class="row g-0">
-					@include('tasks.menu')
-					@include('tasks.info')
+					@include('task.menu')
+					@include('task.info')
 					<div class="body-content-overlay"></div>
 				</div>
 			</div>

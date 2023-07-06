@@ -3,8 +3,8 @@
 @section('title', 'Project - ' . $project->name )
 
 @section('content')
-@include('projects.nav')
-@include('tasks.gantt')
+@include('project.nav')
+@include('task.gantt')
 @endsection
 
 

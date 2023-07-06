@@ -67,7 +67,7 @@ class TaskController extends Controller
         }
 
         Session::flash('success', 'Create successfully task list ' . $taskCreated->name);
-        return redirect("projects/{$project->slug}");
+        return redirect("project/{$project->slug}/task-list");
 
     }
 

@@ -167,7 +167,7 @@
             <hr />
             <div class="mt-2 chat-application">
                 <h6 class="mb-2">Discussion</h6>
-                @include('tasks.comment')
+                @include('task.comment')
             </div>
         </div>
     </div>

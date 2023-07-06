@@ -73,7 +73,7 @@
 		  </div>
 		</div> -->
 		<!-- /Sidebar -->
-		@include('tasks.filter')
+		@include('task.filter')
   
 		<!-- Calendar -->
 		<div class="col position-relative bg-white">
