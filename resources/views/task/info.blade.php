@@ -157,14 +157,6 @@
 
             <hr />
 
-            <div class="mt-2">
-                <div class="more-info">
-                    <h6 class="mb-2">Task Result</h6>
-                    <small>---</small>
-                </div>
-            </div>
-
-            <hr />
             <div class="mt-2 chat-application">
                 <h6 class="mb-2">Discussion</h6>
                 @include('task.comment')

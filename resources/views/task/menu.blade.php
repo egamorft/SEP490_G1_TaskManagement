@@ -51,7 +51,7 @@
                                             }
                                         @endphp
                                         <li class="todo-item {{ $currentSubTask }}">
-                                            <a href="{{ $project->slug }}/tasks/0" class="todo-title-wrapper">
+                                            <a href="{{ route("show.task", ["slug" => $project->slug, "task_id" => $st->id])}}" class="todo-title-wrapper">
                                                 <div class="todo-title-area">
                                                     <div class="title-wrapper">
                                                         <i class="text-success" data-feather='check-circle'></i>
