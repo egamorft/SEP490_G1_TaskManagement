@@ -55,7 +55,9 @@
                     <span class="align-middle">Todo</span>
                 </button>
                 <ul class="dropdown-menu" style="width: 250px;"">
-					<li><div class="select-header border-bottom">Change Task Status</div></li>
+                    <li>
+                        <div class="select-header border-bottom">Change Task Status</div>
+                    </li>
                     <li><a class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
                             <i data-feather='circle' class="cursor-pointer me-50"></i>Doing</a></li>
                     <li><a class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
@@ -64,121 +66,543 @@
                             <i data-feather='check-circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
                 </ul>
 
-				<button type="button" style="padding: 15px;"
-                    class="task-member d-inline-flex col btn btn-light border-left dropdown-toggle" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                <button type="button" style="padding: 15px;"
+                    class="task-member d-inline-flex col btn btn-light border-left dropdown-toggle"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     <i data-feather='user-plus' class="cursor-pointer me-50"></i>
                     <span class="align-middle">Assign Task</span>
                 </button>
                 <ul class="dropdown-menu" style="width: 250px;"">
-					<li><div class="select-header border-bottom">Assign To</div></li>
-                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
-                            <i data-feather='circle' class="cursor-pointer me-50"></i>Doing</a></li>
-                    <li><a class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
-                            <i data-feather='circle' class="cursor-pointer me-50"></i>Waiting for Review</a></li>
-                    <li><a class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
-                            <i data-feather='circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
+                    <li>
+                        <div class="select-header border-bottom">Assign To</div>
+                    </li>
+                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+                            data-bs-target="#changeTaskReviewer">
+                            <div class="avatar float-start bg-white rounded me-1">
+                                <div class="avatar bg-light-danger">
+                                    <img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+                                        width="33" height="33" />
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <small>@hieutran</small>
+                                <h6 class="mb-0">Tran Ngoc Hieu</h6>
+                            </div>
+                        </a></li>
+                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+                            data-bs-target="#changeTaskReviewer">
+                            <div class="avatar float-start bg-white rounded me-1">
+                                <div class="avatar bg-light-danger">
+                                    <img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+                                        width="33" height="33" />
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <small>@hieutran</small>
+                                <h6 class="mb-0">Tran Ngoc Hieu</h6>
+                            </div>
+                        </a></li>
+                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+                            data-bs-target="#changeTaskReviewer">
+                            <div class="avatar float-start bg-white rounded me-1">
+                                <div class="avatar bg-light-danger">
+                                    <img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+                                        width="33" height="33" />
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <small>@hieutran</small>
+                                <h6 class="mb-0">Tran Ngoc Hieu</h6>
+                            </div>
+                        </a></li>
+                    <li><a class="dropdown-item border-top" data-bs-toggle="modal"
+                            data-bs-target="#removeTaskReviewer">
+                            <div class="list-item d-flex align-items-start">
+                                <div class="me-1">
+                                    <div class="avatar bg-light-danger">
+                                        <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="more-info">
+                                    <h6 class=" text-danger" style="margin-top: 7px;">Remove Assignee</h6>
+                                </div>
+                            </div>
+                        </a></li>
                 </ul>
 
                 <button type="button" style="padding: 15px;"
-                    class="task-member d-inline-flex col btn btn-light border-left dropdown-toggle" data-bs-toggle="dropdown"
-                    aria-expanded="false">
+                    class="task-member d-inline-flex col btn btn-light border-left dropdown-toggle"
+                    data-bs-toggle="dropdown" aria-expanded="false">
                     <i data-feather='user-plus' class="cursor-pointer me-50"></i>
                     <span class="align-middle">Add Reviewer</span>
                 </button>
                 <ul class="dropdown-menu" style="width: 250px;"">
-					<li><div class="select-header border-bottom">Select Reviewer</div></li>
-                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
-                            <i data-feather='circle' class="cursor-pointer me-50"></i>Doing</a></li>
-                    <li><a class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
-                            <i data-feather='circle' class="cursor-pointer me-50"></i>Waiting for Review</a></li>
-                    <li><a class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
-                            <i data-feather='circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
+                    <li>
+                        <div class="select-header border-bottom">Select Reviewer</div>
+                    </li>
+                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+                            data-bs-target="#changeTaskReviewer">
+                            <div class="avatar float-start bg-white rounded me-1">
+                                <div class="avatar bg-light-danger">
+                                    <img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+                                        width="33" height="33" />
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <small>@hieutran</small>
+                                <h6 class="mb-0">Tran Ngoc Hieu</h6>
+                            </div>
+                        </a></li>
+                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+                            data-bs-target="#changeTaskReviewer">
+                            <div class="avatar float-start bg-white rounded me-1">
+                                <div class="avatar bg-light-danger">
+                                    <img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+                                        width="33" height="33" />
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <small>@hieutran</small>
+                                <h6 class="mb-0">Tran Ngoc Hieu</h6>
+                            </div>
+                        </a></li>
+                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+                            data-bs-target="#changeTaskReviewer">
+                            <div class="avatar float-start bg-white rounded me-1">
+                                <div class="avatar bg-light-danger">
+                                    <img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+                                        width="33" height="33" />
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <small>@hieutran</small>
+                                <h6 class="mb-0">Tran Ngoc Hieu</h6>
+                            </div>
+                        </a></li>
+                    <li><a class="dropdown-item border-top" data-bs-toggle="modal"
+                            data-bs-target="#removeTaskReviewer">
+                            <div class="list-item d-flex align-items-start">
+                                <div class="me-1">
+                                    <div class="avatar bg-light-danger">
+                                        <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="more-info">
+                                    <h6 class=" text-danger" style="margin-top: 7px;">Remove Reviewer</h6>
+                                </div>
+                            </div>
+                        </a></li>
                 </ul>
             </div>
             <hr class="mt-0" />
 
-            {{-- Assignee --}}
-            <div class="row">
-                <div role="button" class="col border-right">
-                    <div class="avatar float-start bg-white rounded me-1">
-                        <div class="avatar bg-light-danger">
-                            <a width="33" height="33">
-                                <div class="avatar bg-light-danger">
-                                    <div class="avatar-content"><i data-feather='user-plus'></i></div>
-                                </div>
-                            </a>
-                        </div>
-                    </div>
-                    <div for="taskAssignee" class="more-info form-label d-block">
-                        <small>Assignee</small>
-                        <h6 class="mb-0">Click to assign Task</h6>
-                    </div>
-                </div>
-                <div class=" col">
-                    <div class="avatar float-start bg-white rounded me-1">
-                        <div class="avatar bg-light-danger">
-                            <img src="{{ asset('images/portrait/small/avatar-s-9.jpg') }}" alt="Avatar"
-                                width="33" height="33" />
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <small>Reviewer</small>
-                        <h6 class="mb-0">Tran Ngoc Hieu</h6>
-                    </div>
-                </div>
-            </div>
-            <hr />
-            <div class="row">
-                <div class=" col">
-                    <div class="avatar float-start bg-warning rounded me-1">
-                        <div class="avatar-content">
-                            <i data-feather="square" class="avatar-icon font-medium-3"></i>
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <h6 class="mb-0 text-warning">Waiting for Review</h6>
-                        <small>Click to change for Reviewer</small>
-                    </div>
-                </div>
-                <div class=" col border-right">
-                    <div class="avatar float-start bg-white rounded me-1">
-                        <div class="avatar bg-light-danger">
-                            <img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
-                                width="33" height="33" />
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <small>Assignee</small>
-                        <h6 class="mb-0">Tran Ngoc Hieu</h6>
-                    </div>
-                </div>
-                <div class=" col">
-                    <div class="avatar float-start bg-success rounded me-1">
-                        <div class="avatar-content">
-                            <i data-feather="square" class="avatar-icon font-medium-3"></i>
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <h6 class="mb-0 text-success">Done</h6>
-                        <small>Click to mark as done</small>
-                    </div>
-                </div>
-                <div class=" col">
-                    <div class="avatar float-start bg-white rounded me-1">
-                        <div class="avatar bg-light-danger">
-                            <img src="{{ asset('images/portrait/small/avatar-s-9.jpg') }}" alt="Avatar"
-                                width="33" height="33" />
-                        </div>
-                    </div>
-                    <div class="more-info">
-                        <small>Reviewer</small>
-                        <h6 class="mb-0">Tran Ngoc Hieu</h6>
-                    </div>
-                </div>
-            </div>
+			{{-- doing-status --}}
+            <hr class="mb-0" />
+            <div class="row m-0">
+                <button type="button" style="padding: 15px;"
+                    class="task-status d-inline-flex col btn btn-primary dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i data-feather='circle' class="cursor-pointer me-50"></i>
+                    <span class="align-middle">Doing</span>
+                </button>
+                <ul class="dropdown-menu" style="width: 250px;"">
+                    <li>
+                        <div class="select-header border-bottom">Change Task Status</div>
+                    </li>
+                    <li><a class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Waiting for Review</a></li>
+                    <li><a class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='check-circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
+                </ul>
 
-            <hr />
+				<div class="btn-group col row">
+					<div class=" col-10 border-right">
+						<div class="avatar float-start bg-white rounded me-1">
+							<div class="avatar bg-light-danger">
+								<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+									width="33" height="33" />
+							</div>
+						</div>
+						<div class="more-info">
+							<small>Assignee</small>
+							<h6 class="mb-0">Tran Ngoc Hieu</h6>
+						</div>
+					</div>
+					<button type="button" style="padding: 15px;"
+						class="task-member d-inline-flex col-2 btn btn-light border-left dropdown-toggle dropdown-toggle-split"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<i data-feather='chevrons-down' class="d-flex justify-content-center cursor-pointer me-50"></i>
+					</button>
+					<ul class="dropdown-menu" style="width: 250px;"">
+						<li>
+							<div class="select-header border-bottom">Assign To</div>
+						</li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item border-top" data-bs-toggle="modal"
+								data-bs-target="#removeTaskReviewer">
+								<div class="list-item d-flex align-items-start">
+									<div class="me-1">
+										<div class="avatar bg-light-danger">
+											<div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
+											</div>
+										</div>
+									</div>
+									<div class="more-info">
+										<h6 class=" text-danger" style="margin-top: 7px;">Remove Assignee</h6>
+									</div>
+								</div>
+							</a></li>
+					</ul>
+				</div>
+
+				<div class="btn-group col row">
+					<div class=" col-10 border-right">
+						<div class="avatar float-start bg-white rounded me-1">
+							<div class="avatar bg-light-danger">
+								<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+									width="33" height="33" />
+							</div>
+						</div>
+						<div class="more-info">
+							<small>Reviewer</small>
+							<h6 class="mb-0">Tran Ngoc Hieu</h6>
+						</div>
+					</div>
+					<button type="button" style="padding: 15px;"
+						class="task-member d-inline-flex col-2 btn btn-light border-left dropdown-toggle dropdown-toggle-split"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<i data-feather='chevrons-down' class="d-flex justify-content-center cursor-pointer me-50"></i>
+					</button>
+					<ul class="dropdown-menu" style="width: 250px;"">
+						<li>
+							<div class="select-header border-bottom">Select Reviewer</div>
+						</li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item border-top" data-bs-toggle="modal"
+								data-bs-target="#removeTaskReviewer">
+								<div class="list-item d-flex align-items-start">
+									<div class="me-1">
+										<div class="avatar bg-light-danger">
+											<div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
+											</div>
+										</div>
+									</div>
+									<div class="more-info">
+										<h6 class=" text-danger" style="margin-top: 7px;">Remove Reviewer</h6>
+									</div>
+								</div>
+							</a></li>
+					</ul>
+				</div>
+            </div>
+            <hr class="mt-0" />
+
+			{{-- reviewing-status --}}
+            <hr class="mb-0" />
+            <div class="row m-0">
+                <button type="button" style="padding: 15px;"
+                    class="task-status d-inline-flex col btn btn-warning dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i data-feather='circle' class="cursor-pointer me-50"></i>
+                    <span class="align-middle">Waiting for Review</span>
+                </button>
+                <ul class="dropdown-menu" style="width: 250px;"">
+                    <li>
+                        <div class="select-header border-bottom">Waiting for Review</div>
+                    </li>
+                    <li><a class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Waiting for Review</a></li>
+                    <li><a class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='check-circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
+                </ul>
+
+				<div class="btn-group col row">
+					<div class=" col-10 border-right">
+						<div class="avatar float-start bg-white rounded me-1">
+							<div class="avatar bg-light-danger">
+								<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+									width="33" height="33" />
+							</div>
+						</div>
+						<div class="more-info">
+							<small>Assignee</small>
+							<h6 class="mb-0">Tran Ngoc Hieu</h6>
+						</div>
+					</div>
+					<button type="button" style="padding: 15px;"
+						class="task-member d-inline-flex col-2 btn btn-light border-left dropdown-toggle dropdown-toggle-split"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<i data-feather='chevrons-down' class="d-flex justify-content-center cursor-pointer me-50"></i>
+					</button>
+					<ul class="dropdown-menu" style="width: 250px;"">
+						<li>
+							<div class="select-header border-bottom">Assign To</div>
+						</li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item border-top" data-bs-toggle="modal"
+								data-bs-target="#removeTaskReviewer">
+								<div class="list-item d-flex align-items-start">
+									<div class="me-1">
+										<div class="avatar bg-light-danger">
+											<div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
+											</div>
+										</div>
+									</div>
+									<div class="more-info">
+										<h6 class=" text-danger" style="margin-top: 7px;">Remove Assignee</h6>
+									</div>
+								</div>
+							</a></li>
+					</ul>
+				</div>
+
+				<div class="btn-group col row">
+					<div class=" col-10 border-right">
+						<div class="avatar float-start bg-white rounded me-1">
+							<div class="avatar bg-light-danger">
+								<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+									width="33" height="33" />
+							</div>
+						</div>
+						<div class="more-info">
+							<small>Reviewer</small>
+							<h6 class="mb-0">Tran Ngoc Hieu</h6>
+						</div>
+					</div>
+					<button type="button" style="padding: 15px;"
+						class="task-member d-inline-flex col-2 btn btn-light border-left dropdown-toggle dropdown-toggle-split"
+						data-bs-toggle="dropdown" aria-expanded="false">
+						<i data-feather='chevrons-down' class="d-flex justify-content-center cursor-pointer me-50"></i>
+					</button>
+					<ul class="dropdown-menu" style="width: 250px;"">
+						<li>
+							<div class="select-header border-bottom">Select Reviewer</div>
+						</li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+								data-bs-target="#changeTaskReviewer">
+								<div class="avatar float-start bg-white rounded me-1">
+									<div class="avatar bg-light-danger">
+										<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+											width="33" height="33" />
+									</div>
+								</div>
+								<div class="more-info">
+									<small>@hieutran</small>
+									<h6 class="mb-0">Tran Ngoc Hieu</h6>
+								</div>
+							</a></li>
+						<li><a class="dropdown-item border-top" data-bs-toggle="modal"
+								data-bs-target="#removeTaskReviewer">
+								<div class="list-item d-flex align-items-start">
+									<div class="me-1">
+										<div class="avatar bg-light-danger">
+											<div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
+											</div>
+										</div>
+									</div>
+									<div class="more-info">
+										<h6 class=" text-danger" style="margin-top: 7px;">Remove Reviewer</h6>
+									</div>
+								</div>
+							</a></li>
+					</ul>
+				</div>
+            </div>
+            <hr class="mt-0" />
+
+			{{-- Done-status --}}
+            <hr class="mb-0" />
+            <div class="row m-0">
+                <button type="button" style="padding: 15px;"
+                    class="task-status d-inline-flex col btn btn-success dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i data-feather='check-circle' class="cursor-pointer me-50"></i>
+                    <span class="align-middle">Done</span>
+                </button>
+                <ul class="dropdown-menu" style="width: 250px;"">
+                    <li>
+                        <div class="select-header border-bottom">Waiting for Review</div>
+                    </li>
+                    <li><a class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Waiting for Review</a></li>
+                    <li><a class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='check-circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
+                </ul>
+
+				<div class="btn-group col row">
+					<div class=" col-12 border-right">
+						<div class="avatar float-start bg-white rounded me-1">
+							<div class="avatar bg-light-danger">
+								<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+									width="33" height="33" />
+							</div>
+						</div>
+						<div class="more-info">
+							<small>Assignee</small>
+							<h6 class="mb-0">Tran Ngoc Hieu</h6>
+						</div>
+					</div>
+				</div>
+
+				<div class="btn-group col row">
+					<div class=" col-12 border-right">
+						<div class="avatar float-start bg-white rounded me-1">
+							<div class="avatar bg-light-danger">
+								<img src="{{ asset('images/portrait/small/avatar-s-20.jpg') }}" alt="Avatar"
+									width="33" height="33" />
+							</div>
+						</div>
+						<div class="more-info">
+							<small>Reviewer</small>
+							<h6 class="mb-0">Tran Ngoc Hieu</h6>
+						</div>
+					</div>
+				</div>
+            </div>
+            <hr class="mt-0" />
+
             <div class="mt-2">
                 <div class="more-info">
                     <h6 class="mb-2">Task Description</h6>
