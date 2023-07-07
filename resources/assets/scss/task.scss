@@ -44,3 +44,29 @@ button.task-member.d-inline-flex {
     font-weight: 500;
     color: green;
 }
+
+.todo-title-area {
+    .todo-title-wrapper {
+        color: rgba(0, 207, 232, 0.85) !important;
+    }
+
+    .doing-title-wrapper {
+        color: rgba(115, 103, 240, 0.85) !important;
+    }
+
+    .reviewing-title-wrapper {
+        color: rgba(255, 159, 67, 0.85) !important;
+    }
+
+    .ontime-title-wrapper {
+        color: rgba(40, 199, 111, 0.85) !important;
+    }
+
+    .late-title-wrapper {
+        color: rgba(130, 134, 139, 0.85) !important;
+    }
+
+    .overdue-title-wrapper {
+        color: rgba(234, 84, 85, 0.85) !important;
+    }
+}

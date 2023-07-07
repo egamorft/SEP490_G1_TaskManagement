@@ -1,0 +1,45 @@
+{
+    "todo": {
+        "id": "todo",
+        "name": "Todo",
+        "color": "",
+        "class": "todo-title-wrapper",
+        "value": 1,
+        "icon": "circle"
+    },
+    "doing": {
+        "id": "doing",
+        "name": "Doing",
+        "class": "doing-title-wrapper",
+        "value": 10,
+        "icon": "circle"
+    },
+    "reviewing": {
+        "id": "reviewing",
+        "name": "Reviewing",
+        "class": "reviewing-title-wrapper",
+        "value": 50,
+        "icon": "circle"
+    },
+    "ontime": {
+        "id": "ontime",
+        "name": "Done Ontime",
+        "class": "ontime-title-wrapper",
+        "value": 100,
+        "icon": "check-circle"
+    },
+    "late": {
+        "id": "late",
+        "name": "Done Late",
+        "class": "late-title-wrapper",
+        "value": -1,
+        "icon": "check-circle"
+    },
+    "overdue": {
+        "id": "overdue",
+        "name": "Overdue",
+        "class": "overdue-title-wrapper",
+        "value": -10,
+        "icon": "circle"
+    }
+}

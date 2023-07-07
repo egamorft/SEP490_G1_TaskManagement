@@ -35,6 +35,7 @@ class SubTaskSeeder extends Seeder
                     'review_by' => $faker->randomElement($accounts),
                     'created_by' => $faker->randomElement($accounts),
                     'attachment' => $faker->imageUrl(200, 200),
+                    'status' => 1,
                     'start_date' => $faker->date(),
                     'due_date' => $faker->date(),
                     'created_at' => $faker->date(),

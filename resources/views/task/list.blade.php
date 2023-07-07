@@ -1,4 +1,10 @@
-
+@php
+    $path = resource_path() . "/data/status-list.json";
+    if (!File::exists($path)) {
+        return;
+    }
+    $contents = json_decode(file_get_contents($path), true);
+@endphp
 <!-- Full list start -->
 <section>
     <div class="app-calendar overflow-hidden border">
@@ -47,7 +53,11 @@
                                                             <a href="{{ route("show.task", ["slug" => $project->slug, "task_id" => $st->id]) }}" class="todo-title-wrapper">
                                                                 <div class="todo-title-area">
                                                                     <div class="title-wrapper">
-                                                                        <i class="text-info" data-feather='circle'></i>
+                                                                        @foreach ($contents as $stat)
+                                                                            @if ($stat["value"] == $st->status)
+                                                                                <i class="text-info {{ $stat["class"] }}" data-feather='{{ $stat["icon"] }}'></i>
+                                                                            @endif
+                                                                        @endforeach
                                                                         <span class="text-dark todo-title">{{ $st->name }}</span>
                                                                     </div>
                                                                 </div>

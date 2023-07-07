@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('review_by');
             $table->integer('created_by');
             $table->text('attachment')->nullable();
+            $table->integer('status');
             $table->dateTime('start_date');
             $table->dateTime('due_date');
             $table->dateTime('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
