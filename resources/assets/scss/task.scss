@@ -70,3 +70,33 @@ button.task-member.d-inline-flex {
         color: rgba(234, 84, 85, 0.85) !important;
     }
 }
+
+.todo-color-wrapper,
+.todo-color-wrapper:focus {
+    background-color: rgba(0, 207, 232, 0.85) !important;
+}
+
+.doing-color-wrapper,
+.doing-color-wrapper:focus {
+    background-color: rgba(115, 103, 240, 0.85) !important;
+}
+
+.reviewing-color-wrapper,
+.reviewing-color-wrapper:focus {
+    background-color: rgba(255, 159, 67, 0.85) !important;
+}
+
+.ontime-color-wrapper,
+.ontime-color-wrapper:focus {
+    background-color: rgba(40, 199, 111, 0.85) !important;
+}
+
+.late-color-wrapper,
+.late-color-wrapper:focus {
+    background-color: rgba(130, 134, 139, 0.85) !important;
+}
+
+.overdue-color-wrapper,
+.overdue-color-wrapper:focus {
+    background-color: rgba(234, 84, 85, 0.85) !important;
+}

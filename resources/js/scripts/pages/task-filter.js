@@ -71,7 +71,7 @@ $(window).on("load", function () {
 
         // Replace current querystring with the new one.
         history.replaceState(null, null, "?&" + queryParams.toString());
-
+        window.location.reload();
         // $.ajax({
         // 	url:"task-list/filter", // đường dẫn khi gửi dữ liệu đi 'search' là tên route mình đặt bạn mở route lên xem là hiểu nó là cái j.
         // 	method:"GET", // phương thức gửi dữ liệu.

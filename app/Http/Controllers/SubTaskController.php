@@ -59,9 +59,22 @@ class SubTaskController extends Controller
             $accountIds[] = $accProj->account_id;
         }
 
+        $assignee = Account::where("id", $subTask->assign_to)->first();
+        $reviewer = Account::where("id", $subTask->review_by)->first();
+
         $accounts = Account::whereIn("id", $accountIds)->get();
         
-        return view('task.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'task-list'])->with(compact("subTask", "tasks", "project", "task", "accounts", "subTasksRelease"));
+        return view('task.index', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'task-list'])
+            ->with(compact(
+                "subTask", 
+                "tasks", 
+                "project", 
+                "task", 
+                "accounts", 
+                "subTasksRelease",
+                "assignee",
+                "reviewer"
+            ));
     }
 
 	public function filter(Request $request) {

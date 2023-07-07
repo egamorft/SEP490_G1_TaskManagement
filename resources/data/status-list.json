@@ -4,6 +4,7 @@
         "name": "Todo",
         "color": "",
         "class": "todo-title-wrapper",
+        "class_color": "todo-color-wrapper",
         "value": 1,
         "icon": "circle"
     },
@@ -11,13 +12,15 @@
         "id": "doing",
         "name": "Doing",
         "class": "doing-title-wrapper",
+        "class_color": "doing-color-wrapper",
         "value": 10,
         "icon": "circle"
     },
     "reviewing": {
         "id": "reviewing",
-        "name": "Reviewing",
+        "name": "Waiting for Review",
         "class": "reviewing-title-wrapper",
+        "class_color": "reviewing-color-wrapper",
         "value": 50,
         "icon": "circle"
     },
@@ -25,6 +28,7 @@
         "id": "ontime",
         "name": "Done Ontime",
         "class": "ontime-title-wrapper",
+        "class_color": "ontime-color-wrapper",
         "value": 100,
         "icon": "check-circle"
     },
@@ -32,6 +36,7 @@
         "id": "late",
         "name": "Done Late",
         "class": "late-title-wrapper",
+        "class_color": "late-color-wrapper",
         "value": -1,
         "icon": "check-circle"
     },
@@ -39,6 +44,7 @@
         "id": "overdue",
         "name": "Overdue",
         "class": "overdue-title-wrapper",
+        "class_color": "overdue-color-wrapper",
         "value": -10,
         "icon": "circle"
     }
