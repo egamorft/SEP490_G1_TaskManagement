@@ -185,6 +185,8 @@ return [
         App\Providers\AccountServiceProvider::class,
         //Projet permisison
         App\Providers\PermissionProjectProvider::class,
+        //QR code
+        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
     ],
 
     /*
@@ -202,6 +204,7 @@ return [
         // custom theme helper
         'Helper' => App\Helpers\Helpers::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ])->toArray(),
 
 ];

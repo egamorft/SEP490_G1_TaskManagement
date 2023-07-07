@@ -106,13 +106,14 @@
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="visually-hidden">Loading...</span>
                             </button>
-                            <button {{ $checkLimitation >= 4 ? 'disabled' : '' }} type="submit" id="submitBtnInvite" class="btn btn-primary w-100">{{ $checkLimitation >= 4 ? 'Limited' : 'Send' }}</button>
+                            <button {{ $checkLimitation >= 4 ? 'disabled' : '' }} type="submit" id="submitBtnInvite"
+                                class="btn btn-primary w-100">{{ $checkLimitation >= 4 ? 'Limited' : 'Send' }}</button>
                         </div>
                     </form>
 
                     <h4 class="fw-bolder mt-4 mb-1">Share the referral link</h4>
                     <form class="row g-1" onsubmit="return false">
-                        <div class="col-lg-9">
+                        <div class="col-lg-11">
                             <label class="form-label" for="modalRnFLink">
                                 You can also copy and send it or share it on your social media. 🥳
                             </label>
@@ -122,7 +123,7 @@
                                 <button class="btn btn-outline-primary" id="btn-copy">Copy!</button>
                             </div>
                         </div>
-                        <div class="col-lg-3 d-flex align-items-end">
+                        <div class="col-lg-1 d-flex align-items-end">
                             <div class="social-btns">
                                 <button type="button" class="btn btn-icon btn-facebook me-50">
                                     <a style="color: white" target="_blank"
@@ -130,13 +131,21 @@
                                         class="fb-xfbml-parse-ignore">
                                         <i data-feather="facebook" class="font-medium-2"></i>
                                         <div class="fb-share-button"
-                                            data-href="{{ url('project/invite/' . $project->slug . '/' . $project->token) }}" data-layout=""
-                                            data-size=""></div>
+                                            data-href="{{ url('project/invite/' . $project->slug . '/' . $project->token) }}"
+                                            data-layout="" data-size=""></div>
                                     </a>
                                 </button>
                             </div>
                         </div>
                     </form>
+                    <div class="d-flex align-items-center justify-content-center mt-3 row ms-4">
+                        <div class="col-md-6">
+                            <img src="{{asset('images/gif/scanQR.gif')}}" alt="gif" width="200px">
+                        </div>
+                        <div class="col-md-6">
+                            {!! QrCode::size(150)->generate(url('project/invite/' . $project->slug . '/' . $project->token)) !!}
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>

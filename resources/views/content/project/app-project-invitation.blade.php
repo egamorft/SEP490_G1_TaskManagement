@@ -14,7 +14,8 @@
     <section class="invoice-preview-wrapper">
         <div class="row invoice-preview">
             <!-- Invoice -->
-            <div class="{{ isset($check_account_project_invitation_valid) ? 'col-xl-9 col-md-8' : 'col-xl-12 col-md-12' }} col-12">
+            <div
+                class="{{ isset($check_account_project_invitation_valid) ? 'col-xl-9 col-md-8' : 'col-xl-12 col-md-12' }} col-12">
                 <div class="card invoice-preview-card">
                     <div class="card-body invoice-padding pb-0">
                         <!-- Header starts -->
@@ -62,7 +63,33 @@
                                     </svg>
                                 </div>
                                 <p style="width: 300px" class="card-text mb-25 text-wrap">
+                                <p style="text-align: left"
+                                    class="
+                                @if ($project->project_status == 1) text-success
+                                @elseif ($project->project_status == -1)
+                                    text-danger @endif">
+                                    --------------------------------------</p>
+                                <p
+                                    class="
+                                @if ($project->project_status == 1) text-success
+                                @elseif ($project->project_status == -1)
+                                    text-danger @endif">
                                     {{ $project->description != null ? $project->description : '#No-description' }}</p>
+                                </p>
+                                <p
+                                    class="
+                                @if ($project->project_status == 1) text-success
+                                @elseif ($project->project_status == -1)
+                                    text-danger @endif">
+                                    @if ($project->project_status == 1)
+                                        Approved by
+                                    @elseif($project->project_status == -1)
+                                        Rejected by
+                                    @else
+                                        Incharge by
+                                    @endif
+                                    <br />email@fe.edu.vn
+                                </p>
                             </div>
                             <div class="mt-md-0 mt-2">
                                 <h4 class="fw-normal text-uppercase mt-5 me-5">
