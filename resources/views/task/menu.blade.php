@@ -2,6 +2,14 @@
 @include('content._partials._modals.modal-add-new-task')
 @include('content._partials._modals.modal-add-new-task-list')
 
+@php
+    $path = resource_path() . "/data/status-list.json";
+    if (!File::exists($path)) {
+        return;
+    }
+    $contents = json_decode(file_get_contents($path), true);
+@endphp
+
 <!-- Right Sidebar ends -->
 <!-- Sidebar -->
 <div class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column" id="app-calendar-sidebar">
@@ -54,7 +62,11 @@
                                             <a href="{{ route("show.task", ["slug" => $project->slug, "task_id" => $st->id])}}" class="todo-title-wrapper">
                                                 <div class="todo-title-area">
                                                     <div class="title-wrapper">
-                                                        <i class="text-success" data-feather='check-circle'></i>
+                                                        @foreach ($contents as $stat)
+                                                            @if ($stat["value"] == $st->status)
+                                                                <i class="text-info {{ $stat["class"] }}" data-feather='{{ $stat["icon"] }}'></i>
+                                                            @endif
+                                                        @endforeach
                                                         <span class="todo-title d-inline-block text-truncate"
                                                             style="max-width: 150px;">{{ $st->name }}</span>
                                                     </div>

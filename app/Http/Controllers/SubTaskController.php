@@ -24,13 +24,13 @@ class SubTaskController extends Controller
     public function index($slug, $subTaskId) {
         $project = Project::where("slug", $slug)->first();
         $tasksQuery = Task::where("project_id", $project->id);
-        $tasks = $tasksQuery->get();
+        $tasks = $tasksQuery->orderBy('id', 'desc')->get();
         $subTask = SubTask::where("id", $subTaskId)->first();
         $task = Task::where("id", $subTask->task_id)->first();
         $breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
         $taskIds = $tasksQuery->addSelect("id")->get();
-        $subTasksView = SubTask::whereIn("task_id", $taskIds)->get();
+        $subTasksView = SubTask::whereIn("task_id", $taskIds)->orderBy("id", "desc")->get();
         $subTasksRelease = [];
         foreach ($tasks as $task) {
             if (isset($subTasksRelease[$task->id])) {

@@ -575,7 +575,52 @@ class ProjectController extends Controller
         $tasksQuery = Task::where('project_id', $project->id);
         $tasks = $tasksQuery->orderBy('id', 'desc')->get();
         $taskIds = $tasksQuery->addSelect("id")->get();
-        $subTasks = SubTask::whereIn("task_id", $taskIds)->orderBy('id', 'desc')->get();
+        $subTasksQuery = SubTask::whereIn("task_id", $taskIds);
+
+		$statusNotIn = [];
+		if (count($_GET) > 0) {
+			if (!isset($_GET["todo"])) {
+				$statusNotIn[] = SubTask::$STATUS_TODO;
+			}
+
+			if (!isset($_GET["doing"])) {
+				$statusNotIn[] = SubTask::$STATUS_DOING;
+			}
+
+			if (!isset($_GET["reviewing"])) {
+				$statusNotIn[] = SubTask::$STATUS_REVIEWING;
+			}
+
+			if (!isset($_GET["ontime"])) {
+				$statusNotIn[] = SubTask::$STATUS_DONE_ONTIME;
+			}
+
+			if (!isset($_GET["late"])) {
+				$statusNotIn[] = SubTask::$STATUS_DONE_LATE;
+			}
+
+			if (!isset($_GET["ovedue"])) {
+				$statusNotIn[] = SubTask::$STATUS_OVERDUE;
+			}
+
+			switch($_GET["role"]) {
+				case "Creator":
+					$subTasksQuery->where("created_by", Auth::user()->id);
+					break;
+				case "Assignee":
+					$subTasksQuery->where("assign_to", Auth::user()->id);
+					break;
+				case "Reviewer":
+					$subTasksQuery->where("review_by", Auth::user()->id);
+					break;
+				default:
+					break;
+			}
+		}
+
+		$subTasksQuery->whereNotIn("status", $statusNotIn);
+
+		$subTasks = $subTasksQuery->orderBy('id', 'desc')->get();
 
         $todo = 0;
         $doing = 0;
