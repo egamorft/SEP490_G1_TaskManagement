@@ -81,9 +81,30 @@ class SubTaskController extends Controller
     }
 
     public function create(SubTaskRequest $request, $slug) {
+        $project = Project::where("slug", $slug)->first();
         $dates = self::extractDatesFromDuration($request->input('duration'));
         $startDate = $dates['start_date'];
 		$endDate = $dates['end_date'];
+        if (strtotime($startDate) < strtotime($project->start_date)) {
+            return response()->json([
+                "success" => false,
+                "message" => "Task start date must be greater than project start date"
+            ]);
+        }
+
+        if (strtotime($endDate) > strtotime($project->end_date)) {
+            return response()->json([
+                "success" => false,
+                "message" => "Task due date must be less than project end date"
+            ]);
+        }
+
+        if (strtotime($startDate) < strtotime(Carbon::now())) {
+            return response()->json([
+                "success" => false,
+                "message" => "Task due date must be greater than today"
+            ]); 
+        }
 
         $validateInput = self::validate_input($request);
 
@@ -117,9 +138,30 @@ class SubTaskController extends Controller
     }
 
     public function update(SubTaskRequest $request, $slug, $id) {
+        $project = Project::where("slug", $slug)->first();
         $dates = self::extractDatesFromDuration($request->input('duration'));
         $startDate = $dates['start_date'];
 		$endDate = $dates['end_date'];
+        if (strtotime($startDate) < strtotime($project->start_date)) {
+            return response()->json([
+                "success" => false,
+                "message" => "Task start date must be greater than project start date"
+            ]);
+        }
+
+        if (strtotime($endDate) > strtotime($project->end_date)) {
+            return response()->json([
+                "success" => false,
+                "message" => "Task due date must be less than project end date"
+            ]);
+        }
+
+        if (strtotime($startDate) < strtotime(Carbon::now())) {
+            return response()->json([
+                "success" => false,
+                "message" => "Task due date must be greater than today"
+            ]); 
+        }
 
         $validateInput = self::validate_input($request);
 
