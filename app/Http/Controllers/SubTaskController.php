@@ -16,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\URL;
 use Nette\Utils\Json;
 
 class SubTaskController extends Controller
@@ -29,7 +30,7 @@ class SubTaskController extends Controller
         $breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
         $taskIds = $tasksQuery->addSelect("id")->get();
-        $subTaskView = SubTask::whereIn("task_id", $taskIds)->get();
+        $subTasksView = SubTask::whereIn("task_id", $taskIds)->get();
         $subTasksRelease = [];
         foreach ($tasks as $task) {
             if (isset($subTasksRelease[$task->id])) {
@@ -38,12 +39,12 @@ class SubTaskController extends Controller
             $subTasksRelease[$task->id] = [];
         }
 
-        foreach($subTaskView as $subTask) {
-            if (!isset($subTasksRelease[$subTask->task_id])) {
-                $subTask[$subTask->task_id] = [$subTask]; 
+        foreach($subTasksView as $subTaskView) {
+            if (!isset($subTasksRelease[$subTaskView->task_id])) {
+                $subTask[$subTaskView->task_id] = [$subTaskView]; 
                 continue;
             }
-            array_push($subTasksRelease[$subTask->task_id], $subTask);
+            array_push($subTasksRelease[$subTaskView->task_id], $subTaskView);
         }
 
 		$pageConfigs = [
@@ -84,7 +85,6 @@ class SubTaskController extends Controller
         $startDate = $dates['start_date'];
 		$endDate = $dates['end_date'];
 
-        $project = Project::where("slug", $slug)->first();
         $validateInput = self::validate_input($request);
 
         if ($validateInput["success"] != true) {
@@ -92,6 +92,9 @@ class SubTaskController extends Controller
         }
 
         $files = Commons::uploadFile($request, "taskAttachments");
+        if ($files) {
+            $files = $files->getClientOriginalName();
+        }
         
         $subTask = [
             "name" => $request->input("taskName"),
@@ -101,7 +104,7 @@ class SubTaskController extends Controller
             "assign_to" => $request->input("taskAssignee"),
             "review_by" => $request->input("taskReviewer"),
             "created_by" => Auth::user()->id,
-            "attachment" => $files->getClientOriginalName(),
+            "attachment" => $files,
             "start_date" => $startDate,
             "due_date" => $endDate,
             "created_at" => Carbon::now()
@@ -110,21 +113,36 @@ class SubTaskController extends Controller
         $subTaskCreated = SubTask::create($subTask);
 
         Session::flash('success', 'Create successfully task list ' . $subTaskCreated->name);
-        return redirect("project/{$project->slug}/task-list");
+        return redirect(URL::previous());
     }
 
-    public function update(TasksRequest $request, $id) {
+    public function update(TasksRequest $request, $slug, $id) {
+        $dates = self::extractDatesFromDuration($request->input('duration'));
+        $startDate = $dates['start_date'];
+		$endDate = $dates['end_date'];
+
+        $project = Project::where("slug", $slug)->first();
+        $validateInput = self::validate_input($request);
+        if ($validateInput["success"] != true) {
+            return response()->json($validateInput);
+        }
+
+        $files = Commons::uploadFile($request, "taskAttachments");
+
         $subTask = SubTask::findOrFail($id)->first();
-        $subTask->name = $request->input("taskTitle");
+        $subTask->name = $request->input("taskName");
         $subTask->image = $request->file("images");
         $subTask->description = $request->input("taskDescription");
-        $subTask->attachment = $request->file("taskAttachments");
-        $subTask->due_date = $request->date("taskDueDate");
+        $subTask->assign_to = $request->input("taskAssignee");
+        $subTask->review_by = $request->input("taskReviewer");
+        $subTask->attachment = $files->getClientOriginalName();
+        $subTask->start_date = $startDate;
+        $subTask->due_date = $endDate;
 
         $subTask->save();
 
         Session::flash("success", "Successfully update sub task");
-        return response()->json(["success" => true]);
+        return redirect(URL::previous());
     }
 
     public function delete($id) {
