@@ -39,12 +39,64 @@
             </div>
             <div class="mt-0">
                 <div class="more-info">
-                    <h6 class="mb-0 text-primary">Doing - Project: {{ $project->name }}</h6>
+                    <h6 class="mb-0 text-primary">Project: {{ $project->name }}</h6>
                     <h6 class="mt-1">From {{ date('D, M d, Y', strtotime($subTask->created_at)) }} - To
                         {{ date('D, M d, Y', strtotime($subTask->due_date)) }}</h6>
                 </div>
             </div>
-            <hr />
+
+            {{-- todo-status --}}
+            <hr class="mb-0" />
+            <div class="row m-0">
+                <button type="button" style="padding: 15px;"
+                    class="task-status d-inline-flex col btn btn-info dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i data-feather='circle' class="cursor-pointer me-50"></i>
+                    <span class="align-middle">Todo</span>
+                </button>
+                <ul class="dropdown-menu" style="width: 250px;"">
+					<li><div class="select-header border-bottom">Change Task Status</div></li>
+                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Doing</a></li>
+                    <li><a class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Waiting for Review</a></li>
+                    <li><a class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='check-circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
+                </ul>
+
+				<button type="button" style="padding: 15px;"
+                    class="task-member d-inline-flex col btn btn-light border-left dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i data-feather='user-plus' class="cursor-pointer me-50"></i>
+                    <span class="align-middle">Assign Task</span>
+                </button>
+                <ul class="dropdown-menu" style="width: 250px;"">
+					<li><div class="select-header border-bottom">Assign To</div></li>
+                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Doing</a></li>
+                    <li><a class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Waiting for Review</a></li>
+                    <li><a class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
+                </ul>
+
+                <button type="button" style="padding: 15px;"
+                    class="task-member d-inline-flex col btn btn-light border-left dropdown-toggle" data-bs-toggle="dropdown"
+                    aria-expanded="false">
+                    <i data-feather='user-plus' class="cursor-pointer me-50"></i>
+                    <span class="align-middle">Add Reviewer</span>
+                </button>
+                <ul class="dropdown-menu" style="width: 250px;"">
+					<li><div class="select-header border-bottom">Select Reviewer</div></li>
+                    <li><a class="dropdown-item text-primary" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Doing</a></li>
+                    <li><a class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Waiting for Review</a></li>
+                    <li><a class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                            <i data-feather='circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
+                </ul>
+            </div>
+            <hr class="mt-0" />
 
             {{-- Assignee --}}
             <div class="row">
@@ -62,27 +114,6 @@
                         <small>Assignee</small>
                         <h6 class="mb-0">Click to assign Task</h6>
                     </div>
-                    <select class="select2 form-select d-none" id="taskAssignee" name="taskAssignee">
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-3.jpg') }}" value="Phill Buffer"
-                            selected>
-                            Phill Buffer
-                        </option>
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-1.jpg') }}" value="Chandler Bing">
-                            Chandler Bing
-                        </option>
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-4.jpg') }}" value="Ross Geller">
-                            Ross Geller
-                        </option>
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-6.jpg') }}" value="Monica Geller">
-                            Monica Geller
-                        </option>
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-2.jpg') }}" value="Joey Tribbiani">
-                            Joey Tribbiani
-                        </option>
-                        <option data-img="{{ asset('images/portrait/small/avatar-s-11.jpg') }}" value="Rachel Green">
-                            Rachel Green
-                        </option>
-                    </select>
                 </div>
                 <div class=" col">
                     <div class="avatar float-start bg-white rounded me-1">
@@ -151,7 +182,7 @@
             <div class="mt-2">
                 <div class="more-info">
                     <h6 class="mb-2">Task Description</h6>
-					<img src="{{asset('uploads/'.$subTask->attachment)}}">
+                    <img src="{{ asset('uploads/' . $subTask->attachment) }}">
                     <small>{{ $subTask->description }}</small>
                 </div>
             </div>
