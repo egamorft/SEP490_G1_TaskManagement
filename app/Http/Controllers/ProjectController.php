@@ -573,9 +573,9 @@ class ProjectController extends Controller
 		//Project info & members
 		$project = Project::where('slug', $slug)->first();
         $tasksQuery = Task::where('project_id', $project->id);
-        $tasks = $tasksQuery->get();
+        $tasks = $tasksQuery->orderBy('id', 'desc')->get();
         $taskIds = $tasksQuery->addSelect("id")->get();
-        $subTasks = SubTask::whereIn("task_id", $taskIds)->get();
+        $subTasks = SubTask::whereIn("task_id", $taskIds)->orderBy('id', 'desc')->get();
 
         $todo = 0;
         $doing = 0;

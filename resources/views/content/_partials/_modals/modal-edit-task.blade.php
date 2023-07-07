@@ -15,99 +15,61 @@
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="modalEditTaskName">Task Name</label>
                         <input type="text" id="modalEditTaskName" name="modalEditTaskName" class="form-control"
-                            placeholder="Task Name" value="" data-msg="Please enter your list name" />
+                            placeholder="Task Name" value="{{ $subTask->name }}" data-msg="Please enter your list name" />
                         <span id="error-modalEditTaskName" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="select-modalTaskList">Select Task List</label>
-                        <select class="select2 form-select" id="select-modalTaskList" name="select-modalTaskList">
-							<option value="uncategorizd" selected>
-								Uncategorized
-							</option>
-							<option value="List Bug UI" >
-								List Bug UI
-							</option>
-							<option value="List Bug UI" >
-								List Task For Tester
-							</option>
+                        <select class="select2 form-select" id="task-list" name="taskList">
+							@foreach ($tasks as $task)
+								<option value="{{ $task->id }}" {{ $subTask->task_id == $task->id ? "selected" : "" }}>{{ $task->name }}</option>
+							@endforeach
 						</select>
                         <span id="error-modalTaskList" style="color: red; display: none"></span>
                     </div>
                     <!-- Limit Selected Options -->
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="select2-limited">Assignee</label>
-                        <select class="select2 form-select" id="select-modalTaskAssignee" name="select-modalTaskAssignee">
-							<option data-img="{{ asset('images/portrait/small/avatar-s-3.jpg') }}"
-								value="Phill Buffer" selected>
-								Phill Buffer
-							</option>
-							<option data-img="{{ asset('images/portrait/small/avatar-s-1.jpg') }}"
-								value="Chandler Bing">
-								Chandler Bing
-							</option>
-							<option data-img="{{ asset('images/portrait/small/avatar-s-4.jpg') }}"
-								value="Ross Geller">
-								Ross Geller
-							</option>
-							<option data-img="{{ asset('images/portrait/small/avatar-s-6.jpg') }}"
-								value="Monica Geller">
-								Monica Geller
-							</option>
-							<option data-img="{{ asset('images/portrait/small/avatar-s-2.jpg') }}"
-								value="Joey Tribbiani">
-								Joey Tribbiani
-							</option>
-							<option data-img="{{ asset('images/portrait/small/avatar-s-11.jpg') }}"
-								value="Rachel Green">
-								Rachel Green
-							</option>
+                        <select class="select2 form-select" id="task-assigned" name="taskAssignee">
+							@forelse ($accounts as $acc)
+								<option data-img="{{ asset('images/portrait/small/' . $acc->avatar) }}"
+									value="{{ $acc->id }}" {{ $subTask->assign_to == $acc->id ? "selected" : "" }}>
+									{{ $acc->fullname }}
+								</option>
+							@empty
+								<option value="" disabled>No data available</option>
+							@endforelse
 						</select>
                         <span id="error-modalTaskAssignee" style="color: red; display: none"></span>
                     </div>
 					<div class="col-12 col-md-6">
                         <label class="form-label" for="select2-limited">Reviewer</label>
-                        <select class="select2 form-select" id="select-modalTaskReviewer" name="select-modalTaskReviewer">
-							<option data-img="{{ asset('images/portrait/small/avatar-s-3.jpg') }}"
-								value="Phill Buffer" selected>
-								Phill Buffer
-							</option>
-							<option data-img="{{ asset('images/portrait/small/avatar-s-1.jpg') }}"
-								value="Chandler Bing">
-								Chandler Bing
-							</option>
-							<option data-img="{{ asset('images/portrait/small/avatar-s-4.jpg') }}"
-								value="Ross Geller">
-								Ross Geller
-							</option>
-							<option data-img="{{ asset('images/portrait/small/avatar-s-6.jpg') }}"
-								value="Monica Geller">
-								Monica Geller
-							</option>
-							<option data-img="{{ asset('images/portrait/small/avatar-s-2.jpg') }}"
-								value="Joey Tribbiani">
-								Joey Tribbiani
-							</option>
-							<option data-img="{{ asset('images/portrait/small/avatar-s-11.jpg') }}"
-								value="Rachel Green">
-								Rachel Green
-							</option>
+                        <select class="select2 form-select" id="task-reviewer" name="taskReviewer">
+							@forelse ($accounts as $acc)
+								<option data-img="{{ asset('images/portrait/small/' . $acc->avatar) }}"
+									value="{{ $acc->id }}" {{ $subTask->review_by == $acc->id ? "selected" : "" }}>
+									{{ $acc->fullname }}
+								</option>
+							@empty
+								<option value="" disabled>No data available</option>
+							@endforelse
 						</select>
                         <span id="error-modalTaskReviewer" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="fp-range">Pick your Task duration</label>
                         <input name="modalDuration" type="text" id="fp-range" class="form-control flatpickr-range"
-                            placeholder="YYYY-MM-DD to YYYY-MM-DD" />
+                            placeholder="YYYY-MM-DD to YYYY-MM-DD" value="{{ $subTask->start_date . " to " . $subTask->due_date }}"/>
                         <span id="error-modalDuration" style="color: red; display: none"></span>
                     </div>
 					<div class="mb-1">
 						<label for="attachments" class="form-label">Attachments</label>
-						<input class="form-control file-attachments" type="file" id="modalTaskAttachments" multiple />
+						<input class="form-control file-attachments" type="file" id="modalTaskAttachments" multiple value="{{ $subTask->attachment }}" />
 					</div>
                     <div class="col-12">
                         <label class="form-label" for="modalTaskDesc">Description</label>
-                        <textarea id="modalTaskDesc" name="modalTaskDesc" class="form-control" value=""
-                            placeholder="Enter project description"></textarea>
+                        <textarea id="modalTaskDesc" name="modalTaskDesc" class="form-control"
+                            placeholder="Enter project description">{{ $subTask->description }}</textarea>
                     </div>
                     <div class="col-12 text-center mt-2 pt-50">
                         <button type="submit" class="btn btn-primary me-1">Save</button>
