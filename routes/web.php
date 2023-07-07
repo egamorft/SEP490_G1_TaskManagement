@@ -135,9 +135,10 @@ Route::middleware(['auth'])->group(function () {
         Route::post('{slug}/tasks/create', [SubTaskController::class, 'create'])->name('create.task');
         Route::post('{slug}/tasks/{task_id}/edit', [SubTaskController::class, 'update'])->name('edit.task');
         Route::delete('{slug}/tasks/{task_id}/remove', [SubTaskController::class, 'remove'])->name('remove.task');
-        Route::post('{slug}/tasks/create-list', [TaskController::class, 'create_list'])->name('create.task.list');
-        Route::post('{slug}/tasks/edit-list/{list_id}', [TaskController::class, 'create_list'])->name('edit.task.list');
-        Route::post('{slug}/tasks/remove-list/{list_id}', [TaskController::class, 'create_list'])->name('remove.task.list');
+
+        Route::post('{slug}/tasks/create-list', [TaskController::class, 'create'])->name('create.task.list');
+        Route::post('{slug}/tasks/edit-list/{list_id}', [TaskController::class, 'update'])->name('edit.task.list');
+        Route::post('{slug}/tasks/remove-list/{list_id}', [TaskController::class, 'remove'])->name('remove.task.list');
     });
 
     Route::post('/log-out', function () {

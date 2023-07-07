@@ -15,13 +15,13 @@
                     @csrf
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="modalEditTaskListName">Task List Name</label>
-                        <input type="text" id="modalEditTaskListName" name="modalEditTaskListName" class="form-control"
+                        <input type="text" id="modalEditTaskListName" name="taskListTitle" class="form-control"
                             placeholder="Task List Name" data-msg="Please enter your list name" value="{{ $task->name }}"/>
                         <span id="error-modalEditTaskListName" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12">
                         <label class="form-label" for="modalTaskListDesc">Description</label>
-                        <textarea id="modalTaskListDesc" name="modalTaskListDesc" class="form-control" value="{{ $task->name }}"
+                        <textarea id="modalTaskListDesc" name="taskListDescription" class="form-control" value="{{ $task->name }}"
                             placeholder="Enter task list description"></textarea>
                     </div>
                     <div class="col-12 text-center mt-2 pt-50">
