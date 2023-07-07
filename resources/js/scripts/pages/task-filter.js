@@ -1,5 +1,5 @@
 /*=========================================================================================
-    File Name: dashboard-ecommerce.js
+    File Name: task-list.js
     Description: dashboard ecommerce page content with Apexchart Examples
     ----------------------------------------------------------------------------------------
     Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
@@ -7,8 +7,8 @@
     Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-$(window).on("load", function () {
-    "use strict";
+$(window).on('load', function () {
+    'use strict';
 
 	var todoFilter = $("#todo-search"), listItemFilter = $(".list-group-filters"), noResults = $(".no-results"), checkbox = $('.calendar-events-filter');
 
