@@ -283,76 +283,6 @@ $(function () {
         //             }).format(selectedDate),
         //             todoDate = month + " " + day;
 
-<<<<<<< HEAD
-                // Badge calculation loop
-                var selected = $(".task-tag").val();
-                var badgeColor = {
-                    Team: "primary",
-                    Low: "success",
-                    Medium: "warning",
-                    High: "danger",
-                    Update: "info",
-                };
-                $.each(selected, function (index, value) {
-                    todoBadge +=
-                        '<span class="badge rounded-pill badge-light-' +
-                        badgeColor[value] +
-                        ' me-50">' +
-                        value +
-                        "</span>";
-                });
-                // HTML Output
-                // if (todoTitle != "") {
-                //     $(todoTaskList).prepend(
-                //         '<li class="todo-item">' +
-                //             '<div class="todo-title-wrapper">' +
-                //             '<div class="todo-title-area">' +
-                //             feather.icons["more-vertical"].toSvg({
-                //                 class: "drag-icon",
-                //             }) +
-                //             '<div class="title-wrapper">' +
-                //             '<div class="form-check">' +
-                //             '<input type="checkbox" class="form-check-input" id="customCheck' +
-                //             checkboxId +
-                //             '" />' +
-                //             '<label class="form-check-label" for="customCheck' +
-                //             checkboxId +
-                //             '"></label>' +
-                //             "</div>" +
-                //             '<span class="todo-title">' +
-                //             todoTitle +
-                //             "</span>" +
-                //             "</div>" +
-                //             "</div>" +
-                //             '<div class="todo-item-action">' +
-                //             '<span class="badge-wrapper me-1">' +
-                //             todoBadge +
-                //             "</span>" +
-                //             '<small class="text-nowrap text-muted me-1">' +
-                //             todoDate +
-                //             "</small>" +
-                //             '<div class="avatar">' +
-                //             '<img src="' +
-                //             membersImg[assignedTo] +
-                //             '" alt="' +
-                //             assignedTo +
-                //             '" height="28" width="28">' +
-                //             "</div>" +
-                //             "</div>" +
-                //             "</div>" +
-                //             "</li>"
-                //     );
-                // }
-                // toastr["success"]("Data Saved", "💾 Task Action!", {
-                //     closeButton: true,
-                //     tapToDismiss: false,
-                //     rtl: isRtl,
-                // });
-                $(newTaskModal).modal("hide");
-                overlay.removeClass("show");
-            }
-        });
-=======
         //         // Badge calculation loop
         //         var selected = $(".task-tag").val();
         //         var badgeColor = {
@@ -421,7 +351,6 @@ $(function () {
         //         overlay.removeClass("show");
         //     }
         // });
->>>>>>> 8493e35157aa5802230f0d9093073ebdee6262ff
     }
 
     // To add new task list form
