@@ -65,7 +65,7 @@
                     </div>
 					<div class="mb-1">
 						<label for="attachments" class="form-label">Attachments</label>
-						<input name='taskAttachments' class="form-control file-attachments" type="file" id="modalTaskAttachments" multiple value="{{ $subTask->attachment }}" />
+						<input class="form-control file-attachments" type="file"  name="taskAttachments" id="modalTaskAttachments" multiple value="{{ $subTask->attachment }}" />
 					</div>
                     <div class="col-12">
                         <label class="form-label" for="modalTaskDesc">Description</label>
