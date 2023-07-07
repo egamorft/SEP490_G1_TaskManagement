@@ -1,133 +1,127 @@
-<!-- Main chat area -->
-<section class="chat-app-window">
-    <!-- To load Conversation -->
-    <div class="start-chat-area d-none">
-        <div class="mb-1 start-chat-icon">
-            <i data-feather="message-square"></i>
+<div class="container">
+    <div class="col-md-12" id="fbcomment">
+        <div class="header_comment">
+            <div class="row">
+                <div class="col-md-6 text-left">
+                    <span class="count_comment">264235 Comments</span>
+                </div>
+                <div class="col-md-6 d-flex justify-content-end">
+                    <span class="sort_title">Sort by</span>
+                    <select class="sort_by">
+                        <option>Top</option>
+                        <option>Newest</option>
+                        <option>Oldest</option>
+                    </select>
+                </div>
+            </div>
         </div>
-        <h4 class="sidebar-toggle start-chat-text">Start Conversation</h4>
-    </div>
-    <!--/ To load Conversation -->
-    <!-- Submit Chat form -->
-    <form class="chat-app-form row" action="javascript:void(0);" onsubmit="enterChat();">
-        <div class="col input-group input-group-merge me-1 form-send-message">
-            <span class="speech-to-text input-group-text"><i data-feather="mic" class="cursor-pointer"></i></span>
-            <input type="text" class="form-control message" placeholder="Type your message or use speech to text" />
-            <span class="input-group-text">
-                <label for="attach-doc" class="attachment-icon form-label mb-0">
-                    <i data-feather="image" class="cursor-pointer text-secondary"></i>
-                    <input type="file" id="attach-doc" hidden /> </label></span>
-        </div>
-        <button type="button" class="col-2 btn btn-primary send" onclick="enterChat();">
-            <i data-feather="send" class="d-lg-none"></i>
-            <span class="d-none d-lg-block">Send</span>
-        </button>
-    </form>
-    <!--/ Submit Chat form -->
-    <!-- Active Chat -->
-    <div class="active-chat d-block">
-        <!-- User Chat messages -->
-        <div class="user-chats">
-            <div class="chats">
-                <div class="chat chat-left">
+
+        <div class="body_comment">
+            <div class="row">
+                <div class="avatar_comment col-md-1">
                     <div class="chat-avatar">
                         <span class="avatar box-shadow-1 cursor-pointer">
-                            <img src="{{ asset('images/portrait/small/avatar-s-7.jpg') }}" alt="avatar" height="36"
-                                width="36" />
+                            <img src="{{ asset('images/portrait/small/avatar-s-7.jpg') }}" alt="avatar" height="24"
+                                width="24" />
                         </span>
                     </div>
-                    <div class="chat-body">
-                        <div class="chat-content">
-                            <p>Hey John, I am looking for the best admin template. Could you please help me to find it out? 🤔</p>
+                </div>
+                <div class="box_comment col-md-11">
+                    <textarea class="commentar" placeholder="Add a comment..."></textarea>
+                    <div class="box_post">
+                        <div class="pull-right">
+                            <button id="makePost" type="button" class="btn btn-primary" value="1">Post</button>
                         </div>
-                        <div class="chat chat-left chat-content">
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <ul id="list_comment" class="col-md-12">
+                    <!-- Start List Comment 1 -->
+                    <li class="box_result row">
+                        <div class="avatar_comment col-md-1">
                             <div class="chat-avatar">
                                 <span class="avatar box-shadow-1 cursor-pointer">
                                     <img src="{{ asset('images/portrait/small/avatar-s-7.jpg') }}" alt="avatar"
                                         height="36" width="36" />
                                 </span>
                             </div>
-                            <div class="chat-body">
-                                <div class="chat-content">
-                                    <p>Could you please help me to find it out? 🤔</p>
-                                </div>
+                        </div>
+                        <div class="result_comment col-md-11">
+                            <h6>Trần Ngọc Hiếu</h6>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                                has been the industry's.</p>
+                            <div class="tools_comment">
+                                <a class="like" href="#">Like</a>
+                                <span aria-hidden="true"> · </span>
+                                <i data-feather='thumbs-up'></i> <span class="count">1</span>
+                                <span aria-hidden="true"> · </span>
+                                <a class="replay" href="#">Reply</a>
+                                <span aria-hidden="true"> · </span>
+                                <span>26m</span>
+                            </div>
+                            <ul class="child_replay">
+                                <li class="box_reply row">
+                                    <div class="avatar_comment col-md-1">
+                                        <div class="chat-avatar">
+                                            <span class="avatar box-shadow-1 cursor-pointer">
+                                                <img src="{{ asset('images/portrait/small/avatar-s-7.jpg') }}"
+                                                    alt="avatar" height="24" width="24" />
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <div class="result_comment col-md-11">
+                                        <h6>Viet Phan</h6>
+                                        <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry.
+                                            Lorem Ipsum has been the industry's.</p>
+                                        <div class="tools_comment">
+                                            <a class="like" href="#">Like</a>
+                                            <span aria-hidden="true"> · </span>
+                                            <i data-feather='thumbs-up'></i> <span class="count">1</span>
+                                            <span aria-hidden="true"> · </span>
+                                            <a class="replay" href="#">Reply</a>
+                                            <span aria-hidden="true"> · </span>
+                                            <span>26m</span>
+                                        </div>
+                                        <ul class="child_replay"></ul>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </li>
+
+                    <!-- Start List Comment 2 -->
+                    <li class="box_result row">
+                        <div class="avatar_comment col-md-1">
+                            <div class="chat-avatar">
+                                <span class="avatar box-shadow-1 cursor-pointer">
+                                    <img src="{{ asset('images/portrait/small/avatar-s-7.jpg') }}" alt="avatar"
+                                        height="24" width="24" />
+                                </span>
                             </div>
                         </div>
-						<div class="chat chat-left chat-content">
-							<div class="chat-avatar">
-								<span class="avatar box-shadow-1 cursor-pointer">
-									<img src="{{ asset('images/portrait/small/avatar-s-11.jpg') }}" alt="avatar"
-										height="36" width="36" />
-								</span>
-							</div>
-							<div class="chat-body">
-								<div class="chat-content">
-									<p>Absolutely!</p>
-								</div>
-							</div>
-						</div>
-						<div class="chat chat-left chat-content">
-							<div class="chat-avatar">
-								<span class="avatar box-shadow-1 cursor-pointer">
-									<img src="{{ asset('images/portrait/small/avatar-s-7.jpg') }}" alt="avatar" height="36"
-										width="36" />
-								</span>
-							</div>
-							<div class="chat-body">
-								<div class="chat-content">
-									<p>Looks clean and fresh UI. 😃</p>
-								</div>
-							</div>
-						</div>
-                    </div>
-                </div>
-                
-                
-                <div class="chat chat-left">
-                    <div class="chat-avatar">
-                        <span class="avatar box-shadow-1 cursor-pointer">
-                            <img src="{{ asset('images/portrait/small/avatar-s-11.jpg') }}" alt="avatar"
-                                height="36" width="36" />
-                        </span>
-                    </div>
-                    <div class="chat-body">
-                        <div class="chat-content">
-                            <p>Thanks, from ThemeForest.</p>
+                        <div class="result_comment col-md-11">
+                            <h6>Minh Duc</h6>
+                            <p>Lorem Ipsum is simply dummy text of the printing and typesetting industry. Lorem Ipsum
+                                has been the industry's.</p>
+                            <div class="tools_comment">
+                                <a class="like" href="#">Like</a>
+                                <span aria-hidden="true"> · </span>
+                                <i data-feather='thumbs-up'></i> <span class="count">1</span>
+                                <span aria-hidden="true"> · </span>
+                                <a class="replay" href="#">Reply</a>
+                                <span aria-hidden="true"> · </span>
+                                <span>26m</span>
+                            </div>
+                            <ul class="child_replay"></ul>
                         </div>
-                    </div>
-                </div>
-                <div class="chat chat-left">
-                    <div class="chat-avatar">
-                        <span class="avatar box-shadow-1 cursor-pointer">
-                            <img src="{{ asset('images/portrait/small/avatar-s-7.jpg') }}" alt="avatar" height="36"
-                                width="36" />
-                        </span>
-                    </div>
-                    <div class="chat-body">
-                        <div class="chat-content">
-                            <p>I will purchase it for sure. 👍</p>
-                        </div>
-                    </div>
-                </div>
-                <div class="chat chat-left">
-                    <div class="chat-avatar">
-                        <span class="avatar box-shadow-1 cursor-pointer">
-                            <img src="{{ asset('images/portrait/small/avatar-s-11.jpg') }}" alt="avatar"
-                                height="36" width="36" />
-                        </span>
-                    </div>
-                    <div class="chat-body">
-                        <div class="chat-content">
-                            <p>Great, Feel free to get in touch on</p>
-                        </div>
-                    </div>
-                </div>
+                    </li>
+                </ul>
+                <button class="show_more w-100 btn btn-primary" type="button">Load 42 more comments</button>
+                <button class="show_less w-100 btn btn-primary" type="button" style="display:none"><span
+                        class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                    Loading...</button>
             </div>
         </div>
-        <!-- User Chat messages -->
-
-
     </div>
-    <!--/ Active Chat -->
-</section>
-<!--/ Main chat area -->
+</div>
