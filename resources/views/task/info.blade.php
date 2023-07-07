@@ -151,6 +151,7 @@
             <div class="mt-2">
                 <div class="more-info">
                     <h6 class="mb-2">Task Description</h6>
+					<img src="{{asset('uploads/'.$subTask->attachment)}}">
                     <small>{{ $subTask->description }}</small>
                 </div>
             </div>
