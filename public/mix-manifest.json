@@ -131,7 +131,6 @@
     "/js/scripts/pages/auth-two-steps.js": "/js/scripts/pages/auth-two-steps.js",
     "/js/scripts/pages/dashboard-analytics.js": "/js/scripts/pages/dashboard-analytics.js",
     "/js/scripts/pages/dashboard-ecommerce.js": "/js/scripts/pages/dashboard-ecommerce.js",
-    "/js/scripts/pages/task-filter.js": "/js/scripts/pages/task-filter.js",
     "/js/scripts/pages/modal-add-new-address.js": "/js/scripts/pages/modal-add-new-address.js",
     "/js/scripts/pages/modal-add-new-cc.js": "/js/scripts/pages/modal-add-new-cc.js",
     "/js/scripts/pages/modal-add-permission.js": "/js/scripts/pages/modal-add-permission.js",
@@ -150,6 +149,7 @@
     "/js/scripts/pages/page-knowledge-base.js": "/js/scripts/pages/page-knowledge-base.js",
     "/js/scripts/pages/page-pricing.js": "/js/scripts/pages/page-pricing.js",
     "/js/scripts/pages/page-profile.js": "/js/scripts/pages/page-profile.js",
+    "/js/scripts/pages/task-filter.js": "/js/scripts/pages/task-filter.js",
     "/js/scripts/pagination/components-pagination.js": "/js/scripts/pagination/components-pagination.js",
     "/js/scripts/tables/table-datatables-advanced.js": "/js/scripts/tables/table-datatables-advanced.js",
     "/js/scripts/tables/table-datatables-basic.js": "/js/scripts/tables/table-datatables-basic.js",
@@ -1466,12 +1466,12 @@
     "/data/jstree-data.json": "/data/jstree-data.json",
     "/data/kanban.json": "/data/kanban.json",
     "/data/menu-data/horizontalMenu.json": "/data/menu-data/horizontalMenu.json",
+    "/data/menu-data/verticalMenu copy.json": "/data/menu-data/verticalMenu copy.json",
     "/data/menu-data/verticalMenu.json": "/data/menu-data/verticalMenu.json",
+    "/data/menu-data/verticalMenu1.json": "/data/menu-data/verticalMenu1.json",
     "/data/permissions-list.json": "/data/permissions-list.json",
     "/data/projects-list.json": "/data/projects-list.json",
     "/data/search.json": "/data/search.json",
     "/data/table-datatable.json": "/data/table-datatable.json",
-    "/data/user-list.json": "/data/user-list.json",
-    "/data/menu-data/verticalMenu copy.json": "/data/menu-data/verticalMenu copy.json",
-    "/data/menu-data/verticalMenu1.json": "/data/menu-data/verticalMenu1.json"
+    "/data/user-list.json": "/data/user-list.json"
 }

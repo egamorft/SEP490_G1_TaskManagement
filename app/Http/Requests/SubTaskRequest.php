@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SubTasksRequest extends FormRequest
+class SubTaskRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -24,10 +24,10 @@ class SubTasksRequest extends FormRequest
     public function rules()
     {
         return [
-            "taskTitle" => 'required|max:50',
+            "taskName" => 'required|max:50',
             "taskList" => 'required',
             "taskAssignee" => 'required',
-            "taskDueDate" => 'required'
+            "taskReviewer" => 'required'
         ];
     }
 }

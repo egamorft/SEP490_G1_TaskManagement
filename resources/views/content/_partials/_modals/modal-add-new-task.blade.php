@@ -10,7 +10,7 @@
                 <div class="text-center mb-2">
                     <h1 class="mb-1">Add New Task</h1>
                 </div>
-                <form id="addTaskForm" class="row gy-1 pt-75" action="{{ route('create.task', ["slug" => $project->slug]) }}" method="POST">
+                <form id="addTaskForm" class="row gy-1 pt-75" action="{{ route('create.task', ["slug" => $project->slug]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="modalAddTaskName">Task Name</label>
@@ -64,7 +64,7 @@
                     </div>
 					<div class="mb-1">
 						<label for="attachments" class="form-label">Attachments</label>
-						<input class="form-control file-attachments" type="file" id="modalTaskAttachments" multiple name="taskAttachments"/>
+						<input class="form-control file-attachments" name="taskAttachments" type="file" id="modalTaskAttachments" multiple name="taskAttachments"/>
 					</div>
                     <div class="col-12">
                         <label class="form-label" for="modalTaskDesc">Description</label>

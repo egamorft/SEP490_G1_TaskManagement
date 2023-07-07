@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Helpers\Commons;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\SubTasksRequest;
+use App\Http\Requests\SubTaskRequest;
 use App\Http\Requests\TasksRequest;
 use App\Models\Account;
 use App\Models\AccountProject;
@@ -15,6 +16,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Session;
+use Nette\Utils\Json;
 
 class SubTaskController extends Controller
 {
@@ -77,8 +79,10 @@ class SubTaskController extends Controller
 		]);
     }
 
-    public function create(SubTasksRequest $request, $slug) {
-        $dates = Project::extractDatesFromDuration($request->input('duration'));
+    public function create(SubTaskRequest $request, $slug) {
+        $dates = self::extractDatesFromDuration($request->input('duration'));
+        $startDate = $dates['start_date'];
+		$endDate = $dates['end_date'];
 
         $project = Project::where("slug", $slug)->first();
         $validateInput = self::validate_input($request);
@@ -87,14 +91,19 @@ class SubTaskController extends Controller
             return response()->json($validateInput);
         }
 
+        $files = Commons::uploadFile($request, "taskAttachments");
+        
         $subTask = [
-            "name" => $request->input("taskTitle"),
+            "name" => $request->input("taskName"),
             "task_id" => $request->input("taskList"),
-            "image" => $request->file("images") || '',
-            "description" => $request->input("taskDescription") || '',
-            "assign_to" => $request->input("taskAssignee"), //SubTask::$DEFAULT_ASSIGNEE,
-            "attachment" => $request->file("taskAttachments"),
-            "due_date" => $request->date("taskDueDate"),
+            "image" => $request->file("images") ? $request->file("images") : '',
+            "description" => $request->input("taskDescription") ? $request->input("taskDescription") : '',
+            "assign_to" => $request->input("taskAssignee"),
+            "review_by" => $request->input("taskReviewer"),
+            "created_by" => Auth::user()->id,
+            "attachment" => $files->getClientOriginalName(),
+            "start_date" => $startDate,
+            "due_date" => $endDate,
             "created_at" => Carbon::now()
         ];
 
@@ -133,13 +142,13 @@ class SubTaskController extends Controller
         return response()->json(["success" => true, "message" => "Sub Task Deleted"]);
     }
 
-    public function re_assign(TasksRequest $request, $id) {
+    public function re_assign(SubTaskRequest $request, $id) {
         $subTask = Task::findOrFail($id)->first();
         
     }
 
     private function validate_input($request) {
-        $stTitle = $request->input("taskTitle");
+        $stTitle = $request->input("taskName");
 
         if (empty($stTitle)) {
             return [
@@ -156,7 +165,7 @@ class SubTaskController extends Controller
             ];
         }
 
-        if (!is_int($stTaskListId)) {
+        if (filter_var($stTaskListId, FILTER_VALIDATE_INT) === false) {
             return [
                 "success" => false,
                 "message" => "Task list Id must be a number"
@@ -171,18 +180,40 @@ class SubTaskController extends Controller
             ];
         }
 
-        if (!is_int($stAssignee)) {
+        if (filter_var($stAssignee, FILTER_VALIDATE_INT) === false) {
             return [
                 "success" => false,
                 "message" => "Please choose a valid assignee"
             ];
         }
 
-        $stDueDate = $request->date("taskDueDate");
-        if (empty($stDueDate)) {
+        $stReviewBy = $request->input("taskReviewer");
+        if (empty($stAssignee)) {
             return [
                 "success" => false,
-                "message" => "Task due date cannot be empty"
+                "message" => "Reviewer cannot be empty"
+            ];
+        }
+
+        if (filter_var($stReviewBy, FILTER_VALIDATE_INT) === false) {
+            return [
+                "success" => false,
+                "message" => "Please choose a valid reviewer"
+            ];
+        }
+
+        if ($stAssignee === $stReviewBy) {
+            return [
+                "success" => false,
+                "message" => "Reviewer and Assignee cannot be the same account"
+            ];
+        }
+
+        $duration = $request->input("duration");
+        if (empty($duration)) {
+            return [
+                "success" => false,
+                "message" => "Duration cannot be empty"
             ];
         }
 
@@ -191,4 +222,20 @@ class SubTaskController extends Controller
             "message" => ""
         ];
     }
+    
+	public function extractDatesFromDuration($duration)
+	{
+		$startDate = '';
+		$endDate = '';
+
+		// Extract start date and end date
+		if (strpos($duration, ' to ') !== false) {
+			[$startDate, $endDate] = explode(' to ', $duration);
+		}
+
+		return [
+			'start_date' => $startDate,
+			'end_date' => $endDate,
+		];
+	}
 }
