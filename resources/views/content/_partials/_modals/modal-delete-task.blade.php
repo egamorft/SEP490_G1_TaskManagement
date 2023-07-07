@@ -11,8 +11,9 @@
                     <h1 class="mb-1">Confirm to remove Task</h1>
                 </div>
                 <form id="addTaskListForm" class="row gy-1 pt-75"
-                    action="{{ route('remove.task', ['slug' => $project->slug, 'task_id' => 0]) }}" method="POST">
+                    action="{{ route('remove.task', ['slug' => $project->slug, 'task_id' => $subTask->id]) }}" method="POST">
                     @csrf
+                    @method('delete')
                     <div class="col-12 text-center mt-2 pt-50">
                         <button type="submit" class="btn btn-danger me-1">Remove</button>
                         <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"

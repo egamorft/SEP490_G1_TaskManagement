@@ -116,48 +116,44 @@ class SubTaskController extends Controller
         return redirect(URL::previous());
     }
 
-    public function update(TasksRequest $request, $slug, $id) {
+    public function update(SubTaskRequest $request, $slug, $id) {
         $dates = self::extractDatesFromDuration($request->input('duration'));
         $startDate = $dates['start_date'];
 		$endDate = $dates['end_date'];
 
-        $project = Project::where("slug", $slug)->first();
         $validateInput = self::validate_input($request);
+
         if ($validateInput["success"] != true) {
             return response()->json($validateInput);
         }
 
         $files = Commons::uploadFile($request, "taskAttachments");
+        if ($files) {
+            $files = $files->getClientOriginalName();
+        }
 
-        $subTask = SubTask::findOrFail($id)->first();
+        $subTask = SubTask::findOrFail($id);
         $subTask->name = $request->input("taskName");
         $subTask->image = $request->file("images");
         $subTask->description = $request->input("taskDescription");
         $subTask->assign_to = $request->input("taskAssignee");
         $subTask->review_by = $request->input("taskReviewer");
-        $subTask->attachment = $files->getClientOriginalName();
+        $subTask->attachment = $files;
         $subTask->start_date = $startDate;
         $subTask->due_date = $endDate;
-
         $subTask->save();
 
-        Session::flash("success", "Successfully update sub task");
+        Session::flash("success", "Successfully update task " . $subTask->name);
         return redirect(URL::previous());
     }
 
-    public function delete($id) {
-        $subTask = SubTask::findOrFail($id)->first();
-        if (!$subTask) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Subtask not found'
-            ]);
-        }
-
+    public function remove($slug, $id) {
+        $subTask = SubTask::findOrFail($id);
+        $stName = $subTask->name;
         $subTask->delete();
 
-        Session::flash("success", "Successfully delete sub task");
-        return response()->json(["success" => true, "message" => "Sub Task Deleted"]);
+        Session::flash("success", "Successfully delete sub task " . $stName);
+        return redirect("/project/" . $slug . "/task-list");
     }
 
     public function re_assign(SubTaskRequest $request, $id) {

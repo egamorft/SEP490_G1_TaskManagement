@@ -10,21 +10,22 @@
                 <div class="text-center mb-2">
                     <h1 class="mb-1">Edit Task</h1>
                 </div>
-                <form id="addTaskForm" class="row gy-1 pt-75" action="{{ route('edit.task', ["slug" => $project->slug, 'task_id' => 0]) }}" method="POST">
+                <form id="addTaskForm" class="row gy-1 pt-75" action="{{ route('edit.task', ["slug" => $project->slug, 'task_id' => $subTask->id]) }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="modalEditTaskName">Task Name</label>
-                        <input type="text" id="modalEditTaskName" name="modalEditTaskName" class="form-control"
+                        <input type="text" id="modalEditTaskName" name="taskName" class="form-control"
                             placeholder="Task Name" value="{{ $subTask->name }}" data-msg="Please enter your list name" />
                         <span id="error-modalEditTaskName" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="select-modalTaskList">Select Task List</label>
-                        <select class="select2 form-select" id="task-list" name="taskList">
+                        <select class="select2 form-select" id="task-list" disabled >
 							@foreach ($tasks as $task)
 								<option value="{{ $task->id }}" {{ $subTask->task_id == $task->id ? "selected" : "" }}>{{ $task->name }}</option>
 							@endforeach
 						</select>
+                        <input type="hidden" value="{{ $subTask->task_id }}" name="taskList" />
                         <span id="error-modalTaskList" style="color: red; display: none"></span>
                     </div>
                     <!-- Limit Selected Options -->
@@ -58,17 +59,17 @@
                     </div>
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="fp-range">Pick your Task duration</label>
-                        <input name="modalDuration" type="text" id="fp-range" class="form-control flatpickr-range"
+                        <input name="duration" type="text" id="fp-range" class="form-control flatpickr-range"
                             placeholder="YYYY-MM-DD to YYYY-MM-DD" value="{{ $subTask->start_date . " to " . $subTask->due_date }}"/>
                         <span id="error-modalDuration" style="color: red; display: none"></span>
                     </div>
 					<div class="mb-1">
 						<label for="attachments" class="form-label">Attachments</label>
-						<input class="form-control file-attachments" type="file" id="modalTaskAttachments" multiple value="{{ $subTask->attachment }}" />
+						<input name='taskAttachments' class="form-control file-attachments" type="file" id="modalTaskAttachments" multiple value="{{ $subTask->attachment }}" />
 					</div>
                     <div class="col-12">
                         <label class="form-label" for="modalTaskDesc">Description</label>
-                        <textarea id="modalTaskDesc" name="modalTaskDesc" class="form-control"
+                        <textarea id="modalTaskDesc" name="taskDescription" class="form-control"
                             placeholder="Enter project description">{{ $subTask->description }}</textarea>
                     </div>
                     <div class="col-12 text-center mt-2 pt-50">
