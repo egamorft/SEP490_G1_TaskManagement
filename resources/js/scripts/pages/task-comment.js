@@ -44,29 +44,36 @@ $(window).on("load", function () {
         $(".commentar").val("");
     };
 
-    var submit_reply = function () {
-        var comment_replay = $(".comment_replay").val();
-        el = document.createElement("li");
-        el.className = "box_reply row";
-        el.innerHTML =
-            '<div class="avatar_comment col-md-1">' +
-            '<img src="https://static.xx.fbcdn.net/rsrc.php/v1/yi/r/odA9sNLrE86.jpg" alt="avatar"/>' +
-            "</div>" +
-            '<div class="result_comment col-md-11">' +
-            "<h4>Anonimous</h4>" +
-            "<p>" +
-            comment_replay +
-            "</p>" +
-            '<div class="tools_comment">' +
-            '<a class="like" href="#">Like</a><span aria-hidden="true"> · </span>' +
-            '<i class="fa fa-thumbs-o-up"></i> <span class="count">0</span>' +
-            '<span aria-hidden="true"> · </span>' +
-            '<a class="replay" href="#">Reply</a><span aria-hidden="true"> · </span>' +
-            "<span>1m</span>" +
-            "</div>" +
-            '<ul class="child_replay"></ul>' +
-            "</div>";
-        $current.closest("li").find(".child_replay").prepend(el);
+    var submit_reply = function (parent_comment_id) {
+        var comment = $(".comment_replay").val();
+		var id = Math.random();
+        var html =
+            `
+				<li class="box_reply row col-12" id="comment_`+id+`">
+					<div class="avatar_comment col-md-1">
+						<div class="chat-avatar">
+							<span class="avatar box-shadow-1 cursor-pointer">
+								<img src="//localhost:3000/images/portrait/small/avatar-s-7.jpg" alt="avatar" height="36" width="36">
+							</span>
+						</div>
+					</div>
+					<div class="result_comment col-md-11">
+						<h6>Trần Ngọc Hiếu</h6>
+						<p>` +comment +
+						`</p>
+						<div class="tools_comment">
+						<a class="like" href="#">Like</a>
+						<span aria-hidden="true"> · </span>
+						<i data-feather='thumbs-up'></i> <span class="count">1</span>
+						<span aria-hidden="true"> · </span>
+						<a class="replay" href="#">Reply</a>
+						<span aria-hidden="true"> · </span>
+						<span>26m</span>
+					</div>
+						<ul class="child_replay"></ul>
+					</div>
+				</li>`;
+		$("#comment_"+parent_comment_id+" > .result_comment  >.child_replay").append(html);
         $(".comment_replay").val("");
         cancel_reply();
     };
@@ -114,7 +121,7 @@ $(window).on("load", function () {
         cancel_reply();
 		var $current = $(this);
         var html = `
-			<li class="box_reply row">
+			<li class="box_reply row col-12">
 				<div class="col-md-12 reply_comment">
 					<div class="row">
 						<div class="avatar_comment col-md-1">
@@ -125,17 +132,26 @@ $(window).on("load", function () {
 							</div>
 						</div>
 						<div class="box_comment col-md-11">
-							<textarea class="commentar" placeholder="Add a comment..."></textarea>
+							<textarea class="comment_replay" placeholder="Add a comment...">@hieu</textarea>
 							<div class="box_post">
 								<div class="pull-right">
-									<button class="btn btn-secondary" type="button">Cancel</button>
-									<button type="button" class="btn btn-primary" value="1">Reply</button>
+									<button class="btn btn-secondary cancel-reply" type="button">Cancel</button>
+									<button type="button" class="btn btn-primary submit-reply" value="1">Reply</button>
 								</div>
 							</div>
 						</div>
 					</div>
 				</div>
 			</li>`;
-        $current.closest("li").find(".child_replay").prepend(html);
+        var parent_comment_id = $current.closest("li").attr("id").split('_')[1];
+
+		$("#comment_"+parent_comment_id+" > .result_comment  >.child_replay").append(html);
+
+		$("#comment_"+parent_comment_id+" .cancel-reply").on('click', function() {
+			cancel_reply();
+		});
+		$("#comment_"+parent_comment_id+" .submit-reply").on('click', function() {
+			submit_reply(parent_comment_id);
+		})
     });
 });
