@@ -27,12 +27,14 @@
                     </div>
                 </div>
                 <div class="box_comment col-md-11">
-                    <textarea class="commentar" placeholder="Add a comment..."></textarea>
-                    <div class="box_post">
-                        <div class="pull-right">
-                            <button id="makePost" type="button" class="btn btn-primary" value="1">Post</button>
+                    <form action="{{ route("task.comment", ["slug" => $project->slug, "task_id" => $subTask->id]) }}" method="POST">
+                        <textarea name="commentContent" class="commentar" placeholder="Add a comment..."></textarea>
+                        <div class="box_post">
+                            <div class="pull-right">
+                                <button type="submit" class="btn btn-primary" value="1">Post</button>
+                            </div>
                         </div>
-                    </div>
+                    </form>
                 </div>
             </div>
             <div class="row">
