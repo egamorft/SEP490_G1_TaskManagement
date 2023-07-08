@@ -32,13 +32,208 @@
                     <table class="table datatable-project">
                         <thead>
                             <tr>
-                                <th></th>
                                 <th>Member</th>
                                 <th class="text-nowrap">Total Task</th>
                                 <th>Progress</th>
-                                <th>Hours</th>
+                                <th>Todo</th>
+                                <th>Doing</th>
+                                <th>Ontime</th>
+                                <th>Late</th>
+                                <th>Overdue</th>
                             </tr>
                         </thead>
+                        <tbody>
+                            <tr class="odd">
+                                <td class=" control" tabindex="0" style="display: none;"></td>
+                                <td>
+                                    <div class="d-flex justify-content-left align-items-center">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-1"><img src="//localhost:3000/images/avatars/1.png"
+                                                    alt="Project Image" width="32" class="rounded-circle"></div>
+                                        </div>
+                                        <div class="d-flex flex-column"><span class="text-truncate fw-bolder">Tran Ngoc
+                                                Hieu</span><small class="text-muted">Project Manager</small></div>
+                                    </div>
+                                </td>
+                                <td>122/240</td>
+                                <td>
+                                    <div class="d-flex flex-column"><small class="mb-1">60%</small>
+                                        <div class="progress w-100 me-3" style="height: 6px;">
+                                            <div class="progress-bar bg-info" style="width: 60%" aria-valuenow="60%"
+                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+
+                            </tr>
+                            <tr class="even">
+                                <td class=" control" tabindex="0" style="display: none;"></td>
+                                <td>
+                                    <div class="d-flex justify-content-left align-items-center">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-1"><img src="//localhost:3000/images/avatars/2.png"
+                                                    alt="Project Image" width="32" class="rounded-circle"></div>
+                                        </div>
+                                        <div class="d-flex flex-column"><span class="text-truncate fw-bolder">Tran Ngoc
+                                                Hieu</span><small class="text-muted">Project Supervisor</small></div>
+                                    </div>
+                                </td>
+                                <td>9/50</td>
+                                <td>
+                                    <div class="d-flex flex-column"><small class="mb-1">15%</small>
+                                        <div class="progress w-100 me-3" style="height: 6px;">
+                                            <div class="progress-bar bg-danger" style="width: 15%" aria-valuenow="15%"
+                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>4</td>
+								<td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr class="odd">
+                                <td class=" control" tabindex="0" style="display: none;"></td>
+                                <td>
+                                    <div class="d-flex justify-content-left align-items-center">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-1"><img src="//localhost:3000/images/avatars/3.png"
+                                                    alt="Project Image" width="32" class="rounded-circle"></div>
+                                        </div>
+                                        <div class="d-flex flex-column"><span class="text-truncate fw-bolder">Tran Ngoc
+                                                Hieu</span><small class="text-muted">Project Member</small></div>
+                                    </div>
+                                </td>
+                                <td>100/190</td>
+                                <td>
+                                    <div class="d-flex flex-column"><small class="mb-1">90%</small>
+                                        <div class="progress w-100 me-3" style="height: 6px;">
+                                            <div class="progress-bar bg-success" style="width: 90%" aria-valuenow="90%"
+                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>5</td>
+								<td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr class="even">
+                                <td class=" control" tabindex="0" style="display: none;"></td>
+                                <td>
+                                    <div class="d-flex justify-content-left align-items-center">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-1"><img src="//localhost:3000/images/avatars/4.png"
+                                                    alt="Project Image" width="32" class="rounded-circle"></div>
+                                        </div>
+                                        <div class="d-flex flex-column"><span class="text-truncate fw-bolder">Tran Ngoc
+                                                Hiep</span><small class="text-muted">Project Member</small></div>
+                                    </div>
+                                </td>
+                                <td>12/86</td>
+                                <td>
+                                    <div class="d-flex flex-column"><small class="mb-1">49%</small>
+                                        <div class="progress w-100 me-3" style="height: 6px;">
+                                            <div class="progress-bar bg-warning" style="width: 49%" aria-valuenow="49%"
+                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>45</td>
+								<td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr class="odd">
+                                <td class=" control" tabindex="0" style="display: none;"></td>
+                                <td>
+                                    <div class="d-flex justify-content-left align-items-center">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-1"><img src="//localhost:3000/images/avatars/4.png"
+                                                    alt="Project Image" width="32" class="rounded-circle"></div>
+                                        </div>
+                                        <div class="d-flex flex-column"><span class="text-truncate fw-bolder">DTran Ngoc
+                                                Hieu</span><small class="text-muted">Project Member</small></div>
+                                    </div>
+                                </td>
+                                <td>234/378</td>
+                                <td>
+                                    <div class="d-flex flex-column"><small class="mb-1">73%</small>
+                                        <div class="progress w-100 me-3" style="height: 6px;">
+                                            <div class="progress-bar bg-info" style="width: 73%" aria-valuenow="73%"
+                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>6</td>
+								<td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr class="even">
+                                <td class=" control" tabindex="0" style="display: none;"></td>
+                                <td>
+                                    <div class="d-flex justify-content-left align-items-center">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-1"><img src="//localhost:3000/images/avatars/6.png"
+                                                    alt="Project Image" width="32" class="rounded-circle"></div>
+                                        </div>
+                                        <div class="d-flex flex-column"><span class="text-truncate fw-bolder">Tran Ngoc
+                                                Hieue</span><small class="text-muted">Project Member</small></div>
+                                    </div>
+                                </td>
+                                <td>264/537</td>
+                                <td>
+                                    <div class="d-flex flex-column"><small class="mb-1">81%</small>
+                                        <div class="progress w-100 me-3" style="height: 6px;">
+                                            <div class="progress-bar bg-success" style="width: 81%" aria-valuenow="81%"
+                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>19</td>
+								<td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                            <tr class="odd">
+                                <td class=" control" tabindex="0" style="display: none;"></td>
+                                <td>
+                                    <div class="d-flex justify-content-left align-items-center">
+                                        <div class="avatar-wrapper">
+                                            <div class="avatar me-1"><img src="//localhost:3000/images/avatars/H.png"
+                                                    alt="Project Image" width="32" class="rounded-circle"></div>
+                                        </div>
+                                        <div class="d-flex flex-column"><span class="text-truncate fw-bolder">VTran Ngoc
+                                                Hieute</span><small class="text-muted">Project Member</small></div>
+                                    </div>
+                                </td>
+                                <td>214/627</td>
+                                <td>
+                                    <div class="d-flex flex-column"><small class="mb-1">78%</small>
+                                        <div class="progress w-100 me-3" style="height: 6px;">
+                                            <div class="progress-bar bg-success" style="width: 78%" aria-valuenow="78%"
+                                                aria-valuemin="0" aria-valuemax="100"></div>
+                                        </div>
+                                    </div>
+                                </td>
+                                <td>89</td>
+								<td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                                <td>1</td>
+                            </tr>
+                        </tbody>
                     </table>
                 </div>
             </div>
@@ -69,13 +264,13 @@
     <script src="{{ asset(mix('vendors/js/charts/apexcharts.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 
-    <script src="{{ asset(mix('vendors/js/tables/datatable/jquery.dataTables.min.js')) }}"></script>
+    {{-- <script src="{{ asset(mix('vendors/js/tables/datatable/jquery.dataTables.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.bootstrap5.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.responsive.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.responsive.min.js')) }}"></script> --}}
 @endsection
 @section('page-script')
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/pages/task-overview-by-member.js')) }}"></script>
+    {{-- <script src="{{ asset(mix('js/scripts/pages/task-overview-by-member.js')) }}"></script> --}}
 
 @endsection
