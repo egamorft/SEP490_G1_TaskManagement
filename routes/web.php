@@ -145,7 +145,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('{slug}/tasks/remove-list/{list_id}', [TaskController::class, 'remove'])->name('remove.task.list');
 
 
-        Route::post('{slug}/tasks/{task_id}/comment', [CommentController::class, 'store'])->name("task.comment");
+        Route::post('{slug}/tasks/{task_id}/task-comment', [CommentController::class, 'store'])->name("task.comment");
     });
 
     Route::post('/log-out', function () {

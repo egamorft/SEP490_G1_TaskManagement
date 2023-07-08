@@ -15,6 +15,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\URL;
 use Nette\Utils\Json;
@@ -211,9 +212,30 @@ class SubTaskController extends Controller
         return redirect("/project/" . $slug . "/task-list");
     }
 
-    public function assign_assignee(Request $request) {
-        // $subTask = Task::findOrFail($id)->first();
-		return response()->json(['message' => 'Project or role not found'], 404);
+    public function assign_assignee(Request $request, $slug) {
+        $subTaskQuery = SubTask::findOrFail($request->input("task_id"));
+        $subTask = $subTaskQuery->first();
+        if ($subTask == null) {
+            return response()->json(['message' => 'Cannot found task'], 404);
+        }
+
+        $accountId = $request->input("acc_id");
+        $account = Account::where("id", $accountId)->first();
+        if ($account == null) {
+            return response()->json(['message' => 'Cannot found account'], 404);
+        }
+        
+        if ($subTask->status == SubTask::$STATUS_DONE_ONTIME || $subTask->status == SubTask::$STATUS_DONE_LATE) {
+            return response()->json(['message' => "Cannot assign task has already done to another assignee"], 404);
+        }
+
+        if ($account->id == $subTask->review_by) {
+            return response()->json(['message' => "Cannot assign task to another reviewer"], 404);
+        }
+
+        $subTaskQuery->assign_to = $account->id;
+        $subTaskQuery->save();
+        return Redirect::back()->with("account", $account);
     }
 
     public function assign_reviewer(SubTaskRequest $request, $slug, $id) {

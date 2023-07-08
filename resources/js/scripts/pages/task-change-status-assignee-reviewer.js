@@ -44,6 +44,7 @@ $(window).on("load", function () {
 						rtl: isRtl,
 					});
 				}, 2000);
+				// window.location.reload();
 			},
 			error: function (response) {
 				// Handle error response

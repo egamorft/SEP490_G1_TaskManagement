@@ -10,8 +10,8 @@ use Illuminate\Http\Request;
 class CommentController extends Controller
 {
 
-    public function store(CommentRequest $request, $slug, $taskId) {
-        $task = SubTask::where("id", $taskId)->first();
-        
-    }
+    // public function store(CommentRequest $request, $slug, $taskId) {
+    //     dd(1);
+    //     $task = SubTask::where("id", $taskId)->first();
+    // }
 }
