@@ -41,7 +41,7 @@
             <div class="row">
                 <ul id="list_comment" class="col-md-12">
                     <!-- Start List Comment 1 -->
-                    <li class="box_result row">
+                    <li class="box_result row" id="comment_{{ 1 }}">
                         <div class="avatar_comment col-md-1">
                             <div class="chat-avatar">
                                 <span class="avatar box-shadow-1 cursor-pointer">
@@ -64,7 +64,7 @@
                                 <span>26m</span>
                             </div>
                             <ul class="child_replay">
-                                <li class="box_reply row">
+                                <li class="box_reply row" id="comment_{{ 3 }}">
                                     <div class="avatar_comment col-md-1">
                                         <div class="chat-avatar">
                                             <span class="avatar box-shadow-1 cursor-pointer">
@@ -94,7 +94,7 @@
                     </li>
 
                     <!-- Start List Comment 2 -->
-                    <li class="box_result row">
+                    <li class="box_result row" id="comment_{{ 2 }}">
                         <div class="avatar_comment col-md-1">
                             <div class="chat-avatar">
                                 <span class="avatar box-shadow-1 cursor-pointer">
