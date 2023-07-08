@@ -149,6 +149,7 @@ Route::middleware(['auth'])->group(function () {
 
 
         Route::post('{slug}/tasks/{task_id}/task-comment', [CommentController::class, 'store'])->name("task.comment");
+        Route::post('{slug}/tasks/{task_id}/task-comment-reply', [CommentController::class, 'reply'])->name("task.comment.reply");
     });
 
     Route::post('/log-out', function () {

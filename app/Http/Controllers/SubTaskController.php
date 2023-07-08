@@ -49,8 +49,14 @@ class SubTaskController extends Controller
             array_push($subTasksRelease[$subTaskView->task_id], $subTaskView);
         }
 
-        $comments = Comment::where("sub_task_id", $subTask->id)
-            ->where("visible", 1);
+        $commentsQuery = Comment::where("sub_task_id", $subTask->id)
+            ->where("visible", 1)->where("parent_id", 0)
+            ->orderBy("id", "desc");
+        $replyCommentsQuery = Comment::where("sub_task_id", $subTask->id)
+            ->where("visible", 1)->where("parent_id", "<>", 0)
+            ->orderBy("id", "desc");
+
+        $accountReplyId = $replyCommentsQuery->select("id")->distinct()->get();
 
 		$pageConfigs = [
             'pageHeader' => true,
