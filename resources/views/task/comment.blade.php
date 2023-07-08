@@ -28,6 +28,7 @@
                 </div>
                 <div class="box_comment col-md-11">
                     <form action="{{ route("task.comment", ["slug" => $project->slug, "task_id" => $subTask->id]) }}" method="POST">
+                        @csrf
                         <textarea name="commentContent" class="commentar" placeholder="Add a comment..."></textarea>
                         <div class="box_post">
                             <div class="pull-right">

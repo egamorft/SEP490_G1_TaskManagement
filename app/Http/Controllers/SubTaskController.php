@@ -8,6 +8,7 @@ use App\Http\Requests\SubTaskRequest;
 use App\Http\Requests\TasksRequest;
 use App\Models\Account;
 use App\Models\AccountProject;
+use App\Models\Comment;
 use App\Models\Project;
 use App\Models\SubTask;
 use App\Models\Task;
@@ -47,6 +48,9 @@ class SubTaskController extends Controller
             }
             array_push($subTasksRelease[$subTaskView->task_id], $subTaskView);
         }
+
+        $comments = Comment::where("sub_task_id", $subTask->id)
+            ->where("visible", 1);
 
 		$pageConfigs = [
             'pageHeader' => true,

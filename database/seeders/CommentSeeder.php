@@ -27,6 +27,7 @@ class CommentSeeder extends Seeder
             for ($i = 0; $i < 5; $i++) {
                 Comment::create([
                     'sub_task_id' => $faker->randomElement($subTasks),
+                    'parent_id' => 0,
                     'content' => $faker->sentence,
                     'visible' => $faker->boolean,
                     'created_by' => $faker->randomElement($accounts),

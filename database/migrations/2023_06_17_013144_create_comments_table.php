@@ -16,6 +16,7 @@ return new class extends Migration
         Schema::create('comments', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('sub_task_id');
+            $table->integer('parent_id')->default(0);
             $table->text('content');
             $table->integer('visible')->default(1);
             $table->unsignedBigInteger('created_by');
