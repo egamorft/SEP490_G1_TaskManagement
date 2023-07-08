@@ -64,7 +64,7 @@
                                 <span>26m</span>
                             </div>
                             <ul class="child_replay">
-                                <li class="box_reply row" id="comment_{{ 3 }}">
+                                <li class="box_reply row col-12" id="comment_{{ 3 }}">
                                     <div class="avatar_comment col-md-1">
                                         <div class="chat-avatar">
                                             <span class="avatar box-shadow-1 cursor-pointer">

@@ -49,7 +49,7 @@ $(window).on("load", function () {
 		var id = Math.random();
         var html =
             `
-				<li class="box_reply row" id="comment_`+id+`">
+				<li class="box_reply row col-12" id="comment_`+id+`">
 					<div class="avatar_comment col-md-1">
 						<div class="chat-avatar">
 							<span class="avatar box-shadow-1 cursor-pointer">
@@ -121,7 +121,7 @@ $(window).on("load", function () {
         cancel_reply();
 		var $current = $(this);
         var html = `
-			<li class="box_reply row">
+			<li class="box_reply row col-12">
 				<div class="col-md-12 reply_comment">
 					<div class="row">
 						<div class="avatar_comment col-md-1">
