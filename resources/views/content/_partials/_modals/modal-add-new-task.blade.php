@@ -32,7 +32,7 @@
                         <label class="form-label" for="select2-limited">Assignee</label>
                         <select class="select2 form-select" id="task-assigned" name="taskAssignee">
 							@forelse ($accounts as $acc)
-								<option data-img="{{ asset('images/portrait/small/' . $acc->avatar) }}"
+								<option data-img="{{ asset('images/avatars/' . $acc->avatar) }}"
 									value="{{ $acc->id }}">
 									{{ $acc->fullname }}
 								</option>
@@ -46,7 +46,7 @@
                         <label class="form-label" for="select2-limited">Reviewer</label>
                         <select class="select2 form-select" id="task-reviewer" name="taskReviewer">
 							@forelse ($accounts as $acc)
-								<option data-img="{{ asset('images/portrait/small/' . $acc->avatar) }}"
+								<option data-img="{{ asset('images/avatars/' . $acc->avatar) }}"
 									value="{{ $acc->id }}">
 									{{ $acc->fullname }}
 								</option>

@@ -129,7 +129,7 @@
                                 <li><a class="add-assignee dropdown-item text-primary" id="{{ $acc->id }}_assignee" >
                                         <div class="avatar float-start bg-white rounded me-1">
                                             <div class="avatar bg-light-danger">
-                                                <img src="{{ asset('images/portrait/small/' . $acc->avatar) }}" alt="Avatar"
+                                                <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar"
                                                     width="33" height="33" />
                                             </div>
                                         </div>
@@ -144,7 +144,7 @@
                         <div class=" col-10 border-right" style="padding-top: 6px;">
                             <div class="avatar float-start bg-white rounded me-1">
                                 <div class="avatar bg-light-danger">
-                                    <img src="{{ asset('images/portrait/small/' . $assignee->avatar) }}" alt="Avatar"
+                                    <img src="{{ asset('images/avatars/' . $assignee->avatar) }}" alt="Avatar"
                                         width="33" height="33" />
                                 </div>
                             </div>
@@ -167,7 +167,7 @@
                                 <li><a class="add-assignee dropdown-item text-primary" id="{{ $acc->id }}_assignee" >
                                         <div class="avatar float-start bg-white rounded me-1">
                                             <div class="avatar bg-light-danger">
-                                                <img src="{{ asset('images/portrait/small/' . $acc->avatar) }}" alt="Avatar"
+                                                <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar"
                                                     width="33" height="33" />
                                             </div>
                                         </div>
@@ -211,7 +211,7 @@
                                 <li><a class="add-reviewer dropdown-item text-primary" id="{{ $acc->id }}_assignee">
                                     <div class="avatar float-start bg-white rounded me-1">
                                         <div class="avatar bg-light-danger">
-                                            <img src="{{ asset('images/portrait/small/' . $acc->avatar) }}" alt="Avatar"
+                                            <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar"
                                                 width="33" height="33" />
                                         </div>
                                     </div>
@@ -226,7 +226,7 @@
                         <div class=" col-10 border-right" style="padding-top: 6px;">
                             <div class="avatar float-start bg-white rounded me-1">
                                 <div class="avatar bg-light-danger">
-                                    <img src="{{ asset('images/portrait/small/' . $reviewer->avatar) }}" alt="Avatar"
+                                    <img src="{{ asset('images/avatars/' . $reviewer->avatar) }}" alt="Avatar"
                                         width="33" height="33" />
                                 </div>
                             </div>
@@ -249,7 +249,7 @@
                                 <li><a class="add-reviewer dropdown-item text-primary" id="{{ $acc->id }}_assignee">
                                     <div class="avatar float-start bg-white rounded me-1">
                                         <div class="avatar bg-light-danger">
-                                            <img src="{{ asset('images/portrait/small/' . $acc->avatar) }}" alt="Avatar"
+                                            <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar"
                                                 width="33" height="33" />
                                         </div>
                                     </div>
