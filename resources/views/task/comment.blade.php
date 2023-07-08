@@ -26,14 +26,16 @@
                         </span>
                     </div>
                 </div>
-                <div class="box_comment col-md-11">
-                    <textarea class="commentar" placeholder="Add a comment..."></textarea>
-                    <div class="box_post">
-                        <div class="pull-right">
-                            <button id="makePost" type="button" class="btn btn-primary" value="1">Post</button>
+                <form action="{{  }}" method="POST">
+                    <div class="box_comment col-md-11">
+                        <textarea class="commentar" placeholder="Add a comment..."></textarea>
+                        <div class="box_post">
+                            <div class="pull-right">
+                                <button id="makePost" type="button" class="btn btn-primary" value="1">Post</button>
+                            </div>
                         </div>
                     </div>
-                </div>
+                </form>
             </div>
             <div class="row">
                 <ul id="list_comment" class="col-md-12">
