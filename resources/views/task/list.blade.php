@@ -54,8 +54,14 @@
                                                                 <div class="todo-title-area">
                                                                     <div class="title-wrapper">
                                                                         @foreach ($contents as $stat)
-                                                                            @if ($stat["value"] == $st->status)
-                                                                                <i class="text-info {{ $stat["class"] }}" data-feather='{{ $stat["icon"] }}'></i>
+                                                                            @if (($st->status == 1 || $st->status == 10) && strtotime($st->due_date) < time())
+                                                                                @if ($stat["id"] == 'overdue')
+                                                                                    <i class="text-info {{ $stat["class"] }}" data-feather='{{ $stat["icon"] }}'></i>
+                                                                                @endif
+                                                                            @else
+                                                                                @if ($stat["value"] == $st->status)
+                                                                                    <i class="text-info {{ $stat["class"] }}" data-feather='{{ $stat["icon"] }}'></i>
+                                                                                @endif
                                                                             @endif
                                                                         @endforeach
                                                                         <span class="text-dark todo-title">{{ $st->name }}</span>
