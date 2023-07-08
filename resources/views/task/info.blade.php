@@ -141,7 +141,7 @@
                             @endforeach
                         </ul>
                     @else
-                        <div class=" col-10 border-right">
+                        <div class=" col-10 border-right" style="padding-top: 6px;">
                             <div class="avatar float-start bg-white rounded me-1">
                                 <div class="avatar bg-light-danger">
                                     <img src="{{ asset('images/portrait/small/' . $assignee->avatar) }}" alt="Avatar"
@@ -223,7 +223,7 @@
                             @endforeach
                         </ul>
                     @else
-                        <div class=" col-10 border-right">
+                        <div class=" col-10 border-right" style="padding-top: 6px;">
                             <div class="avatar float-start bg-white rounded me-1">
                                 <div class="avatar bg-light-danger">
                                     <img src="{{ asset('images/portrait/small/' . $reviewer->avatar) }}" alt="Avatar"
