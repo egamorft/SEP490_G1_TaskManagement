@@ -10,9 +10,7 @@
 $(window).on("load", function () {
     "use strict";
     var addAssignee = $(".add-assignee"),
-        addReviewer = $(".add-reviewer"),
-        removeAssignee = $(".remove-assignee"),
-        removeReviewer = $(".remove-reviewer");
+        addReviewer = $(".add-reviewer");
 
 	function assignTask(acc_id) {
 		var currentUrl = window.location.href;

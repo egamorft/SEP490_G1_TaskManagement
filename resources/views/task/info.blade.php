@@ -217,6 +217,7 @@
 							<h6 class="mb-0">{{ $assignee->fullname }}</h6>
 						</div>
 					</div>
+					@include('content._partials._modals.modal-remove-assignee')
 					<button type="button" style="padding: 15px;"
 						class="task-member d-inline-flex col-2 btn btn-light border-left dropdown-toggle dropdown-toggle-split"
 						data-bs-toggle="dropdown" aria-expanded="false">
@@ -241,7 +242,7 @@
 							</a></li>
 						@endforeach
 						<li><a class="remove-assignee dropdown-item border-top" data-bs-toggle="modal"
-								data-bs-target="#removeTaskReviewer">
+								data-bs-target="#removeAssignee{{ $assignee->id }}">
 								<div class="list-item d-flex align-items-start">
 									<div class="me-1">
 										<div class="avatar bg-light-danger">
@@ -270,6 +271,7 @@
 							<h6 class="mb-0">{{ $reviewer->fullname }}</h6>
 						</div>
 					</div>
+					@include('content._partials._modals.modal-remove-reviewer')
 					<button type="button" style="padding: 15px;"
 						class="task-member d-inline-flex col-2 btn btn-light border-left dropdown-toggle dropdown-toggle-split"
 						data-bs-toggle="dropdown" aria-expanded="false">
@@ -294,7 +296,7 @@
 							</a></li>
 						@endforeach
 						<li><a class="remove-reviewer dropdown-item border-top" data-bs-toggle="modal"
-								data-bs-target="#removeTaskReviewer">
+								data-bs-target="#removeReviewer{{ $reviewer->id }}">
 								<div class="list-item d-flex align-items-start">
 									<div class="me-1">
 										<div class="avatar bg-light-danger">
