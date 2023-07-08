@@ -76,5 +76,6 @@
 <script src="{{ asset(mix('js/scripts/pages/app-todo.js')) }}"></script>
 <script src="{{ asset(mix('js/scripts/pages/task-filter.js')) }}"></script>
 <script src="{{ asset(mix('js/scripts/pages/task-comment.js')) }}"></script>
+<script src="{{ asset(mix('js/scripts/pages/task-change-status-assignee-reviewer.js')) }}"></script>
 
 @endsection
