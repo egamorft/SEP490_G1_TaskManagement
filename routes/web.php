@@ -140,8 +140,8 @@ Route::middleware(['auth'])->group(function () {
         Route::post('{slug}/tasks/assign-to', [SubTaskController::class, "assign_assignee"])->name("assign.to");
         Route::post('{slug}/tasks/assign-reviewer', [SubTaskController::class, "assign_reviewer"])->name("assign.reviewer");
         Route::post('{slug}/tasks/change-status', [SubTaskController::class, 'change_status'])->name("change.status");
-        Route::post('{slug}/tasks/remove-assignee', [SubTaskController::class, "assign_assignee"])->name("remove.assignee");
-        Route::post('{slug}/tasks/remove-reviewer', [SubTaskController::class, "assign_assignee"])->name("remove.reviewer");
+        Route::post('{slug}/tasks/remove-assignee/{id}', [SubTaskController::class, "remove_assignee"])->name("remove.assignee");
+        Route::post('{slug}/tasks/remove-reviewer/{id}', [SubTaskController::class, "remove_reviewer"])->name("remove.reviewer");
 
         Route::post('{slug}/tasks/create-list', [TaskController::class, 'create'])->name('create.task.list');
         Route::post('{slug}/tasks/edit-list/{list_id}', [TaskController::class, 'update'])->name('edit.task.list');

@@ -128,8 +128,8 @@ $(window).on("load", function () {
 		}
 
         // Replace current querystring with the new one.
-        history.replaceState(null, null, "?&" + queryParams.toString());
-        window.location.reload();
+        window.location.href = window.location.origin + window.location.pathname + "?&" + queryParams.toString();
+        // window.history.replaceState(null, null, "?&" + queryParams.toString());
     }
 
     // Filter task

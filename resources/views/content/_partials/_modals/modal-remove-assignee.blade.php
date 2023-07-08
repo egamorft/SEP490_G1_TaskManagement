@@ -18,7 +18,7 @@
                     </div>
                 </div>
 
-                <form id="removeAssigneeForm" class="row" method="POST" action="{{ route('remove.assignee', ['slug'=>$project->slug]) }}">
+                <form id="removeAssigneeForm" class="row" method="POST" action="{{ route('remove.assignee', ['slug'=>$project->slug, "id"=>$subTask->id]) }}">
                     @csrf
                     <div class="text-center mt-2">
                         <input type="hidden" name="task_id" value="{{ $subTask->id }}">

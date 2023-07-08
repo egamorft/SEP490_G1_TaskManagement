@@ -230,27 +230,99 @@ class SubTaskController extends Controller
         }
 
         $accountId = $request->input("acc_id");
-        $account = Account::where("id", $accountId)->first();
-        if ($account == null) {
-            return response()->json(['message' => 'Cannot found account'], 404);
+        $account = (object) [
+            "id" => $accountId
+        ];
+        if ($accountId != 0) {
+            $account = Account::where("id", $accountId)->first();
+            if ($account == null) {
+                return response()->json(['message' => 'Cannot found account'], 404);
+            }
         }
         
         if ($subTask->status == SubTask::$STATUS_DONE_ONTIME || $subTask->status == SubTask::$STATUS_DONE_LATE) {
             return response()->json(['message' => "Cannot assign task has already done to another assignee"], 404);
         }
 
-        if ($account->id == $subTask->review_by) {
+        if ($account->id == $subTask->review_by && $subTask->review_by != 0) {
             return response()->json(['message' => "Cannot assign task to another reviewer"], 404);
         }
 
-        $subTaskQuery->assign_to = $account->id;
+        $subTaskQuery->assign_to = $accountId;
+        if ($subTaskQuery->assign_to != 0 && $subTaskQuery->review_by != 0) {
+            $subTaskQuery->status = SubTask::$STATUS_DOING;
+        }
         $subTaskQuery->save();
-        return Redirect::back()->with("account", $account);
+        return back();
     }
 
-    public function assign_reviewer(Request $request) {
-        // $subTask = Task::findOrFail($id)->first();
-		return response()->json(['message' => 'Project or role not found'], 404);
+    public function remove_assignee(Request $request, $slug, $id) {
+        $subTaskQuery = SubTask::findOrFail($id);
+        $subTask = $subTaskQuery->first();
+        if ($subTask == null) {
+            return response()->json(['message' => "Cannot found task"], 404);
+        }
+
+        $subTaskQuery->assign_to = SubTask::$DEFAULT_ASSIGNEE;
+        if ($subTaskQuery->review_by == 0 || $subTaskQuery->assign_to == 0) {
+            $subTaskQuery->status = SubTask::$STATUS_TODO;
+        }
+        $subTaskQuery->save();
+
+        Session::flash("success", "Remove assignee successfully");
+        return redirect(URL::previous());
+    }
+
+    public function assign_reviewer(Request $request, $slug) {
+        $subTaskQuery = SubTask::findOrFail($request->input("task_id"));
+        $subTask = $subTaskQuery->first();
+        if ($subTask == null) {
+            return response()->json(['message' => 'Cannot found task'], 404);
+        }
+
+        $accountId = $request->input("acc_id");
+        $account = (object) [
+            "id" => $accountId
+        ];
+        if ($accountId != 0) {
+            $account = Account::where("id", $accountId)->first();
+            if ($account == null) {
+                return response()->json(['message' => 'Cannot found account'], 404);
+            }
+        }
+        
+        if ($subTask->status == SubTask::$STATUS_DONE_ONTIME || $subTask->status == SubTask::$STATUS_DONE_LATE) {
+            return response()->json(['message' => "Cannot assign task has already done to another reviewer"], 404);
+        }
+
+        if ($account->id == $subTask->assign_to && $subTask->assign_to != 0) {
+            return response()->json(['message' => "Cannot assign task to another assignee"], 404);
+        }
+
+        $subTaskQuery->review_by = $accountId;
+        if ($subTaskQuery->assign_to != 0 && $subTaskQuery->review_by != 0) {
+            $subTaskQuery->status = SubTask::$STATUS_DOING;
+        }
+        $subTaskQuery->save();
+        return back();
+    }
+
+    public function remove_reviewer(Request $request, $slug, $id) {
+        $subTaskQuery = SubTask::findOrFail($id);
+        $subTask = $subTaskQuery->first();
+        if ($subTask == null) {
+            return response()->json(['message' => "Cannot found task"], 404);
+        }
+
+        $subTaskQuery->review_by = SubTask::$DEFAULT_ASSIGNEE;
+        if ($subTaskQuery->review_by == 0 || $subTaskQuery->assign_to == 0) {
+            $subTaskQuery->status = SubTask::$STATUS_TODO;
+        }
+
+        $subTaskQuery->save();
+
+        Session::flash("success", "Remove reviewer successfully");
+        return redirect(URL::previous());
     }
 
     public function change_status(Request $request) {
