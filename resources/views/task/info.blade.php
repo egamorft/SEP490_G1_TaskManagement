@@ -105,11 +105,11 @@
                     <li>
                         <div class="select-header border-bottom">Change Task Status</div>
                     </li>
-					<li><a class="dropdown-item change-task-status text-primary" id='doing-status'>
+					<li><a class="dropdown-item change-task-status text-primary" id='10'>
 						<i data-feather='circle' class="cursor-pointer me-50"></i>Doing</a></li>
-                    <li><a class="dropdown-item change-task-status text-warning" id='reviewing-status'>
+                    <li><a class="dropdown-item change-task-status text-warning" id='50'>
                             <i data-feather='circle' class="cursor-pointer me-50"></i>Waiting for Review</a></li>
-                    <li><a class="dropdown-item change-task-status text-success" id='done-status'>
+                    <li><a class="dropdown-item change-task-status text-success" id='100'>
                             <i data-feather='check-circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
                 </ul>
 

@@ -326,8 +326,22 @@ class SubTaskController extends Controller
     }
 
     public function change_status(Request $request) {
-        // $subTask = Task::findOrFail($id)->first();
-		return response()->json(['message' => 'Project or role not found'], 404);
+        $subTaskQuery = SubTask::findOrFail($request->input("task_id"));
+        $subTask = $subTaskQuery->first();
+        if ($subTask == null) {
+            return response()->json(['message' => "Cannot found task"], 404);
+        }
+
+        $status = $request->input("status");
+        if ($status == SubTask::$STATUS_DONE_ONTIME && strtotime($subTask->due_date) < time()) {
+            $status = SubTask::$STATUS_DONE_LATE;
+        }
+
+        $subTaskQuery->status = $status;
+        $subTaskQuery->save();
+
+        Session::flash("succcess", "Update status successfully");
+        return redirect(URL::previous());
     }
 
     private function validate_input($request) {
