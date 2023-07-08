@@ -227,7 +227,7 @@
 							<div class="select-header border-bottom">Assign To</div>
 						</li>
 						@foreach ($accounts as $acc)
-							<li><a class="add-assignee dropdown-item text-primary" id="{{ $acc->id }}_acc" >
+							<li><a class="add-assignee dropdown-item text-primary" id="{{ $acc->id }}_assignee" >
 									<div class="avatar float-start bg-white rounded me-1">
 										<div class="avatar bg-light-danger">
 											<img src="{{ asset('images/portrait/small/' . $acc->avatar) }}" alt="Avatar"
@@ -280,8 +280,7 @@
 							<div class="select-header border-bottom">Select Reviewer</div>
 						</li>
 						@foreach ($accounts as $acc)
-							<li><a class="add-reviewer dropdown-item text-primary" data-bs-toggle="modal"
-								data-bs-target="#changeTaskReviewer">
+							<li><a class="add-reviewer dropdown-item text-primary" id="{{ $acc->id }}_assignee">
 								<div class="avatar float-start bg-white rounded me-1">
 									<div class="avatar bg-light-danger">
 										<img src="{{ asset('images/portrait/small/' . $acc->avatar) }}" alt="Avatar"

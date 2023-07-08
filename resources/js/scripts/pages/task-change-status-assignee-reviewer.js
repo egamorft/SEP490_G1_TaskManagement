@@ -62,16 +62,16 @@ $(window).on("load", function () {
 		});
 	}
 
-	function removeAss(acc_id) {
+	function assignTaskReview(acc_id) {
 		var currentUrl = window.location.href;
 		var task_id = currentUrl.split('/').pop();
 		var csrfToken = $('input[name="csrf-token"]').val();
 		var isRtl = $('html').attr('data-textdirection') === 'rtl';
 
-		// console.log(task_id);
-		// console.log(acc_id);
+		console.log(task_id);
+		console.log(acc_id);
 		$.ajax({
-			url: "assign-to",
+			url: "assign-reviewer",
 			method: "POST",
 			headers: {
 				'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
@@ -112,5 +112,10 @@ $(window).on("load", function () {
 	addAssignee.on('click', function () {
 		var acc_id = $(this).attr('id').split('_')[0];
 		assignTask(acc_id);
+	});
+
+	addReviewer.on('click', function () {
+		var acc_id = $(this).attr('id').split('_')[0];
+		assignTaskReview(acc_id);
 	});
 });
