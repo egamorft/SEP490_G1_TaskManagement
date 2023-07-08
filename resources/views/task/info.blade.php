@@ -181,6 +181,7 @@
             <hr class="mt-0" /> --}}
 
 			{{-- doing-status --}}
+			<input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
             <hr class="mb-0" />
             <div class="row m-0">
 				@foreach ($contents as $stat)
@@ -226,8 +227,7 @@
 							<div class="select-header border-bottom">Assign To</div>
 						</li>
 						@foreach ($accounts as $acc)
-							<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
-									data-bs-target="#changeTaskReviewer">
+							<li><a class="add-assignee dropdown-item text-primary" id="{{ $acc->id }}_acc" >
 									<div class="avatar float-start bg-white rounded me-1">
 										<div class="avatar bg-light-danger">
 											<img src="{{ asset('images/portrait/small/' . $acc->avatar) }}" alt="Avatar"
@@ -240,7 +240,7 @@
 									</div>
 							</a></li>
 						@endforeach
-						<li><a class="dropdown-item border-top" data-bs-toggle="modal"
+						<li><a class="remove-assignee dropdown-item border-top" data-bs-toggle="modal"
 								data-bs-target="#removeTaskReviewer">
 								<div class="list-item d-flex align-items-start">
 									<div class="me-1">
@@ -280,7 +280,7 @@
 							<div class="select-header border-bottom">Select Reviewer</div>
 						</li>
 						@foreach ($accounts as $acc)
-							<li><a class="dropdown-item text-primary" data-bs-toggle="modal"
+							<li><a class="add-reviewer dropdown-item text-primary" data-bs-toggle="modal"
 								data-bs-target="#changeTaskReviewer">
 								<div class="avatar float-start bg-white rounded me-1">
 									<div class="avatar bg-light-danger">
@@ -294,7 +294,7 @@
 								</div>
 							</a></li>
 						@endforeach
-						<li><a class="dropdown-item border-top" data-bs-toggle="modal"
+						<li><a class="remove-reviewer dropdown-item border-top" data-bs-toggle="modal"
 								data-bs-target="#removeTaskReviewer">
 								<div class="list-item d-flex align-items-start">
 									<div class="me-1">
