@@ -671,12 +671,12 @@ class ProjectController extends Controller
         $totalSubTask = count($subTasks);
 
         $subTaskStatusesPercent = [
-            "todo" => $totalSubTask > 0 ? round($todo / $totalSubTask, 2) : 0,
-            "doing" => $totalSubTask > 0 ? round($doing / $totalSubTask, 2) : 0,
-            "reviewing" => $totalSubTask > 0 ? round($reviewing / $totalSubTask, 2) : 0,
-            "doneOntime" => $totalSubTask > 0 ? round($doneOntime / $totalSubTask, 2) : 0,
-            "doneLate" => $totalSubTask > 0 ? round($doneLate / $totalSubTask, 2) : 0,
-            "overdue" => $totalSubTask > 0 ? round($overdue / $totalSubTask, 2) : 0
+            "todo" => $totalSubTask > 0 ? round($todo / $totalSubTask, 2) * 100 : 0,
+            "doing" => $totalSubTask > 0 ? round($doing / $totalSubTask, 2) * 100 : 0,
+            "reviewing" => $totalSubTask > 0 ? round($reviewing / $totalSubTask, 2) * 100 : 0,
+            "doneOntime" => $totalSubTask > 0 ? round($doneOntime / $totalSubTask, 2) * 100 : 0,
+            "doneLate" => $totalSubTask > 0 ? round($doneLate / $totalSubTask, 2) * 100 : 0,
+            "overdue" => $totalSubTask > 0 ? round($overdue / $totalSubTask, 2) * 100 : 0
         ];
 
 		$accountsProject = AccountProject::where('project_id', $project->id)->get();
