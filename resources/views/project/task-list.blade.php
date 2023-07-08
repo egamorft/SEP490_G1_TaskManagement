@@ -1,4 +1,4 @@
-@extends('layouts/contentLayoutMaster')
+{{-- @extends('layouts/contentLayoutMaster')
 
 @section('title', 'Project - ' . $project->name)
 
@@ -44,4 +44,4 @@
     <!-- Page js files -->
 	{{-- <script src="{{ asset(mix('js/scripts/pages/dashboard-ecommerce.js')) }}"></script> --}}
 	<script src="{{ asset(mix('js/scripts/pages/task-filter.js')) }}"></script>
-@endsection
+@endsection --}}
