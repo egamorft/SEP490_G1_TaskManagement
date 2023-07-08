@@ -32,7 +32,7 @@
                             </a>
                         </div>
                     </div>
-                    <a class="text-dark" href="/project/{{ $project->slug }}">
+                    <a class="text-dark" href="/project/{{ $project->slug }}/task-list">
                         <i data-feather="x-circle"
                             class="font-medium-2 cursor-pointer d-sm-inline-block d-none me-50"></i>
                     </a>
@@ -186,7 +186,7 @@
             <div class="row m-0">
 				@foreach ($contents as $stat)
 				@if ($subTask->status == $stat["value"])
-					<button type="button" style="padding: 15px;"
+					<button type="button" style="padding: 20px;"
 						class="task-status d-inline-flex col btn btn-primary dropdown-toggle {{ $stat["class_color"] }}" data-bs-toggle="dropdown"
 						aria-expanded="false">
 							<i data-feather='{{ $stat["icon"] }}' class="cursor-pointer me-50"></i>

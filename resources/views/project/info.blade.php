@@ -20,7 +20,7 @@
 				</div>
 			</div>
 
-			<div class="mt-2">
+			{{-- <div class="mt-2">
 				<div class="avatar float-start bg-success rounded me-1">
 					<div class="avatar-content">
 						<i data-feather="user-check" class="avatar-icon font-medium-3"></i>
@@ -42,7 +42,7 @@
 					<h6 class="mb-0 text-danger">Rejected</h6>
 					<small>The project has been rejected</small>
 				</div>
-			</div>
+			</div> --}}
 
 			<hr />
 
