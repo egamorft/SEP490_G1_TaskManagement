@@ -198,9 +198,13 @@
                     <li>
                         <div class="select-header border-bottom">Change Task Status</div>
                     </li>
-                    <li><a class="dropdown-item text-warning" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+					<li><a class="dropdown-item change-task-status text-info" id='todo-status'>
+						<i data-feather='circle' class="cursor-pointer me-50"></i>Todo</a></li>
+					<li><a class="dropdown-item change-task-status text-primary" id='doing-status'>
+						<i data-feather='circle' class="cursor-pointer me-50"></i>Doing</a></li>
+                    <li><a class="dropdown-item change-task-status text-warning" id='reviewing-status'>
                             <i data-feather='circle' class="cursor-pointer me-50"></i>Waiting for Review</a></li>
-                    <li><a class="dropdown-item text-success" data-bs-toggle="modal" data-bs-target="#changeTaskStatus">
+                    <li><a class="dropdown-item change-task-status text-success" id='done-status'>
                             <i data-feather='check-circle' class="cursor-pointer me-50"></i>Mark as Done</a></li>
                 </ul>
 

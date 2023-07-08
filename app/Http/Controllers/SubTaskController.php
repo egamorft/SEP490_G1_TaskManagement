@@ -253,9 +253,9 @@ class SubTaskController extends Controller
 		return response()->json(['message' => 'Project or role not found'], 404);
     }
 
-    public function change_status(SubTaskRequest $request, $slug, $id) {
-        $subTask = Task::findOrFail($id)->first();
-        
+    public function change_status(Request $request) {
+        // $subTask = Task::findOrFail($id)->first();
+		return response()->json(['message' => 'Project or role not found'], 404);
     }
 
     private function validate_input($request) {

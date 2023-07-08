@@ -15,9 +15,58 @@ $(window).on("load", function () {
         noResults = $(".no-results"),
         checkbox = $(".calendar-events-filter");
 
+    $(document).ready(function () {
+        var queryParams = new URLSearchParams(window.location.search);
+		var role = queryParams.get("role");
+		var todo = queryParams.get("todo");
+		var overdue = queryParams.get("overdue");
+		var late = queryParams.get("late");
+		var ontime = queryParams.get("ontime");
+		var reviewing = queryParams.get("reviewing");
+		var doing = queryParams.get("doing");
+		var is_check_all = false;
+
+		if (!todo && !doing && !reviewing && !ontime && !late && !overdue) {
+			is_check_all = true;
+		}
+
+		// $("#doing-task").prop("checked", true);
+		// $("#late-task").prop("checked", true);
+		// $("#overdue-task").prop("checked", true);
+		// $("#ontime-task").prop("checked", true);
+		// $("#reviewing-task").prop("checked", true);
+		// $("#todo-task").prop("checked", true);
+
+		if (!todo && !is_check_all) {
+			$("#todo-task").prop("checked", false);
+		}
+		if (!doing && !is_check_all) {
+			$("#doing-task").prop("checked", false);
+		}
+		if (!reviewing && !is_check_all) {
+			$("#reviewing-task").prop("checked", false);
+		}
+		if (!ontime && !is_check_all) {
+			$("#ontime-task").prop("checked", false);
+		}
+		if (!late && !is_check_all) {
+			$("#late-task").prop("checked", false);
+		}
+		if (!overdue && !is_check_all) {
+			$("#overdue-task").prop("checked", false);
+		}
+
+		listItemFilter.find("a").removeClass('active');
+		if (!role) {
+			role = 'viewer';
+		}
+		listItemFilter.find("#"+role+"_role").addClass('active');
+
+    });
+
     // Filter
     function filter() {
-        var role = listItemFilter.find("a.active span").html(),
+        var role = listItemFilter.find("a.active").attr('id').split('_')[0],
             todo = $("#todo-task").is(":checked"),
             doing = $("#doing-task").is(":checked"),
             reviewing = $("#reviewing-task").is(":checked"),
@@ -27,70 +76,60 @@ $(window).on("load", function () {
         var queryParams = new URLSearchParams(window.location.search);
 
         // Set new or modify existing parameter value.
-		if (role) {
-			queryParams.set("role",role);
-		} else {
-			queryParams.delete("role");
-		}
+        if (role) {
+            queryParams.set("role", role);
+        } else {
+            queryParams.delete("role");
+        }
 
-		if (todo) {
-			queryParams.set("todo",todo);
-		} else {
-			queryParams.delete("todo");
-		}
+        if (todo) {
+            queryParams.set("todo", todo);
+        } else {
+            queryParams.delete("todo");
+        }
 
-		if (doing) {
-			queryParams.set("doing",doing);
-		} else {
-			queryParams.delete("doing");
-		}
+        if (doing) {
+            queryParams.set("doing", doing);
+        } else {
+            queryParams.delete("doing");
+        }
 
-		if (reviewing) {
-			queryParams.set("reviewing",reviewing);
-		} else {
-			queryParams.delete("reviewing");
-		}
+        if (reviewing) {
+            queryParams.set("reviewing", reviewing);
+        } else {
+            queryParams.delete("reviewing");
+        }
 
-		if (ontime) {
-			queryParams.set("ontime",ontime);
-		} else {
-			queryParams.delete("ontime");
-		}
+        if (ontime) {
+            queryParams.set("ontime", ontime);
+        } else {
+            queryParams.delete("ontime");
+        }
 
-		if (late) {
-			queryParams.set("late",late);
-		} else {
-			queryParams.delete("late");
-		}
+        if (late) {
+            queryParams.set("late", late);
+        } else {
+            queryParams.delete("late");
+        }
 
-		if (overdue) {
-			queryParams.set("overdue",overdue);
-		} else {
+        if (overdue) {
+            queryParams.set("overdue", overdue);
+        } else {
+            queryParams.delete("overdue");
+        }
+
+		if (todo && doing && reviewing && ontime && late && overdue) {
 			queryParams.delete("overdue");
+            queryParams.delete("late");
+            queryParams.delete("ontime");
+            queryParams.delete("reviewing");
+            queryParams.delete("doing");
+            queryParams.delete("todo");
 		}
 
         // Replace current querystring with the new one.
         history.replaceState(null, null, "?&" + queryParams.toString());
         window.location.reload();
-        // $.ajax({
-        // 	url:"task-list/filter", // đường dẫn khi gửi dữ liệu đi 'search' là tên route mình đặt bạn mở route lên xem là hiểu nó là cái j.
-        // 	method:"GET", // phương thức gửi dữ liệu.
-        // 	data:{
-        // 		q: todoFilter.val().toLowerCase(),
-        // 		role: listItemFilter.find("a.active span").html(),
-        // 		todo: $('#todo-task').is(":checked"),
-        // 		doing: $('#doing-task').is(":checked"),
-        // 		reviewing: $('#reviewing-task').is(":checked"),
-        // 		ontime: $('#ontime-task').is(":checked"),
-        // 		late: $('#late-task').is(":checked"),
-        // 		overdue: $('#overdue-task').is(":checked"),
-
-        // 	},
-        // 	success:function(data){ //dữ liệu nhận về
-        // 		console.log("done");
-        // 		console.log(data);
-        //    }
-        //  });
     }
 
     // Filter task
