@@ -211,7 +211,17 @@ class SubTaskController extends Controller
         return redirect("/project/" . $slug . "/task-list");
     }
 
-    public function re_assign(SubTaskRequest $request, $id) {
+    public function assign_assignee(SubTaskRequest $request, $slug, $id) {
+        $subTask = Task::findOrFail($id)->first();
+        
+    }
+
+    public function assign_reviewer(SubTaskRequest $request, $slug, $id) {
+        $subTask = Task::findOrFail($id)->first();
+        
+    }
+
+    public function change_status(SubTaskRequest $request, $slug, $id) {
         $subTask = Task::findOrFail($id)->first();
         
     }
