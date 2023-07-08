@@ -76,7 +76,7 @@ $(window).on("load", function () {
         var queryParams = new URLSearchParams(window.location.search);
 
         // Set new or modify existing parameter value.
-        if (role) {
+        if (role && role != "viewer") {
             queryParams.set("role", role);
         } else {
             queryParams.delete("role");
@@ -125,6 +125,10 @@ $(window).on("load", function () {
             queryParams.delete("reviewing");
             queryParams.delete("doing");
             queryParams.delete("todo");
+		}
+
+		if ((!todo || !doing || !reviewing || !ontime || !late || !overdue) && role == "viewer" ) {
+			queryParams.set("role", role);
 		}
 
         // Replace current querystring with the new one.
