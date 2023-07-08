@@ -36,18 +36,18 @@
                 <span class="align-middle">Filter By Role</span>
             </h5>
             <div class="list-group list-group-filters">
-                <a href="#" class="list-group-item list-group-item-action active">
+                <a href="#" class="list-group-item list-group-item-action" id="viewer_role">
                     <i data-feather="eye" class="font-medium-3 me-50"></i>
                     <span class="align-middle"> Viewer</span>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">
+                <a href="#" class="list-group-item list-group-item-action" id="creator_role">
                     <i data-feather="target" class="font-medium-3 me-50"></i> <span class="align-middle">Creator</span>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">
+                <a href="#" class="list-group-item list-group-item-action" id="assignee_role">
                     <i data-feather="check-circle" class="font-medium-3 me-50"></i> <span
                         class="align-middle">Assignee</span>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action">
+                <a href="#" class="list-group-item list-group-item-action" id="reviewer_role">
                     <i data-feather="star" class="font-medium-3 me-50"></i> <span class="align-middle">Reviewer</span>
                 </a>
             </div>
@@ -57,10 +57,6 @@
             <h5 class="section-label mb-1">
                 <span class="align-middle">Filter By Status</span>
             </h5>
-            <div class="form-check mb-1">
-                <input type="checkbox" class="form-check-input select-all" id="select-all" checked />
-                <label class="form-check-label" for="select-all">View All</label>
-            </div>
 			<div class="calendar-events-filter">
                 <div class="form-check form-check-info mb-1">
                     <input type="checkbox" class="form-check-input input-filter" id="todo-task" data-value="todo-task"

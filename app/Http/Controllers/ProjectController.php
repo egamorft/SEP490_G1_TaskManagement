@@ -604,13 +604,13 @@ class ProjectController extends Controller
 			}
 
 			switch($_GET["role"]) {
-				case "Creator":
+				case "creator":
 					$subTasksQuery->where("created_by", Auth::user()->id);
 					break;
-				case "Assignee":
+				case "assignee":
 					$subTasksQuery->where("assign_to", Auth::user()->id);
 					break;
-				case "Reviewer":
+				case "reviewer":
 					$subTasksQuery->where("review_by", Auth::user()->id);
 					break;
 				default:
