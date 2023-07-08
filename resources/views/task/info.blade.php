@@ -81,14 +81,25 @@
             <hr class="mb-0" />
             <div class="row m-0">
 				@foreach ($contents as $stat)
-				@if ($subTask->status == $stat["value"])
-					<button type="button" style="padding: 15px;"
-						class="task-status d-inline-flex col btn btn-primary dropdown-toggle {{ $stat["class_color"] }}" data-bs-toggle="dropdown"
-						aria-expanded="false">
-							<i data-feather='{{ $stat["icon"] }}' class="cursor-pointer me-50"></i>
-							<span class="align-middle">{{ $stat["name"] }}</span>
-					</button>
-					@endif
+                    @if (strtotime($subTask->due_date) < time() && ($subTask->status == 1 || $subTask->status == 10))
+                        @if ($stat["id"] == 'overdue')
+                            <button type="button" style="padding: 15px;"
+                                class="task-status d-inline-flex col btn btn-primary dropdown-toggle {{ $stat["class_color"] }}" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                    <i data-feather='{{ $stat["icon"] }}' class="cursor-pointer me-50"></i>
+                                    <span class="align-middle">{{ $stat["name"] }}</span>
+                            </button>
+                        @endif
+                    @else
+                        @if ($subTask->status == $stat["value"])
+                            <button type="button" style="padding: 15px;"
+                                class="task-status d-inline-flex col btn btn-primary dropdown-toggle {{ $stat["class_color"] }}" data-bs-toggle="dropdown"
+                                aria-expanded="false">
+                                    <i data-feather='{{ $stat["icon"] }}' class="cursor-pointer me-50"></i>
+                                    <span class="align-middle">{{ $stat["name"] }}</span>
+                            </button>
+                        @endif
+                    @endif
 				@endforeach
                 <ul class="dropdown-menu" style="width: 250px;">
                     <li>
