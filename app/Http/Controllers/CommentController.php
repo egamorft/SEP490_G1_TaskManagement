@@ -31,6 +31,25 @@ class CommentController extends Controller
     }
 
     public function reply(CommentRequest $request, $slug, $parentId) {
-        // $parentComment = Commenet
+        $parentComment = Comment::where("id", $parentId)->first();
+
+        if (empty($request->input("commentContent"))) {
+            return back();
+        }
+
+        if ($parentComment->parent_id != 0) {
+            $parentComment = Comment::where("parent_id", $parentComment->parent_id)->first();
+        }
+
+        $replyComment = [
+            "sub_task_id" => $parentComment->sub_task_id,
+            "content" => $request->input("commentContet"),
+            "visible" => 1,
+            "parent_id" => $parentComment->id,
+            "created_by" => Auth::user()->id
+        ];
+
+        Comment::create($replyComment);
+        return back();
     }
 }

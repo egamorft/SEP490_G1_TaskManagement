@@ -113,27 +113,27 @@ class SubTaskController extends Controller
             return response()->json([
                 "success" => false,
                 "message" => "Task start date must be greater than project start date"
-            ]);
+            ], 404);
         }
 
         if (strtotime($endDate) > strtotime($project->end_date)) {
             return response()->json([
                 "success" => false,
                 "message" => "Task due date must be less than project end date"
-            ]);
+            ], 404);
         }
 
         if (strtotime($startDate) < strtotime(Carbon::now())) {
             return response()->json([
                 "success" => false,
                 "message" => "Task due date must be greater than today"
-            ]); 
+            ], 404); 
         }
 
         $validateInput = self::validate_input($request);
 
         if ($validateInput["success"] != true) {
-            return response()->json($validateInput);
+            return response()->json($validateInput, 404);
         }
 
         $files = Commons::uploadFile($request, "taskAttachments");
@@ -170,27 +170,27 @@ class SubTaskController extends Controller
             return response()->json([
                 "success" => false,
                 "message" => "Task start date must be greater than project start date"
-            ]);
+            ], 404);
         }
 
         if (strtotime($endDate) > strtotime($project->end_date)) {
             return response()->json([
                 "success" => false,
                 "message" => "Task due date must be less than project end date"
-            ]);
+            ], 404);
         }
 
         if (strtotime($startDate) < strtotime(Carbon::now())) {
             return response()->json([
                 "success" => false,
                 "message" => "Task due date must be greater than today"
-            ]); 
+            ], 404); 
         }
 
         $validateInput = self::validate_input($request);
 
         if ($validateInput["success"] != true) {
-            return response()->json($validateInput);
+            return response()->json($validateInput, 404);
         }
 
         $files = Commons::uploadFile($request, "taskAttachments");
