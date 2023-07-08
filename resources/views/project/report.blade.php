@@ -37,6 +37,7 @@
                                 <th>Progress</th>
                                 <th>Todo</th>
                                 <th>Doing</th>
+                                <th>Reviewing</th>
                                 <th>Ontime</th>
                                 <th>Late</th>
                                 <th>Overdue</th>
@@ -64,12 +65,12 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-
+                                <td class="text-info">1</td>
+                                <td class="text-primary">1</td>
+                                <td class="text-warning">1</td>
+                                <td class="text-success">1</td>
+                                <td class="text-secondary">1</td>
+                                <td class="text-danger">1</td>
                             </tr>
                             <tr class="even">
                                 <td class=" control" tabindex="0" style="display: none;"></td>
@@ -92,11 +93,12 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>4</td>
-								<td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
+                                <td class="text-info">12</td>
+                                <td class="text-primary">11</td>
+                                <td class="text-warning">12</td>
+                                <td class="text-success">4</td>
+                                <td class="text-secondary">21</td>
+                                <td class="text-danger">13</td>
                             </tr>
                             <tr class="odd">
                                 <td class=" control" tabindex="0" style="display: none;"></td>
@@ -119,11 +121,12 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>5</td>
-								<td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
+                                <td class="text-info">51</td>
+                                <td class="text-primary">1</td>
+                                <td class="text-warning">14</td>
+                                <td class="text-success">1</td>
+                                <td class="text-secondary">51</td>
+                                <td class="text-danger">6</td>
                             </tr>
                             <tr class="even">
                                 <td class=" control" tabindex="0" style="display: none;"></td>
@@ -146,11 +149,12 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>45</td>
-								<td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
+                                <td class="text-info">1</td>
+                                <td class="text-primary">61</td>
+                                <td class="text-warning">1</td>
+                                <td class="text-success">91</td>
+                                <td class="text-secondary">1</td>
+                                <td class="text-danger">1</td>
                             </tr>
                             <tr class="odd">
                                 <td class=" control" tabindex="0" style="display: none;"></td>
@@ -173,11 +177,12 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>6</td>
-								<td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
+                                <td class="text-info">1</td>
+                                <td class="text-primary">1</td>
+                                <td class="text-warning">1</td>
+                                <td class="text-success">1</td>
+                                <td class="text-secondary">1</td>
+                                <td class="text-danger">1</td>
                             </tr>
                             <tr class="even">
                                 <td class=" control" tabindex="0" style="display: none;"></td>
@@ -200,11 +205,12 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>19</td>
-								<td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
+                                <td class="text-info">1</td>
+                                <td class="text-primary">1</td>
+                                <td class="text-warning">1</td>
+                                <td class="text-success">1</td>
+                                <td class="text-secondary">1</td>
+                                <td class="text-danger">1</td>
                             </tr>
                             <tr class="odd">
                                 <td class=" control" tabindex="0" style="display: none;"></td>
@@ -227,11 +233,12 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>89</td>
-								<td>1</td>
-                                <td>1</td>
-                                <td>1</td>
-                                <td>1</td>
+                                <td class="text-info">1</td>
+                                <td class="text-primary">1</td>
+                                <td class="text-warning">1</td>
+                                <td class="text-success">1</td>
+                                <td class="text-secondary">1</td>
+                                <td class="text-danger">1</td>
                             </tr>
                         </tbody>
                     </table>
