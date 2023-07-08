@@ -85,6 +85,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
 
     Route::group(['prefix' => 'project'], function () {
+		Route::get('{slug}/board', [ProjectController::class, 'board'])->name('project.board');
         Route::get('{slug}', [ProjectController::class, 'index'])->name('project.settings')
             ->middleware('check.project.access');
         Route::post('update-information/{id}', [ProjectController::class, 'update'])->name('project.update');
