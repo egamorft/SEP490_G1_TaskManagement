@@ -18,7 +18,7 @@
                     </div>
                 </div>
 
-                <form id="removeReviewerForm" class="row" method="POST" action="{{ route('remove.reviewer', ['slug'=>$project->slug]) }}">
+                <form id="removeReviewerForm" class="row" method="POST" action="{{ route('remove.reviewer', ['slug'=>$project->slug, "id" => $subTask->id]) }}">
                     @csrf
                     <div class="text-center mt-2">
                         <input type="hidden" name="task_id" value="{{ $subTask->id }}">

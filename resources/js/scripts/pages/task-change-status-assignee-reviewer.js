@@ -19,8 +19,6 @@ $(window).on("load", function () {
 		var csrfToken = $('input[name="csrf-token"]').val();
 		var isRtl = $('html').attr('data-textdirection') === 'rtl';
 
-		console.log(task_id);
-		console.log(acc_id);
 		$.ajax({
 			url: "assign-to",
 			method: "POST",
@@ -34,7 +32,7 @@ $(window).on("load", function () {
 			success: function (response) {
 				// Handle success response
 				setTimeout(function () {
-					toastr["success"](response.message, "Success!", {
+					toastr["success"](response.responseJSON.message, "Success!", {
 						showMethod: "slideDown",
 						hideMethod: "slideUp",
 						progressBar: true,
@@ -43,12 +41,12 @@ $(window).on("load", function () {
 						rtl: isRtl,
 					});
 				}, 2000);
-				// window.location.reload();
+				window.location.reload();
 			},
 			error: function (response) {
 				// Handle error response
 				setTimeout(function () {
-					toastr["error"](response.message, "Error!", {
+					toastr["error"](response.responseJSON.message, "Error!", {
 						showMethod: "slideDown",
 						hideMethod: "slideUp",
 						progressBar: true,
@@ -82,7 +80,7 @@ $(window).on("load", function () {
 			success: function (response) {
 				// Handle success response
 				setTimeout(function () {
-					toastr["success"](response.message, "Success!", {
+					toastr["success"](response.responseJSON.message, "Success!", {
 						showMethod: "slideDown",
 						hideMethod: "slideUp",
 						progressBar: true,
@@ -91,11 +89,12 @@ $(window).on("load", function () {
 						rtl: isRtl,
 					});
 				}, 2000);
+				window.location.reload();
 			},
 			error: function (response) {
 				// Handle error response
 				setTimeout(function () {
-					toastr["error"](response.message, "Error!", {
+					toastr["error"](response.responseJSON.message, "Error!", {
 						showMethod: "slideDown",
 						hideMethod: "slideUp",
 						progressBar: true,
@@ -128,7 +127,7 @@ $(window).on("load", function () {
 			success: function (response) {
 				// Handle success response
 				setTimeout(function () {
-					toastr["success"](response.message, "Success!", {
+					toastr["success"](response.responseJSON.message, "Success!", {
 						showMethod: "slideDown",
 						hideMethod: "slideUp",
 						progressBar: true,
@@ -142,7 +141,7 @@ $(window).on("load", function () {
 			error: function (response) {
 				// Handle error response
 				setTimeout(function () {
-					toastr["error"](response.message, "Error!", {
+					toastr["error"](response.responseJSON.message, "Error!", {
 						showMethod: "slideDown",
 						hideMethod: "slideUp",
 						progressBar: true,
