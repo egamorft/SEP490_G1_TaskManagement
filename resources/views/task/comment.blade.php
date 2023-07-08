@@ -5,14 +5,6 @@
                 <div class="col-md-6 text-left">
                     <span class="count_comment">264235 Comments</span>
                 </div>
-                <div class="col-md-6 d-flex justify-content-end">
-                    <span class="sort_title">Sort by</span>
-                    <select class="sort_by">
-                        <option>Top</option>
-                        <option>Newest</option>
-                        <option>Oldest</option>
-                    </select>
-                </div>
             </div>
         </div>
 

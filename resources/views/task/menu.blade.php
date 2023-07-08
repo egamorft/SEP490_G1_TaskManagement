@@ -59,7 +59,7 @@
                                             }
                                         @endphp
                                         <li class="todo-item {{ $currentSubTask }}">
-                                            <a href="{{ route("show.task", ["slug" => $project->slug, "task_id" => $st->id])}}" class="todo-title-wrapper">
+                                            <a href="{{ route("show.task", ["slug" => $project->slug, "task_id" => $st->id])}}" class="text-dark todo-title-wrapper">
                                                 <div class="todo-title-area">
                                                     <div class="title-wrapper">
                                                         @foreach ($contents as $stat)
