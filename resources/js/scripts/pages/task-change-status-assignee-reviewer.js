@@ -67,8 +67,8 @@ $(window).on("load", function () {
 		var csrfToken = $('input[name="csrf-token"]').val();
 		var isRtl = $('html').attr('data-textdirection') === 'rtl';
 
-		console.log(task_id);
-		console.log(acc_id);
+		// console.log(task_id);
+		// console.log(acc_id);
 		$.ajax({
 			url: "assign-to",
 			method: "POST",
