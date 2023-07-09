@@ -79,9 +79,9 @@ class ProjectController extends Controller
         $roles = Role::all();
         $permissions = Permission::all();
 
+		$pageConfigs = ['pageHeader' => false];
 
-
-        return view('content.components.component-tabs')
+        return view('project.settings', ['pageConfigs' => $pageConfigs, 'page' => 'settings'])
             ->with(compact(
                 'project',
                 'pmAccount',
@@ -543,12 +543,72 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Project or role not found'], 404);
     }
 
+	/**
+	 * Display a report view of project
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
+	public function view_report($slug)
+	{
+		//Project info & members
+		$project = Project::where('slug', $slug)->first();
+		$accounts = $project->accounts()->get();
+
+		$pmAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('pm', 1)
+			->first();
+
+		$supervisorAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('supervisor', 1)
+			->first();
+
+		$pendingSupervisorAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('supervisor', 0)
+			->first();
+
+		$memberAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('member', 1)
+			->get();
+
+		$pendingInvitedMemberAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('member', 0)
+			->get();
+
+		$removedMember = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('member', -2)
+			->get();
+
+		$checkLimitation = count($pendingInvitedMemberAccount) + count($memberAccount);
+
+		//Project role & permissions
+		$roles = Role::all();
+		$permissions = Permission::all();
+
+		$pageConfigs = [
+			'pageHeader' => false,
+		];
+
+		return view('project.report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
+			->with(compact(
+				'project',
+				'pmAccount',
+				'supervisorAccount',
+				'memberAccount',
+				'pendingInvitedMemberAccount',
+				'pendingSupervisorAccount',
+				'checkLimitation',
+				'removedMember',
+				'roles',
+				'permissions'
+			));
+	}
+
 	 /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function board($slug)
+    public function view_board($slug)
     {
         //Project info & members
         $project = Project::where('slug', $slug)->first();
@@ -601,7 +661,83 @@ class ProjectController extends Controller
 
 		$pageConfigs = ['pageHeader' => false];
 
-        return view('project.board', ['pageConfigs' => $pageConfigs])
+        return view('project.board', ['pageConfigs' => $pageConfigs, 'page' => 'board'])
+            ->with(compact(
+                'project',
+                'pmAccount',
+                'supervisorAccount',
+                'memberAccount',
+                'pendingInvitedMemberAccount',
+                'pendingSupervisorAccount',
+                'checkLimitation',
+                'removedMember',
+                'roles',
+                'permissions'
+            ));
+    }
+
+	 /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view_board_detail($slug, $board_id)
+    {
+        //Project info & members
+        $project = Project::where('slug', $slug)->first();
+        $accounts = $project->accounts()->get();
+
+        $pmAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('pm', 1)
+            ->first();
+
+        $supervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 1)
+            ->first();
+
+        $pendingSupervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 0)
+            ->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
+        $pendingInvitedMemberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 0)
+            ->get();
+
+        $removedMember = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', -2)
+            ->get();
+
+        $checkLimitation = count($pendingInvitedMemberAccount) + count($memberAccount);
+
+        // //Get all account not in project and active
+        // $excludedAccounts = [$pmAccount->id, $supervisorAccount->id];
+        // $excludedAccounts = array_merge($excludedAccounts, $memberAccount->pluck('id')->toArray());
+
+        // $accountsBeside = Account::whereNotIn('id', $excludedAccounts)
+        //     ->where('is_admin', 0)
+        //     ->where('status', 1)
+        //     ->whereNull('deleted_at')
+        //     ->get();
+        // $accountsNotInProject = $accountsBeside->filter(function ($account) {
+        //     return strpos($account->email, '@fe.edu.vn') === false;
+        // });
+
+        //-----------------------------------------------------------------------------------
+
+        //Project role & permissions
+        $roles = Role::all();
+        $permissions = Permission::all();
+
+		$pageConfigs = [
+			'pageHeader' => false,
+            'pageClass' => 'kanban-application',
+		];
+
+        return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
             ->with(compact(
                 'project',
                 'pmAccount',
