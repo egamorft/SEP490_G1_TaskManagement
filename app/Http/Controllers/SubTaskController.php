@@ -13,6 +13,8 @@ use App\Models\Project;
 use App\Models\SubTask;
 use App\Models\Task;
 use Carbon\Carbon;
+use DateTime;
+use DateTimeZone;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\DB;
@@ -149,6 +151,7 @@ class SubTaskController extends Controller
             "assign_to" => $request->input("taskAssignee"),
             "review_by" => $request->input("taskReviewer"),
             "created_by" => Auth::user()->id,
+            "status" => SubTask::$STATUS_DOING,
             "attachment" => $files,
             "start_date" => $startDate,
             "due_date" => $endDate,
@@ -166,6 +169,7 @@ class SubTaskController extends Controller
         $dates = self::extractDatesFromDuration($request->input('duration'));
         $startDate = $dates['start_date'];
 		$endDate = $dates['end_date'];
+        date_default_timezone_set('Asia/Ho_Chi_Minh');
         if (strtotime($startDate) < strtotime($project->start_date)) {
             return response()->json([
                 "success" => false,
@@ -180,10 +184,10 @@ class SubTaskController extends Controller
             ], 404);
         }
 
-        if (strtotime($startDate) < strtotime(Carbon::now())) {
+        if (strtotime("today", strtotime($startDate)) < time()) {
             return response()->json([
                 "success" => false,
-                "message" => "Task due date must be greater than today"
+                "message" => "Task start date must be greater than today"
             ], 404); 
         }
 
@@ -204,6 +208,7 @@ class SubTaskController extends Controller
         $subTask->description = $request->input("taskDescription");
         $subTask->assign_to = $request->input("taskAssignee");
         $subTask->review_by = $request->input("taskReviewer");
+        $subTask->status = SubTask::$STATUS_DOING;
         $subTask->attachment = $files;
         $subTask->start_date = $startDate;
         $subTask->due_date = $endDate;
