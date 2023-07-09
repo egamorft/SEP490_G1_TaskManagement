@@ -1,7 +1,5 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Roles')
-
 @section('vendor-style')
     <!-- vendor css files -->
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/editors/quill/katex.min.css')) }}">
@@ -116,7 +114,6 @@
         </div>
     </div>
     <!--/ Info Card -->
-
     <hr />
 
     <h4>Board List</h4>

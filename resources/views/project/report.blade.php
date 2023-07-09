@@ -250,7 +250,6 @@
     <!-- ChartJS section end -->
 @endsection
 
-
 @section('vendor-style')
     <!-- vendor css files -->
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">

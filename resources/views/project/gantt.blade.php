@@ -1,12 +1,10 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Project - ' . $project->name )
-
 @section('content')
-@include('project.nav')
-@include('task.gantt')
+	@include('project.header')
+	@include('project.nav')
+	@include('task.gantt')
 @endsection
-
 
 @section('vendor-style')
   <!-- Vendor css files -->
