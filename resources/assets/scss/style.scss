@@ -19,3 +19,27 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	width: 75px;
 	animation-delay: 0.3s;
 }
+
+.pl-5 {
+	padding-left: 50px;
+}
+
+.mr-0 {
+    margin-right: 0 !important;
+}
+
+.pl-0 {
+    padding-left: 0 !important;
+}
+
+.m-0 {
+	margin: 0 !important;
+}
+.border-left {
+	border-left: 1px solid #ebe9f1 !important;
+}
+.border-right {
+	border-right: 1px solid #ebe9f1 !important;
+}
+
+@import 'project-layout';
