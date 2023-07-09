@@ -615,4 +615,10 @@ class ProjectController extends Controller
                 'permissions'
             ));
     }
+
+	public function add_board(Request $request)
+    {
+		Session::flash('error', 'Something went wrong');
+		return redirect()->back();
+    }
 }

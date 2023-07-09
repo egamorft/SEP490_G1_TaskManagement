@@ -96,6 +96,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('remove-member', [ProjectController::class, 'remove_member'])->name('remove.member');
         Route::post('set-pm', [ProjectController::class, 'set_pm'])->name('set.pm');
         Route::post('update-permission', [ProjectController::class, 'updatePermission'])->name('update.permission');
+
+        Route::post('add-board', [ProjectController::class, 'add_board'])->name('add.board');
+
     });
 
     Route::post('/log-out', function () {

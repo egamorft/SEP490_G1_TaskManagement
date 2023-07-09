@@ -106,25 +106,25 @@
 
             <div class="row">
                 <div class="col mt-0">
-                    <div class="avatar float-start bg-white rounded me-1">
+                    <div class="avatar float-start bg-white rounded">
                         <div class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
                             <img src="{{ asset('images/avatars/' . $pmAccount->avatar) }}" alt="Avatar" width="33"
                                 height="33" />
                         </div>
                     </div>
-                    <div class="more-info">
+                    <div class="more-info" style="margin-top: 10px;">
                         <small>Project Manager</small>
                         <h6 class="mb-0">{{ $pmAccount->fullname }}</h6>
                     </div>
                 </div>
                 <div class="col mt-0">
-                    <div class="avatar float-start bg-white rounded me-1">
+                    <div class="avatar float-start bg-white rounded">
                         <div class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
                             <img src="{{ asset('images/avatars/' . $supervisorAccount->avatar) }}" alt="Avatar"
                                 width="33" height="33" />
                         </div>
                     </div>
-                    <div class="more-info">
+                    <div class="more-info" style="margin-top: 10px;">
                         <small>Project Supervisor</small>
                         <h6 class="mb-0">{{ $supervisorAccount->fullname }}</h6>
                     </div>
@@ -134,25 +134,13 @@
                         <small>Other Members</small>
                     </div>
                     <div class="avatar-group">
-                        @php
-                            $limitCount = 0;
-                            $moreMember = 0;
-                        @endphp
                         @foreach ($memberAccount as $acc)
-                            @php
-                                $limitCount++;
-                                if ($limitCount > 2) {
-                                    $moreMember++;
-                                    continue;
-                                }
-                            @endphp
                             <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
                                 title="{{ $acc->fullname }}" class="avatar pull-up">
                                 <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar" width="33"
                                     height="33" />
                             </div>
                         @endforeach
-                        <h6 class="align-self-center cursor-pointer ms-50 mb-0">+{{ $moreMember }}</h6>
                     </div>
                 </div>
             </div>
@@ -175,12 +163,12 @@
                     <div class="col-sm-5">
                         <div class="d-flex align-items-end justify-content-center h-100">
                             <img src="{{ asset('images/illustration/faq-illustrations.svg') }}" class="img-fluid mt-2"
-                                alt="Image" width="72" />
+                                alt="Image" width="87" />
                         </div>
                     </div>
                     <div class="col-sm-7">
                         <div class="card-body text-sm-end text-center ps-sm-0">
-                            <a href="javascript:void(0)" data-bs-target="#addRoleModal" data-bs-toggle="modal"
+                            <a href="javascript:void(0)" data-bs-target="#addBoardModal" data-bs-toggle="modal"
                                 class="stretched-link text-nowrap add-new-role">
                                 <span class="btn btn-primary mb-1">Add New Board</span>
                             </a>
@@ -189,63 +177,31 @@
                 </div>
             </div>
         </div>
-        {{-- ----------- --}}
+        <!-- Board Item -->
         <div class="col-xl-4 col-lg-6 col-md-6">
             <div class="card">
-                <a class="card-body" href="{{ route('project.settings', ['slug' => $project->slug]) }}">
+                <div class="card-body" >
                     <div class="d-flex justify-content-between">
                         <span>Total {{ 4 }} tasks</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
-                        <div class="role-heading">
+                        <a class="role-heading" href="{{ route('project.settings', ['slug' => $project->slug]) }}">
                             <h4 class="fw-bolder">{{ 'Iteration 1' }}</h4>
-                        </div>
+                        </a>
                     </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-xl-4 col-lg-6 col-md-6">
-            <div class="card">
-                <a class="card-body" href="{{ route('project.settings', ['slug' => $project->slug]) }}">
                     <div class="d-flex justify-content-between">
-                        <span>Total {{ 4 }} tasks</span>
+                        <a href="javascript:;" class="role-edit-modal" data-bs-toggle="modal"
+                            data-bs-target="#editBoardModal{{ 0 }}" data-id="{{ 0 }}">
+                            <small>Edit Board</small>
+                        </a>
+                        <a data-id="{{ 0 }}" class="text-body delete-role"><i data-feather="trash-2" class="font-medium-5"></i></a>
                     </div>
-                    <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
-                        <div class="role-heading">
-                            <h4 class="fw-bolder">{{ 'Iteration 1' }}</h4>
-                        </div>
-                    </div>
-                </a>
+                </div>
             </div>
         </div>
-        <div class="col-xl-4 col-lg-6 col-md-6">
-            <div class="card">
-                <a class="card-body" href="{{ route('project.settings', ['slug' => $project->slug]) }}">
-                    <div class="d-flex justify-content-between">
-                        <span>Total {{ 4 }} tasks</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
-                        <div class="role-heading">
-                            <h4 class="fw-bolder">{{ 'Iteration 1' }}</h4>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
-        <div class="col-xl-4 col-lg-6 col-md-6">
-            <div class="card">
-                <a class="card-body" href="{{ route('project.settings', ['slug' => $project->slug]) }}">
-                    <div class="d-flex justify-content-between">
-                        <span>Total {{ 4 }} tasks</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
-                        <div class="role-heading">
-                            <h4 class="fw-bolder">{{ 'Iteration 1' }}</h4>
-                        </div>
-                    </div>
-                </a>
-            </div>
-        </div>
+        <!--/ Board Item -->
+
+
     </div>
     <!--/ Board cards -->
 
@@ -342,6 +298,9 @@
         </div>
     </div>
     <!-- Right Sidebar approve project ends -->
+
+	@include('content._partials._modals.modal-add-new-board')
+
 @endsection
 
 @section('vendor-script')
