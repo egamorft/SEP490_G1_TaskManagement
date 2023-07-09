@@ -13,8 +13,6 @@ $(window).on("load", function () {
     $(".description-button-edit").on("click", function () {
         $(".description-button-edit").hide();
 
-        var content = $(".description-content");
-
         var toolbarOptions = [
             ["bold", "italic", "underline", "strike"], // toggled buttons
             ["blockquote", "code-block"],
@@ -35,7 +33,7 @@ $(window).on("load", function () {
             ["clean"], // remove formatting button
         ];
 
-        var quill = new Quill(".description-content", {
+        var quill = new Quill(".description-content-editor", {
             modules: {
                 toolbar: toolbarOptions,
             },
@@ -45,9 +43,21 @@ $(window).on("load", function () {
         var htmlButton = `
             <div class="description-button">
                 <button type="submit" class="btn btn-primary save-description">Save</button>
-                <button type="reset" class="btn btn-secondary cancel-description">Cancel</button>
+                <button type="button" class="btn btn-secondary cancel-description">Cancel</button>
             </div>
         `;
         $('.kanban-detail-description > div').append(htmlButton);
+        $(".cancel-description").on("click", function() {
+            $('.kanban-detail-description .ql-toolbar').remove();
+            $('.description-content').html(
+                `Đường dẫn : Login → Dashboard → Chọn Project trong side bar mục ‘My Projects’ → Chọn mục
+                Calendar → Hiển thị màn chức năng Calendar View để xem danh sách các task trong project
+                (ảnh mô tả ‘Calendar View.png’)
+                <br>Khi di chuyển Task sang 1 ngày khác trong Calendar thì tiến độ của dự án cũng phải
+                cập nhật theo ngày đó`
+            );
+            $(".description-button-edit").show();
+            $('.description-button').remove();
+        })
     });
 });
