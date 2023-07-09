@@ -21,9 +21,9 @@ return new class extends Migration
             $table->date('start_date');
             $table->date('end_date');
             $table->text('description')->nullable();
-            $table->text('token')->default(0);
-            $table->dateTime('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->dateTime('deleted_at')->nullable();
+            $table->text('token');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('deleted_at')->nullable();
             // $table->timestamps();
         });
     }

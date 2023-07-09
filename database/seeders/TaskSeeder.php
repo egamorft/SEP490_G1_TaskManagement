@@ -6,6 +6,7 @@ use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Task;
 use App\Models\Project;
+use App\Models\TaskList;
 use Faker\Factory as Faker;
 
 class TaskSeeder extends Seeder
@@ -19,17 +20,20 @@ class TaskSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $projects = Project::pluck('id')->toArray();
-
-        foreach ($projects as $project) {
-            for ($i = 0; $i < 5; $i++) {
-                Task::create([
-                    'name' => $faker->word,
-                    'project_id' => $faker->randomElement($projects),
-                    'limitation' => $faker->numberBetween(1, 10),
-                    'description' => $faker->paragraph,
-                ]);
-            }
+        for ($i = 0; $i < 5; $i++) {
+            $start_date = $faker->dateTimeBetween('2023-01-01', '2023-10-31')->format('Y-m-d H:i:s');
+            $end_date = $faker->dateTimeBetween($start_date, $start_date.' +3 weeks')->format('Y-m-d H:i:s');
+            Task::create([
+                'taskList_id' => $faker->randomElement(TaskList::pluck('id')->toArray()),
+                'title' => $faker->sentence,
+                'due_date' => $end_date,
+                'assign_to' => $faker->name,
+                'status' => $faker->boolean,
+                'attachment' => $faker->imageUrl,
+                'description' => $faker->paragraph,
+                'created_at' => $start_date,
+                'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
+            ]);
         }
     }
 }

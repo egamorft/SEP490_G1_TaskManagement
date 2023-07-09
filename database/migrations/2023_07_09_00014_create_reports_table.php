@@ -21,6 +21,7 @@ return new class extends Migration
             $table->text('image');
             $table->integer('status')->default(0);
             $table->text('response');
+            $table->timestamp('created_at')->useCurrent();
             // $table->timestamps();
 
             $table->foreign('created_by')->references('id')->on('accounts')->onDelete('cascade');

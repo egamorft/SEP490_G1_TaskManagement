@@ -31,7 +31,7 @@ class AccountProjectSeeder extends Seeder
                     'project_id' => $project,
                     'account_id' => $account,
                     'role_id' => $role,
-                    'status' => 1
+                    'status' => $faker->randomElement([-2, -1, 0, 1]),
                 ]);
             }
         }

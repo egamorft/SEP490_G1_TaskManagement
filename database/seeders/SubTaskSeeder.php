@@ -20,24 +20,18 @@ class SubTaskSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $tasks = Task::pluck('id')->toArray();
-
-        $accounts = Account::pluck('id')->toArray();
-
-        foreach ($tasks as $task) {
-            for ($i = 0; $i < 5; $i++) {
-                SubTask::create([
-                    'name' => $faker->word,
-                    'task_id' => $faker->randomElement($tasks),
-                    'image' => $faker->imageUrl(200, 200),
-                    'description' => $faker->paragraph,
-                    'assign_to' => $faker->randomElement($accounts),
-                    'attachment' => $faker->imageUrl(200, 200),
-                    'due_date' => $faker->date(),
-                    'created_at' => $faker->date(),
-                    'deleted_at' => $faker->randomElement([$faker->date(), null]),
-                ]);
-            }
+        for ($i = 0; $i < $faker->numberBetween(3, 5); $i++) {
+            $start_date = $faker->dateTimeBetween('2023-01-01', '2023-10-31')->format('Y-m-d H:i:s');
+            $end_date = $faker->dateTimeBetween($start_date, $start_date.' +1 week')->format('Y-m-d H:i:s');
+            SubTask::create([
+                'task_id' => $faker->randomElement(Task::pluck('id')->toArray()),
+                'title' => $faker->sentence,
+                'assign_to' => $faker->randomElement(Account::pluck('id')->toArray()),
+                'due_date' => $end_date,
+                'status' => $faker->randomElement([0, 1]),
+                'created_at' => $start_date,
+                'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
+            ]);
         }
     }
 }
