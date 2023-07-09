@@ -75,11 +75,13 @@
                             </div>
 
                             <div class="description-content custom-css-content">
-                                Đường dẫn : Login → Dashboard → Chọn Project trong side bar mục ‘My Projects’ → Chọn mục
-                                Calendar → Hiển thị màn chức năng Calendar View để xem danh sách các task trong project
-                                (ảnh mô tả ‘Calendar View.png’)
-                                <br />Khi di chuyển Task sang 1 ngày khác trong Calendar thì tiến độ của dự án cũng phải
-                                cập nhật theo ngày đó
+                                <div class="description-content-editor">
+                                    Đường dẫn : Login → Dashboard → Chọn Project trong side bar mục ‘My Projects’ → Chọn mục
+                                    Calendar → Hiển thị màn chức năng Calendar View để xem danh sách các task trong project
+                                    (ảnh mô tả ‘Calendar View.png’)
+                                    <br />Khi di chuyển Task sang 1 ngày khác trong Calendar thì tiến độ của dự án cũng phải
+                                    cập nhật theo ngày đó
+                                </div>
                             </div>
                         </div>
                     </div>
