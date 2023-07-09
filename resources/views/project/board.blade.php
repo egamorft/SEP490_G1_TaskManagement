@@ -143,34 +143,38 @@
                 </div>
             </div>
         </div>
-        <!-- Board Item -->
-        <div class="col-xl-4 col-lg-6 col-md-6">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex justify-content-between">
-                        <span>Total {{ 4 }} tasks</span>
-                    </div>
-                    <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
-                        <a class="role-heading" href="{{ route('view.board.kanban', ['slug' => $project->slug, 'board_id' => 0]) }}">
-                            <h4 class="fw-bolder">{{ 'Iteration 1' }}</h4>
-                        </a>
-                    </div>
-                    <div class="d-flex justify-content-between">
-                        <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
-                            data-bs-target="#editBoardModal{{ 0 }}" data-id="{{ 0 }}">
-                            <small>Edit Board</small>
-                        </a>
-                        <a data-id="{{ 0 }}" href="javascript:;" class="board-edit-modal"
-                            data-bs-toggle="modal" data-bs-target="#removeBoardModal{{ 0 }}"
-                            class="text-body delete-board"><i data-feather="trash-2" class="font-medium-5"></i></a>
-                    </div>
-                    @include('content._partials._modals.modal-edit-board')
-                    @include('content._partials._modals.modal-remove-board')
-                </div>
-            </div>
-        </div>
-        <!--/ Board Item -->
-
+		@php
+			$boards = [1,2,3,4,5];
+		@endphp
+		@foreach ($boards as $board)
+			<!-- Board Item -->
+			<div class="col-xl-4 col-lg-6 col-md-6">
+				<div class="card">
+					<div class="card-body">
+						<div class="d-flex justify-content-between">
+							<span>Total {{ 4 }} tasks</span>
+						</div>
+						<div class="d-flex justify-content-between align-items-end mt-1 pt-25">
+							<a class="role-heading" href="{{ route('view.board.kanban', ['slug' => $project->slug, 'board_id' => 0]) }}">
+								<h4 class="fw-bolder">{{ 'Iteration 1' }}</h4>
+							</a>
+						</div>
+						<div class="d-flex justify-content-between">
+							<a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
+								data-bs-target="#editBoardModal{{ 0 }}" data-id="{{ 0 }}">
+								<small>Edit Board</small>
+							</a>
+							<a data-id="{{ 0 }}" href="javascript:;" class="board-edit-modal"
+								data-bs-toggle="modal" data-bs-target="#removeBoardModal{{ 0 }}"
+								class="text-body delete-board"><i data-feather="trash-2" class="font-medium-5"></i></a>
+						</div>
+						@include('content._partials._modals.modal-edit-board')
+						@include('content._partials._modals.modal-remove-board')
+					</div>
+				</div>
+			</div>
+			<!--/ Board Item -->
+		@endforeach
 
     </div>
     <!--/ Board cards -->
