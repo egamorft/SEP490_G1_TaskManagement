@@ -45,6 +45,31 @@ class AccountSeeder extends Seeder
             'deleted_at' => null,
         ]);
 
+        //supervisor account
+        Account::create([
+            'fullname' => 'supervisor one',
+            'email' => 'testingg@fe.edu.vn',
+            'password' => Hash::make('password'),
+            'address' => 'Hà Nội',
+            'avatar' => 'S.png',
+            'token' => null,
+            'is_admin' => 0,
+            'status' => 1,
+            'deleted_at' => null,
+        ]);
+
+        Account::create([
+            'fullname' => 'supervisor two',
+            'email' => 'testing@fe.edu.vn',
+            'password' => Hash::make('password'),
+            'address' => 'Hải Phòng',
+            'avatar' => 'S.png',
+            'token' => null,
+            'is_admin' => 0,
+            'status' => 1,
+            'deleted_at' => null,
+        ]);
+
         $faker = Faker::create();
 
         for ($i = 0; $i < 5; $i++) {
