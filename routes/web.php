@@ -106,6 +106,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('add-board', [ProjectController::class, 'add_board'])->name('add.board');
         Route::post('edit-board', [ProjectController::class, 'edit_board'])->name('edit.board');
         Route::post('remove-board', [ProjectController::class, 'remove_board'])->name('remove.board');
+		Route::get('{slug}/board/{board_id}/kanban/&show=task&id={id?}', [ProjectController::class, 'view_board_kanban'])->name('view.task');
 
     });
 
