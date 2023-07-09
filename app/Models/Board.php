@@ -13,7 +13,6 @@ class Board extends Model
     protected $fillable = [
         'title',
         'project_id',
-        'limitation',
         'created_at',
         'deleted_at'
     ];

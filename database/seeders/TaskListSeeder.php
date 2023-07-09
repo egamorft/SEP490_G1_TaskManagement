@@ -23,7 +23,6 @@ class TaskListSeeder extends Seeder
             TaskList::create([
                 'title' => $faker->word,
                 'board_id' => $faker->randomElement(Board::pluck('id')->toArray()),
-                'limitation' => $faker->numberBetween(3, 7),
                 'created_at' => $faker->dateTime()->format('Y-m-d H:i:s'),
                 'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
             ]);
