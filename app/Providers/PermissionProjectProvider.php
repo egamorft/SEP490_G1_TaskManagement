@@ -46,7 +46,7 @@ class PermissionProjectProvider extends ServiceProvider
                         ->where('role_id', $role_id)
                         ->pluck('permission_id')
                         ->toArray();
-						return true;
+						// return true;
                     return in_array($permission->id, $permissions);
                 }
             }

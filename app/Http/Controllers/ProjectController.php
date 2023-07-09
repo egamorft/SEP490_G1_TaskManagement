@@ -621,4 +621,14 @@ class ProjectController extends Controller
 		Session::flash('error', 'Something went wrong');
 		return redirect()->back();
     }
+	public function edit_board(Request $request)
+    {
+		Session::flash('error', 'Something went wrong');
+		return redirect()->back();
+    }
+	public function remove_board(Request $request)
+    {
+		Session::flash('error', 'Something went wrong');
+		return redirect()->back();
+    }
 }

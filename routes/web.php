@@ -98,6 +98,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('update-permission', [ProjectController::class, 'updatePermission'])->name('update.permission');
 
         Route::post('add-board', [ProjectController::class, 'add_board'])->name('add.board');
+        Route::post('edit-board', [ProjectController::class, 'edit_board'])->name('edit.board');
+        Route::post('remove-board', [ProjectController::class, 'remove_board'])->name('remove.board');
+
 
     });
 

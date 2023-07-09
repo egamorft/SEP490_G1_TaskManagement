@@ -180,7 +180,7 @@
         <!-- Board Item -->
         <div class="col-xl-4 col-lg-6 col-md-6">
             <div class="card">
-                <div class="card-body" >
+                <div class="card-body">
                     <div class="d-flex justify-content-between">
                         <span>Total {{ 4 }} tasks</span>
                     </div>
@@ -190,12 +190,16 @@
                         </a>
                     </div>
                     <div class="d-flex justify-content-between">
-                        <a href="javascript:;" class="role-edit-modal" data-bs-toggle="modal"
+                        <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
                             data-bs-target="#editBoardModal{{ 0 }}" data-id="{{ 0 }}">
                             <small>Edit Board</small>
                         </a>
-                        <a data-id="{{ 0 }}" class="text-body delete-role"><i data-feather="trash-2" class="font-medium-5"></i></a>
+                        <a data-id="{{ 0 }}" href="javascript:;" class="board-edit-modal"
+                            data-bs-toggle="modal" data-bs-target="#removeBoardModal{{ 0 }}"
+                            class="text-body delete-board"><i data-feather="trash-2" class="font-medium-5"></i></a>
                     </div>
+                    @include('content._partials._modals.modal-edit-board')
+                    @include('content._partials._modals.modal-remove-board')
                 </div>
             </div>
         </div>
@@ -299,7 +303,7 @@
     </div>
     <!-- Right Sidebar approve project ends -->
 
-	@include('content._partials._modals.modal-add-new-board')
+    @include('content._partials._modals.modal-add-new-board')
 
 @endsection
 
