@@ -79,9 +79,9 @@ class ProjectController extends Controller
         $roles = Role::all();
         $permissions = Permission::all();
 
+		$pageConfigs = ['pageHeader' => false];
 
-
-        return view('content.components.component-tabs')
+        return view('project.settings', ['pageConfigs' => $pageConfigs, 'page' => 'settings'])
             ->with(compact(
                 'project',
                 'pmAccount',
@@ -585,11 +585,10 @@ class ProjectController extends Controller
 		$permissions = Permission::all();
 
 		$pageConfigs = [
-			'pageHeader' => true,
+			'pageHeader' => false,
 		];
-		$breadcrumbs = [['link' => "javascript:void(0)", 'name' => "Doing"]];
 
-		return view('project.report', ['breadcrumbs' => $breadcrumbs, 'pageConfigs' => $pageConfigs, 'page' => 'report'])
+		return view('project.report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
 			->with(compact(
 				'project',
 				'pmAccount',
@@ -662,7 +661,7 @@ class ProjectController extends Controller
 
 		$pageConfigs = ['pageHeader' => false];
 
-        return view('project.board', ['pageConfigs' => $pageConfigs])
+        return view('project.board', ['pageConfigs' => $pageConfigs, 'page' => 'board'])
             ->with(compact(
                 'project',
                 'pmAccount',
@@ -738,7 +737,7 @@ class ProjectController extends Controller
             'pageClass' => 'kanban-application',
 		];
 
-        return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'kanban'])
+        return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
             ->with(compact(
                 'project',
                 'pmAccount',

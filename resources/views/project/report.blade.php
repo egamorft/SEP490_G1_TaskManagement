@@ -1,9 +1,7 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Project - ' . $project->name)
-
 @section('content')
-    @include('project.nav')
+    @include('project.header')
 
     <!-- ChartJS section start -->
     <section id="chartjs-chart">

@@ -96,7 +96,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('set-pm', [ProjectController::class, 'set_pm'])->name('set.pm');
         Route::post('update-permission', [ProjectController::class, 'updatePermission'])->name('update.permission');
 
-        Route::get('{slug}/report', [ProjectController::class, 'view_report'])->name('project.report');
+        Route::get('{slug}/report', [ProjectController::class, 'view_report'])->name('view.project.report');
 		Route::get('{slug}/board', [ProjectController::class, 'view_board'])->name('view.project.board');
 		Route::get('{slug}/board/{board_id}', [ProjectController::class, 'view_board_detail'])->name('view.board.detail');
         Route::post('add-board', [ProjectController::class, 'add_board'])->name('add.board');
