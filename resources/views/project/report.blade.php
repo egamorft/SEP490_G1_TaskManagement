@@ -25,11 +25,10 @@
 			 <div class="col-xl-8 col-12">
 				<div class="card">
                     <div class="card-header flex-column align-items-start">
-                        <h4 class="card-title mb-75">Daily progression</h4>
-                        <span class="card-subtitle text-muted">Task breakdown by statuses </span>
+                        <h4 class="card-title mb-75">Weekly progression</h4>
                     </div>
                     <div class="card-body">
-						<div id="chartContainer" style="height: 370px; width: 100%;"></div>
+						<div id="chartContainer" style="height: 327px; width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -269,18 +268,18 @@
             var chart = new CanvasJS.Chart("chartContainer", {
                 animationEnabled: true,
                 title: {
-                    text: "Google - Consolidated Quarterly Revenue",
-                    fontFamily: "arial black",
-                    fontColor: "#695A42"
+                    text: "",
+                    fontFamily: "Helvetica, Arial, sans-serif",
+                    fontColor: "#6e6b7b !important"
                 },
                 axisX: {
                     interval: 1,
                     intervalType: "year"
                 },
                 axisY: {
-                    valueFormatString: "$#0bn",
-                    gridColor: "#B6B1A8",
-                    tickColor: "#B6B1A8"
+                    valueFormatString: "# Tasks",
+                    gridColor: "#6e6b7b",
+                    tickColor: "#6e6b7b"
                 },
                 toolTip: {
                     shared: true,
@@ -289,8 +288,8 @@
                 data: [{
                         type: "stackedColumn",
                         showInLegend: true,
-                        color: "#696661",
-                        name: "Q1",
+                        color: "#00cfe8",
+                        name: "Todo",
                         dataPoints: [{
                                 y: 6.75,
                                 x: new Date(2010, 0)
@@ -324,8 +323,8 @@
                     {
                         type: "stackedColumn",
                         showInLegend: true,
-                        name: "Q2",
-                        color: "#EDCA93",
+                        name: "Doing",
+                        color: "#7367f0",
                         dataPoints: [{
                                 y: 6.82,
                                 x: new Date(2010, 0)
@@ -359,8 +358,8 @@
                     {
                         type: "stackedColumn",
                         showInLegend: true,
-                        name: "Q3",
-                        color: "#695A42",
+                        name: "Reviewing",
+                        color: "#ff9f43",
                         dataPoints: [{
                                 y: 7.28,
                                 x: new Date(2010, 0)
@@ -394,8 +393,78 @@
                     {
                         type: "stackedColumn",
                         showInLegend: true,
-                        name: "Q4",
-                        color: "#B6B1A8",
+                        name: "Ontime",
+                        color: "#28c76f",
+                        dataPoints: [{
+                                y: 8.44,
+                                x: new Date(2010, 0)
+                            },
+                            {
+                                y: 10.58,
+                                x: new Date(2011, 0)
+                            },
+                            {
+                                y: 14.41,
+                                x: new Date(2012, 0)
+                            },
+                            {
+                                y: 16.86,
+                                x: new Date(2013, 0)
+                            },
+                            {
+                                y: 10.64,
+                                x: new Date(2014, 0)
+                            },
+                            {
+                                y: 21.32,
+                                x: new Date(2015, 0)
+                            },
+                            {
+                                y: 26.06,
+                                x: new Date(2016, 0)
+                            }
+                        ]
+                    },
+                    {
+                        type: "stackedColumn",
+                        showInLegend: true,
+                        name: "Late",
+                        color: "#82868b",
+                        dataPoints: [{
+                                y: 8.44,
+                                x: new Date(2010, 0)
+                            },
+                            {
+                                y: 10.58,
+                                x: new Date(2011, 0)
+                            },
+                            {
+                                y: 14.41,
+                                x: new Date(2012, 0)
+                            },
+                            {
+                                y: 16.86,
+                                x: new Date(2013, 0)
+                            },
+                            {
+                                y: 10.64,
+                                x: new Date(2014, 0)
+                            },
+                            {
+                                y: 21.32,
+                                x: new Date(2015, 0)
+                            },
+                            {
+                                y: 26.06,
+                                x: new Date(2016, 0)
+                            }
+                        ]
+                    },
+                    {
+                        type: "stackedColumn",
+                        showInLegend: true,
+                        name: "Overdue",
+                        color: "#ea5455",
                         dataPoints: [{
                                 y: 8.44,
                                 x: new Date(2010, 0)

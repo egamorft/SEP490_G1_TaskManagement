@@ -757,7 +757,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function view_board_gantt($slug, $board_id)
+    public function view_gantt($slug)
     {
         //Project info & members
         $project = Project::where('slug', $slug)->first();
@@ -812,7 +812,7 @@ class ProjectController extends Controller
 			'pageHeader' => false,
 		];
 
-        return view('project.gantt', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'gantt'])
+        return view('project.gantt', ['pageConfigs' => $pageConfigs, 'page' => 'gantt'])
             ->with(compact(
                 'project',
                 'pmAccount',

@@ -2,7 +2,6 @@
 
 @section('content')
 	@include('project.header')
-	@include('project.nav')
 	@include('task.gantt')
 @endsection
 
