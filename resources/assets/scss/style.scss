@@ -42,5 +42,16 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	border-right: 1px solid #ebe9f1 !important;
 }
 
+.picker {
+	top: auto;
+}
+#task-desc.ql-container, #task-desc .ql-editor {
+	height: auto;
+}
+
+.content-header-right .border-bottom-primary {
+    border-bottom: 3px solid #7367f0;
+    border-radius: 0;
+}
 @import 'project-layout';
 @import 'kanban-detail';

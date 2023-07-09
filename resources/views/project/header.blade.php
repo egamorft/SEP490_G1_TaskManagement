@@ -1,6 +1,6 @@
 <!-- Project Header -->
 <div class="content-header row mb-0">
-	<h3 class="content-header-left col-md-7 col-12 mb-0">
+	<h3 class="mt-1 content-header-left col-md-7 col-12 mb-0">
 		<span class="menu-title text-truncate">Project: {{ $project->name }}</span>
 	</h3>
 	<div class="content-header-right text-md-end col-md-5 col-12 d-md-block d-none">

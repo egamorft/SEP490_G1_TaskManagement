@@ -1,16 +1,18 @@
-
+@include('content._partials._modals.modal-add-new-task')
+@include('content._partials._modals.modal-add-new-task-list')
 <!-- Sidebar -->
 <div class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column" id="app-calendar-sidebar">
     <div class="sidebar-wrapper">
         <div class="card-body add-task d-flex justify-content-center">
-                <button type="button" class="btn btn-primary dropdown-toggle w-100" data-bs-toggle="dropdown"
-                    aria-expanded="false">
-                    Add Task
-                </button>
-                <ul class="dropdown-menu" style="width: 210px;"">
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addNewTask">Add New Task</a></li>
-                    <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addNewTaskList">Add New Task List</a></li>
-                </ul>
+            <button type="button" class="btn btn-primary dropdown-toggle w-100" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Add Task
+            </button>
+            <ul class="dropdown-menu" style="width: 210px;"">
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addNewTask">Add New Task</a></li>
+                <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addNewTaskList">Add New Task
+                        List</a></li>
+            </ul>
         </div>
         <div class="pt-0 pb-0 card-body d-flex justify-content-center">
             <!-- Todo search starts -->
@@ -44,18 +46,18 @@
                     <i data-feather="check-circle" class="font-medium-3 me-50"></i> <span
                         class="align-middle">Assignee</span>
                 </a>
-                <a href="#" class="list-group-item list-group-item-action" id="reviewer_role">
-                    <i data-feather="star" class="font-medium-3 me-50"></i> <span class="align-middle">Reviewer</span>
-                </a>
             </div>
         </div>
-
         <div class="card-body pb-0">
             <h5 class="section-label mb-1">
                 <span class="align-middle">Filter By Status</span>
             </h5>
-			<div class="calendar-events-filter">
-                <div class="form-check form-check-info mb-1">
+            <div class="form-check mb-1">
+                <input type="checkbox" class="form-check-input select-all" id="select-all" checked />
+                <label class="form-check-label" for="select-all">View All</label>
+            </div>
+            <div class="calendar-events-filter">
+				<div class="form-check form-check-info mb-1">
                     <input type="checkbox" class="form-check-input input-filter" id="todo-task" data-value="todo-task"
                         checked />
                     <label class="form-check-label" for="todo-task">Todo</label>
@@ -86,6 +88,31 @@
                     <label class="form-check-label" for="overdue-task">Overdue</label>
                 </div>
 
+                <div class="form-check form-check-danger mb-1">
+                    <input type="checkbox" class="form-check-input input-filter" id="personal" data-value="personal"
+                        checked />
+                    <label class="form-check-label" for="personal">Personal</label>
+                </div>
+                <div class="form-check form-check-primary mb-1">
+                    <input type="checkbox" class="form-check-input input-filter" id="business" data-value="business"
+                        checked />
+                    <label class="form-check-label" for="business">Business</label>
+                </div>
+                <div class="form-check form-check-warning mb-1">
+                    <input type="checkbox" class="form-check-input input-filter" id="family" data-value="family"
+                        checked />
+                    <label class="form-check-label" for="family">Family</label>
+                </div>
+                <div class="form-check form-check-success mb-1">
+                    <input type="checkbox" class="form-check-input input-filter" id="holiday" data-value="holiday"
+                        checked />
+                    <label class="form-check-label" for="holiday">Holiday</label>
+                </div>
+                <div class="form-check form-check-info">
+                    <input type="checkbox" class="form-check-input input-filter" id="etc" data-value="etc"
+                        checked />
+                    <label class="form-check-label" for="etc">ETC</label>
+                </div>
             </div>
         </div>
     </div>
