@@ -260,8 +260,15 @@ $(function () {
                 flag = true;
             });
             setTimeout(function () {
+                var elementId = el.attr("data-eid");
+                var url = "/&show=task&id=" + elementId;
+                var currentUrl = window.location.href.split("/&", (window.location.href).length)[0];
+                currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
                 if (flag === false) {
                     sidebar.modal("show");
+                    if (url != currentUrl) {
+                        history.replaceState(null, null, window.location.pathname + url);
+                    }
                 }
             }, 50);
             sidebar.find(".update-item-form").on("submit", function (e) {
@@ -492,4 +499,9 @@ $(function () {
             updateItemSidebar.find(".file-attachments").val("");
         });
     }
+
+    $('.btn-close').on("click", function() {
+        var url = window.location.href.split("/&", window.location.href.toString().length)[0];
+        history.replaceState(null, null, url);
+    });
 });
