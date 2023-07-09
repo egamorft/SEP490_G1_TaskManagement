@@ -11,16 +11,16 @@ class Comment extends Model
     public $timestamps = false;
     protected $table = 'comments';
     protected $fillable = [
-        'sub_task_id',
+        'task_id',
         'content',
-        'visible',
         'created_by',
         'updated_at',
     ];
 
-    public function subTask()
+    // Define the relationships
+    public function task()
     {
-        return $this->belongsTo(SubTask::class);
+        return $this->belongsTo(Task::class);
     }
 
     public function createdBy()

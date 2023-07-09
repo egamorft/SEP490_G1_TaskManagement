@@ -19,13 +19,39 @@ class AccountSeeder extends Seeder
      */
     public function run()
     {
+        //admin account
+        Account::create([
+            'fullname' => 'admin',
+            'email' => 'admin@gmail.com',
+            'password' => Hash::make('password'),
+            'address' => 'admin',
+            'avatar' => 'A.png',
+            'token' => null,
+            'is_admin' => 1,
+            'status' => 1,
+            'deleted_at' => null,
+        ]);
+
+        //user account
+        Account::create([
+            'fullname' => 'user',
+            'email' => 'user@gmail.com',
+            'password' => Hash::make('password'),
+            'address' => 'user',
+            'avatar' => 'U.png',
+            'token' => null,
+            'is_admin' => 0,
+            'status' => 1,
+            'deleted_at' => null,
+        ]);
+
         $faker = Faker::create();
 
         for ($i = 0; $i < 5; $i++) {
             $fullname = $faker->name;
             $avatar = Str::substr($fullname, 0, 1) . '.png';
 
-            $account = Account::create([
+            Account::create([
                 'fullname' => $fullname,
                 'email' => $faker->email,
                 'password' => Hash::make('password'), // Set a default password or use Faker to generate one
@@ -34,7 +60,7 @@ class AccountSeeder extends Seeder
                 'token' => null,
                 'is_admin' => $faker->boolean,
                 'status' => $faker->boolean,
-                'deleted_at' => $faker->randomElement([$faker->date(), null]),
+                'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
             ]);
         }
     }

@@ -22,11 +22,13 @@ class DatabaseSeeder extends Seeder
         $this->call(ProjectSeeder::class);
         $this->call(AccountProjectSeeder::class);
         $this->call(ProjectRolePermissionSeeder::class);
+        $this->call(SocialSeeder::class);
+        $this->call(BoardSeeder::class);
+        $this->call(TaskListSeeder::class);
         $this->call(TaskSeeder::class);
         $this->call(SubTaskSeeder::class);
         $this->call(CommentSeeder::class);
-        $this->call(SocialSeeder::class);
-        $this->call(NotificationSeeder::class);
         $this->call(ReportSeeder::class);
+        $this->call(NotificationSeeder::class);
     }
 }
