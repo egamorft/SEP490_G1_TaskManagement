@@ -49,7 +49,7 @@ $(window).on("load", function () {
         $('.kanban-detail-description > div').append(htmlButton);
         $(".cancel-description").on("click", function() {
             $('.kanban-detail-description .ql-toolbar').remove();
-            $('.description-content').html(
+            $('.description-content-editor').removeClass("ql-container").removeClass("ql-snow").html(
                 `Đường dẫn : Login → Dashboard → Chọn Project trong side bar mục ‘My Projects’ → Chọn mục
                 Calendar → Hiển thị màn chức năng Calendar View để xem danh sách các task trong project
                 (ảnh mô tả ‘Calendar View.png’)
