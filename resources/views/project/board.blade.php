@@ -154,7 +154,7 @@
                         <span>Total {{ 4 }} tasks</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
-                        <a class="role-heading" href="{{ route('view.board.detail', ['slug' => $project->slug, 'board_id' => 0]) }}">
+                        <a class="role-heading" href="{{ route('view.board.kanban', ['slug' => $project->slug, 'board_id' => 0]) }}">
                             <h4 class="fw-bolder">{{ 'Iteration 1' }}</h4>
                         </a>
                     </div>
