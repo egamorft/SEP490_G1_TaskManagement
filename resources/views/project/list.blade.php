@@ -1,13 +1,10 @@
-{{-- @extends('layouts/contentLayoutMaster')
+@extends('layouts/contentLayoutMaster')
 
-@section('title', 'Project - ' . $project->name)
 
 @section('content')
+	@include('project.header')
     @include('project.nav')
-    <div class="row">
-        <div class="col-xl-9 col-md-8 col-12">@include('task.list')</div>
-        <div class="col-xl-3 col-md-4 col-12">@include('project.info')</div>
-    </div>
+	@include('task.list')
 @endsection
 
 
@@ -44,4 +41,5 @@
     <!-- Page js files -->
 	{{-- <script src="{{ asset(mix('js/scripts/pages/dashboard-ecommerce.js')) }}"></script> --}}
 	<script src="{{ asset(mix('js/scripts/pages/task-filter.js')) }}"></script>
-@endsection --}}
+@endsection
+
