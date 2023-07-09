@@ -186,7 +186,7 @@ return [
         //Projet permisison
         App\Providers\PermissionProjectProvider::class,
         //QR code
-        SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        // SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
     ],
 
     /*

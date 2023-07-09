@@ -1,0 +1,133 @@
+.update-item-sidebar {
+    .kanban-detail-header {
+        .kanban-detail-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+
+            .detail-title-text {
+                margin-left: 10px;
+            }
+        }
+
+        .kanban-detail-status {
+            margin-left: 35px;
+        }
+    }
+
+    .kanban-detail-progress {
+        margin-left: 40px;
+        
+        .kanban-detail-noti {
+            margin-right: 10px;
+        }
+
+        .kanban-detail-date {
+            margin-right: 10px;
+
+            .checkbox-finish-task {
+                margin-right: 10px;
+                width: 20px;
+            }
+        }
+    }
+
+    .kanban-detail-description {
+        .description-header {
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .ql-toolbar {
+            margin-left: 33px;
+        }
+
+        .description-button {
+            margin-left: 33px;
+            margin-top: 10px;
+        }
+    }
+
+    .kanban-detail-attachment {
+        .attachment-header {
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+    }
+
+    .comment-item-wrapper {
+        display: flex;
+        margin-bottom: 20px;
+
+        .comment-item-image {
+            width: 40px;
+            height: 40px;
+            border-radius: 50px;
+            border: 1px solid #eee;
+            margin-right: 8px;
+        }
+
+        .comment-item-info {
+            width: 100%;
+
+            .comment-item-info-header {
+                margin-bottom: 5px;
+
+                .comment-header-title {
+                    font-weight: bold;
+                    margin-right: 5px;
+                }
+
+                .comment-header-date-log {
+                    font-size: 12px;
+                    padding-top: 3px;
+                }
+            }
+
+            #comment-input {
+                background-color: #fff;
+            }
+        }
+    }
+}
+
+.flex-box {
+    display: flex;
+}
+
+.custom-button {
+    padding: 8px 16px;
+    background-color: #091E420F !important;
+    color: #172B4D !important;
+    border: none;
+}
+
+.custom-sub-title {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.custom-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.custom-title-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.center {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.custom-title-ml {
+    margin-left: 10px;
+}
+
+.custom-css-content {
+    margin-left: 33px;
+}
