@@ -22,38 +22,7 @@
 
 @section('content')
 
-    <!-- Project Header -->
-    <div class="content-header row mb-0">
-        <h1 class="content-header-left col-md-9 col-12 mb-0">
-            <span class="menu-title text-truncate">Project: {{ $project->name }}</span>
-        </h1>
-        <div class="content-header-right text-md-end col-md-3 col-12 d-md-block d-none">
-            <div class="mb-0 breadcrumb-right">
-                <div class="dropdown">
-                    <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button"
-                        data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        <i data-feather="grid"></i>
-                    </button>
-                    <div class="dropdown-menu dropdown-menu-end">
-                        <a class="dropdown-item" href="{{ route('project.settings', ['slug' => $project->slug]) }}">
-                            <i data-feather='settings'></i>
-                            Settings
-                        </a>
-                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalRejectProject">
-                            <i data-feather='x-circle'></i>
-                            Reject
-                        </a>
-                        <a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#modalApproveProject">
-                            <i data-feather='check-circle'></i>
-                            Mark as done
-                        </a>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!--/ Project Header -->
-    <hr />
+	@include('project.header')
 
     <h4>Project Information</h4>
     <p class="mb-2">
@@ -185,7 +154,7 @@
                         <span>Total {{ 4 }} tasks</span>
                     </div>
                     <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
-                        <a class="role-heading" href="{{ route('project.settings', ['slug' => $project->slug]) }}">
+                        <a class="role-heading" href="{{ route('view.board.detail', ['slug' => $project->slug, 'board_id' => 0]) }}">
                             <h4 class="fw-bolder">{{ 'Iteration 1' }}</h4>
                         </a>
                     </div>

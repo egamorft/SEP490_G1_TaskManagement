@@ -169,7 +169,7 @@
 								$slug = explode('/', $slug)[0];
                             @endphp
                             <li class="nav-item {{ $slug === $p->slug ? 'active' : '' }}">
-                                <a href="{{ isset($p->slug) ? url(route('project.board', ['slug'=>$p->slug])) : 'javascript:void(0)' }}"
+                                <a href="{{ isset($p->slug) ? url(route('view.project.board', ['slug'=>$p->slug])) : 'javascript:void(0)' }}"
                                     class="d-flex align-items-center" target="_self">
                                     <img class="rounded me-1"
                                         src="{{ Auth::user() ? asset('images/avatars/' . $logo) : '' }}"
