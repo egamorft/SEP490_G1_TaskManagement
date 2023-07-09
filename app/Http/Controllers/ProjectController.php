@@ -681,7 +681,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function view_board_detail($slug, $board_id)
+    public function view_board_kanban($slug, $board_id)
     {
         //Project info & members
         $project = Project::where('slug', $slug)->first();
