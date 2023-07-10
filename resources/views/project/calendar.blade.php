@@ -40,7 +40,7 @@
 
 @section('page-script')
     <!-- Page js files -->
-    <script src="{{ asset(mix('js/scripts/pages/app-calendar-events.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/pages/app-calendar.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/task-calendar-events.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/task-calendar.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/app-todo.js')) }}"></script>
 @endsection

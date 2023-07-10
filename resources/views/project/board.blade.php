@@ -61,10 +61,22 @@
                         </div>
                     </div>
                     <div class="more-info">
-                        <p class="mb-50">Duration: 90%</p>
-                        <div class="progress progress-bar-success" style="height: 6px">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="90" aria-valuemin="90"
-                                aria-valuemax="100" style="width: 90%"></div>
+						@php
+							$duration = (int) (strtotime($project->end_date) - strtotime($project->start_date)) / (60 * 60 * 24);
+							$now = (int) (strtotime(date('Y-m-d')) - strtotime($project->start_date)) / (60 * 60 * 24);
+							$rate = (int) ($now / $duration * 100);
+							$color = 'progress-bar-success';
+							if ($rate > 70) {
+								$color = 'progress-bar-warning';
+							}
+							if ($rate > 90) {
+								$color = 'progress-bar-danger';
+							}
+						@endphp
+                        <p class="mb-50">Date Duration: <b>{{ $rate }}%</b>  -  {{ $now }}/{{ $duration }} Days</p>
+                        <div class="progress {{ $color }}" style="height: 6px">
+                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $rate }}" aria-valuemin="0"
+                                aria-valuemax="100" style="width: {{ $rate }}%"></div>
                         </div>
                     </div>
                 </div>
