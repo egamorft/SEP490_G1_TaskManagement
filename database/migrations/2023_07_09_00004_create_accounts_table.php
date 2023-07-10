@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('token', 100)->nullable();
             $table->integer('is_admin')->default(0);
             $table->integer('status')->default(0);
-            $table->dateTime('deleted_at')->nullable();
+            $table->timestamp('deleted_at')->nullable();
             // $table->timestamps();
         });
     }

@@ -5,29 +5,27 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class SubTask extends Model
+class Board extends Model
 {
     use HasFactory;
     public $timestamps = false;
-    protected $table = 'subTasks';
+    protected $table = 'boards';
     protected $fillable = [
-        'task_id',
         'title',
-        'assign_to',
-        'due_date',
-        'status',
+        'project_id',
+        'limitation',
         'created_at',
         'deleted_at'
     ];
 
     // Define the relationships
-    public function task()
+    public function project()
     {
-        return $this->belongsTo(Task::class);
+        return $this->belongsTo(Project::class);
     }
 
-    public function assignee()
+    public function taskLists()
     {
-        return $this->belongsTo(Account::class, 'assign_to', 'id');
+        return $this->hasMany(TaskList::class, 'board_id', 'id');
     }
 }

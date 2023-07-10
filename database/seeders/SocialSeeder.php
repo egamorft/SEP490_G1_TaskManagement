@@ -17,17 +17,17 @@ class SocialSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
+        // $faker = Faker::create();
 
-        $accounts = Account::pluck('id')->toArray();
+        // $accounts = Account::pluck('id')->toArray();
 
-        foreach ($accounts as $account) {
-            Social::create([
-                'provider_user_id' => $faker->unique()->randomNumber(),
-                'provider' => $faker->randomElement(['Facebook', 'Google']),
-                'account_id' => $faker->randomElement($accounts),
-            ]);
-        }
+        // foreach ($accounts as $account) {
+        //     Social::create([
+        //         'provider_user_id' => $faker->unique()->randomNumber(),
+        //         'provider' => $faker->randomElement(['Facebook', 'Google']),
+        //         'account_id' => $faker->randomElement($accounts),
+        //     ]);
+        // }
 
     }
 }

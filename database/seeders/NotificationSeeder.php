@@ -30,7 +30,7 @@ class NotificationSeeder extends Seeder
                 'follower' => $faker->randomElement($accounts),
                 'object_id' => $faker->randomNumber(),
                 'description' => $faker->paragraph,
-                'created_at' => $faker->date(),
+                'created_at' => $faker->dateTime(),
             ]);
         }
     }

@@ -13,17 +13,17 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('tasks', function (Blueprint $table) {
+        Schema::create('account_project', function (Blueprint $table) {
             $table->id();
-            $table->string('name', 50);
             $table->unsignedBigInteger('project_id');
-            $table->integer('limitation');
-            $table->text('description')->nullable();
-            $table->dateTime('created_at')->default(\DB::raw('CURRENT_TIMESTAMP'));
-            $table->dateTime('deleted_at')->nullable();
+            $table->unsignedBigInteger('account_id');
+            $table->unsignedBigInteger('role_id');
+            $table->integer('status')->default(0);
             // $table->timestamps();
 
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
+            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
     }
 
@@ -34,6 +34,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('tasks');
+        Schema::dropIfExists('account_project');
     }
 };

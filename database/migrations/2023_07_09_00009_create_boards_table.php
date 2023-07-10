@@ -13,17 +13,15 @@ return new class extends Migration
      */
     public function up()
     {
-        Schema::create('account_project', function (Blueprint $table) {
+        Schema::create('boards', function (Blueprint $table) {
             $table->id();
+            $table->string('title', 100);
             $table->unsignedBigInteger('project_id');
-            $table->unsignedBigInteger('account_id');
-            $table->unsignedBigInteger('role_id');
-            $table->integer('status');
-            // $table->timestamps();
+            $table->integer('limitation');
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('deleted_at')->nullable();
 
             $table->foreign('project_id')->references('id')->on('projects')->onDelete('cascade');
-            $table->foreign('account_id')->references('id')->on('accounts')->onDelete('cascade');
-            $table->foreign('role_id')->references('id')->on('roles')->onDelete('cascade');
         });
     }
 
@@ -34,6 +32,6 @@ return new class extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('account_project');
+        Schema::dropIfExists('boards');
     }
 };

@@ -1,0 +1,42 @@
+<?php
+
+use Illuminate\Database\Migrations\Migration;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\Schema;
+
+return new class extends Migration
+{
+    /**
+     * Run the migrations.
+     *
+     * @return void
+     */
+    public function up()
+    {
+        Schema::create('tasks', function (Blueprint $table) {
+            $table->id();
+            $table->unsignedBigInteger('taskList_id');
+            $table->string('title', 100);
+            $table->date('due_date');
+            $table->text('assign_to')->nullable();
+            $table->integer('status')->default(0);
+            $table->text('attachment')->nullable();
+            $table->text('description')->nullable();
+            $table->timestamp('created_at')->useCurrent();
+            $table->timestamp('deleted_at')->nullable();
+            // $table->timestamps();
+
+            $table->foreign('taskList_id')->references('id')->on('taskLists')->onDelete('cascade');
+        });
+    }
+
+    /**
+     * Reverse the migrations.
+     *
+     * @return void
+     */
+    public function down()
+    {
+        Schema::dropIfExists('tasks');
+    }
+};
