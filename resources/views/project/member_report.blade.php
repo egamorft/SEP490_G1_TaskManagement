@@ -2,6 +2,7 @@
 
 @section('content')
     @include('project.header')
+    @include('project.member_header')
 
     <!-- ChartJS section start -->
     <section id="chartjs-chart">
@@ -21,14 +22,14 @@
             </div>
             <!-- Donut Chart Ends-->
 
-			 <!-- Column Charts Starts-->
-			 <div class="col-xl-8 col-12">
-				<div class="card">
+            <!-- Column Charts Starts-->
+            <div class="col-xl-8 col-12">
+                <div class="card">
                     <div class="card-header flex-column align-items-start">
                         <h4 class="card-title mb-75">Weekly progression</h4>
                     </div>
                     <div class="card-body">
-						<div id="chartContainer" style="height: 327px; width: 100%;"></div>
+                        <div id="chartContainer" style="height: 327px; width: 100%;"></div>
                     </div>
                 </div>
             </div>
@@ -38,168 +39,106 @@
         <div class="row">
             <!-- Project table -->
             <div class="card col-12">
-                <h4 class="card-header">Task assignments by members</h4>
-                <div class="table-responsive">
-                    <table class="table datatable-project">
-                        <thead>
+                <h4 class="card-header">Tasks as Assignee</h4>
+                <!-- Task Table -->
+                <div class=" bg-white card-datatable table-responsive">
+                    <table class="datatables-permissions table">
+                        <thead class="table-light">
                             <tr>
-                                <th>Member</th>
-                                <th class="text-nowrap">Total Task</th>
-                                <th>Todo</th>
-                                <th>Doing</th>
-                                <th>Reviewing</th>
-                                <th>Ontime</th>
-                                <th>Late</th>
-                                <th>Overdue</th>
+                                <th>STT</th>
+                                <th>Task</th>
+                                <th>Status</th>
+                                <th>Due Date</th>
+                                <th>Task List</th>
+                                <th>Creator</th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="odd">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/1.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
-                                        </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">Tran Ngoc
-                                                Hieu</a><small class="text-muted">Project Manager</small></div>
-                                    </div>
-                                </td>
-                                <td>120</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
-                            </tr>
-                            <tr class="even">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/2.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
-                                        </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">Tran Ngoc
-                                                Hieu</a><small class="text-muted">Project Supervisor</small></div>
-                                    </div>
-                                </td>
-                                <td>90</td>
-                                <td class="text-info">12</td>
-                                <td class="text-primary">11</td>
-                                <td class="text-warning">12</td>
-                                <td class="text-success">4</td>
-                                <td class="text-secondary">21</td>
-                                <td class="text-danger">13</td>
-                            </tr>
-                            <tr class="odd">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/3.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
-                                        </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">Tran Ngoc
-                                                Hieu</a><small class="text-muted">Project Member</small></div>
-                                    </div>
-                                </td>
-                                <td>90</td>
-                                <td class="text-info">51</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">14</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">51</td>
-                                <td class="text-danger">6</td>
-                            </tr>
-                            <tr class="even">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/4.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
-                                        </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">Tran Ngoc
-                                                Hiep</a><small class="text-muted">Project Member</small></div>
-                                    </div>
-                                </td>
-                                <td>16</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">61</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">91</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
-                            </tr>
-                            <tr class="odd">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/4.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
-                                        </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">DTran Ngoc
-                                                Hieu</a><small class="text-muted">Project Member</small></div>
-                                    </div>
-                                </td>
-                                <td>278</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
-                            </tr>
-                            <tr class="even">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/6.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
-                                        </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">Tran Ngoc
-                                                Hieue</a><small class="text-muted">Project Member</small></div>
-                                    </div>
-                                </td>
-                                <td>27</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
-                            </tr>
-                            <tr class="odd">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/H.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
-                                        </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">VTran Ngoc
-                                                Hieute</a><small class="text-muted">Project Member</small></div>
-                                    </div>
-                                </td>
-                                <td>217</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
-                            </tr>
+                            @php
+                                $tasks = [1, 2, 3, 4, 5, 6];
+                            @endphp
+                            @foreach ($tasks as $task)
+                                <tr id="task_{{ $task }}">
+                                    <td>{{ $task }}</td>
+                                    <td>{{ 'Task Name' }}</td>
+                                    @switch($task)
+                                        @case(1)
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-primary">Doing</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge rounded-pill badge-light-primary">{{ date('D, M d, Y', strtotime(12312323)) }}</span>
+                                            </td>
+                                        @break
+
+                                        @case(2)
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-warning">Reviewing</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge rounded-pill badge-light-warning">{{ date('D, M d, Y', strtotime(12312323)) }}</span>
+                                            </td>
+                                        @break
+
+                                        @case(3)
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-success">Done Ontime</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge rounded-pill badge-light-success">{{ date('D, M d, Y', strtotime(12312323)) }}</span>
+                                            </td>
+                                        @break
+
+                                        @case(4)
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-secondary">Done Late</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge rounded-pill badge-light-secondary">{{ date('D, M d, Y', strtotime(12312323)) }}</span>
+                                            </td>
+                                        @break
+
+                                        @case(5)
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-danger">Overdue</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge rounded-pill badge-light-danger">{{ date('D, M d, Y', strtotime(12312323)) }}</span>
+                                            </td>
+                                        @break
+
+                                        @default
+                                            <td>
+                                                <span class="badge rounded-pill badge-light-info">Todo</span>
+                                            </td>
+                                            <td>
+                                                <span
+                                                    class="badge rounded-pill badge-light-info">{{ date('D, M d, Y', strtotime(12312323)) }}</span>
+                                            </td>
+                                    @endswitch
+                                    <td>{{ 'Task List Name' }}</td>
+                                    <td>
+                                        <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}"
+                                            data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
+                                            title="{{ 'User Name' }}" class="avatar pull-up">
+                                            <img src="{{ asset('images/avatars/H.png') }}" alt="Avatar" width="33"
+                                                height="33" />
+                                        </a>
+                                    </td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
+                <!--/ Task Table -->
             </div>
             <!-- /Project table -->
-			
+
         </div>
 
     </section>
@@ -212,7 +151,7 @@
                 animationEnabled: true,
                 title: {
                     text: "",
-                    fontFamily: "Helvetica, Arial, sans-serif",
+                    fontFamily: "Montserrat",
                     fontColor: "#6e6b7b !important"
                 },
                 axisX: {
@@ -486,6 +425,6 @@
 @section('page-script')
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
-	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
+    <script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
     {{-- <script src="{{ asset(mix('js/scripts/pages/task-overview-by-member.js')) }}"></script> --}}
 @endsection

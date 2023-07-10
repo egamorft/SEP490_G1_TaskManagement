@@ -548,6 +548,66 @@ class ProjectController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
+	public function view_report_member($slug, $user_id)
+	{
+		//Project info & members
+		$project = Project::where('slug', $slug)->first();
+		$accounts = $project->accounts()->get();
+
+		$pmAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('pm', 1)
+			->first();
+
+		$supervisorAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('supervisor', 1)
+			->first();
+
+		$pendingSupervisorAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('supervisor', 0)
+			->first();
+
+		$memberAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('member', 1)
+			->get();
+
+		$pendingInvitedMemberAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('member', 0)
+			->get();
+
+		$removedMember = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('member', -2)
+			->get();
+
+		$checkLimitation = count($pendingInvitedMemberAccount) + count($memberAccount);
+
+		//Project role & permissions
+		$roles = Role::all();
+		$permissions = Permission::all();
+
+		$pageConfigs = [
+			'pageHeader' => false,
+		];
+
+		return view('project.member_report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
+			->with(compact(
+				'project',
+				'pmAccount',
+				'supervisorAccount',
+				'memberAccount',
+				'pendingInvitedMemberAccount',
+				'pendingSupervisorAccount',
+				'checkLimitation',
+				'removedMember',
+				'roles',
+				'permissions'
+			));
+	}
+
+	/**
+	 * Display a report view of project
+	 *
+	 * @return \Illuminate\Http\Response
+	 */
 	public function view_report($slug)
 	{
 		//Project info & members
