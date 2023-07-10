@@ -46,6 +46,7 @@ $(window).on("load", function () {
                 <button type="button" class="btn btn-secondary cancel-description">Cancel</button>
             </div>
         `;
+
         $('.kanban-detail-description > div').append(htmlButton);
         $(".cancel-description").on("click", function() {
             $('.kanban-detail-description .ql-toolbar').remove();
@@ -60,4 +61,20 @@ $(window).on("load", function () {
             $('.description-button').remove();
         })
     });
+
+    $("#formFileMultiple").on("change", function(e) {
+        e.preventDefault();
+        var input = this;
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function(e) {
+              $("#formImageUpload" ).submit();
+            }
+            reader.readAsDataURL(input.files[0]);
+          }
+    });
+
+    $("#formImageUpload").on("submit", function() {
+        alert("Upload file thành công");
+    })
 });

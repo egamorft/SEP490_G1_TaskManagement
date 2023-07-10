@@ -421,7 +421,7 @@ $(function () {
 
     // Clear comment editor on close
     sidebar.on("hidden.bs.modal", function () {
-        sidebar.find(".ql-editor")[0].innerHTML = "";
+        sidebar.find(".ql-editor").innerHTML = "";
         sidebar.find(".nav-link-activity").removeClass("active");
         sidebar.find(".tab-pane-activity").removeClass("show active");
         sidebar.find(".nav-link-update").addClass("active");
