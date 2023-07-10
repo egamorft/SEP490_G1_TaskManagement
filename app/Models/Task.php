@@ -14,9 +14,10 @@ class Task extends Model
         'taskList_id',
         'title',
         'due_date',
+        'created_by',
         'assign_to',
         'status',
-        'attachment',
+        'attachments',
         'description',
         'created_at',
         'deleted_at'

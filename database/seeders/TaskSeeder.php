@@ -18,22 +18,22 @@ class TaskSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
+        // $faker = Faker::create();
 
-        for ($i = 0; $i < 5; $i++) {
-            $start_date = $faker->dateTimeBetween('2023-01-01', '2023-10-31')->format('Y-m-d H:i:s');
-            $end_date = $faker->dateTimeBetween($start_date, $start_date.' +3 weeks')->format('Y-m-d H:i:s');
-            Task::create([
-                'taskList_id' => $faker->randomElement(TaskList::pluck('id')->toArray()),
-                'title' => $faker->sentence,
-                'due_date' => $end_date,
-                'assign_to' => $faker->name,
-                'status' => $faker->boolean,
-                'attachment' => $faker->imageUrl,
-                'description' => $faker->paragraph,
-                'created_at' => $start_date,
-                'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
-            ]);
-        }
+        // for ($i = 0; $i < 5; $i++) {
+        //     $start_date = $faker->dateTimeBetween('2023-01-01', '2023-10-31')->format('Y-m-d H:i:s');
+        //     $end_date = $faker->dateTimeBetween($start_date, $start_date.' +3 weeks')->format('Y-m-d H:i:s');
+        //     Task::create([
+        //         'taskList_id' => $faker->randomElement(TaskList::pluck('id')->toArray()),
+        //         'title' => $faker->sentence,
+        //         'due_date' => $end_date,
+        //         'assign_to' => $faker->name,
+        //         'status' => $faker->boolean,
+        //         'attachments' => $faker->imageUrl,
+        //         'description' => $faker->paragraph,
+        //         'created_at' => $start_date,
+        //         'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
+        //     ]);
+        // }
     }
 }
