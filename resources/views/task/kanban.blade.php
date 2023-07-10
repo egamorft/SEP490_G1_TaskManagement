@@ -7,7 +7,7 @@
                     <i class="align-middle" data-feather="plus"></i>
                     <span class="align-middle">Add new</span>
                 </label>
-                <input type="text" class="form-control add-new-board-input mb-50" placeholder="Add Board Title"
+                <input type="text" class="form-control add-new-board-input mb-50" placeholder="Add Task Title"
                     id="add-new-board-input" required />
                 <div class="mb-1 add-new-board-input">
                     <button class="btn btn-primary btn-sm me-75">Add</button>
@@ -97,6 +97,12 @@
 
                             <div class="custom-css-content">
                                 <img src="" alt="No image" />
+
+                                <div class="upload-files mt-1">
+                                    <form action="" id="formImageUpload" method="GET" enctype="multipart/form-data">
+                                        <input class="form-control" type="file" id="formFileMultiple" multiple />
+                                    </form>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -128,6 +134,7 @@
 										<input type="text" id="comment-input" name="commentInput"
                                         class="form-control" placeholder="Write your comment here" value="Test thử xem input được chưa"
                                         data-msg="Please enter your comment" disabled/>
+                                        <a class="confirm-delete-task js-confirm-delete-task">Xóa</a>
 									</div>
                                 </div>
                             </div>
