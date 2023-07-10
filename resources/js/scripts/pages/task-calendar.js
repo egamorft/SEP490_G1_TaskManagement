@@ -28,51 +28,21 @@ document.addEventListener('DOMContentLoaded', function () {
       Holiday: 'success',
       Personal: 'danger',
       Family: 'warning',
-      ETC: 'info'
+      ETC: 'info',
+
+
+	  Todo: 'info',
+	  Doing: 'primary',
+	  Reviewing: 'warning',
+	  Ontime: 'success',
+	  Late: 'secondary',
+	  Overdue: 'danger',
     },
-    startDate = $('#start-date'),
-    endDate = $('#end-date'),
-    eventGuests = $('#event-guests'),
     selectAll = $('.select-all'),
     calEventFilter = $('.calendar-events-filter'),
     filterInput = $('.input-filter');
 
   // --------------------------------------------
-
-  // Guests select
-  if (eventGuests.length) {
-    function renderGuestAvatar(option) {
-      if (!option.id) {
-        return option.text;
-      }
-
-      var $avatar =
-        "<div class='d-flex flex-wrap align-items-center'>" +
-        "<div class='avatar avatar-sm my-0 me-50'>" +
-        "<span class='avatar-content'>" +
-        "<img src='" +
-        assetPath +
-        'images/avatars/' +
-        $(option.element).data('avatar') +
-        "' alt='avatar' />" +
-        '</span>' +
-        '</div>' +
-        option.text +
-        '</div>';
-
-      return $avatar;
-    }
-    eventGuests.wrap('<div class="position-relative"></div>').select2({
-      placeholder: 'Select value',
-      dropdownParent: eventGuests.parent(),
-      closeOnSelect: false,
-      templateResult: renderGuestAvatar,
-      templateSelection: renderGuestAvatar,
-      escapeMarkup: function (es) {
-        return es;
-      }
-    });
-  }
 
   // Selected Checkboxes
   function selectedCalendars() {

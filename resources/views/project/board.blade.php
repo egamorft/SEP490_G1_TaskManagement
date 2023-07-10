@@ -73,7 +73,7 @@
 								$color = 'progress-bar-danger';
 							}
 						@endphp
-                        <p class="mb-50">Date Duration: <b>{{ $rate }}%</b>  -  {{ $now }}/{{ $duration }} Days</p>
+                        <p class="mb-50">Duration by Date: <b>{{ $rate }}%</b>  -  {{ $now }}/{{ $duration }} Days</p>
                         <div class="progress {{ $color }}" style="height: 6px">
                             <div class="progress-bar" role="progressbar" aria-valuenow="{{ $rate }}" aria-valuemin="0"
                                 aria-valuemax="100" style="width: {{ $rate }}%"></div>
