@@ -99,13 +99,13 @@
                 <div class="col mt-0">
                     <div class="avatar float-start bg-white rounded">
                         <div class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
-                            <img src="{{ asset('images/avatars/' . $supervisorAccount->avatar) }}" alt="Avatar"
-                                width="33" height="33" />
+                            {{-- <img src="{{ asset('images/avatars/' . $supervisorAccount->avatar) }}" alt="Avatar"
+                                width="33" height="33" /> --}}
                         </div>
                     </div>
                     <div class="more-info" style="margin-top: 10px;">
                         <small>Project Supervisor</small>
-                        <h6 class="mb-0">{{ $supervisorAccount->fullname }}</h6>
+                        {{-- <h6 class="mb-0">{{ $supervisorAccount->fullname }}</h6> --}}
                     </div>
                 </div>
                 <div class="col mt-0">

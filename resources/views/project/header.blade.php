@@ -29,6 +29,7 @@
 					<span class="fw-bold">Settings</span>
 				</a>
 			</div>
+			@can('check-permission', 'evaluate-project')
 			<div class="d-inline">
 				<button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button"
 					data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
@@ -45,6 +46,7 @@
 					</a>
 				</div>
 			</div>
+			@endcan
 		</div>
 	</div>
 </div>

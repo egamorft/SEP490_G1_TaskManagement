@@ -18,15 +18,17 @@ return new class extends Migration
             $table->unsignedBigInteger('taskList_id');
             $table->string('title', 100);
             $table->date('due_date');
-            $table->text('assign_to')->nullable();
+            $table->unsignedBigInteger('created_by');
+            $table->unsignedBigInteger('assign_to')->nullable();
             $table->integer('status')->default(0);
-            $table->text('attachment')->nullable();
+            $table->text('attachments')->nullable();
             $table->text('description')->nullable();
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('deleted_at')->nullable();
             // $table->timestamps();
 
             $table->foreign('taskList_id')->references('id')->on('taskLists')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('accounts')->onDelete('cascade');
         });
     }
 
