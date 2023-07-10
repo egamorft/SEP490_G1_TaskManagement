@@ -96,17 +96,26 @@ Route::middleware(['auth'])->group(function () {
         Route::post('set-pm', [ProjectController::class, 'set_pm'])->name('set.pm');
         Route::post('update-permission', [ProjectController::class, 'updatePermission'])->name('update.permission');
 
+		// View Request
         Route::get('{slug}/report', [ProjectController::class, 'view_report'])->name('view.project.report');
 		Route::get('{slug}/board', [ProjectController::class, 'view_board'])->name('view.project.board');
+		Route::get('{slug}/gantt', [ProjectController::class, 'view_gantt'])->name('view.project.gantt');
 		Route::get('{slug}/board/{board_id}/kanban', [ProjectController::class, 'view_board_kanban'])->name('view.board.kanban');
-		Route::get('{slug}/board/{board_id}/gantt', [ProjectController::class, 'view_board_gantt'])->name('view.board.gantt');
 		Route::get('{slug}/board/{board_id}/calendar', [ProjectController::class, 'view_board_calendar'])->name('view.board.calendar');
 		Route::get('{slug}/board/{board_id}/list', [ProjectController::class, 'view_board_list'])->name('view.board.list');
+		Route::get('{slug}/board/{board_id}/kanban/&show=task&id={id?}', [ProjectController::class, 'view_board_kanban'])->name('view.task');
 
+		// Request Action on Board
         Route::post('add-board', [ProjectController::class, 'add_board'])->name('add.board');
         Route::post('edit-board', [ProjectController::class, 'edit_board'])->name('edit.board');
         Route::post('remove-board', [ProjectController::class, 'remove_board'])->name('remove.board');
-		Route::get('{slug}/board/{board_id}/kanban/&show=task&id={id?}', [ProjectController::class, 'view_board_kanban'])->name('view.task');
+
+		// Request Action on Task
+        Route::post('{slug}/board/{board_id}/add-task', [ProjectController::class, 'add_task_modal'])->name('add.task.modal');
+
+		// Request Action on Task List
+        Route::post('{slug}/board/{board_id}/add-task-list', [ProjectController::class, 'add_task_list_modal'])->name('add.task.list.modal');
+
 
     });
 

@@ -1,26 +1,32 @@
 <!-- Project Header -->
 <div class="content-header row mb-0">
-	<h1 class="content-header-left col-md-8 col-12 mb-0">
+	<h3 class="mt-1 content-header-left col-md-7 col-12 mb-0">
 		<span class="menu-title text-truncate">Project: {{ $project->name }}</span>
-	</h1>
-	<div class="content-header-right text-md-end col-md-4 col-12 d-md-block d-none">
+	</h3>
+	<div class="content-header-right text-md-end col-md-5 col-12 d-md-block d-none">
 		<div class="mb-0 breadcrumb-right">
 			<div class="d-inline">
 				<a type="button" class="{{ $page == 'board' ? 'border-bottom-primary' : '' }} text-primary btn-icon btn btn-round"  href="{{ route('view.project.board', ['slug' => $project->slug]) }}">
-					<span class="fw-bold">Board</span>
 					<i data-feather="list" class="font-medium-3 me-50"></i>
+					<span class="fw-bold">Board</span>
+				</a>
+			</div>
+			<div class="d-inline">
+				<a type="button" class="{{ $page == 'gantt' ? 'border-bottom-primary' : '' }} text-primary btn-icon btn btn-round"  href="{{ route('view.project.gantt', ['slug' => $project->slug]) }}">
+					<i data-feather="trending-up" class="font-medium-3 me-50"></i>
+					<span class="fw-bold">Gantt</span>
 				</a>
 			</div>
 			<div class="d-inline">
 				<a type="button" class="{{ $page == 'report' ? 'border-bottom-primary' : '' }} text-primary btn-icon btn btn-round"  href="{{ route('view.project.report', ['slug' => $project->slug]) }}">
-					<span class="fw-bold">Report</span>
 					<i data-feather="pie-chart" class="font-medium-3 me-50"></i>
+					<span class="fw-bold">Report</span>
 				</a>
 			</div>
 			<div class="d-inline">
 				<a type="button" class="{{ $page == 'settings' ? 'border-bottom-primary' : '' }} text-primary btn-icon btn btn-round"  href="{{ route('project.settings', ['slug' => $project->slug]) }}">
-					<span class="fw-bold">Settings</span>
 					<i data-feather="settings" class="font-medium-3 me-50"></i>
+					<span class="fw-bold">Settings</span>
 				</a>
 			</div>
 			<div class="d-inline">
