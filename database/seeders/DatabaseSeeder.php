@@ -26,7 +26,6 @@ class DatabaseSeeder extends Seeder
         $this->call(BoardSeeder::class);
         $this->call(TaskListSeeder::class);
         $this->call(TaskSeeder::class);
-        $this->call(SubTaskSeeder::class);
         $this->call(CommentSeeder::class);
         $this->call(ReportSeeder::class);
         $this->call(NotificationSeeder::class);

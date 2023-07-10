@@ -84,9 +84,9 @@ Route::get('/api/check-auth', function () {
 Route::middleware(['auth'])->group(function () {
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
 
-    Route::group(['prefix' => 'project'], function () {
-        Route::get('{slug}', [ProjectController::class, 'index'])->name('project.settings')
-            ->middleware('check.project.access');
+    //Required project access (user in project - account_project ft status == 1)
+    Route::group(['prefix' => 'project', 'middleware' => ['check.project.access']], function () {
+        Route::get('{slug}', [ProjectController::class, 'index'])->name('project.settings');
         Route::post('update-information/{id}', [ProjectController::class, 'update'])->name('project.update');
         Route::get('invite/{slug}/{token}', [ProjectController::class, 'show'])->name('project.invite');
         Route::post('invitation/{slug}/{token}', [ProjectController::class, 'invitation'])->name('invitation.submit');
@@ -97,16 +97,15 @@ Route::middleware(['auth'])->group(function () {
         Route::post('update-permission', [ProjectController::class, 'updatePermission'])->name('update.permission');
 
         Route::get('{slug}/report', [ProjectController::class, 'view_report'])->name('view.project.report');
-		Route::get('{slug}/board', [ProjectController::class, 'view_board'])->name('view.project.board');
-		Route::get('{slug}/board/{board_id}/kanban', [ProjectController::class, 'view_board_kanban'])->name('view.board.kanban');
-		Route::get('{slug}/board/{board_id}/gantt', [ProjectController::class, 'view_board_gantt'])->name('view.board.gantt');
-		Route::get('{slug}/board/{board_id}/calendar', [ProjectController::class, 'view_board_calendar'])->name('view.board.calendar');
-		Route::get('{slug}/board/{board_id}/list', [ProjectController::class, 'view_board_list'])->name('view.board.list');
+        Route::get('{slug}/board', [ProjectController::class, 'view_board'])->name('view.project.board');
+        Route::get('{slug}/board/{board_id}/kanban', [ProjectController::class, 'view_board_kanban'])->name('view.board.kanban');
+        Route::get('{slug}/board/{board_id}/gantt', [ProjectController::class, 'view_board_gantt'])->name('view.board.gantt');
+        Route::get('{slug}/board/{board_id}/calendar', [ProjectController::class, 'view_board_calendar'])->name('view.board.calendar');
+        Route::get('{slug}/board/{board_id}/list', [ProjectController::class, 'view_board_list'])->name('view.board.list');
 
-        Route::post('add-board', [ProjectController::class, 'add_board'])->name('add.board');
-        Route::post('edit-board', [ProjectController::class, 'edit_board'])->name('edit.board');
-        Route::post('remove-board', [ProjectController::class, 'remove_board'])->name('remove.board');
-
+        Route::post('{slug}/add-board', [ProjectController::class, 'add_board'])->name('add.board');
+        Route::post('{slug}/edit-board', [ProjectController::class, 'edit_board'])->name('edit.board');
+        Route::post('{slug}/remove-board', [ProjectController::class, 'remove_board'])->name('remove.board');
     });
 
     Route::post('/log-out', function () {

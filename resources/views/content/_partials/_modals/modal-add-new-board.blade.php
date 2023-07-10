@@ -11,14 +11,14 @@
                     <h1 class="board-title">Add New Board</h1>
                 </div>
                 <!-- Add board form -->
-                <form id="addBoardForm1" class="row" action="{{ route('add.board') }}" method="POST">
+                <form id="addBoardForm1" class="row" action="{{ route('add.board', ['slug' => $project->slug]) }}" method="POST">
                     @csrf
 					<input type="hidden" value="{{ $project->id }}" name="project_id">
                     <div class="col-12">
                         <label class="form-label" for="modalBoardName">Board Name</label>
-                        <input type="text" id="modalBoardName" name="modalBoardName" class="form-control modalBoardName"
+                        <input type="text" id="modalBoardName" name="modalBoardName" class="form-control"
                             placeholder="Enter board name" tabindex="-1" data-msg="Please enter board name" />
-                        <span id="modalBoardNameErrorAdd" style="color: red"></span>
+                        <span id="error-modalBoardName" style="color: red"></span>
                     </div>
                     <div class="col-12 text-center mt-2">
                         <button type="submit" class="btn btn-primary me-1">Submit</button>
