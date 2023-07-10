@@ -87,32 +87,6 @@
                         checked />
                     <label class="form-check-label" for="overdue-task">Overdue</label>
                 </div>
-
-                <div class="form-check form-check-danger mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="personal" data-value="personal"
-                        checked />
-                    <label class="form-check-label" for="personal">Personal</label>
-                </div>
-                <div class="form-check form-check-primary mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="business" data-value="business"
-                        checked />
-                    <label class="form-check-label" for="business">Business</label>
-                </div>
-                <div class="form-check form-check-warning mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="family" data-value="family"
-                        checked />
-                    <label class="form-check-label" for="family">Family</label>
-                </div>
-                <div class="form-check form-check-success mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="holiday" data-value="holiday"
-                        checked />
-                    <label class="form-check-label" for="holiday">Holiday</label>
-                </div>
-                <div class="form-check form-check-info">
-                    <input type="checkbox" class="form-check-input input-filter" id="etc" data-value="etc"
-                        checked />
-                    <label class="form-check-label" for="etc">ETC</label>
-                </div>
             </div>
         </div>
     </div>

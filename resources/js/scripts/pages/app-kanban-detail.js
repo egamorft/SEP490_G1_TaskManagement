@@ -10,6 +10,7 @@
 $(window).on("load", function () {
     "use strict";
 
+    // Action sau khi click button edit trong description
     $(".description-button-edit").on("click", function () {
         $(".description-button-edit").hide();
 
@@ -47,34 +48,59 @@ $(window).on("load", function () {
             </div>
         `;
 
-        $('.kanban-detail-description > div').append(htmlButton);
-        $(".cancel-description").on("click", function() {
-            $('.kanban-detail-description .ql-toolbar').remove();
-            $('.description-content-editor').removeClass("ql-container").removeClass("ql-snow").html(
-                `Đường dẫn : Login → Dashboard → Chọn Project trong side bar mục ‘My Projects’ → Chọn mục
+        $(".kanban-detail-description > div").append(htmlButton);
+
+        // Action để return dữ liệu ban đầu khi click button cancel
+        $(".cancel-description").on("click", function () {
+            $(".kanban-detail-description .ql-toolbar").remove();
+            $(".description-content-editor")
+                .removeClass("ql-container")
+                .removeClass("ql-snow")
+                .html(
+                    `Đường dẫn : Login → Dashboard → Chọn Project trong side bar mục ‘My Projects’ → Chọn mục
                 Calendar → Hiển thị màn chức năng Calendar View để xem danh sách các task trong project
                 (ảnh mô tả ‘Calendar View.png’)
                 <br>Khi di chuyển Task sang 1 ngày khác trong Calendar thì tiến độ của dự án cũng phải
                 cập nhật theo ngày đó`
-            );
+                );
             $(".description-button-edit").show();
-            $('.description-button').remove();
+            $(".description-button").remove();
+        });
+    });
+
+    // Action submit form sau khi upload files
+    $("#formFileMultiple").on("change", function (e) {
+        e.preventDefault();
+        var input = this;
+        var canvas = "#formImageUpload";
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $(canvas).submit();
+            };
+            reader.readAsDataURL(input.files[0]);
+        }
+
+        submit_form(canvas, function() {
+            alert("Submit ok")
         })
     });
 
-    $("#formFileMultiple").on("change", function(e) {
-        e.preventDefault();
-        var input = this;
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function(e) {
-              $("#formImageUpload" ).submit();
-            }
-            reader.readAsDataURL(input.files[0]);
-          }
+    $("#comment-input").keypress(function (e) {
+        var canvas = "#formUploadComment";
+        if (e.which == 13) {
+            $(canvas).submit();
+            return false;
+        }
+
+        submit_form(canvas, function() {
+            alert("Comment thành công");
+        })
     });
 
-    $("#formImageUpload").on("submit", function() {
-        alert("Upload file thành công");
-    })
+    function submit_form(canvas, fn = false) {
+        $("#formImageUpload").on("submit", fn || function(e) {
+            alert("Submit form thành công")
+        });
+    }
 });

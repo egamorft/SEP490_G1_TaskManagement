@@ -17,6 +17,17 @@
 
     .kanban-detail-progress {
         margin-left: 40px;
+
+        .kanban-detail-user {
+            margin-right: 20px;
+
+            .user-add-assignee {
+                width: 30px;
+                height: 30px;
+                border-radius: 100%;
+                border: none;
+            }
+        }
         
         .kanban-detail-noti {
             margin-right: 10px;
@@ -88,10 +99,41 @@
 }
 
 .confirm-delete-task {
-    text-decoration: underline;
-    color: #44546F;
+    text-decoration: underline !important;
+    color: #44546F !important;
     font-size: 13px;
     margin-left: 10px;
+}
+
+.navbar-header-container {
+    display: flex;
+    justify-content: space-between;
+
+    .filter-nav-header {
+        display: flex;
+        position: relative;
+        margin-top: auto;
+
+        .button-filter-header {
+            border: 2px solid #eee;
+            background-color: #fff;
+            border-radius: 5px;
+            width: 100px;
+            height: 35px;
+        }
+
+        .filter-by-status {
+            padding: 0px 1.5rem;
+
+            .calendar-events-filter {
+                display: flex;
+
+                .form-check {
+                    margin-right: 12px;
+                }
+            }
+        }
+    }
 }
 
 .flex-box {
