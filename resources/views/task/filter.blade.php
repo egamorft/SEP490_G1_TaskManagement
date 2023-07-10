@@ -35,7 +35,7 @@
                 <span class="align-middle">Filter By Role</span>
             </h5>
             <div class="list-group list-group-filters">
-                <a href="#" class="list-group-item list-group-item-action" id="viewer_role">
+                <a href="#" class=" list-group-item list-group-item-action" id="viewer_role">
                     <i data-feather="eye" class="font-medium-3 me-50"></i>
                     <span class="align-middle"> Viewer</span>
                 </a>
@@ -58,60 +58,34 @@
             </div>
             <div class="calendar-events-filter">
 				<div class="form-check form-check-info mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="todo-task" data-value="todo-task"
+                    <input type="checkbox" class="form-check-input input-filter" id="todo" data-value="todo"
                         checked />
-                    <label class="form-check-label" for="todo-task">Todo</label>
+                    <label class="form-check-label" for="todo">Todo</label>
                 </div>
                 <div class="form-check form-check-primary mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="doing-task" data-value="doing-task"
+                    <input type="checkbox" class="form-check-input input-filter" id="doing" data-value="doing"
                         checked />
-                    <label class="form-check-label" for="doing-task">Doing</label>
+                    <label class="form-check-label" for="doing">Doing</label>
                 </div>
                 <div class="form-check form-check-warning mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="reviewing-task" data-value="reviewing-task"
+                    <input type="checkbox" class="form-check-input input-filter" id="reviewing" data-value="reviewing"
                         checked />
-                    <label class="form-check-label" for="reviewing-task">Reviewing</label>
+                    <label class="form-check-label" for="reviewing">Reviewing</label>
                 </div>
                 <div class="form-check form-check-success mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="ontime-task" data-value="ontime-task"
+                    <input type="checkbox" class="form-check-input input-filter" id="ontime" data-value="ontime"
                         checked />
-                    <label class="form-check-label" for="ontime-task">Done Ontime</label>
+                    <label class="form-check-label" for="ontime">Done Ontime</label>
                 </div>
                 <div class="form-check form-check-secondary mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="late-task" data-value="late-task"
+                    <input type="checkbox" class="form-check-input input-filter" id="late" data-value="late"
                         checked />
-                    <label class="form-check-label" for="late-task">Done Late</label>
+                    <label class="form-check-label" for="late">Done Late</label>
                 </div>
                 <div class="form-check form-check-danger mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="overdue-task" data-value="overdue-task"
+                    <input type="checkbox" class="form-check-input input-filter" id="overdue" data-value="overdue"
                         checked />
-                    <label class="form-check-label" for="overdue-task">Overdue</label>
-                </div>
-
-                <div class="form-check form-check-danger mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="personal" data-value="personal"
-                        checked />
-                    <label class="form-check-label" for="personal">Personal</label>
-                </div>
-                <div class="form-check form-check-primary mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="business" data-value="business"
-                        checked />
-                    <label class="form-check-label" for="business">Business</label>
-                </div>
-                <div class="form-check form-check-warning mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="family" data-value="family"
-                        checked />
-                    <label class="form-check-label" for="family">Family</label>
-                </div>
-                <div class="form-check form-check-success mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="holiday" data-value="holiday"
-                        checked />
-                    <label class="form-check-label" for="holiday">Holiday</label>
-                </div>
-                <div class="form-check form-check-info">
-                    <input type="checkbox" class="form-check-input input-filter" id="etc" data-value="etc"
-                        checked />
-                    <label class="form-check-label" for="etc">ETC</label>
+                    <label class="form-check-label" for="overdue">Overdue</label>
                 </div>
             </div>
         </div>
