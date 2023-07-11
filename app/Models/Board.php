@@ -27,4 +27,9 @@ class Board extends Model
     {
         return $this->hasMany(TaskList::class, 'board_id', 'id');
     }
+
+    public function tasks()
+    {
+        return $this->hasManyThrough(Task::class, TaskList::class, 'board_id', 'taskList_id');
+    }
 }

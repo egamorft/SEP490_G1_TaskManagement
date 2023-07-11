@@ -19,7 +19,7 @@
                 </div>
 
                 <form id="cancelInvitationForm" class="row" method="POST"
-                    action="{{ route('cancel.invitation') }}">
+                    action="{{ route('cancel.invitation', ['slug' => $project->slug]) }}">
                     @csrf
                     <div class="text-center mt-2">
                         <input type="hidden" name="account" value="{{$penAcc->id}}">

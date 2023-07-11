@@ -86,7 +86,7 @@
 
                 <div class="px-sm-5 mx-50">
                     <h4 class="fw-bolder mt-5 mb-1">Invite your teammate</h4>
-                    <form id="modalInviteForm" class="row g-1" action="{{ route('invite.member') }}" method="POST">
+                    <form id="modalInviteForm" class="row g-1" action="{{ route('invite.member', ['slug' => $project->slug]) }}" method="POST">
                         @csrf
                         <div class="col-lg-10">
                             <label class="form-label" for="modalInviteEmail">

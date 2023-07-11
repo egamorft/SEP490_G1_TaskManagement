@@ -76,7 +76,7 @@
                                         <div class="bs-stepper-content">
                                             <div id="project-information" class="content" role="tabpanel"
                                                 aria-labelledby="project-information-trigger">
-                                                <form action="{{ route('project.update', $project->id) }}"
+                                                <form action="{{ route('project.update', ['slug' => $project->slug, 'id' => $project->id]) }}"
                                                     method="post">
                                                     @csrf
                                                     <div class="col-12 col-md-12 mb-2">

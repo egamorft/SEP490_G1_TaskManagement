@@ -504,4 +504,11 @@ $(function () {
         var url = window.location.href.split("/&", window.location.href.toString().length)[0];
         history.replaceState(null, null, url);
     });
+
+    $(window).on("load", function() {
+        var url = window.location.href.split("/&", window.location.href.toString().length);
+        if (url[1] !== undefined) {
+            sidebar.modal("show");
+        }
+    })
 });

@@ -19,29 +19,87 @@
 @endsection
 
 @section('content')
-
-	@include('project.header')
+    @include('project.header')
 
     <h4>Project Information</h4>
     <p class="mb-2">
-        {{ $project->description ? $project->description : 'No Description' }}
+        {{ $project->description ? $project->description : '#No Description' }}
     </p>
 
     <!-- Info Card -->
-    <div class="card card-user-timeline">
+    <div class="card card-user-timeline {{ $disabledProject ? 'opacity-50 pointer-events-none' : '' }}">
         <div class="card-body">
             <div class="row">
-                <div class="col mt-0">
-                    <div class="avatar float-start bg-light-primary rounded me-1">
-                        <div class="avatar-content">
-                            <i data-feather="fast-forward" class="avatar-icon font-medium-3"></i>
+                @switch($project->project_status)
+                    @case(-1)
+                        <div class="col mt-0">
+                            <div class="avatar float-start bg-light-danger rounded me-1">
+                                <div class="avatar-content">
+                                    <i data-feather="alert-triangle" class="avatar-icon font-medium-3"></i>
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <h6 class="mb-0 text-danger">Fail</h6>
+                                <small>You have fail this project according to supervisor proposed</small>
+                            </div>
                         </div>
-                    </div>
-                    <div class="more-info">
-                        <h6 class="mb-0 text-primary">Doing</h6>
-                        <small>The project is in progress</small>
-                    </div>
-                </div>
+                    @break
+
+                    @case(0)
+                        <div class="col mt-0">
+                            <div class="avatar float-start bg-light-warning rounded me-1">
+                                <div class="avatar-content">
+                                    <i data-feather="pause-circle" class="avatar-icon font-medium-3"></i>
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <h6 class="mb-0 text-warning">Todo</h6>
+                                <small>The project is not have supervisor</small>
+                            </div>
+                        </div>
+                    @break
+
+                    @case(1)
+                        <div class="col mt-0">
+                            <div class="avatar float-start bg-light-primary rounded me-1">
+                                <div class="avatar-content">
+                                    <i data-feather="fast-forward" class="avatar-icon font-medium-3"></i>
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <h6 class="mb-0 text-primary">Doing</h6>
+                                <small>The project is in progress</small>
+                            </div>
+                        </div>
+                    @break
+
+                    @case(2)
+                        <div class="col mt-0">
+                            <div class="avatar float-start bg-light-success rounded me-1">
+                                <div class="avatar-content">
+                                    <i data-feather="check" class="avatar-icon font-medium-3"></i>
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <h6 class="mb-0 text-success">Done</h6>
+                                <small>Congratulations!! You have done this project</small>
+                            </div>
+                        </div>
+                    @break
+
+                    @default
+                        <div class="col mt-0">
+                            <div class="avatar float-start bg-light-warning rounded me-1">
+                                <div class="avatar-content">
+                                    <i data-feather="help-circle" class="avatar-icon font-medium-3"></i>
+                                </div>
+                            </div>
+                            <div class="more-info">
+                                <h6 class="mb-0 text-warning">Done</h6>
+                                <small>Something went wrong here</small>
+                            </div>
+                        </div>
+                @endswitch
                 <div class="mt-0 col">
                     <div class="avatar float-start bg-light-primary rounded me-1">
                         <div class="avatar-content">
@@ -60,23 +118,34 @@
                             <i data-feather="activity" class="avatar-icon font-medium-3"></i>
                         </div>
                     </div>
+                    @php
+                        $colorProgressState = '';
+                        
+                        if (0 <= $percent_completed && $percent_completed <= 40) {
+                            $colorProgressState = '#45ba30';
+                        } elseif (40 < $percent_completed && $percent_completed <= 60) {
+                            $colorProgressState = '#c4bc21';
+                        } elseif (60 < $percent_completed && $percent_completed <= 80) {
+                            $colorProgressState = '#db8223';
+                        } elseif (80 < $percent_completed && $percent_completed <= 100) {
+                            $colorProgressState = '#e63217';
+                        } else {
+                            $colorProgressState = '';
+                        }
+                        
+                    @endphp
                     <div class="more-info">
-						@php
-							$duration = (int) (strtotime($project->end_date) - strtotime($project->start_date)) / (60 * 60 * 24);
-							$now = (int) (strtotime(date('Y-m-d')) - strtotime($project->start_date)) / (60 * 60 * 24);
-							$rate = (int) ($now / $duration * 100);
-							$color = 'progress-bar-success';
-							if ($rate > 70) {
-								$color = 'progress-bar-warning';
-							}
-							if ($rate > 90) {
-								$color = 'progress-bar-danger';
-							}
-						@endphp
-                        <p class="mb-50">Duration by Date: <b>{{ $rate }}%</b>  -  {{ $now }}/{{ $duration }} Days</p>
-                        <div class="progress {{ $color }}" style="height: 6px">
-                            <div class="progress-bar" role="progressbar" aria-valuenow="{{ $rate }}" aria-valuemin="0"
-                                aria-valuemax="100" style="width: {{ $rate }}%"></div>
+                        <p class="mb-50">Duration: {{ $percent_completed }}% ( @if ($days_left > 0)
+                                {{ $days_left }} days remaining
+                            @else
+                                {{ -$days_left }} days through
+                            @endif) </p>
+                        <div class="progress progress-bar-secondary" style="height: 6px">
+                            <div class="progress-bar progress-bar-striped" role="progressbar"
+                                aria-valuenow="{{ $percent_completed }}" aria-valuemin="{{ $percent_completed }}"
+                                aria-valuemax="100"
+                                style="width: {{ $percent_completed }}%; ; background-color: {{ $colorProgressState }}!important">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -93,19 +162,21 @@
                     </div>
                     <div class="more-info" style="margin-top: 10px;">
                         <small>Project Manager</small>
-                        <h6 class="mb-0">{{ $pmAccount->fullname }}</h6>
+                        <h6 class="mb-0">{{ $pmAccount->fullname ?? '' }}</h6>
                     </div>
                 </div>
                 <div class="col mt-0">
                     <div class="avatar float-start bg-white rounded">
                         <div class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
-                            {{-- <img src="{{ asset('images/avatars/' . $supervisorAccount->avatar) }}" alt="Avatar"
-                                width="33" height="33" /> --}}
+                            <img src="{{ isset($supervisorAccount->avatar) ? asset('images/avatars/' . $supervisorAccount->avatar) : asset('images/avatars/default.png') }}"
+                                alt="Avatar" width="33" height="33" />
                         </div>
                     </div>
                     <div class="more-info" style="margin-top: 10px;">
                         <small>Project Supervisor</small>
-                        {{-- <h6 class="mb-0">{{ $supervisorAccount->fullname }}</h6> --}}
+                        <h6 class="mb-0">
+                            {{ $supervisorAccount->fullname ?? 'Waiting for supervisor...' }}
+                        </h6>
                     </div>
                 </div>
                 <div class="col mt-0">
@@ -113,13 +184,19 @@
                         <small>Other Members</small>
                     </div>
                     <div class="avatar-group">
-                        @foreach ($memberAccount as $acc)
+                        @forelse ($memberAccount as $acc)
                             <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
                                 title="{{ $acc->fullname }}" class="avatar pull-up">
                                 <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar" width="33"
                                     height="33" />
                             </div>
-                        @endforeach
+                        @empty
+                            <div class="d-flex align-items-center me-2">
+                                <strong>Waiting for the very first member to accept
+                                    invitation...</strong>
+                                <div class="spinner-border ms-2" role="status" aria-hidden="true"></div>
+                            </div>
+                        @endforelse
                     </div>
                 </div>
             </div>
@@ -130,11 +207,11 @@
 
     <h4>Board List</h4>
     <p class="mb-2">
-        Tập hợp các Task, ví dụ như mỗi board là 1 iteration... <br />
+        Set of Tasks, E.g: each board is 1 iteration... <br />
     </p>
 
     <!-- Board cards -->
-    <div class="row">
+    <div class="row {{ $disabledProject ? 'opacity-50 pointer-events-none' : '' }}">
         <div class="col-xl-4 col-lg-6 col-md-6">
             <div class="card">
                 <div class="row">
@@ -155,44 +232,148 @@
                 </div>
             </div>
         </div>
-		@php
-			$boards = [1,2,3,4,5];
-		@endphp
-		@foreach ($boards as $board)
-			<!-- Board Item -->
-			<div class="col-xl-4 col-lg-6 col-md-6">
-				<div class="card">
-					<div class="card-body">
-						<div class="d-flex justify-content-between">
-							<span>Total {{ 4 }} tasks</span>
-						</div>
-						<div class="d-flex justify-content-between align-items-end mt-1 pt-25">
-							<a class="role-heading" href="{{ route('view.board.kanban', ['slug' => $project->slug, 'board_id' => 0]) }}">
-								<h4 class="fw-bolder">{{ 'Iteration 1' }}</h4>
-							</a>
-						</div>
-						<div class="d-flex justify-content-between">
-							<a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
-								data-bs-target="#editBoardModal{{ 0 }}" data-id="{{ 0 }}">
-								<small>Edit Board</small>
-							</a>
-							<a data-id="{{ 0 }}" href="javascript:;" class="board-edit-modal"
-								data-bs-toggle="modal" data-bs-target="#removeBoardModal{{ 0 }}"
-								class="text-body delete-board"><i data-feather="trash-2" class="font-medium-5"></i></a>
-						</div>
-						@include('content._partials._modals.modal-edit-board')
-						@include('content._partials._modals.modal-remove-board')
-					</div>
-				</div>
-			</div>
-			<!--/ Board Item -->
-		@endforeach
+        @foreach ($boards as $board)
+            <!-- Board Item -->
+            <div class="col-xl-4 col-lg-6 col-md-6">
+                <div class="card">
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between">
+                            <span>Total {{ $board->tasks()->count() }} tasks</span>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
+                            <a class="role-heading"
+                                href="{{ route('view.board.kanban', ['slug' => $project->slug, 'board_id' => $board->id]) }}">
+                                <h4 class="fw-bolder">{{ $board->title }}</h4>
+                            </a>
+                        </div>
+                        <div class="d-flex justify-content-between">
+                            <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
+                                data-bs-target="#editBoardModal{{ $board->id }}">
+                                <small>Edit Board</small>
+                            </a>
+                            <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
+                                data-bs-target="#removeBoardModal{{ $board->id }}" class="text-body delete-board"><i
+                                    data-feather="trash-2" class="font-medium-5"></i></a>
+                        </div>
+                        <!-- Edit Board Modal -->
+                        <div class="modal fade" id="editBoardModal{{ $board->id }}" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-add-new-board">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body px-5 pb-5">
+                                        <div class="text-center mb-4">
+                                            <h1 class="board-title">Edit Board: {{ $board->title }}</h1>
+                                        </div>
+                                        <!-- Edit board form -->
+                                        <form id="editBoardForm" class="row"
+                                            action="{{ route('edit.board', ['slug' => $project->slug, 'id' => $board->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <div class="col-12">
+                                                <label class="form-label" for="modalBoardTitleEdit">Board Title</label>
+                                                <input type="text" id="modalBoardTitleEdit" name="modalBoardTitleEdit"
+                                                    class="form-control modalBoardTitleEdit"
+                                                    placeholder="Enter board title" tabindex="-1"
+                                                    data-msg="Please enter board title" value="{{ $board->title }}" />
+                                                <span id="error-modalBoardTitleEdit" style="color: red"></span>
+                                            </div>
+                                            <div class="col-12 text-center mt-2">
+                                                <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                                <button type="reset" class="btn btn-outline-secondary"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                    Discard
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <!--/ Edit board form -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ Edit Board Modal -->
+
+                        <!-- Delete Board Modal -->
+                        <div class="modal fade" id="removeBoardModal{{ $board->id }}" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-add-new-board">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-3 pt-0">
+                                        <div class="text-center mb-2">
+                                            <h1 class="mb-1">Remove Board! </h1>
+                                            <p>Remove board <b> {{ $board->title }} </b>as per your requirements.</p>
+                                        </div>
+
+                                        <div class="alert alert-danger" role="alert">
+                                            <h6 class="alert-heading">Danger!</h6>
+                                            <div class="alert-body">
+                                                Remove Board and remove all the task in board!
+                                            </div>
+                                        </div>
+                                        @php
+                                            $status = [0, 1, 2]; // Todo, doing, reviewing
+                                            $tasksCount = $board->tasks->whereIn('status', $status)->count();
+                                        @endphp
+                                        @if ($tasksCount > 0)
+                                            <div class="alert alert-warning" role="alert">
+                                                <div class="alert-body">
+                                                    @foreach ($board->tasks as $task)
+                                                        @if (in_array($task->status, $status))
+                                                            @switch($task->status)
+                                                                @case(0)
+                                                                    <li>{{ $tasksCount }} tasks are waiting for TODO</li>
+                                                                @break
+
+                                                                @case(1)
+                                                                    <li>{{ $tasksCount }} tasks are waiting for DOING</li>
+                                                                @break
+
+                                                                @case(2)
+                                                                    <li>{{ $tasksCount }} tasks are waiting for REVIEWING</li>
+                                                                @break
+                                                            @endswitch
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if ($tasksCount > 0)
+                                            <div class="text-center mt-2">
+                                                <a href="{{ route('view.board.kanban', ['slug' => $project->slug, 'board_id' => $board->id]) }}"
+                                                    type="button" class="btn btn-primary">Check it out!!</a>
+                                            </div>
+                                        @else
+                                            <form id="removeMemberForm" class="row" method="POST"
+                                                action="{{ route('remove.board', ['slug' => $project->slug, 'id' => $board->id]) }}">
+                                                @csrf
+                                                <div class="text-center mt-2">
+                                                    <button type="submit" class="btn btn-primary">I'm sure!!</button>
+                                                </div>
+                                            </form>
+                                        @endif
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ Delete Board Modal -->
+                    </div>
+                </div>
+            </div>
+            <!--/ Board Item -->
+        @endforeach
 
     </div>
     <!--/ Board cards -->
 
     @include('content._partials._modals.modal-add-new-board')
-
 @endsection
 
 @section('vendor-script')
@@ -210,4 +391,5 @@
     <script src="{{ asset('js/scripts/components/components-navs.js') }}"></script>
     <script src="{{ asset(mix('js/scripts/forms/form-wizard.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/app-todo.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/project/board.js')) }}"></script>
 @endsection
