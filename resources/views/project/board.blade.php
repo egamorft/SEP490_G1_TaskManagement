@@ -157,7 +157,7 @@
                     </div>
                     <div class="more-info" style="margin-top: 10px;">
                         <small>Project Manager</small>
-                        <h6 class="mb-0">{{ $pmAccount->fullname ?? "" }}</h6>
+                        <h6 class="mb-0">{{ $pmAccount->fullname ?? '' }}</h6>
                     </div>
                 </div>
                 <div class="col mt-0">

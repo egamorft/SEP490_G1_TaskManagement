@@ -96,15 +96,23 @@ Route::middleware(['auth'])->group(function () {
 
         Route::get('report', [ProjectController::class, 'view_report'])->name('view.project.report');
         Route::get('board', [ProjectController::class, 'view_board'])->name('view.project.board');
+        Route::get('gantt', [ProjectController::class, 'view_gantt'])->name('view.project.gantt');
         Route::get('board/{board_id}/kanban', [ProjectController::class, 'view_board_kanban'])->name('view.board.kanban');
-        Route::get('board/{board_id}/gantt', [ProjectController::class, 'view_board_gantt'])->name('view.board.gantt');
         Route::get('board/{board_id}/calendar', [ProjectController::class, 'view_board_calendar'])->name('view.board.calendar');
         Route::get('board/{board_id}/list', [ProjectController::class, 'view_board_list'])->name('view.board.list');
+        Route::get('report/member/{user_id}', [ProjectController::class, 'view_report_member'])->name('view.project.member');
+        Route::get('board/{board_id}/kanban/&show=task&id={id?}', [ProjectController::class, 'view_board_kanban'])->name('view.task');
 
         Route::post('add-board', [ProjectController::class, 'add_board'])->name('add.board');
         Route::post('edit-board', [ProjectController::class, 'edit_board'])->name('edit.board');
         Route::post('remove-board', [ProjectController::class, 'remove_board'])->name('remove.board');
+        //TODO: Edit with {slug} url
+        // Request Action on Board
+        Route::post('board/{board_id}/add-task', [ProjectController::class, 'add_task_modal'])->name('add.task.modal');
+        Route::post('board/{board_id}/edit-task/{task_id}', [ProjectController::class, 'edit_task_modal'])->name('edit.task.modal');
+        Route::post('board/{board_id}/add-task-list', [ProjectController::class, 'add_task_list_modal'])->name('add.task.list.modal');
     });
+
     Route::group(['prefix' => 'project'], function () {
         Route::get('invite/{slug}/{token}', [ProjectController::class, 'show'])->name('project.invite');
         Route::post('invitation/{slug}/{token}', [ProjectController::class, 'invitation'])->name('invitation.submit');

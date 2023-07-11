@@ -564,13 +564,55 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Project or role not found'], 404);
     }
 
+
     /**
      * Display a report view of project
      *
      * @return \Illuminate\Http\Response
      */
+    public function view_report_member($slug, $user_id)
+    {
+        $pageConfigs = [
+            'pageHeader' => false,
+        ];
+
+        //Project info & members
+        $project = Project::where('slug', $slug)->first();
+        $accounts = $project->accounts()->get();
+
+        $pmAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('pm', 1)
+            ->first();
+
+        $supervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 1)
+            ->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
+
+        $disabledProject = $this->checkDisableProject($project);
+
+        return view('project.report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
+            ->with(compact(
+                'project',
+                'pmAccount',
+                'supervisorAccount',
+                'memberAccount',
+                'disabledProject'
+            ));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
     public function view_report($slug)
     {
+
         $pageConfigs = [
             'pageHeader' => false,
         ];
@@ -694,7 +736,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function view_board_gantt($slug, $board_id)
+    public function view_gantt($slug)
     {
         $pageConfigs = [
             'pageHeader' => false,
@@ -716,9 +758,17 @@ class ProjectController extends Controller
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
-        $disabledProject = $this->checkDisableProject($project);
 
-        return view('project.gantt', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'gantt'])
+
+
+
+
+
+
+
+
+        $disabledProject = $this->checkDisableProject($project);
+        return view('project.gantt', ['pageConfigs' => $pageConfigs, 'page' => 'gantt'])
             ->with(compact(
                 'project',
                 'pmAccount',
@@ -872,5 +922,26 @@ class ProjectController extends Controller
                 return true;
                 break;
         }
+    }
+
+    public function add_task_modal(Request $request)
+    {
+        Session::flash('error', 'Something went wrong');
+        return redirect()->back();
+    }
+
+    public function edit_task_modal(Request $request, $slug, $board_id, $task_id)
+    {
+
+        Session::flash('error', 'Something went wrong');
+        return redirect()->back();
+    }
+
+
+    public function add_task_list_modal(Request $request)
+    {
+
+        Session::flash('error', 'Something went wrong');
+        return redirect()->back();
     }
 }
