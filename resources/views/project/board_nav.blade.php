@@ -25,51 +25,79 @@
     </ul>
     
     <div class="filter-nav-header mb-2">
-        <div class="filter-by-status card-body">
-            <h5 class="section-label mb-1">
-                <span class="align-middle">Filter By Status</span>
-            </h5>
-            <div class="calendar-events-filter">
-				<div class="form-check form-check-info mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="todo-task" data-value="todo-task"
-                        checked />
-                    <label class="form-check-label" for="todo-task">Todo</label>
-                </div>
-                <div class="form-check form-check-primary mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="doing-task" data-value="doing-task"
-                        checked />
-                    <label class="form-check-label" for="doing-task">Doing</label>
-                </div>
-                <div class="form-check form-check-warning mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="reviewing-task" data-value="reviewing-task"
-                        checked />
-                    <label class="form-check-label" for="reviewing-task">Reviewing</label>
-                </div>
-                <div class="form-check form-check-success mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="ontime-task" data-value="ontime-task"
-                        checked />
-                    <label class="form-check-label" for="ontime-task">Done Ontime</label>
-                </div>
-                <div class="form-check form-check-secondary mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="late-task" data-value="late-task"
-                        checked />
-                    <label class="form-check-label" for="late-task">Done Late</label>
-                </div>
-                <div class="form-check form-check-danger mb-1">
-                    <input type="checkbox" class="form-check-input input-filter" id="overdue-task" data-value="overdue-task"
-                        checked />
-                    <label class="form-check-label" for="overdue-task">Overdue</label>
-                </div>
-            </div>
-        </div>
-
         <button class="button-filter-header">
             <i data-feather="filter" class="custom-title-icon"></i>
             <span class="filter-title">Filter</span>
         </button>
 
-        <div class="filter-list">
+        <div class="filter-list hidden">
+            <form action="" method="GET">
+                <div class="filter-search">
+                    <div class="fw-bold">Từ khóa</div>
+                    <input type="search" id="form1" class="form-control" placeholder="Nhập từ khóa..." name="q" aria-label="Search" />
+                </div>
 
-        </div>
+                <div class="filter-date">
+
+                        <div class="filter-date-range">
+                            <input class="form-check-input checkbox-finish-task" type="checkbox" name="dueToday"
+                            id="checkToday">
+                            <span class="filter-date-title">
+                                <i data-feather="calendar" class="filter-date-icon"></i>
+                                <span class="span-date-filter">Sẽ hết hạn vào hôm nay</span>
+                            </span>
+                        </div>
+        
+                        <div class="filter-date-range">
+                            <input class="form-check-input checkbox-finish-task" type="checkbox" name="overdue"
+                            id="checkOverdue">
+                            <span class="filter-date-title">
+                                <i data-feather="clock" class="filter-date-icon color-alert"></i>
+                                <span class="span-date-filter">Quá hạn</span>
+                            </span>
+                        </div>
+        
+                        <div class="filter-date-range">
+                            <input class="form-check-input checkbox-finish-task" type="checkbox" name="dueTomorrow"
+                            id="checkTomorrow">
+                            <span class="filter-date-title">
+                                <i data-feather="clock" class="filter-date-icon color-primary"></i>
+                                <span class="span-date-filter">Sẽ hết hạn vào ngày mai</span>
+                            </span>
+                        </div>
+        
+                        <div class="filter-date-range">
+                            <input class="form-check-input checkbox-finish-task" type="checkbox" name="dueNextWeek"
+                            id="checkNextWeek">
+                            <span class="filter-date-title">
+                                <i data-feather="clock" class="filter-date-icon"></i>
+                                <span class="span-date-filter">Sẽ hết hạn vào tuần sau</span>
+                            </span>
+                        </div>
+        
+                        <div class="filter-date-range">
+                            <input class="form-check-input checkbox-finish-task" type="checkbox" name="markDone"
+                            id="checkAsDone">
+                            <span class="filter-date-title">
+                                <i data-feather="clock" class="filter-date-icon"></i>
+                                <span class="span-date-filter">Đã đánh dấu là hoàn thành</span>
+                            </span>
+                        </div>
+        
+                        <div class="filter-date-range">
+                            <input class="form-check-input checkbox-finish-task" type="checkbox" name="markNotDone"
+                            id="checkAsNotdone">
+                            <span class="filter-date-title">
+                                <i data-feather="clock" class="filter-date-icon"></i>
+                                <span class="span-date-filter">Không được đánh dấu là đã hoàn thành</span>
+                            </span>
+                        </div>
+
+                        <div class="btn">
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </div>
+                    </div>
+                </div>
+            </form>
     </div>
 </div>

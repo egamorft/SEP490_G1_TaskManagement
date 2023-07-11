@@ -133,6 +133,50 @@
                 }
             }
         }
+        
+        .filter-list {
+            position: absolute;
+            top: 40px;
+            right: 0px;
+            bottom: 0px;
+            width: 400px;
+            background-color: #fff;
+            height: 350px;
+            z-index: 100;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+
+            .filter-date {
+                margin: 20px 0px;
+                
+                .filter-date-range {
+                    margin: 8px 0px;
+                }
+
+                .span-date-filter {
+                    margin-left: 10px;
+                }
+
+                .filter-date-icon {
+                    margin-left: 10px;
+                    background-color: #091E420F;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50px;
+                }
+
+                .filter-date-icon.color-alert {
+                    background-color: #CA3521;
+                    color: #fff;
+                }
+
+                .filter-date-icon.color-primary {
+                    background-color: #E2B203;
+                    color: #fff;
+                }
+            }
+        }
     }
 }
 

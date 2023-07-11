@@ -103,4 +103,12 @@ $(window).on("load", function () {
             alert("Submit form thành công")
         });
     }
+
+    $('.button-filter-header').on("click", function() {
+        if ($('.filter-list').hasClass("hidden")) {
+            $('.filter-list').removeClass("hidden");
+        } else {
+            $('.filter-list').addClass("hidden");
+        }
+    })
 });
