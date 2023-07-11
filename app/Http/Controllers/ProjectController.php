@@ -1059,6 +1059,13 @@ class ProjectController extends Controller
 		Session::flash('error', 'Something went wrong');
 		return redirect()->back();
     }
+
+    public function edit_task_modal(Request $request, $slug, $board_id, $task_id)
+    {
+		Session::flash('error', 'Something went wrong');
+		return redirect()->back();
+    }
+
 	public function add_task_list_modal(Request $request)
     {
 		Session::flash('error', 'Something went wrong');

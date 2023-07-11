@@ -113,7 +113,7 @@ Route::middleware(['auth'])->group(function () {
 
 		// Request Action on Task
         Route::post('{slug}/board/{board_id}/add-task', [ProjectController::class, 'add_task_modal'])->name('add.task.modal');
-
+        Route::post('{slug}/board/{board_id}/edit-task/{task_id}', [ProjectController::class, 'edit_task_modal'])->name('edit.task.modal');
 		// Request Action on Task List
         Route::post('{slug}/board/{board_id}/add-task-list', [ProjectController::class, 'add_task_list_modal'])->name('add.task.list.modal');
 
