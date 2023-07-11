@@ -110,5 +110,5 @@ $(window).on("load", function () {
         } else {
             $('.filter-list').addClass("hidden");
         }
-    })
+    });
 });
