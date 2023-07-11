@@ -219,9 +219,10 @@ class ProjectController extends Controller
     {
         //Invitation page
         $project = Project::where('slug', $slug)->where('token', $token)->first();
+        $projectId = $project->id;
 
         $accountId = Auth::user()->id;
-        $check_account_project_invitation_valid = AccountProject::where('project_id', $project->id)
+        $check_account_project_invitation_valid = AccountProject::where('project_id', $projectId)
             ->where('account_id', $accountId)->where('status', 0)
             ->first();
 
@@ -251,14 +252,24 @@ class ProjectController extends Controller
             }
 
             //Get total members in project
-            $totalAccounts = AccountProject::where('project_id', $project->id)->where('status', 1)->count();
+            $totalAccounts = AccountProject::where('project_id', $projectId)->where('status', 1)->count();
+
+            $supervisorAccounts = Account::whereHas('roles', function ($query) use ($projectId) {
+                $query->where('roles.id', 2)
+                    ->where('account_project.status', 1)
+                    ->where('account_project.project_id', $projectId);
+            })
+                ->join('account_project', 'accounts.id', '=', 'account_project.account_id')
+                ->select('accounts.*')
+                ->first();
 
             return view('content.project.app-project-invitation')
                 ->with(compact(
                     'project',
                     'accountsInProject',
                     'totalAccounts',
-                    'check_account_project_invitation_valid'
+                    'check_account_project_invitation_valid',
+                    'supervisorAccounts'
                 ));
         } else {
             Session::flash('error', 'Something went wrong or this invitation is expired');
@@ -622,7 +633,7 @@ class ProjectController extends Controller
         $days_passed = (strtotime(date('Y-m-d')) - strtotime($project->start_date)) / (60 * 60 * 24);
         $percent_completed = round($days_passed / $total_days * 100, 2);
         $days_left = $total_days - $days_passed;
-        
+
         $boards = Board::where('project_id', $project->id)->with('tasks')->get();
 
         return view('project.board', ['pageConfigs' => $pageConfigs, 'page' => 'board'])
@@ -649,7 +660,7 @@ class ProjectController extends Controller
             'pageHeader' => false,
             'pageClass' => 'kanban-application',
         ];
-        
+
         //Project info & members
         $project = Project::where('slug', $slug)->first();
         $accounts = $project->accounts()->get();
@@ -783,7 +794,7 @@ class ProjectController extends Controller
         $memberAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
-            
+
         $disabledProject = $this->checkDisableProject($project);
 
         return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
@@ -819,7 +830,7 @@ class ProjectController extends Controller
         ]);
         $board->title = $request->input('modalBoardTitleEdit');
         $board->save();
-        
+
         Session::flash('success', 'Edit successfully board');
         // Redirect or return a response
         return response()->json(['success' => true]);
@@ -829,7 +840,7 @@ class ProjectController extends Controller
         $board = Board::findOrFail($request->input('id'));
         $board->delete();
 
-        Session::flash('success', 'Deleted board '. $board->title);
+        Session::flash('success', 'Deleted board ' . $board->title);
         // Redirect or return a response
         return response()->json(['success' => true]);
     }
