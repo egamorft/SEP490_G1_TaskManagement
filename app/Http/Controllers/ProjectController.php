@@ -123,6 +123,22 @@ class ProjectController extends Controller
         // Access the start date and end date
         $startDate = $dates['start_date'];
         $endDate = $dates['end_date'];
+        // Convert the end date to a Carbon instance
+        $endDateCarbon = Carbon::createFromFormat('Y-m-d', $endDate)->startOfDay();
+        // Get the current date as a Carbon instance
+        $now = Carbon::now()->startOfDay()->format('Y-m-d');
+        // dd($endDateCarbon, $now);
+        // Check if the end date is smaller than or equal to the current date
+        if ($endDateCarbon->lte($now)) {
+            // Return an error response with a 422 Unprocessable Entity status code
+            return response()->json([
+                'errors' => [
+                    'duration' => [
+                        'The end date must be greater than the current date.'
+                    ]
+                ]
+            ], 422);
+        }
         $project_name = $request->input('modalAddProjectName');
 
         $project_slug = Str::slug($project_name, '-');
@@ -319,6 +335,16 @@ class ProjectController extends Controller
         // Access the start date and end date
         $startDate = $dates['start_date'];
         $endDate = $dates['end_date'];
+
+        // Convert the end date to a Carbon instance
+        $endDateCarbon = Carbon::createFromFormat('Y-m-d', $endDate)->startOfDay();
+        // Get the current date as a Carbon instance
+        $now = Carbon::now()->startOfDay()->format('Y-m-d');
+        // Check if the end date is smaller than or equal to the current date
+        if ($endDateCarbon->lte($now)) {
+            Session::flash('error', 'The end date must be greater than the current date');
+            return redirect(url('/project/' . $slug));
+        }
 
         $project->name = $request->input('settingProjectName');
         $project->slug = $project_slug;
@@ -551,16 +577,19 @@ class ProjectController extends Controller
             if ($isChecked === "true") {
                 // Attach the permission to the role in the project
                 $project->roles()->attach($roleId, ['permission_id' => $permissionId]);
+                Session::flash('success', 'Permission attach successfully');
                 return response()->json(['message' => 'Permission attach successfully']);
             } else {
                 // Detach the permission from the role in the project
                 ProjectRolePermission::where('project_id', $project->id)->where('role_id', $roleId)
                     ->where('permission_id', $permissionId)
                     ->delete();
+                Session::flash('success', 'Permission detach successfully');
                 return response()->json(['message' => 'Permission detach successfully']);
             }
         }
 
+        Session::flash('error', 'Project or role not found');
         return response()->json(['message' => 'Project or role not found'], 404);
     }
 
@@ -815,13 +844,16 @@ class ProjectController extends Controller
 
         $disabledProject = $this->checkDisableProject($project);
 
+        $board = Board::findOrFail($board_id);
+
         return view('project.calendar', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'calendar'])
             ->with(compact(
                 'project',
                 'pmAccount',
                 'supervisorAccount',
                 'memberAccount',
-                'disabledProject'
+                'disabledProject',
+                'board'
             ));
     }
 
@@ -853,6 +885,8 @@ class ProjectController extends Controller
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
+        $board = Board::findOrFail($board_id);
+
         $disabledProject = $this->checkDisableProject($project);
 
         return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
@@ -861,7 +895,8 @@ class ProjectController extends Controller
                 'pmAccount',
                 'supervisorAccount',
                 'memberAccount',
-                'disabledProject'
+                'disabledProject',
+                'board'
             ));
     }
 

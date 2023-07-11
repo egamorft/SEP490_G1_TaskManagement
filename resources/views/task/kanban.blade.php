@@ -3,7 +3,7 @@
     <div class="row">
         <div class="col-12">
             <form class="add-new-board"
-                action="{{ route('add.task.list.modal', ['slug' => $project->slug, 'board_id' => 0]) }}">
+                action="{{ route('add.task.list.modal', ['slug' => $project->slug, 'board_id' => $board->id]) }}">
                 <label class="add-new-btn mb-2" for="add-new-board-input">
                     <i class="align-middle" data-feather="plus"></i>
                     <span class="align-middle">Add new</span>

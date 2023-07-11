@@ -23,9 +23,7 @@
 })(window, document, jQuery);
 
 $(document).ready(function () {
-  var isRtl = $('html').attr('data-textdirection') === 'rtl',
-    typeSuccess = $('#success-alert:hidden'),
-    typeError = $('#error-alert:hidden');
+  var isRtl = $('html').attr('data-textdirection') === 'rtl';
   //Handle invitation through email
   $('#modalInviteForm').submit(function (event) {
     event.preventDefault();
@@ -74,6 +72,7 @@ $(document).ready(function () {
   //Handle checkbox in permission role editor
   $('.permission-role-editor').change(function () {
     var csrfToken = $('input[name="csrf-token"]').val();
+    var slug = $('input[name="slug"]').val();
     var roleId = $(this).attr('id').split('_')[0];
     var permissionId = $(this).attr('id').split('_')[1];
     var isChecked = $(this).prop('checked');
@@ -84,7 +83,7 @@ $(document).ready(function () {
     var section = $('#section-block');
     // Make AJAX request to update project_role_permission table
     $.ajax({
-      url: '/project/update-permission',
+      url: '/project/'+slug+'/update-permission',
       method: 'POST',
       headers: {
         'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
