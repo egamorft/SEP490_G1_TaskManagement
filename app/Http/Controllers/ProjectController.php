@@ -594,7 +594,7 @@ class ProjectController extends Controller
 
         $disabledProject = $this->checkDisableProject($project);
 
-        return view('project.report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
+        return view('project.member_report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
             ->with(compact(
                 'project',
                 'pmAccount',
