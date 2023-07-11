@@ -155,10 +155,10 @@
             <div class="row">
                 <div class="col mt-0">
                     <div class="avatar float-start bg-white rounded">
-                        <div class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
+                        <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $pmAccount->id]) }}" class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
                             <img src="{{ asset('images/avatars/' . $pmAccount->avatar) }}" alt="Avatar" width="33"
                                 height="33" />
-                        </div>
+                        </a>
                     </div>
                     <div class="more-info" style="margin-top: 10px;">
                         <small>Project Manager</small>
@@ -167,10 +167,10 @@
                 </div>
                 <div class="col mt-0">
                     <div class="avatar float-start bg-white rounded">
-                        <div class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
+                        <a href="{{ $supervisorAccount ? route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisorAccount->id]) : '#' }}" class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
                             <img src="{{ isset($supervisorAccount->avatar) ? asset('images/avatars/' . $supervisorAccount->avatar) : asset('images/avatars/default.png') }}"
                                 alt="Avatar" width="33" height="33" />
-                        </div>
+                        </a>
                     </div>
                     <div class="more-info" style="margin-top: 10px;">
                         <small>Project Supervisor</small>
@@ -185,11 +185,11 @@
                     </div>
                     <div class="avatar-group">
                         @forelse ($memberAccount as $acc)
-                            <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
+                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
                                 title="{{ $acc->fullname }}" class="avatar pull-up">
                                 <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar" width="33"
                                     height="33" />
-                            </div>
+                            </a>
                         @empty
                             <div class="d-flex align-items-center me-2">
                                 <strong>Waiting for the very first member to accept
