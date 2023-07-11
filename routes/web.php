@@ -20,6 +20,7 @@ use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SendMailController;
+use App\Http\Controllers\TaskController;
 use App\Http\Middleware\CheckProjectAccess;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
@@ -82,6 +83,7 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::get('get-taskList-task/{board_id}', [TaskController::class, 'get_taskList_task'])->name('get.taskList.task');
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
 
     //Required project access (user in project - account_project ft status == 1)

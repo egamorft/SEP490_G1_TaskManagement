@@ -18,14 +18,24 @@ $(function () {
     }
 
     // Get Data
+    // Get the current URL
+    var currentUrl = window.location.href;
+
+    // Use regular expressions to extract the board_id parameter from the URL
+    var boardIdRegex = /\/board\/(\d+)\/kanban/;
+    var boardIdMatches = currentUrl.match(boardIdRegex);
+    var boardId = boardIdMatches[1];
     $.ajax({
-        type: "GET",
+        method: "GET",
         dataType: "json",
-        async: false,
-        url: assetPath + "data/kanban.json",
+        url: '/get-taskList-task/' + boardId,
         success: function (data) {
+            console.log(data);
             boards = data;
         },
+        error: function (response) {
+
+        }
     });
 
     // Toggle add new input and actions
@@ -156,36 +166,36 @@ $(function () {
 
         return images !== undefined
             ? images
-                  .split(",")
-                  .map(function (img, index, arr) {
-                      var $margin =
-                          margin !== undefined && index !== arr.length - 1
-                              ? " me-" + margin + ""
-                              : "";
+                .split(",")
+                .map(function (img, index, arr) {
+                    var $margin =
+                        margin !== undefined && index !== arr.length - 1
+                            ? " me-" + margin + ""
+                            : "";
 
-                      return (
-                          "<li class='avatar kanban-item-avatar" +
-                          " " +
-                          $transition +
-                          " " +
-                          $margin +
-                          "'" +
-                          "data-bs-toggle='tooltip' data-bs-placement='top'" +
-                          "title='" +
-                          member[index] +
-                          "'" +
-                          ">" +
-                          "<img src='" +
-                          assetPath +
-                          "images/portrait/small/" +
-                          img +
-                          "' alt='Avatar' height='" +
-                          size +
-                          "'>" +
-                          "</li>"
-                      );
-                  })
-                  .join(" ")
+                    return (
+                        "<li class='avatar kanban-item-avatar" +
+                        " " +
+                        $transition +
+                        " " +
+                        $margin +
+                        "'" +
+                        "data-bs-toggle='tooltip' data-bs-placement='top'" +
+                        "title='" +
+                        member[index] +
+                        "'" +
+                        ">" +
+                        "<img src='" +
+                        assetPath +
+                        "images/portrait/small/" +
+                        img +
+                        "' alt='Avatar' height='" +
+                        size +
+                        "'>" +
+                        "</li>"
+                    );
+                })
+                .join(" ")
             : "";
     }
 
@@ -234,20 +244,20 @@ $(function () {
             var el = $(el);
             var flag = false;
             var title = el.attr("data-eid")
-                    ? el.find(".kanban-text").text()
-                    : el.text(),
+                ? el.find(".kanban-text").text()
+                : el.text(),
                 date = el.attr("data-due-date"),
                 dateObj = new Date(),
                 year = dateObj.getFullYear(),
                 dateToUse = date
                     ? date + ", " + year
                     : dateObj.getDate() +
-                      " " +
-                      dateObj.toLocaleString("en", {
-                          month: "long",
-                      }) +
-                      ", " +
-                      year,
+                    " " +
+                    dateObj.toLocaleString("en", {
+                        month: "long",
+                    }) +
+                    ", " +
+                    year,
                 label = el.attr("data-badge-text"),
                 avatars = el.attr("data-assigned");
 
@@ -288,10 +298,10 @@ $(function () {
                         el.attr("data-members"),
                         32
                     ) +
-                        "<li class='avatar avatar-add-member ms-50'>" +
-                        "<span class='avatar-content'>" +
-                        feather.icons["plus"].toSvg({ class: "avatar-icon" }) +
-                        "</li>"
+                    "<li class='avatar avatar-add-member ms-50'>" +
+                    "<span class='avatar-content'>" +
+                    feather.icons["plus"].toSvg({ class: "avatar-icon" }) +
+                    "</li>"
                 );
         },
         buttonClick: function (el, boardId) {
@@ -473,18 +483,18 @@ $(function () {
                     $this.attr("data-badge"),
                     $this.attr("data-badge-text")
                 ) +
-                    "<img class='img-fluid rounded mb-50' src='" +
-                    assetPath +
-                    "images/slider/" +
-                    $this.attr("data-image") +
-                    "' height='32'/>" +
-                    $text +
-                    renderFooter(
-                        $this.attr("data-due-date"),
-                        $this.attr("data-comments"),
-                        $this.attr("data-assigned"),
-                        $this.attr("data-members")
-                    )
+                "<img class='img-fluid rounded mb-50' src='" +
+                assetPath +
+                "images/slider/" +
+                $this.attr("data-image") +
+                "' height='32'/>" +
+                $text +
+                renderFooter(
+                    $this.attr("data-due-date"),
+                    $this.attr("data-comments"),
+                    $this.attr("data-assigned"),
+                    $this.attr("data-members")
+                )
             );
         }
         $this.on("mouseenter", function () {
@@ -500,12 +510,12 @@ $(function () {
         });
     }
 
-    $('.btn-close').on("click", function() {
+    $('.btn-close').on("click", function () {
         var url = window.location.href.split("/&", window.location.href.toString().length)[0];
         history.replaceState(null, null, url);
     });
 
-    $(window).on("load", function() {
+    $(window).on("load", function () {
         var url = window.location.href.split("/&", window.location.href.toString().length);
         if (url[1] !== undefined) {
             sidebar.modal("show");

@@ -249,7 +249,7 @@
                         <div class="d-flex justify-content-between">
                             <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
                                 data-bs-target="#editBoardModal{{ $board->id }}">
-                                <small>Edit Board</small>
+                                <small class="fs-6 fw-bold">Edit Board</small>
                             </a>
                             <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
                                 data-bs-target="#removeBoardModal{{ $board->id }}" class="text-body delete-board"><i
