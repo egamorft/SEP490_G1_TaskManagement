@@ -132,9 +132,14 @@
                         } else {
                             $colorProgressState = '';
                         }
+                        
                     @endphp
                     <div class="more-info">
-                        <p class="mb-50">Duration: {{ $percent_completed }}% ({{ $days_left }} days remaining) </p>
+                        <p class="mb-50">Duration: {{ $percent_completed }}% ( @if ($days_left > 0)
+                                {{ $days_left }} days remaining
+                            @else
+                                {{ -$days_left }} days through
+                            @endif) </p>
                         <div class="progress progress-bar-secondary" style="height: 6px">
                             <div class="progress-bar progress-bar-striped" role="progressbar"
                                 aria-valuenow="{{ $percent_completed }}" aria-valuemin="{{ $percent_completed }}"
@@ -250,8 +255,115 @@
                                 data-bs-target="#removeBoardModal{{ $board->id }}" class="text-body delete-board"><i
                                     data-feather="trash-2" class="font-medium-5"></i></a>
                         </div>
-                        @include('content._partials._modals.modal-edit-board')
-                        @include('content._partials._modals.modal-remove-board')
+                        <!-- Edit Board Modal -->
+                        <div class="modal fade" id="editBoardModal{{ $board->id }}" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-add-new-board">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body px-5 pb-5">
+                                        <div class="text-center mb-4">
+                                            <h1 class="board-title">Edit Board: {{ $board->title }}</h1>
+                                        </div>
+                                        <!-- Edit board form -->
+                                        <form id="editBoardForm" class="row"
+                                            action="{{ route('edit.board', ['slug' => $project->slug, 'id' => $board->id]) }}"
+                                            method="POST">
+                                            @csrf
+                                            <div class="col-12">
+                                                <label class="form-label" for="modalBoardTitleEdit">Board Title</label>
+                                                <input type="text" id="modalBoardTitleEdit" name="modalBoardTitleEdit"
+                                                    class="form-control modalBoardTitleEdit"
+                                                    placeholder="Enter board title" tabindex="-1"
+                                                    data-msg="Please enter board title" value="{{ $board->title }}" />
+                                                <span id="error-modalBoardTitleEdit" style="color: red"></span>
+                                            </div>
+                                            <div class="col-12 text-center mt-2">
+                                                <button type="submit" class="btn btn-primary me-1">Submit</button>
+                                                <button type="reset" class="btn btn-outline-secondary"
+                                                    data-bs-dismiss="modal" aria-label="Close">
+                                                    Discard
+                                                </button>
+                                            </div>
+                                        </form>
+                                        <!--/ Edit board form -->
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ Edit Board Modal -->
+
+                        <!-- Delete Board Modal -->
+                        <div class="modal fade" id="removeBoardModal{{ $board->id }}" data-bs-backdrop="static"
+                            data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+                            <div class="modal-dialog modal-dialog-centered modal-add-new-board">
+                                <div class="modal-content">
+                                    <div class="modal-header bg-transparent">
+                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                            aria-label="Close"></button>
+                                    </div>
+                                    <div class="modal-body p-3 pt-0">
+                                        <div class="text-center mb-2">
+                                            <h1 class="mb-1">Remove Board! </h1>
+                                            <p>Remove board <b> {{ $board->title }} </b>as per your requirements.</p>
+                                        </div>
+
+                                        <div class="alert alert-danger" role="alert">
+                                            <h6 class="alert-heading">Danger!</h6>
+                                            <div class="alert-body">
+                                                Remove Board and remove all the task in board!
+                                            </div>
+                                        </div>
+                                        @php
+                                            $status = [0, 1, 2]; // Todo, doing, reviewing
+                                            $tasksCount = $board->tasks->whereIn('status', $status)->count();
+                                        @endphp
+                                        @if ($tasksCount > 0)
+                                            <div class="alert alert-warning" role="alert">
+                                                <div class="alert-body">
+                                                    @foreach ($board->tasks as $task)
+                                                        @if (in_array($task->status, $status))
+                                                            @switch($task->status)
+                                                                @case(0)
+                                                                    <li>{{ $tasksCount }} tasks are waiting for TODO</li>
+                                                                @break
+
+                                                                @case(1)
+                                                                    <li>{{ $tasksCount }} tasks are waiting for DOING</li>
+                                                                @break
+
+                                                                @case(2)
+                                                                    <li>{{ $tasksCount }} tasks are waiting for REVIEWING</li>
+                                                                @break
+                                                            @endswitch
+                                                        @endif
+                                                    @endforeach
+                                                </div>
+                                            </div>
+                                        @endif
+                                        @if ($tasksCount > 0)
+                                            <div class="text-center mt-2">
+                                                <a href="{{ route('view.board.kanban', ['slug' => $project->slug, 'board_id' => $board->id]) }}"
+                                                    type="button" class="btn btn-primary">Check it out!!</a>
+                                            </div>
+                                        @else
+                                            <form id="removeMemberForm" class="row" method="POST"
+                                                action="{{ route('remove.board', ['slug' => $project->slug, 'id' => $board->id]) }}">
+                                                @csrf
+                                                <div class="text-center mt-2">
+                                                    <button type="submit" class="btn btn-primary">I'm sure!!</button>
+                                                </div>
+                                            </form>
+                                        @endif
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!--/ Delete Board Modal -->
                     </div>
                 </div>
             </div>

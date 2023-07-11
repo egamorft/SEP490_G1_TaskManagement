@@ -295,7 +295,7 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug, $id)
     {
         $validatedData = $request->validate([
             'settingProjectName' => 'required|max:50',
@@ -564,7 +564,6 @@ class ProjectController extends Controller
         return response()->json(['message' => 'Project or role not found'], 404);
     }
 
-
     /**
      * Display a report view of project
      *
@@ -612,7 +611,6 @@ class ProjectController extends Controller
      */
     public function view_report($slug)
     {
-
         $pageConfigs = [
             'pageHeader' => false,
         ];
@@ -633,7 +631,17 @@ class ProjectController extends Controller
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
+        //Check disabled and calculate project progress
         $disabledProject = $this->checkDisableProject($project);
+        $result = $this->calculateProjectProgress($project);
+        $days_left = $result["days_left"];
+        $percent_completed = $result["percent_completed"];
+        if ($days_left < 0) {
+            if (!$disabledProject) {
+                $disabledProject = true;
+            }
+        }
+        //Check disabled and calculate project progress
 
         return view('project.report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
             ->with(compact(
@@ -669,12 +677,17 @@ class ProjectController extends Controller
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
+        //Check disabled and calculate project progress
         $disabledProject = $this->checkDisableProject($project);
-
-        $total_days = (strtotime($project->end_date) - strtotime($project->start_date)) / (60 * 60 * 24) + 1;
-        $days_passed = (strtotime(date('Y-m-d')) - strtotime($project->start_date)) / (60 * 60 * 24);
-        $percent_completed = round($days_passed / $total_days * 100, 2);
-        $days_left = $total_days - $days_passed;
+        $result = $this->calculateProjectProgress($project);
+        $days_left = $result["days_left"];
+        $percent_completed = $result["percent_completed"];
+        if ($days_left < 0) {
+            if (!$disabledProject) {
+                $disabledProject = true;
+            }
+        }
+        //Check disabled and calculate project progress
 
         $boards = Board::where('project_id', $project->id)->with('tasks')->get();
 
@@ -719,6 +732,8 @@ class ProjectController extends Controller
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
+        $board = Board::findOrFail($board_id);
+
         $disabledProject = $this->checkDisableProject($project);
 
         return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
@@ -727,6 +742,7 @@ class ProjectController extends Controller
                 'pmAccount',
                 'supervisorAccount',
                 'memberAccount',
+                'board',
                 'disabledProject'
             ));
     }
@@ -758,16 +774,8 @@ class ProjectController extends Controller
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
-
-
-
-
-
-
-
-
-
         $disabledProject = $this->checkDisableProject($project);
+
         return view('project.gantt', ['pageConfigs' => $pageConfigs, 'page' => 'gantt'])
             ->with(compact(
                 'project',
@@ -918,7 +926,7 @@ class ProjectController extends Controller
                 break;
 
             default:
-                Session::put('projectState', 'Something went wrong, try again!!');
+                Session::put('projectState', 'You can not use this project anymore!!');
                 return true;
                 break;
         }
@@ -943,5 +951,31 @@ class ProjectController extends Controller
 
         Session::flash('error', 'Something went wrong');
         return redirect()->back();
+    }
+
+    public function calculateProjectProgress($project)
+    {
+        $total_days = (strtotime($project->end_date) - strtotime($project->start_date)) / (60 * 60 * 24) + 1;
+        $days_passed = (strtotime(date('Y-m-d')) - strtotime($project->start_date)) / (60 * 60 * 24);
+        $percent_completed = 0;
+
+        if ($total_days > 0) {
+            if ($days_passed < 0) {
+                // If the project is in the future, set percent_completed to 0
+                $percent_completed = 0;
+            } elseif ($days_passed >= $total_days) {
+                // If the project is completed, set percent_completed to 100
+                $percent_completed = 100;
+            } else {
+                // Calculate the percentage completed
+                $percent_completed = round($days_passed / $total_days * 100, 2);
+            }
+        }
+
+        // Make sure percent_completed is within the range of 0 to 100
+        $percent_completed = max(0, min(100, $percent_completed));
+
+        $days_left = $total_days - $days_passed;
+        return array("percent_completed" => $percent_completed, "days_left" => $days_left);
     }
 }

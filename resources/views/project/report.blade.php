@@ -4,7 +4,7 @@
     @include('project.header')
 
     <!-- ChartJS section start -->
-    <section id="chartjs-chart">
+    <section id="chartjs-chart" class="{{ $disabledProject ? 'opacity-50 pointer-events-none' : '' }}">
 
         <div class="row">
             <!-- Donut Chart Starts-->
