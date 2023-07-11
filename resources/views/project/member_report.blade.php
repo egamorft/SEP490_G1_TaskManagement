@@ -151,12 +151,12 @@
                 animationEnabled: true,
                 title: {
                     text: "",
-                    fontFamily: "Montserrat",
+                    fontFamily: "Helvetica, Arial, sans-serif",
                     fontColor: "#6e6b7b !important"
                 },
                 axisX: {
                     interval: 1,
-                    intervalType: "year"
+                    intervalType: "month"
                 },
                 axisY: {
                     valueFormatString: "# Tasks",
@@ -174,31 +174,31 @@
                         name: "Todo",
                         dataPoints: [{
                                 y: 6.75,
-                                x: new Date(2010, 0)
+                                x: new Date(2023, 01, 01)
                             },
                             {
                                 y: 8.57,
-                                x: new Date(2011, 0)
+                                x: new Date(2023, 02, 01)
                             },
                             {
                                 y: 10.64,
-                                x: new Date(2012, 0)
+                                x: new Date(2023, 03, 01)
                             },
                             {
                                 y: 13.97,
-                                x: new Date(2013, 0)
+                                x: new Date(2023, 04, 01)
                             },
                             {
                                 y: 15.42,
-                                x: new Date(2014, 0)
+                                x: new Date(2023, 05, 01)
                             },
                             {
                                 y: 17.26,
-                                x: new Date(2015, 0)
+                                x: new Date(2023, 06, 01)
                             },
                             {
                                 y: 20.26,
-                                x: new Date(2016, 0)
+                                x: new Date(2023, 06, 01)
                             }
                         ]
                     },
@@ -209,31 +209,31 @@
                         color: "#7367f0",
                         dataPoints: [{
                                 y: 6.82,
-                                x: new Date(2010, 0)
+                                x: new Date(2023, 01, 01)
                             },
                             {
                                 y: 9.02,
-                                x: new Date(2011, 0)
+                                x: new Date(2023, 02, 01)
                             },
                             {
                                 y: 11.80,
-                                x: new Date(2012, 0)
+                                x: new Date(2023, 03, 01)
                             },
                             {
                                 y: 14.11,
-                                x: new Date(2013, 0)
+                                x: new Date(2023, 04, 01)
                             },
                             {
                                 y: 15.96,
-                                x: new Date(2014, 0)
+                                x: new Date(2023, 05, 01)
                             },
                             {
                                 y: 17.73,
-                                x: new Date(2015, 0)
+                                x: new Date(2023, 06, 01)
                             },
                             {
                                 y: 21.5,
-                                x: new Date(2016, 0)
+                                x: new Date(2023, 06, 01)
                             }
                         ]
                     },
@@ -244,31 +244,31 @@
                         color: "#ff9f43",
                         dataPoints: [{
                                 y: 7.28,
-                                x: new Date(2010, 0)
+                                x: new Date(2023, 01, 01)
                             },
                             {
                                 y: 9.72,
-                                x: new Date(2011, 0)
+                                x: new Date(2023, 02, 01)
                             },
                             {
                                 y: 13.30,
-                                x: new Date(2012, 0)
+                                x: new Date(2023, 03, 01)
                             },
                             {
                                 y: 14.9,
-                                x: new Date(2013, 0)
+                                x: new Date(2023, 04, 01)
                             },
                             {
                                 y: 18.10,
-                                x: new Date(2014, 0)
+                                x: new Date(2023, 05, 01)
                             },
                             {
                                 y: 18.68,
-                                x: new Date(2015, 0)
+                                x: new Date(2023, 06, 01)
                             },
                             {
                                 y: 22.45,
-                                x: new Date(2016, 0)
+                                x: new Date(2023, 06, 01)
                             }
                         ]
                     },
@@ -279,31 +279,31 @@
                         color: "#28c76f",
                         dataPoints: [{
                                 y: 8.44,
-                                x: new Date(2010, 0)
+                                x: new Date(2023, 01, 01)
                             },
                             {
                                 y: 10.58,
-                                x: new Date(2011, 0)
+                                x: new Date(2023, 02, 01)
                             },
                             {
                                 y: 14.41,
-                                x: new Date(2012, 0)
+                                x: new Date(2023, 03, 01)
                             },
                             {
                                 y: 16.86,
-                                x: new Date(2013, 0)
+                                x: new Date(2023, 04, 01)
                             },
                             {
                                 y: 10.64,
-                                x: new Date(2014, 0)
+                                x: new Date(2023, 05, 01)
                             },
                             {
                                 y: 21.32,
-                                x: new Date(2015, 0)
+                                x: new Date(2023, 06, 01)
                             },
                             {
                                 y: 26.06,
-                                x: new Date(2016, 0)
+                                x: new Date(2023, 06, 01)
                             }
                         ]
                     },
@@ -314,31 +314,31 @@
                         color: "#82868b",
                         dataPoints: [{
                                 y: 8.44,
-                                x: new Date(2010, 0)
+                                x: new Date(2023, 01, 01)
                             },
                             {
                                 y: 10.58,
-                                x: new Date(2011, 0)
+                                x: new Date(2023, 02, 01)
                             },
                             {
                                 y: 14.41,
-                                x: new Date(2012, 0)
+                                x: new Date(2023, 03, 01)
                             },
                             {
                                 y: 16.86,
-                                x: new Date(2013, 0)
+                                x: new Date(2023, 04, 01)
                             },
                             {
                                 y: 10.64,
-                                x: new Date(2014, 0)
+                                x: new Date(2023, 05, 01)
                             },
                             {
                                 y: 21.32,
-                                x: new Date(2015, 0)
+                                x: new Date(2023, 06, 01)
                             },
                             {
                                 y: 26.06,
-                                x: new Date(2016, 0)
+                                x: new Date(2023, 06, 01)
                             }
                         ]
                     },
@@ -349,31 +349,31 @@
                         color: "#ea5455",
                         dataPoints: [{
                                 y: 8.44,
-                                x: new Date(2010, 0)
+                                x: new Date(2023, 01, 01)
                             },
                             {
                                 y: 10.58,
-                                x: new Date(2011, 0)
+                                x: new Date(2023, 02, 01)
                             },
                             {
                                 y: 14.41,
-                                x: new Date(2012, 0)
+                                x: new Date(2023, 03, 01)
                             },
                             {
                                 y: 16.86,
-                                x: new Date(2013, 0)
+                                x: new Date(2023, 04, 01)
                             },
                             {
                                 y: 10.64,
-                                x: new Date(2014, 0)
+                                x: new Date(2023, 05, 01)
                             },
                             {
                                 y: 21.32,
-                                x: new Date(2015, 0)
+                                x: new Date(2023, 06, 01)
                             },
                             {
                                 y: 26.06,
-                                x: new Date(2016, 0)
+                                x: new Date(2023, 06, 01)
                             }
                         ]
                     }
