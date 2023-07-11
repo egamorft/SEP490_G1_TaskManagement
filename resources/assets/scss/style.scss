@@ -53,5 +53,10 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
     border-bottom: 3px solid #7367f0;
     border-radius: 0;
 }
+
+.fc .fc-daygrid-day-number, .fc .fc-timegrid-slot-label-cushion, .fc .fc-list-event-time {
+	pointer-events: none;
+	cursor: default;
+}
 @import 'project-layout';
 @import 'kanban-detail';
