@@ -2,7 +2,8 @@
 
 @section('content')
     @include('project.header')
-    <div class="gantt"></div>
+	@include('task.gantt')
+
 @endsection
 
 @section('vendor-style')
@@ -31,6 +32,5 @@
 
 @section('page-script')
     <!-- Page js files -->
-    <script src="{{ asset(mix('js/scripts/pages/task-jquery.fn.gantt.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/pages/task-dataDays.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/task-gantt.js')) }}"></script>
 @endsection
