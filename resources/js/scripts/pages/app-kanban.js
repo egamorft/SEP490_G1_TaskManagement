@@ -10,7 +10,8 @@ $(function () {
         commentEditor = $(".comment-editor"),
         addNewForm = $(".add-new-board"),
         updateItemSidebar = $(".update-item-sidebar"),
-        addNewInput = $(".add-new-board-input");
+        addNewInput = $(".add-new-board-input"),
+        isRtl = $('html').attr('data-textdirection') === 'rtl';
 
     var assetPath = "../../../app-assets/";
     if ($("body").attr("data-framework") === "laravel") {
@@ -289,7 +290,7 @@ $(function () {
             addNew.setAttribute("class", "new-item-form");
             addNew.innerHTML =
                 '<div class="mb-1">' +
-                '<textarea class="form-control add-new-item" rows="2" placeholder="Add Content" required></textarea>' +
+                '<textarea class="form-control add-new-item" rows="2" placeholder="Add task title" required></textarea>' +
                 "</div>" +
                 '<div class="mb-2">' +
                 '<button type="submit" class="btn btn-primary btn-sm me-1">Add</button>' +
@@ -324,10 +325,60 @@ $(function () {
             });
         },
         dragEl: function (el, source) {
-            console.log('dragEl');
             $(el)
                 .find(".item-dropdown, .item-dropdown .dropdown-menu.show")
                 .removeClass("show");
+        },
+        dropEl: function (el, target, source, sibling) {
+            var csrfToken = $('input[name="csrf-token"]').val();
+            var section = $('#section-block');
+            var task_id = el.getAttribute('data-eid');
+            var taskList_id = target.parentNode.getAttribute('data-id');
+            $.ajax({
+                url: '/move-task-taskList',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
+                },
+                data: {
+                    task_id: task_id,
+                    taskList_id: taskList_id
+                },
+                beforeSend: function () {
+                    section.block({
+                        message:
+                            '<div class="d-flex justify-content-center align-items-center"><p class="me-50 mb-0">Please wait...</p><div class="spinner-grow spinner-grow-sm text-white" role="status"></div> </div>',
+                        timeout: 2000,
+                        css: {
+                            backgroundColor: 'transparent',
+                            color: '#fff',
+                            border: '0'
+                        },
+                        overlayCSS: {
+                            opacity: 0.5
+                        }
+                    });
+                },
+                success: function (response) {
+                    // Handle success response
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                },
+                error: function (response) {
+                    // Handle error response
+                    setTimeout(function () {
+                        toastr['error'](response.message, 'Error!', {
+                            showMethod: 'slideDown',
+                            hideMethod: 'slideUp',
+                            progressBar: true,
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl
+                        });
+                    }, 2000);
+                }
+            });
         },
     });
 

@@ -83,7 +83,7 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
-    Route::get('get-taskList-task/{board_id}', [TaskController::class, 'get_taskList_task'])->name('get.taskList.task');
+    Route::post('move-task-taskList', [TaskController::class, 'moveTaskToTaskList'])->name('move.task');
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
 
     //Required project access (user in project - account_project ft status == 1)

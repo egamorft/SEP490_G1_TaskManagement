@@ -83,7 +83,7 @@ $(document).ready(function () {
     var section = $('#section-block');
     // Make AJAX request to update project_role_permission table
     $.ajax({
-      url: '/project/'+slug+'/update-permission',
+      url: '/project/' + slug + '/update-permission',
       method: 'POST',
       headers: {
         'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers

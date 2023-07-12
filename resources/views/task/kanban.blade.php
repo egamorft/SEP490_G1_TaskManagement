@@ -17,8 +17,9 @@
             </form>
         </div>
     </div>
+    <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
     <!-- Kanban content starts -->
-    <div class="kanban-wrapper"></div>
+    <div id="section-block" class="kanban-wrapper"></div>
     <!-- Kanban content ends -->
 
     <!-- Kanban Popup starts (Doing) -->

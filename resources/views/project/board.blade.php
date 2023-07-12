@@ -135,11 +135,13 @@
                         
                     @endphp
                     <div class="more-info">
-                        <p class="mb-50">Duration: {{ $percent_completed }}% ( @if ($days_left > 0)
-                                {{ $days_left }} days remaining
-                            @else
-                                {{ -$days_left }} days through
-                            @endif) </p>
+                        <p class="mb-50">Duration: {{ $percent_completed }}% @if ($days_left > 0)
+                            ({{ $days_left }} days remaining) 
+                            @endif
+                            @if ($days_left == 0)
+                            (last day in the project) 
+                            @endif
+                        </p>
                         <div class="progress progress-bar-secondary" style="height: 6px">
                             <div class="progress-bar progress-bar-striped" role="progressbar"
                                 aria-valuenow="{{ $percent_completed }}" aria-valuemin="{{ $percent_completed }}"

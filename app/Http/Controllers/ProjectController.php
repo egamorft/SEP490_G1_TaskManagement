@@ -714,6 +714,7 @@ class ProjectController extends Controller
         $days_left = $result["days_left"];
         $percent_completed = $result["percent_completed"];
         if ($days_left < 0) {
+            Session::flash('projectState', 'Your project not started yet');
             if (!$disabledProject) {
                 $disabledProject = true;
             }
@@ -1053,10 +1054,10 @@ class ProjectController extends Controller
                 // If the project is in the future, set percent_completed to 0
                 $percent_completed = 0;
                 $days_left = $start_date->diffInDays($current_date);
-            } elseif ($current_date > $end_date) {
+            } elseif ($current_date >= $end_date) {
                 // If the project is completed, set percent_completed to 100
                 $percent_completed = 100;
-                $days_left = 0;
+                $days_left = -1;
             } else {
                 // Calculate the total duration of the project in days
                 $total_days = $start_date->diffInDays($end_date) + 1;
@@ -1073,7 +1074,6 @@ class ProjectController extends Controller
         }
         // Make sure percent_completed is within the range of 0 to 100
         $percent_completed = max(0, min(100, $percent_completed));
-        $days_left = max(0, $days_left);
 
         return array("percent_completed" => $percent_completed, "days_left" => $days_left);
     }

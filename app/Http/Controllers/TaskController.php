@@ -10,11 +10,10 @@ use Illuminate\Http\Request;
 class TaskController extends Controller
 {
 
-    // public function get_taskList_task($board_id)
-    // {
-
-    //     return response()->json($data);
-    // }
+    public function moveTaskToTaskList(Request $request)
+    {
+        
+    }
     
     
 }
