@@ -18,6 +18,7 @@
         </div>
     </div>
     <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
+    <input type="hidden" name="board_id" value="{{ $board->id }}">
     <!-- Kanban content starts -->
     <div id="section-block" class="kanban-wrapper"></div>
     <!-- Kanban content ends -->

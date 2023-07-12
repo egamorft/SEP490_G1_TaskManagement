@@ -14,6 +14,9 @@ $(function () {
         isRtl = $('html').attr('data-textdirection') === 'rtl';
 
     var assetPath = "../../../app-assets/";
+    var csrfToken = $('input[name="csrf-token"]').val();
+    var boardId = $('input[name="board_id"]').val();
+    var section = $('#section-block');
     if ($("body").attr("data-framework") === "laravel") {
         assetPath = $("body").attr("data-asset-path");
     }
@@ -330,8 +333,6 @@ $(function () {
                 .removeClass("show");
         },
         dropEl: function (el, target, source, sibling) {
-            var csrfToken = $('input[name="csrf-token"]').val();
-            var section = $('#section-block');
             var task_id = el.getAttribute('data-eid');
             var taskList_id = target.parentNode.getAttribute('data-id');
             $.ajax({
@@ -361,14 +362,27 @@ $(function () {
                 },
                 success: function (response) {
                     // Handle success response
-                    setTimeout(function () {
-                        location.reload();
-                    }, 2000);
+                    if (response.success) {
+                        setTimeout(function () {
+                            toastr['success'](response.message, 'Error!', {
+                                showMethod: 'slideDown',
+                                hideMethod: 'slideUp',
+                                progressBar: true,
+                                closeButton: true,
+                                tapToDismiss: false,
+                                rtl: isRtl
+                            });
+                        }, 2000);
+                    }
                 },
                 error: function (response) {
+                    var errMsg = "Sorry! Something went wrong here";
+                    if (response.message) {
+                        errMsg = response.message;
+                    }
                     // Handle error response
                     setTimeout(function () {
-                        toastr['error'](response.message, 'Error!', {
+                        toastr['error'](errMsg, 'Error!', {
                             showMethod: 'slideDown',
                             hideMethod: 'slideUp',
                             progressBar: true,
@@ -432,11 +446,63 @@ $(function () {
     addNewForm.on("submit", function (e) {
         e.preventDefault();
         var $this = $(this),
-            value = $this.find(".form-control").val(),
-            id = value.replace(/\s+/g, "-").toLowerCase();
+            value = $this.find(".form-control").val();
+
+        $.ajax({
+            url: '/add-taskList',
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
+            },
+            data: {
+                title: value,
+                board_id: boardId
+            },
+            beforeSend: function () {
+                section.block({
+                    message:
+                        '<div class="d-flex justify-content-center align-items-center"><p class="me-50 mb-0">Please wait...</p><div class="spinner-grow spinner-grow-sm text-white" role="status"></div> </div>',
+                    timeout: 2000,
+                    css: {
+                        backgroundColor: 'transparent',
+                        color: '#fff',
+                        border: '0'
+                    },
+                    overlayCSS: {
+                        opacity: 0.5
+                    }
+                });
+            },
+            success: function (response) {
+                // Handle success response
+                if (response.success) {
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                }
+            },
+            error: function (response) {
+                var errMsg = "Sorry! Something went wrong here";
+                if (response.message) {
+                    errMsg = response.message;
+                }
+                // Handle error response
+                setTimeout(function () {
+                    toastr['error'](errMsg, 'Error!', {
+                        showMethod: 'slideDown',
+                        hideMethod: 'slideUp',
+                        progressBar: true,
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: isRtl
+                    });
+                }, 2000);
+            }
+        });
+
         kanban.addBoards([
             {
-                id: id,
+                id: "taskList_",
                 title: value,
             },
         ]);
