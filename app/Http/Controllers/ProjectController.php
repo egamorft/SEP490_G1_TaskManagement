@@ -13,6 +13,8 @@ use App\Models\PermissionRole;
 use App\Models\Project;
 use App\Models\ProjectRolePermission;
 use App\Models\Role;
+use App\Models\Task;
+use App\Models\TaskList;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -765,6 +767,51 @@ class ProjectController extends Controller
 
         $disabledProject = $this->checkDisableProject($project);
 
+        //Bind data for kanban
+        $taskLists = TaskList::where('board_id', $board_id)->get();
+        $dragTo = ["taskList_6"];
+        $kanbanData = [];
+
+        foreach ($taskLists as $taskList) {
+            $tasks = Task::where('taskList_id', $taskList->id)->with('accounts', 'comments')->get();
+            $taskItems = [];
+
+            foreach ($tasks as $task) {
+                $attachmentsCount = $task->attachments ? count($task->attachments) : 0;
+                $flags = $this->checkDueDate($task->due_date);
+                // dd($task);
+                $taskItem = [
+                    'id' => $task->id,
+                    'title' => $task->title,
+                    'comments' => $task->comments()->count(), // replace with actual comments count
+                    'badge-text' => $task->due_date, // replace with actual badge text
+                    'badge' => $flags['badgeColor'],
+                    'due-date' => $task->due_date, // replace with actual due date
+                    'attachments' => $attachmentsCount, // replace with actual attachments count
+                    'assigned' => $task->accounts->avatar, // replace with actual assigned members
+                    'members' => $task->accounts->fullname // replace with actual members
+                ];
+
+                $taskItems[] = $taskItem;
+            }
+
+            // Generate the dragTo array
+            $dragTo = [];
+            foreach ($taskLists as $otherTaskList) {
+                if ($otherTaskList->id != $taskList->id) {
+                    $dragTo[] = 'taskList_' . $otherTaskList->id;
+                }
+            }
+
+            $kanbanData[] = [
+                'id' => 'taskList_' . $taskList->id,
+                'title' => $taskList->title,
+                'dragTo' => $dragTo,
+                'item' => $taskItems
+            ];
+        }
+        // dd($kanbanData);
+
         return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
             ->with(compact(
                 'project',
@@ -772,7 +819,8 @@ class ProjectController extends Controller
                 'supervisorAccount',
                 'memberAccount',
                 'board',
-                'disabledProject'
+                'disabledProject',
+                'kanbanData'
             ));
     }
 
@@ -990,27 +1038,72 @@ class ProjectController extends Controller
 
     public function calculateProjectProgress($project)
     {
-        $total_days = (strtotime($project->end_date) - strtotime($project->start_date)) / (60 * 60 * 24) + 1;
-        $days_passed = (strtotime(date('Y-m-d')) - strtotime($project->start_date)) / (60 * 60 * 24);
-        $percent_completed = 0;
 
-        if ($total_days > 0) {
-            if ($days_passed < 0) {
+        // Convert the project's start and end dates to Carbon objects
+        $start_date = Carbon::parse($project->start_date)->startOfDay();
+        $end_date = Carbon::parse($project->end_date)->endOfDay();
+        // Get the current date as a Carbon object
+        $current_date = Carbon::now();
+
+        $percent_completed = 0;
+        $days_left = 0;
+
+        if ($end_date > $start_date) {
+            if ($current_date < $start_date) {
                 // If the project is in the future, set percent_completed to 0
                 $percent_completed = 0;
-            } elseif ($days_passed >= $total_days) {
+                $days_left = $start_date->diffInDays($current_date);
+            } elseif ($current_date > $end_date) {
                 // If the project is completed, set percent_completed to 100
                 $percent_completed = 100;
+                $days_left = 0;
             } else {
+                // Calculate the total duration of the project in days
+                $total_days = $start_date->diffInDays($end_date) + 1;
+
+                // Calculate the number of days that have already passed since the project started
+                $days_passed = $start_date->diffInDays($current_date) + 1;
+
                 // Calculate the percentage completed
                 $percent_completed = round($days_passed / $total_days * 100, 2);
+
+                // Calculate the number of days left
+                $days_left = $total_days - $days_passed;
             }
         }
-
         // Make sure percent_completed is within the range of 0 to 100
         $percent_completed = max(0, min(100, $percent_completed));
+        $days_left = max(0, $days_left);
 
-        $days_left = $total_days - $days_passed;
         return array("percent_completed" => $percent_completed, "days_left" => $days_left);
+    }
+
+
+    // **
+    public function checkDueDate($dueDate)
+    {
+        $now = Carbon::now()->format('Y-m-d');
+        $daysDifference = Carbon::parse($now)->diffInDays(Carbon::parse($dueDate), false);
+        $onGoingDue = false;
+        $warningDue = false;
+        $overDue = false;
+
+        if ($daysDifference > 0) {
+            // Due date is in the future
+            if ($daysDifference == 1) {
+                $warningDue = true;
+            } elseif ($daysDifference > 1) {
+                $onGoingDue = true;
+            }
+        } elseif ($daysDifference == 0) {
+            // Due date is today
+            $warningDue = true;
+        } else {
+            // Due date is in the past
+            $overDue = true;
+        }
+
+        $badgeColor = $onGoingDue ? 'success' : ($warningDue ? 'warning' : ($overDue ? 'danger' : ''));
+        return compact('onGoingDue', 'warningDue', 'overDue', 'badgeColor');
     }
 }

@@ -1,13 +1,15 @@
 @extends('layouts/contentLayoutMaster')
 
 @section('content')
-	@include('project.header')
-	@include('project.board_header')
+    @include('project.header')
+    @include('project.board_header')
     @include('project.board_nav')
     @include('task.kanban')
 @endsection
 
-
+<script>
+    var kanbanBoard = @json($kanbanData);
+</script>
 @section('vendor-style')
     <!-- Vendor css files -->
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/jkanban/jkanban.min.css')) }}">

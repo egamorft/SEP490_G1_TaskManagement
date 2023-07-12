@@ -17,27 +17,6 @@ $(function () {
         assetPath = $("body").attr("data-asset-path");
     }
 
-    // Get Data
-    // Get the current URL
-    var currentUrl = window.location.href;
-
-    // Use regular expressions to extract the board_id parameter from the URL
-    var boardIdRegex = /\/board\/(\d+)\/kanban/;
-    var boardIdMatches = currentUrl.match(boardIdRegex);
-    var boardId = boardIdMatches[1];
-    $.ajax({
-        method: "GET",
-        dataType: "json",
-        url: '/get-taskList-task/' + boardId,
-        success: function (data) {
-            console.log(data);
-            boards = data;
-        },
-        error: function (response) {
-
-        }
-    });
-
     // Toggle add new input and actions
     addNewInput.toggle();
 
@@ -187,7 +166,7 @@ $(function () {
                         ">" +
                         "<img src='" +
                         assetPath +
-                        "images/portrait/small/" +
+                        "images/avatars/" +
                         img +
                         "' alt='Avatar' height='" +
                         size +
@@ -231,16 +210,17 @@ $(function () {
         gutter: "15px",
         widthBoard: "250px",
         dragItems: true,
-        boards: boards,
+        boards: kanbanBoard,
         dragBoards: true,
         addItemButton: true,
         itemAddOptions: {
             enabled: true, // add a button to board for easy item creation
-            content: "+ Add New Item", // text or html content of the board button
+            content: "+ Add New Task", // text or html content of the board button
             class: "kanban-title-button btn btn-default btn-xs", // default class of the button
             footer: false, // position the button on footer
         },
         click: function (el) {
+            console.log(el);
             var el = $(el);
             var flag = false;
             var title = el.attr("data-eid")
@@ -344,6 +324,7 @@ $(function () {
             });
         },
         dragEl: function (el, source) {
+            console.log('dragEl');
             $(el)
                 .find(".item-dropdown, .item-dropdown .dropdown-menu.show")
                 .removeClass("show");

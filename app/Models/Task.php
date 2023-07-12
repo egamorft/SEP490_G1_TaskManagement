@@ -38,4 +38,9 @@ class Task extends Model
     {
         return $this->hasMany(Comment::class, 'task_id', 'id');
     }
+
+    public function accounts()
+    {
+        return $this->belongsTo(Account::class, 'assign_to', 'id');
+    }
 }
