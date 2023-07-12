@@ -259,7 +259,7 @@
                             },
                             {
                                 y: 20.26,
-                                x: new Date(2023, 06, 01)
+                                x: new Date(2023, 07, 01)
                             }
                         ]
                     },
@@ -294,7 +294,7 @@
                             },
                             {
                                 y: 21.5,
-                                x: new Date(2023, 06, 01)
+                                x: new Date(2023, 07, 01)
                             }
                         ]
                     },
@@ -329,7 +329,7 @@
                             },
                             {
                                 y: 22.45,
-                                x: new Date(2023, 06, 01)
+                                x: new Date(2023, 07, 01)
                             }
                         ]
                     },
@@ -364,7 +364,7 @@
                             },
                             {
                                 y: 26.06,
-                                x: new Date(2023, 06, 01)
+                                x: new Date(2023, 07, 01)
                             }
                         ]
                     },
@@ -399,7 +399,7 @@
                             },
                             {
                                 y: 26.06,
-                                x: new Date(2023, 06, 01)
+                                x: new Date(2023, 07, 01)
                             }
                         ]
                     },
@@ -434,7 +434,7 @@
                             },
                             {
                                 y: 26.06,
-                                x: new Date(2023, 06, 01)
+                                x: new Date(2023, 07, 01)
                             }
                         ]
                     }
@@ -448,14 +448,14 @@
                 var str2, str3;
                 for (var i = 0; i < e.entries.length; i++) {
                     var str1 = "<span style= \"color:" + e.entries[i].dataSeries.color + "\"> " + e.entries[i]
-                        .dataSeries.name + "</span>: $<strong>" + e.entries[i].dataPoint.y + "</strong>bn<br/>";
+                        .dataSeries.name + "</span>: <strong>" + e.entries[i].dataPoint.y + "</strong> Tasks<br/>";
                     total = e.entries[i].dataPoint.y + total;
                     str = str.concat(str1);
                 }
                 str2 = "<span style = \"color:DodgerBlue;\"><strong>" + (e.entries[0].dataPoint.x).getFullYear() +
                     "</strong></span><br/>";
                 total = Math.round(total * 100) / 100;
-                str3 = "<span style = \"color:Tomato\">Total:</span><strong> $" + total + "</strong>bn<br/>";
+                str3 = "<hr/><span style = \"color:green\">Total:</span><strong> " + total + "</strong> Tasks<br/>";
                 return (str2.concat(str)).concat(str3);
             }
 
