@@ -813,6 +813,7 @@ class ProjectController extends Controller
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
+		$board = Board::findOrFail($board_id);
         $disabledProject = $this->checkDisableProject($project);
 
         return view('project.calendar', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'calendar'])
@@ -821,6 +822,7 @@ class ProjectController extends Controller
                 'pmAccount',
                 'supervisorAccount',
                 'memberAccount',
+				'board',
                 'disabledProject'
             ));
     }
@@ -853,6 +855,7 @@ class ProjectController extends Controller
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
+		$board = Board::findOrFail($board_id);
         $disabledProject = $this->checkDisableProject($project);
 
         return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
@@ -861,6 +864,7 @@ class ProjectController extends Controller
                 'pmAccount',
                 'supervisorAccount',
                 'memberAccount',
+				'board',
                 'disabledProject'
             ));
     }
