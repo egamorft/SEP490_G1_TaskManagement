@@ -27,7 +27,7 @@
         </li>
     </ul>
 
-    <div class="filter-nav-header mb-2">
+    <div class="filter-nav-header mb-2 {{ $tab == 'kanban' ?  '' : 'd-none'}}">
         <button class="button-filter-header">
             <i data-feather="filter" class="custom-title-icon"></i>
             <span class="filter-title">Filter</span>

@@ -58,5 +58,10 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	pointer-events: none;
 	cursor: default;
 }
+
+.fc .fc-daygrid-day-bottom {
+    margin-top: 60px !important;
+}
 @import 'project-layout';
 @import 'kanban-detail';
+@import 'gantt-detail';

@@ -625,7 +625,7 @@ class ProjectController extends Controller
 
         $disabledProject = $this->checkDisableProject($project);
 
-        return view('project.report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
+        return view('project.member_report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
             ->with(compact(
                 'project',
                 'pmAccount',
@@ -891,6 +891,7 @@ class ProjectController extends Controller
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
+		$board = Board::findOrFail($board_id);
         $disabledProject = $this->checkDisableProject($project);
 
         $board = Board::findOrFail($board_id);

@@ -44,4 +44,3 @@
 	<script src="{{ asset(mix('js/scripts/pages/task-filter.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/project/board.js')) }}"></script>
 @endsection
-
