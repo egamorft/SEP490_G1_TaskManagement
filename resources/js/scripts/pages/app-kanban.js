@@ -205,7 +205,7 @@ $(function () {
         widthBoard: "250px",
         dragItems: true,
         boards: kanbanBoard,
-        dragBoards: true,
+        dragBoards: false,
         addItemButton: true,
         itemAddOptions: {
             enabled: true, // add a button to board for easy item creation

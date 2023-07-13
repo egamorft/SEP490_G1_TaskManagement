@@ -741,12 +741,20 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function view_board_kanban($slug, $board_id)
+    public function view_board_kanban($slug, $board_id, Request $request)
     {
         $pageConfigs = [
             'pageHeader' => false,
             'pageClass' => 'kanban-application',
         ];
+
+        $q = $request->query('q');
+        $dueToday = $request->query('dueToday');
+        $overdue = $request->query('overdue');
+        $dueTomorrow = $request->query('dueTomorrow');
+        $dueNextWeek = $request->query('dueNextWeek');
+        $doneTask = $request->query('doneTask');
+        $doingTask = $request->query('doingTask');
 
         //Project info & members
         $project = Project::where('slug', $slug)->first();
@@ -770,11 +778,43 @@ class ProjectController extends Controller
 
         //Bind data for kanban
         $taskLists = TaskList::where('board_id', $board_id)->get();
-        $dragTo = ["taskList_6"];
         $kanbanData = [];
-
         foreach ($taskLists as $taskList) {
-            $tasks = Task::where('taskList_id', $taskList->id)->with('accounts', 'comments')->get();
+            //Check role to display task
+            $accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
+            $tasks = Task::query()->where('taskList_id', $taskList->id);
+            if ($accountRoleName == "member") {
+                $tasks = $tasks->where('taskList_id', $taskList->id)
+                    ->where('created_by', Auth::id())
+                    ->orWhere('assign_to', Auth::id());
+            }
+
+            if ($q) {
+                $tasks = $tasks->where('title', 'like', '%' . $q . '%');
+            }
+            if ($dueToday) {
+                $tasks = $tasks->whereDate('due_date', '=', now()->format('Y-m-d'));
+            }
+            if ($overdue) {
+                $tasks = $tasks->whereDate('due_date', '<', now()->format('Y-m-d'));
+            }
+            if ($dueTomorrow) {
+                $tasks = $tasks->whereDate('due_date', '=', now()->addDay()->format('Y-m-d'));
+            }
+            if ($dueNextWeek) {
+                $tasks = $tasks->whereDate('due_date', '=', now()->addWeek()->format('Y-m-d'));
+            }
+            if ($doneTask) {
+                $tasks = $tasks->where('status', 4);
+            }
+            if ($doingTask) {
+                $tasks = $tasks->where('status', 2);
+            }
+
+            $tasks = $tasks
+                ->with('accounts', 'comments')
+                ->orderByRaw("FIELD(status, 2, 3, 1, 4, 5, 6)")->get();
+
             $taskItems = [];
 
             foreach ($tasks as $task) {
@@ -891,7 +931,7 @@ class ProjectController extends Controller
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
-		$board = Board::findOrFail($board_id);
+        $board = Board::findOrFail($board_id);
         $disabledProject = $this->checkDisableProject($project);
 
         $board = Board::findOrFail($board_id);
@@ -1106,5 +1146,18 @@ class ProjectController extends Controller
 
         $badgeColor = $onGoingDue ? 'success' : ($warningDue ? 'warning' : ($overDue ? 'danger' : ''));
         return compact('onGoingDue', 'warningDue', 'overDue', 'badgeColor');
+    }
+
+    public function getProjectRoleNameWithProjectAndAccount($currentProjectSlug)
+    {
+        $currentProjectId = Project::where('slug', $currentProjectSlug)->value('id');
+        $currentAccountId = Auth::id();
+        // $currentAccountSlug = Auth::user()->email;
+        $roleId = AccountProject::where('project_id', $currentProjectId)
+            ->where('account_id', $currentAccountId)
+            ->where('status', '1')
+            ->value('role_id');
+        $roleName = Role::where('id', $roleId)->value('name');
+        return $roleName;
     }
 }
