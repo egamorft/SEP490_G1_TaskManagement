@@ -48985,11 +48985,11 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                                               (n.style.paddingLeft = "0"),
                                           (n.style.overflow = "hidden"),
                                           (e.style.width = "100vw"),
-                                          (e.style.height = "100vh"),
-                                          (e.style.top = "0px"),
+                                          (e.style.height = "calc(100vh-70px)"),
+                                          (e.style.top = "70px"),
                                           (e.style.left = "0px"),
                                           (e.style.position = "absolute"),
-                                          (e.style.zIndex = 1),
+                                          (e.style.zIndex = 10000),
                                           (r.modified = !0),
                                           (a = (function (t) {
                                               for (
@@ -54799,10 +54799,463 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
 
 $(window).on("load", function () {
 	gantt.plugins({
-		critical_path: true
+		quick_info: true,
+		tooltip: true,
+		marker: true,
+		critical_path: true,
+		fullscreen: true,
+		auto_scheduling: true,
+		undo: true,
+		marker: true,
+		overlay: true,
+		drag_timeline: true,
 	});
 
-	$('.gantt_control button').on('click', function() {
+	// ------------------- Set Tooltip ----------------------------------------------------------------------------------------------------
+	gantt.attachEvent("onGanttReady", function(){
+		var tooltips = gantt.ext.tooltips;
+		tooltips.tooltip.setViewport(gantt.$task_data);
+	});
+
+
+	// ----------------------------------- Setup Zoom In/Out & Show Line progress ------------------------------------------------------------
+	var zoomConfig = {
+		levels: [
+			{
+				name: "hour",
+				scale_height: 27,
+				min_column_width: 15,
+				scales: [
+					{ unit: "day", format: "%d" },
+					{ unit: "hour", format: "%H" },
+				]
+			},
+			{
+				name: "day",
+				scale_height: 27,
+				min_column_width: 80,
+				scales: [
+					{ unit: "day", step: 1, format: "%d %M" }
+				]
+			},
+			{
+				name: "week",
+				scale_height: 50,
+				min_column_width: 50,
+				scales: [
+					{
+						unit: "week", step: 1, format: function (date) {
+							var dateToStr = gantt.date.date_to_str("%d %M");
+							var endDate = gantt.date.add(date, -6, "day");
+							var weekNum = gantt.date.date_to_str("%W")(date);
+							return "#" + weekNum + ", " + dateToStr(date) + " - " + dateToStr(endDate);
+						}
+					},
+					{ unit: "day", step: 1, format: "%j %D" }
+				]
+			},
+			{
+				name: "month",
+				scale_height: 50,
+				min_column_width: 120,
+				scales: [
+					{ unit: "month", format: "%F, %Y" },
+					{ unit: "week", format: "Week #%W" }
+				]
+			},
+			{
+				name: "quarter",
+				height: 50,
+				min_column_width: 90,
+				scales: [
+					{
+						unit: "quarter", step: 1, format: function (date) {
+							var dateToStr = gantt.date.date_to_str("%M");
+							var endDate = gantt.date.add(gantt.date.add(date, 3, "month"), -1, "day");
+							return dateToStr(date) + " - " + dateToStr(endDate);
+						}
+					},
+					{ unit: "month", step: 1, format: "%M" },
+				]
+			},
+			{
+				name: "year",
+				scale_height: 50,
+				min_column_width: 30,
+				scales: [
+					{ unit: "year", step: 1, format: "%Y" }
+				]
+			}
+		],
+		useKey: "ctrlKey",
+		trigger: "wheel",
+		element: function () {
+			  return gantt.$root.querySelector(".gantt_task");
+		}
+	};
+	gantt.ext.zoom.init(zoomConfig);
+	gantt.ext.zoom.setLevel("week");
+	gantt.config.open_tree_initially = true;
+
+	var overlayControl = gantt.ext.overlay;
+	function toggleOverlay() {
+		if(overlayControl.isOverlayVisible(lineOverlay)){
+			gantt.config.readonly = false;
+			overlayControl.hideOverlay(lineOverlay);
+			gantt.$root.classList.remove("overlay_visible");
+		}else{
+			gantt.config.readonly = true;
+			overlayControl.showOverlay(lineOverlay);
+			gantt.$root.classList.add("overlay_visible");
+		}
+	}
+
+	function getChartScaleRange(){
+		var tasksRange = gantt.getSubtaskDates();
+		var cells = [];
+		var scale = gantt.getScale();
+		if(!tasksRange.start_date){
+			return scale.trace_x;
+		}
+
+		scale.trace_x.forEach(function(date, index) {
+					var within = +tasksRange.start_date <= +date && +date <= +tasksRange.end_date;
+					var left = false, right = false;
+					if (index != scale.trace_x.length - 1) {
+						left = +date < +tasksRange.start_date && +tasksRange.start_date < +scale.trace_x[index + 1];
+					}
+					if (index > 0) {
+						right = +scale.trace_x[index - 1] < +tasksRange.end_date && +tasksRange.end_date < +date;
+					}
+
+					if (within || left || right) {
+						cells.push(date);
+					}
+			});
+			return cells;
+	}
+
+	function getProgressLine(){
+		var tasks = gantt.getTaskByTime();
+		var scale = gantt.getScale();
+		var step = scale.unit;
+
+
+		var timegrid = {};
+
+		var totalDuration = 0;
+
+		gantt.eachTask(function(task){
+			if(gantt.isSummaryTask(task)){
+				return;
+			}
+			if(!task.duration){
+				return;
+			}
+
+			var currDate = gantt.date[scale.unit + "_start"](new Date(task.start_date));
+			while (currDate < task.end_date) {
+
+				var date = currDate;
+				currDate = gantt.date.add(currDate, 1, step);
+
+				if (!gantt.isWorkTime({date: date, task: task, unit: step})) {
+					continue;
+				}
+
+				var timestamp = currDate.valueOf();
+				if (!timegrid[timestamp]){
+					timegrid[timestamp] = {
+						planned: 0,
+						real: 0
+					};
+				}
+
+				timegrid[timestamp].planned += 1;
+				if (date <= today){
+					timegrid[timestamp].real += 1 * (task.progress || 0);
+				}
+
+				totalDuration += 1;
+			}
+
+		});
+
+		var cumulativePlannedDurations = [];
+		var cumulativeRealDurations = [];
+		var cumulativePredictedDurations = []
+		var totalPlanned = 0;
+		var totalReal = 0;
+
+		var chartScale = getChartScaleRange();
+		var dailyRealProgress = -1;
+		var totalPredictedProgress = 0;
+		for(var i = 0; i < chartScale.length; i++){
+			start = new Date(chartScale[i]);
+			end = gantt.date.add(start, 1, step);
+			var cell = timegrid[start.valueOf()] || {planned:0, real:0};
+			totalPlanned = cell.planned + totalPlanned;
+
+			cumulativePlannedDurations.push(totalPlanned);
+			if(start <= today) {
+				totalReal = (cell.real||0) + totalReal;
+				cumulativeRealDurations.push(totalReal);
+				cumulativePredictedDurations.push(null);
+			} else{
+				if(dailyRealProgress < 0){
+					dailyRealProgress = totalReal / cumulativeRealDurations.length;
+					totalPredictedProgress = totalReal;
+					cumulativePredictedDurations.pop();
+					cumulativePredictedDurations.push(totalPredictedProgress);
+				}
+				totalPredictedProgress += dailyRealProgress;
+				cumulativePredictedDurations.push(totalPredictedProgress);
+			}
+		}
+
+		for(var i = 0; i < cumulativePlannedDurations.length; i++){
+			cumulativePlannedDurations[i] = Math.round(cumulativePlannedDurations[i] / totalPlanned * 100);
+			if(cumulativeRealDurations[i] !== undefined){
+				cumulativeRealDurations[i] = Math.round(cumulativeRealDurations[i] / totalPlanned * 100);
+
+			}
+
+			if(cumulativePredictedDurations[i] !== null){
+				cumulativePredictedDurations[i] = Math.round(cumulativePredictedDurations[i] / totalPlanned * 100);
+			}
+		}
+		return {planned: cumulativePlannedDurations, real: cumulativeRealDurations, predicted: cumulativePredictedDurations};
+	}
+
+	function getScalePaddings(){
+		var scale = gantt.getScale();
+		var dataRange = gantt.getSubtaskDates();
+
+		var chartScale = getChartScaleRange();
+		var newWidth = scale.col_width;
+		var padding = {
+			left:0,
+			right:0
+		};
+
+		if(dataRange.start_date){
+			var yScaleLabelsWidth = 48;
+			// fine tune values in order to align chart with the scale range
+			padding.left = gantt.posFromDate(dataRange.start_date) - yScaleLabelsWidth;
+			padding.right = scale.full_width - gantt.posFromDate(dataRange.end_date) - yScaleLabelsWidth;
+			padding.top = gantt.config.row_height - 12;
+			padding.bottom = gantt.config.row_height - 12;
+		}
+		return padding;
+	}
+
+	var myChart;
+	var lineOverlay = overlayControl.addOverlay(function(container) {
+
+		var scaleLabels = [];
+
+		var chartScale = getChartScaleRange();
+
+		chartScale.forEach(function(date){
+			scaleLabels.push(dateToStr(date));
+		});
+
+		var values = getProgressLine();
+
+		var canvas = document.createElement("canvas");
+		container.appendChild(canvas);
+		canvas.style.height = container.offsetHeight + "px";
+		canvas.style.width = container.offsetWidth + "px";
+
+		var ctx = canvas.getContext("2d");
+		if(myChart){
+			myChart.destroy();
+		}
+		myChart = new Chart(ctx, {
+			type: "line",
+			data: {
+				datasets: [
+					{
+						label: "Planned progress",
+						backgroundColor: "#001eff",
+						borderColor: "#001eff",
+						data: values.planned,
+						fill: false,
+						cubicInterpolationMode: 'monotone'
+					},
+					{
+						label: "Real progress",
+						backgroundColor: "#ff5454",
+						borderColor: "#ff5454",
+						data: values.real,
+						fill: false,
+						cubicInterpolationMode: 'monotone'
+					}
+					,
+					{
+						label: "Real progress (predicted)",
+						backgroundColor: "#ff5454",
+						borderColor: "#ff5454",
+						data: values.predicted,
+						borderDash: [5, 10],
+						fill: false,
+						cubicInterpolationMode: 'monotone'
+					}
+				]
+			},
+			options: {
+				responsive: true,
+				maintainAspectRatio: false,
+				layout: {
+					padding: getScalePaddings()
+				},
+				onResize: function(chart, newSize) {
+					var dataRange = gantt.getSubtaskDates();
+					if(dataRange.start_date){
+						// align chart with the scale range
+						chart.options.layout.padding = getScalePaddings();
+					}
+				},
+				legend: {
+					display: false
+				},
+				tooltips: {
+					mode: "index",
+					intersect: false,
+					callbacks: {
+						label: function(tooltipItem, data) {
+							var dataset = data.datasets[tooltipItem.datasetIndex];
+							return dataset.label + ": " + dataset.data[tooltipItem.index] + "%";
+						}
+					}
+				},
+				hover: {
+					mode: "nearest",
+					intersect: true
+				},
+				scales: {
+					xAxes: [{
+						labels: scaleLabels,
+						gridLines:{
+							display: false
+						},
+						ticks: {
+							display: false
+						}
+					},
+					{
+						position:"top",
+						labels: scaleLabels,
+						gridLines:{
+							display: false
+						},
+						ticks: {
+							display: false
+						}
+					}
+				],
+					yAxes: [{
+						display: true,
+						gridLines: {
+							display:false
+						},
+						ticks: {
+							display: true,
+							min: 0,
+							max: 100,
+							stepSize: 10,
+							callback: function(current) {
+								if (current > 100) {return "";}
+								return current + "%";
+							}
+						}
+					},
+					{
+						display: true,
+						position: "right",
+						gridLines: {
+							display:false
+						},
+						ticks: {
+							display: true,
+							min: 0,
+							max: 100,
+							stepSize: 10,
+							callback: function(current) {
+								if (current > 100) {return "";}
+								return current + "%";
+							}
+						}}
+				]
+				}
+			}
+		});
+		return canvas;
+	});
+
+	gantt.ext.zoom.attachEvent("onAfterZoom", function(level, config){
+		if (overlayControl.isOverlayVisible(lineOverlay)){
+			// update data
+			myChart.data.datasets.forEach(function(dataset){
+				dataset.data = [];
+			})
+
+			values = getProgressLine();
+			myChart.data.datasets[0].data = values.planned;
+			myChart.data.datasets[1].data = values.real;
+			myChart.data.datasets[2].data = values.predicted;
+
+			// update labels and range
+			var scaleLabels =[]
+			getChartScaleRange().forEach(function(date){
+				scaleLabels.push(dateToStr(date));
+			});
+			myChart.options.scales.xAxes[0].labels = scaleLabels;
+			myChart.options.scales.xAxes[1].labels = scaleLabels;
+
+			myChart.options.layout.padding = getScalePaddings();
+
+			// repaint the changes
+			myChart.update();
+		}
+	});
+
+	$('.show-progress').on('click', function() {
+		return toggleOverlay();
+	});
+
+
+	// -------------------- Show today line --------------------------------------------------------------------------------------------------
+	var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
+	gantt.addMarker({
+		start_date: today,
+		css: "today",
+		text: "Today",
+		title: "Today: " + dateToStr(today)
+	});
+
+	gantt.addMarker({
+		start_date: start,
+		css: "status_line",
+		text: "Start project",
+		title: "Start project: " + dateToStr(start)
+	});
+
+	gantt.addMarker({
+		start_date: end,
+		text: "Project end",
+		title: "Project end: " + dateToStr(end)
+	});
+
+	gantt.config.scale_height = 50;
+	gantt.config.scales = [
+		{unit: "day", step: 1, format: "%j, %D"},
+		{unit: "month", step: 1, format: "%F, %Y"},
+	];
+
+
+	// -------------------------------- Show critical path ---------------------------------------------------------------------------------------
+	$('.gantt_control button.show-critical').on('click', function() {
 		this.enabled = !this.enabled;
 		if (this.enabled) {
 			this.innerHTML = "Hide Critical Path";
@@ -54813,6 +55266,80 @@ $(window).on("load", function () {
 		}
 		gantt.render();
 	});
+
+	// ------------------- Setup Full Screen -------------------------------------------------------------------------------------------------------
+	gantt.attachEvent("onTemplatesReady", function () {
+		var toggle = document.createElement("i");
+		toggle.className = "fa fa-expand gantt-fullscreen";
+		gantt.toggleIcon = toggle;
+		gantt.$container.appendChild(toggle);
+		toggle.onclick = function() {
+			gantt.ext.fullscreen.toggle();
+		};
+	});
+	gantt.attachEvent("onExpand", function () {
+		var icon = gantt.toggleIcon;
+		if (icon) {
+			icon.className = icon.className.replace("fa-expand", "fa-compress");
+		}
+		$('.gantt_control').addClass('full-screen');
+	});
+	gantt.attachEvent("onCollapse", function () {
+		var icon = gantt.toggleIcon;
+		if (icon) {
+			icon.className = icon.className.replace("fa-compress", "fa-expand");
+		}
+		$('.gantt_control').removeClass('full-screen');
+	});
+
+
+	// ------------------------- Setup Auto Scheduling -------------------------------------------------------------------------------------------------
+	gantt.templates.scale_cell_class = function (date) {
+		if (!gantt.isWorkTime(date)) {
+			return "weekend";
+		}
+	};
+	gantt.templates.timeline_cell_class = function (item, date) {
+		if (!gantt.isWorkTime(date)) {
+			return "weekend";
+		}
+	};
+	gantt.attachEvent("onBeforeAutoSchedule", function () {
+		gantt.message("Recalculating project schedule...");
+		return true;
+	});
+	gantt.attachEvent("onAfterTaskAutoSchedule", function (task, new_date, constraint, predecessor) {
+		if(task && predecessor){
+			gantt.message({
+				text: "<b>" + task.text + "</b> has been rescheduled to " + gantt.templates.task_date(new_date) + " due to <b>" + predecessor.text + "</b> constraint",
+				expire: 4000
+			});
+		}
+	});
+	gantt.config.auto_scheduling = true;
+	gantt.config.auto_scheduling_strict = true;
+	gantt.config.auto_scheduling_compatibility = true;
+
+
+	//---------------------------------------Setup Undo Action ----------------------------------------------------------------------------
+	gantt.attachEvent("onBeforeAutoSchedule", function () {
+		gantt.message("Recalculating project schedule...");
+		return true;
+	});
+	gantt.attachEvent("onAfterTaskAutoSchedule", function (task, new_date, constraint, predecessor) {
+		gantt.message({
+			text: "<b>" + task.text + "</b> has been rescheduled to " + gantt.templates.task_date(new_date) + " due to <b>" + predecessor.text + "</b> constraint",
+			expire: 4000
+		});
+	});
+	gantt.config.order_branch = true;
+	gantt.config.order_branch_free = true;
+
+
+	// -------------------- Start Gantt -----------------------------------------------------------------------------------------------------
+	gantt.config.date_format = "%d-%m-%Y";
+	gantt.config.start_date = start_gantt;
+	gantt.config.end_date = end_gantt;
 
 	gantt.config.work_time = true;
 	gantt.config.details_on_create = false;
@@ -54827,6 +55354,5 @@ $(window).on("load", function () {
 	};
 
 	gantt.init("gantt_here");
-
 	gantt.parse(gantt_data);
 });

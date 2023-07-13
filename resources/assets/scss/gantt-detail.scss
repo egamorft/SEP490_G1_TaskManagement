@@ -1507,6 +1507,7 @@ div.dhx_modal_cover {
     font-size: 13px;
     color: #000;
 }
+
 .gantt_marker {
     height: 100%;
     width: 2px;
@@ -1920,6 +1921,16 @@ div.dhx_modal_cover {
     text-align: center;
 }
 
+.gantt_control.full-screen {
+    position: absolute;
+    top: 0px;
+    left: -100px;
+    right: 0;
+    z-index: 100000;
+    height: 70px;
+    padding-top: 20px;
+}
+
 .gantt_control input[type="button"],
 .gantt_control input[type="file"],
 .gantt_control input[type="checkbox"],
@@ -2034,4 +2045,50 @@ div.dhx_modal_cover {
     opacity: 1;
     -webkit-transform: scale(1);
     transform: scale(1);
+}
+
+.status_line {
+	background-color: #0ca30a;
+}
+
+.gantt-fullscreen {
+	position: absolute;
+	bottom: 20px;
+	right: 20px;
+	width: 30px;
+	height: 30px;
+	padding: 2px;
+	font-size: 32px;
+	background: transparent;
+	cursor: pointer;
+	opacity: 0.5;
+	text-align: center;
+	-webkit-transition: background-color 0.5s, opacity 0.5s;
+	transition: background-color 0.5s, opacity 0.5s;
+}
+
+.gantt-fullscreen:hover {
+	background: rgba(150, 150, 150, 0.5);
+	opacity: 1;
+}
+
+.fa-expand:before {
+    content: "\f065";
+}
+
+
+.gantt_marker{
+	background-color: rgba(255, 0, 0, 0.8);
+}
+
+.gantt_task_line, .gantt_task_link{
+	transition: opacity 200ms;
+}
+.overlay_visible .gantt_task_line,
+.overlay_visible .gantt_task_link{
+	opacity: 0.6;
+}
+
+.gantt_marker.today{
+	background: #ffb121;
 }
