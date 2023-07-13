@@ -151,6 +151,7 @@
     "/js/scripts/pages/page-knowledge-base.js": "/js/scripts/pages/page-knowledge-base.js",
     "/js/scripts/pages/page-pricing.js": "/js/scripts/pages/page-pricing.js",
     "/js/scripts/pages/page-profile.js": "/js/scripts/pages/page-profile.js",
+    "/js/scripts/pages/page-reminder.js": "/js/scripts/pages/page-reminder.js",
     "/js/scripts/pages/task-calendar.js": "/js/scripts/pages/task-calendar.js",
     "/js/scripts/pages/task-filter.js": "/js/scripts/pages/task-filter.js",
     "/js/scripts/pagination/components-pagination.js": "/js/scripts/pagination/components-pagination.js",
