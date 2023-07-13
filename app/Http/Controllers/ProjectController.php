@@ -714,7 +714,7 @@ class ProjectController extends Controller
         $days_left = $result["days_left"];
         $percent_completed = $result["percent_completed"];
         if ($days_left < 0) {
-            Session::flash('projectState', 'Your project not started yet');
+            Session::flash('projectState', 'Your project have been end');
             if (!$disabledProject) {
                 $disabledProject = true;
             }

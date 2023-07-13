@@ -36,4 +36,27 @@ class TaskController extends Controller
         Session::flash('success', 'Success create new task list ');
         return response()->json(['success' => true, 'id' => $taskList->id]);
     }
+
+    public function editTitleTaskList(Request $request)
+    {
+        $newTitle = $request->input('newTitle');
+        $taskListDataId = $request->input('taskListDataId');
+        $parts = explode('_', $taskListDataId);
+        $taskListId = end($parts);
+        
+        $task = TaskList::findOrFail($taskListId);
+        $task->title = $newTitle;
+        $task->save();
+
+        return response()->json(['success' => true, 'message' => 'Success change task list name']);
+    }
+
+    public function addTaskKanban(Request $request)
+    {
+        $task_title = $request->input('task_title');
+        $taskListDataId = $request->input('taskListDataId');
+        $parts = explode('_', $taskListDataId);
+        $taskListId = end($parts);
+        //Pending update task columns
+    }
 }

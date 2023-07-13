@@ -92,16 +92,6 @@ $(function () {
                 class: "font-medium-1 align-middle",
             }) +
             "<span class='align-middle ms-25'>Delete</span></a>" +
-            "<a class='dropdown-item' href='#'>" +
-            feather.icons["edit"].toSvg({
-                class: "font-medium-1 align-middle",
-            }) +
-            "<span class='align-middle ms-25'>Rename</span></a>" +
-            "<a class='dropdown-item' href='#'>" +
-            feather.icons["archive"].toSvg({
-                class: "font-medium-1 align-middle",
-            }) +
-            "<span class='align-middle ms-25'>Archive</span></a>" +
             "</div>" +
             "</div>"
         );
@@ -288,7 +278,7 @@ $(function () {
                     "</li>"
                 );
         },
-        buttonClick: function (el, boardId) {
+        buttonClick: function (el, taskListId) {
             var addNew = document.createElement("form");
             addNew.setAttribute("class", "new-item-form");
             addNew.innerHTML =
@@ -299,29 +289,88 @@ $(function () {
                 '<button type="submit" class="btn btn-primary btn-sm me-1">Add</button>' +
                 '<button type="button" class="btn btn-outline-secondary btn-sm cancel-add-item">Cancel</button>' +
                 "</div>";
-            kanban.addForm(boardId, addNew);
+            kanban.addForm(taskListId, addNew);
             addNew.querySelector("textarea").focus();
             addNew.addEventListener("submit", function (e) {
                 e.preventDefault();
-                var currentBoard = $(
-                    ".kanban-board[data-id='" + boardId + "']"
-                );
-                kanban.addElement(boardId, {
-                    title:
-                        "<span class='kanban-text'>" +
-                        e.target[0].value +
-                        "</span>",
-                    id:
-                        boardId +
-                        "-" +
-                        currentBoard.find(".kanban-item").length +
-                        1,
-                });
+                var task_title = e.target[0].value;
+                $.ajax({
+                    url: '/add-task-kanban',
+                    method: 'POST',
+                    headers: {
+                        'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
+                    },
+                    data: {
+                        task_title: task_title,
+                        taskListDataId: taskListId
+                    },
+                    beforeSend: function () {
+                        section.block({
+                            message:
+                                '<div class="d-flex justify-content-center align-items-center"><p class="me-50 mb-0">Please wait...</p><div class="spinner-grow spinner-grow-sm text-white" role="status"></div> </div>',
+                            timeout: 2000,
+                            css: {
+                                backgroundColor: 'transparent',
+                                color: '#fff',
+                                border: '0'
+                            },
+                            overlayCSS: {
+                                opacity: 0.5
+                            }
+                        });
+                    },
+                    success: function (response) {
+                        // Handle success response
+                        if (response.success) {
+                            setTimeout(function () {
+                                toastr['success'](response.message, 'Error!', {
+                                    showMethod: 'slideDown',
+                                    hideMethod: 'slideUp',
+                                    progressBar: true,
+                                    closeButton: true,
+                                    tapToDismiss: false,
+                                    rtl: isRtl
+                                });
+                            }, 2000);
+                            var currentBoard = $(
+                                ".kanban-board[data-id='" + taskListId + "']"
+                            );
+                            kanban.addElement(taskListId, {
+                                title:
+                                    "<span class='kanban-text'>" +
+                                    task_title +
+                                    "</span>",
+                                id:
+                                    taskListId +
+                                    "-" +
+                                    currentBoard.find(".kanban-item").length +
+                                    1,
+                            });
 
-                currentBoard
-                    .find(".kanban-item:last-child .kanban-text")
-                    .before(renderDropdown());
-                addNew.remove();
+                            currentBoard
+                                .find(".kanban-item:last-child .kanban-text")
+                                .before(renderDropdown());
+                            addNew.remove();
+                        }
+                    },
+                    error: function (response) {
+                        var errMsg = "Sorry! Something went wrong here";
+                        if (response.message) {
+                            errMsg = response.message;
+                        }
+                        // Handle error response
+                        setTimeout(function () {
+                            toastr['error'](errMsg, 'Error!', {
+                                showMethod: 'slideDown',
+                                hideMethod: 'slideUp',
+                                progressBar: true,
+                                closeButton: true,
+                                tapToDismiss: false,
+                                rtl: isRtl
+                            });
+                        }, 2000);
+                    }
+                });
             });
             $(document).on("click", ".cancel-add-item", function () {
                 $(this).closest(addNew).toggle();
@@ -418,6 +467,74 @@ $(function () {
     $(document).on("mouseenter", ".kanban-title-board", function () {
         $(this).attr("contenteditable", "true");
     });
+    $(document).on("blur", ".kanban-title-board", function () {
+        // Get the new edited content
+        var newTitle = $(this).text();
+        // console.log($(this).parentNode.getAttribute('data-id'));
+        var taskListDataId = this.parentNode.parentNode.getAttribute('data-id');
+        // Save the new content to a database or update it on the page
+        $.ajax({
+            url: '/edit-title-taskList',
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
+            },
+            data: {
+                newTitle: newTitle,
+                taskListDataId: taskListDataId
+            },
+            beforeSend: function () {
+                section.block({
+                    message:
+                        '<div class="d-flex justify-content-center align-items-center"><p class="me-50 mb-0">Please wait...</p><div class="spinner-grow spinner-grow-sm text-white" role="status"></div> </div>',
+                    timeout: 2000,
+                    css: {
+                        backgroundColor: 'transparent',
+                        color: '#fff',
+                        border: '0'
+                    },
+                    overlayCSS: {
+                        opacity: 0.5
+                    }
+                });
+            },
+            success: function (response) {
+                // Handle success response
+                if (response.success) {
+                    setTimeout(function () {
+                        toastr['success'](response.message, 'Error!', {
+                            showMethod: 'slideDown',
+                            hideMethod: 'slideUp',
+                            progressBar: true,
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl
+                        });
+                    }, 2000);
+                }
+            },
+            error: function (response) {
+                var errMsg = "Sorry! Something went wrong here";
+                if (response.message) {
+                    errMsg = response.message;
+                }
+                // Handle error response
+                setTimeout(function () {
+                    toastr['error'](errMsg, 'Error!', {
+                        showMethod: 'slideDown',
+                        hideMethod: 'slideUp',
+                        progressBar: true,
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: isRtl
+                    });
+                }, 2000);
+            }
+        });
+
+        // Disable editing again
+        $(this).attr("contenteditable", "false");
+    });
 
     // Appends delete icon with title
     $.each($(".kanban-board-header"), function () {
@@ -425,10 +542,10 @@ $(function () {
     });
 
     // Deletes Board
-    $(document).on("click", ".delete-board", function () {
-        var id = $(this).closest(".kanban-board").data("id");
-        kanban.removeBoard(id);
-    });
+    // $(document).on("click", ".delete-board", function () {
+    //     var id = $(this).closest(".kanban-board").data("id");
+    //     kanban.removeBoard(id);
+    // });
 
     // Delete task
     $(document).on("click", ".dropdown-item.delete-task", function () {

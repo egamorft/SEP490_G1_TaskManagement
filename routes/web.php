@@ -83,6 +83,8 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('add-task-kanban', [TaskController::class, 'addTaskKanban'])->name('add.task.kanban');
+    Route::post('edit-title-taskList', [TaskController::class, 'editTitleTaskList'])->name('move.task');
     Route::post('add-taskList', [TaskController::class, 'addTaskList'])->name('add.taskList');
     Route::post('move-task-taskList', [TaskController::class, 'moveTaskToTaskList'])->name('move.task');
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
