@@ -26,7 +26,72 @@
         <div class="reminder-body">
             <div class="tab tab-important active">
                 <div class="reminder-content">
-                    <div class="reminder-title">Job 3 - Check authorization</div>
+                    <div class="reminder-title">
+                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
+                    </div>
+                    <div class="reminder-sub-title">
+                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
+                        <div class="reminder-status">· Done On Time</div>
+                    </div>
+                </div>
+                <div class="reminder-content">
+                    <div class="reminder-title">
+                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
+                    </div>
+                    <div class="reminder-sub-title">
+                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
+                        <div class="reminder-status">· Done On Time</div>
+                    </div>
+                </div>
+                <div class="reminder-content">
+                    <div class="reminder-title">
+                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
+                    </div>
+                    <div class="reminder-sub-title">
+                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
+                        <div class="reminder-status">· Done On Time</div>
+                    </div>
+                </div>
+                <div class="reminder-content">
+                    <div class="reminder-title">
+                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
+                    </div>
+                    <div class="reminder-sub-title">
+                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
+                        <div class="reminder-status">· Done On Time</div>
+                    </div>
+                </div>
+                <div class="reminder-content">
+                    <div class="reminder-title">
+                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
+                    </div>
+                    <div class="reminder-sub-title">
+                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
+                        <div class="reminder-status">· Done On Time</div>
+                    </div>
+                </div>
+                <div class="reminder-content">
+                    <div class="reminder-title">
+                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
+                    </div>
+                    <div class="reminder-sub-title">
+                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
+                        <div class="reminder-status">· Done On Time</div>
+                    </div>
+                </div>
+                <div class="reminder-content">
+                    <div class="reminder-title">
+                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
+                    </div>
+                    <div class="reminder-sub-title">
+                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
+                        <div class="reminder-status">· Done On Time</div>
+                    </div>
+                </div>
+                <div class="reminder-content">
+                    <div class="reminder-title">
+                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
+                    </div>
                     <div class="reminder-sub-title">
                         <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
                         <div class="reminder-status">· Done On Time</div>

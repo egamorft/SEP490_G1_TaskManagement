@@ -1,12 +1,19 @@
 @extends('layouts/contentLayoutMaster')
 
 @section('content')
-	@include('project.header')
-	@include('project.board_header')
+    @include('project.header')
+    @include('project.board_header')
     @include('project.board_nav')
     @include('task.kanban')
 @endsection
 
+<script>
+    var kanbanBoard = @json($kanbanData);
+    var taskRoutes = "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id , 'task_id' => ':taskId']) }}";
+</script>
+
+<script>
+</script>
 
 @section('vendor-style')
     <!-- Vendor css files -->
@@ -40,4 +47,5 @@
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/pages/app-kanban.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/app-kanban-detail.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/project/board.js')) }}"></script>
 @endsection

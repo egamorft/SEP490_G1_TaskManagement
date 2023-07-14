@@ -27,73 +27,72 @@
         </li>
     </ul>
 
-    <div class="filter-nav-header mb-2">
-        <button class="button-filter-header">
-            <i data-feather="filter" class="custom-title-icon"></i>
-            <span class="filter-title">Filter</span>
+    <div class="filter-nav-header mb-2 {{ $tab == 'kanban' ? '' : 'd-none' }}">
+        <button type="button" class="btn-lg btn-icon btn-outline-primary waves-effect button-filter-header">
+            <i data-feather='filter'></i>
         </button>
 
         <div class="filter-list hidden">
             <form action="" method="GET">
                 <div class="filter-search">
-                    <div class="fw-bold">Từ khóa</div>
-                    <input type="search" id="form1" class="form-control" placeholder="Nhập từ khóa..."
-                        name="q" aria-label="Search" />
+                    <div class="fw-bold">Filter</div>
+                    <input type="search" id="form1" class="form-control" placeholder="Enter your task title..."
+                        name="q" aria-label="Search" value="{{ request()->input('q') }}" />
                 </div>
 
                 <div class="filter-date">
 
                     <div class="filter-date-range">
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="dueToday"
-                            id="checkToday">
+                            {{ request()->input('dueToday') == "on" ? "checked" : "" }}>
                         <span class="filter-date-title">
                             <i data-feather="calendar" class="filter-date-icon"></i>
-                            <span class="span-date-filter">Sẽ hết hạn vào hôm nay</span>
+                            <span class="span-date-filter">Out of date in day</span>
                         </span>
                     </div>
 
                     <div class="filter-date-range">
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="overdue"
-                            id="checkOverdue">
+                            {{ request()->input('overdue') == "on" ? "checked" : "" }}>
                         <span class="filter-date-title">
                             <i data-feather="clock" class="filter-date-icon color-alert"></i>
-                            <span class="span-date-filter">Quá hạn</span>
+                            <span class="span-date-filter">Overdue</span>
                         </span>
                     </div>
 
                     <div class="filter-date-range">
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="dueTomorrow"
-                            id="checkTomorrow">
+                            {{ request()->input('dueTomorrow') == "on" ? "checked" : "" }}>
                         <span class="filter-date-title">
                             <i data-feather="clock" class="filter-date-icon color-primary"></i>
-                            <span class="span-date-filter">Sẽ hết hạn vào ngày mai</span>
+                            <span class="span-date-filter">Deadline is tomorrow</span>
                         </span>
                     </div>
 
                     <div class="filter-date-range">
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="dueNextWeek"
-                            id="checkNextWeek">
+                            {{ request()->input('dueNextWeek') == "on" ? "checked" : "" }}>
                         <span class="filter-date-title">
                             <i data-feather="clock" class="filter-date-icon"></i>
-                            <span class="span-date-filter">Sẽ hết hạn vào tuần sau</span>
+                            <span class="span-date-filter">Deadline is next week</span>
                         </span>
                     </div>
 
                     <div class="filter-date-range">
-                        <input class="form-check-input checkbox-finish-task" type="checkbox" name="markDone"
-                            id="checkAsDone">
+                        <input class="form-check-input checkbox-finish-task" type="checkbox" name="doneTask"
+                            {{ request()->input('doneTask') == "on" ? "checked" : "" }}>
                         <span class="filter-date-title">
-                            <i data-feather="clock" class="filter-date-icon"></i>
-                            <span class="span-date-filter">Đã đánh dấu là hoàn thành</span>
+                            <i data-feather='check-circle' class="filter-date-icon"></i>
+                            <span class="span-date-filter">Done task</span>
                         </span>
                     </div>
 
                     <div class="filter-date-range">
-                        <input class="form-check-input checkbox-finish-task" type="checkbox" name="markNotDone"
-                            id="checkAsNotdone">
+                        <input class="form-check-input checkbox-finish-task" type="checkbox" name="doingTask"
+                            {{ request()->input('doingTask') == "on" ? "checked" : "" }}>
                         <span class="filter-date-title">
-                            <i data-feather="clock" class="filter-date-icon"></i>
-                            <span class="span-date-filter">Không được đánh dấu là đã hoàn thành</span>
+                            <i data-feather='play-circle' class="filter-date-icon"></i>
+                            <span class="span-date-filter">Doing task</span>
                         </span>
                     </div>
 

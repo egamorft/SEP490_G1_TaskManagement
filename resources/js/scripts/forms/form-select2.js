@@ -272,12 +272,12 @@ $(document).ready(function () {
         }
       },
       error: function (response) {
-
         setTimeout(function () {
           $('#spinnerBtnProject').hide();
           $('#submitBtnProject').show();
           $('#resetBtnProject').show();
           if (response.status == 422) {
+            console.log(response);
             var errors = response.responseJSON.errors;
             for (var key in errors) {
               $('#' + key).addClass(' is-invalid');
