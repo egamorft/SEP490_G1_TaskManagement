@@ -135,11 +135,13 @@
                         
                     @endphp
                     <div class="more-info">
-                        <p class="mb-50">Duration: {{ $percent_completed }}% ( @if ($days_left > 0)
-                                {{ $days_left }} days remaining
-                            @else
-                                {{ -$days_left }} days through
-                            @endif) </p>
+                        <p class="mb-50">Duration: {{ $percent_completed }}% @if ($days_left > 0)
+                            ({{ $days_left }} days remaining) 
+                            @endif
+                            @if ($days_left == 0)
+                            (last day in the project) 
+                            @endif
+                        </p>
                         <div class="progress progress-bar-secondary" style="height: 6px">
                             <div class="progress-bar progress-bar-striped" role="progressbar"
                                 aria-valuenow="{{ $percent_completed }}" aria-valuemin="{{ $percent_completed }}"
@@ -155,10 +157,10 @@
             <div class="row">
                 <div class="col mt-0">
                     <div class="avatar float-start bg-white rounded">
-                        <div class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
+                        <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $pmAccount->id]) }}" class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
                             <img src="{{ asset('images/avatars/' . $pmAccount->avatar) }}" alt="Avatar" width="33"
                                 height="33" />
-                        </div>
+                        </a>
                     </div>
                     <div class="more-info" style="margin-top: 10px;">
                         <small>Project Manager</small>
@@ -167,10 +169,10 @@
                 </div>
                 <div class="col mt-0">
                     <div class="avatar float-start bg-white rounded">
-                        <div class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
+                        <a href="{{ $supervisorAccount ? route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisorAccount->id]) : '#' }}" class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
                             <img src="{{ isset($supervisorAccount->avatar) ? asset('images/avatars/' . $supervisorAccount->avatar) : asset('images/avatars/default.png') }}"
                                 alt="Avatar" width="33" height="33" />
-                        </div>
+                        </a>
                     </div>
                     <div class="more-info" style="margin-top: 10px;">
                         <small>Project Supervisor</small>
@@ -185,11 +187,11 @@
                     </div>
                     <div class="avatar-group">
                         @forelse ($memberAccount as $acc)
-                            <div data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
+                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
                                 title="{{ $acc->fullname }}" class="avatar pull-up">
                                 <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar" width="33"
                                     height="33" />
-                            </div>
+                            </a>
                         @empty
                             <div class="d-flex align-items-center me-2">
                                 <strong>Waiting for the very first member to accept
@@ -249,7 +251,7 @@
                         <div class="d-flex justify-content-between">
                             <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
                                 data-bs-target="#editBoardModal{{ $board->id }}">
-                                <small>Edit Board</small>
+                                <small class="fs-6 fw-bold">Edit Board</small>
                             </a>
                             <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
                                 data-bs-target="#removeBoardModal{{ $board->id }}" class="text-body delete-board"><i

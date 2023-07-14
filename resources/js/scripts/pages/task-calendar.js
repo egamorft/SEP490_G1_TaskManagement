@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             Todo: "info",
             Doing: "primary",
             Reviewing: "warning",
-            Ontime: "success",
+            Done: "success",
             Late: "secondary",
             Overdue: "danger",
         },
@@ -68,7 +68,8 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event click function
     function eventClick(info) {
-        console.log("Show card detail");
+        console.log(info);
+        alert("Show card detail");
     }
 
     // Calendar plugins
@@ -76,6 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
         initialView: "dayGridMonth",
         events: fetchEvents,
         editable: true,
+        weekends: true,
         dragScroll: true,
         dayMaxEvents: 2,
         eventResizableFromStart: true,

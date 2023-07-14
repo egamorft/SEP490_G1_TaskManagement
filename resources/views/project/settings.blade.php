@@ -290,11 +290,11 @@
                                                                             <h5 class="mb-0">Remove</h5>
                                                                         </a>
                                                                     </div>
+                                                                    @include('content._partials._modals.modal-change-pm')
+                                                                    @include('content._partials._modals.modal-remove-member')
                                                                 @endcan
                                                             </div>
                                                         </div>
-                                                        @include('content._partials._modals.modal-change-pm')
-                                                        @include('content._partials._modals.modal-remove-member')
                                                     @empty
                                                     @endforelse
 
@@ -445,6 +445,9 @@
                                                                                         <input type="hidden"
                                                                                             name="csrf-token"
                                                                                             value="{{ csrf_token() }}">
+                                                                                            <input type="hidden"
+                                                                                                name="slug"
+                                                                                                value="{{ $project->slug }}">
                                                                                         <input
                                                                                             class="form-check-input permission-role-editor"
                                                                                             type="checkbox"

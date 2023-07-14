@@ -66,30 +66,30 @@
                                     <p style="width: 300px" class="card-text mb-25 text-wrap">
                                     <p style="text-align: left"
                                         class="
-                                    @if ($project->project_status == 1) text-success
+                                    @if ($project->project_status == 2) text-success
                                     @elseif ($project->project_status == -1)
                                         text-danger @endif">
                                         --------------------------------------</p>
                                     <p
                                         class="
-                                    @if ($project->project_status == 1) text-success
+                                    @if ($project->project_status == 2) text-success
                                     @elseif ($project->project_status == -1)
                                         text-danger @endif">
                                         {{ $project->description != null ? $project->description : '#No-description' }}</p>
                                     </p>
                                     <p
                                         class="
-                                    @if ($project->project_status == 1) text-success
+                                    @if ($project->project_status == 2) text-success
                                     @elseif ($project->project_status == -1)
                                         text-danger @endif">
-                                        @if ($project->project_status == 1)
+                                        @if ($project->project_status == 2)
                                             Approved by
                                         @elseif($project->project_status == -1)
                                             Rejected by
                                         @else
                                             Incharge by
                                         @endif
-                                        <br /><strong>{{ $supervisorAccounts->email }}</strong>
+                                        <br /><strong>{{ $supervisorAccounts->email ?? "" }}</strong>
                                     </p>
                                 </div>
                                 <div class="mt-md-0 mt-2 col-md-5">
