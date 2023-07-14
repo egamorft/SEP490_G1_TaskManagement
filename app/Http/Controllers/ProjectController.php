@@ -823,12 +823,12 @@ class ProjectController extends Controller
                     'id' => $task->id,
                     'title' => $task->title,
                     'comments' => $task->comments()->count(), // replace with actual comments count
-                    'badge-text' => $task->due_date, // replace with actual badge text
+                    'badge-text' => $task->due_date ?? "", // replace with actual badge text
                     'badge' => $flags['badgeColor'],
-                    'due-date' => $task->due_date, // replace with actual due date
+                    'due-date' => $task->due_date ?? "", // replace with actual due date
                     'attachments' => $attachmentsCount, // replace with actual attachments count
-                    'assigned' => $task->assignTo->avatar, // replace with actual assigned members
-                    'members' => $task->assignTo->fullname // replace with actual members
+                    'assigned' => $task->assignTo->avatar ?? "", // replace with actual assigned members
+                    'members' => $task->assignTo->fullname ?? "" // replace with actual members
                 ];
 
                 $taskItems[] = $taskItem;

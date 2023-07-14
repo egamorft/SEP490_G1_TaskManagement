@@ -255,7 +255,7 @@ $(function () {
             addNew.setAttribute("class", "new-item-form");
             addNew.innerHTML =
                 '<div class="mb-1">' +
-                '<textarea class="form-control add-new-item" rows="2" placeholder="Add task title" required></textarea>' +
+                '<textarea class="form-control add-new-item" rows="2" placeholder="Add New Task" required></textarea>' +
                 "</div>" +
                 '<div class="mb-2">' +
                 '<button type="submit" class="btn btn-primary btn-sm me-1">Add</button>' +
@@ -292,18 +292,9 @@ $(function () {
                         });
                     },
                     success: function (response) {
+                        var newTaskId = response.id;
                         // Handle success response
                         if (response.success) {
-                            setTimeout(function () {
-                                toastr['success'](response.message, 'Error!', {
-                                    showMethod: 'slideDown',
-                                    hideMethod: 'slideUp',
-                                    progressBar: true,
-                                    closeButton: true,
-                                    tapToDismiss: false,
-                                    rtl: isRtl
-                                });
-                            }, 2000);
                             var currentBoard = $(
                                 ".kanban-board[data-id='" + taskListId + "']"
                             );
@@ -323,6 +314,37 @@ $(function () {
                                 .find(".kanban-item:last-child .kanban-text")
                                 .before(renderDropdown());
                             addNew.remove();
+
+                            var url = "?show=task&task_id=" + newTaskId;
+                            var currentUrl = window.location.href.split("?", (window.location.href).length)[0];
+                            history.replaceState(null, null, window.location.pathname + url);
+                            currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
+                            sidebar.modal("show");
+
+                            const urlParams = new URLSearchParams(window.location.search);
+                            const taskId = urlParams.get('task_id');
+
+                            var taskRoute = taskRoutes.replace(':taskId', taskId);
+                            const response = fetch(taskRoute);
+                            response.then(res => {
+                                if (res.ok) {
+                                    return res.text();
+                                } else {
+                                    throw new Error('Network response was not ok');
+                                }
+                            }).then(html => {
+                                targetTaskModal.find('.task-wrapper').html(html);
+                            }).catch(error => {
+                                targetTaskModal.find('.task-wrapper').html(error);
+                            });
+                            toastr['success'](response.message, 'Error!', {
+                                showMethod: 'slideDown',
+                                hideMethod: 'slideUp',
+                                progressBar: true,
+                                closeButton: true,
+                                tapToDismiss: false,
+                                rtl: isRtl
+                            });
                         }
                     },
                     error: function (response) {
@@ -440,6 +462,7 @@ $(function () {
     $(document).on("mouseenter", ".kanban-title-board", function () {
         $(this).attr("contenteditable", "true");
     });
+    //Edit task list title
     $(document).on("blur", ".kanban-title-board", function () {
         // Get the new edited content
         var newTitle = $(this).text();

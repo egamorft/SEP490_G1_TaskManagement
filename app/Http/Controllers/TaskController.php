@@ -6,6 +6,7 @@ use App\Models\Task;
 use App\Models\TaskList;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 
 class TaskController extends Controller
@@ -58,6 +59,13 @@ class TaskController extends Controller
         $parts = explode('_', $taskListDataId);
         $taskListId = end($parts);
         //Pending update task columns
+        $task = Task::create([
+            'title' => $task_title,
+            'created_by' => Auth::id(),
+            'taskList_id' => $taskListId
+        ]);
+
+        return response()->json(['success' => true, 'id' => $task->id, 'message' => 'Success create new task']);
     }
 
     public function task_detail($slug, $board_id , $task_id)
