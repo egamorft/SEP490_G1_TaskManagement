@@ -27,12 +27,35 @@ class Account extends Model implements Authenticatable
 
     public function roles()
     {
-        return $this->belongsToMany(Role::class, 'account_role');
+        return $this->belongsToMany(Role::class, 'account_project')
+            ->withPivot('project_id', 'status');;
+    }
+
+    public function accProject()
+    {
+        return $this->hasMany(AccountProject::class);
+    }
+
+    public function accountProjectsAccess()
+    {
+        return $this->hasMany(AccountProject::class, 'account_id');
+    }
+
+    public function accountProjects()
+    {
+        return $this->belongsToMany(Project::class, 'account_project', 'account_id', 'project_id');
+    }
+
+    public function accountProject()
+    {
+        return $this->belongsToMany(Project::class, 'account_project')
+            ->withPivot('status');
     }
 
     public function projects()
     {
-        return $this->belongsToMany(Project::class, 'account_project');
+        return $this->belongsToMany(Project::class, 'account_project')
+            ->withPivot('role_id');
     }
 
     public function socials()
@@ -50,23 +73,42 @@ class Account extends Model implements Authenticatable
         return $this->hasMany(Report::class, 'created_by');
     }
 
-    public function hasAnyPermission($permissions)
+    public function hasPermission($permissionSlug, $projectSlug)
     {
-        foreach ($permissions as $permission) {
-            if ($this->hasPermission($permission)) {
-                return true;
-            }
+        // Retrieve the project based on the slug
+        $project = Project::where('slug', $projectSlug)->first();
+
+        if (!$project) {
+            // Project not found
+            return false;
         }
 
-        return false;
+        // Check if the user is assigned to the project
+        $assignedProject = $this->projects()->where('project_id', $project->id)->first();
+
+        if (!$assignedProject) {
+            // User is not assigned to the project
+            return false;
+        }
+
+        // Retrieve the role of the user within the project
+        $role = Role::find($assignedProject->pivot->role_id);
+
+        if (!$role) {
+            // Role not found
+            return false;
+        }
+
+        // Check if the role has the required permission
+        return $role->permissions()->where('slug', $permissionSlug)->exists();
     }
 
-    public function hasPermission($permission)
-    {
-        return $this->roles
-            ->pluck('permissions')              // Get the permissions associated with each role
-            ->flatten()                         // Flatten the collection of permissions
-            ->pluck('slug')                     // Get the slugs of the permissions
-            ->contains($permission);            // Check if the given permission slug exists
-    }
+    // public function hasPermission($permission)
+    // {
+    //     return $this->roles
+    //         ->pluck('permissions')              // Get the permissions associated with each role
+    //         ->flatten()                         // Flatten the collection of permissions
+    //         ->pluck('slug')                     // Get the slugs of the permissions
+    //         ->contains($permission);            // Check if the given permission slug exists
+    // }
 }

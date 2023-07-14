@@ -10,15 +10,27 @@ class Role extends Model
     use HasFactory;
     public $timestamps = false;
     protected $table = 'roles';
-    protected $fillable = ['name'];
+    protected $fillable = [
+        'name'
+    ];
+
+    public function accounts()
+    {
+        return $this->hasMany(AccountProject::class, 'role_id');
+    }
 
     public function permissions()
     {
         return $this->belongsToMany(Permission::class, 'permission_role');
     }
 
-    public function accounts()
+    public function projectRolePermissions()
     {
-        return $this->belongsToMany(Account::class, 'account_role');
+        return $this->hasMany(ProjectRolePermission::class);
+    }
+
+    public function accountProjects()
+    {
+        return $this->hasMany(AccountProject::class);
     }
 }

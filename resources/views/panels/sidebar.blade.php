@@ -65,10 +65,10 @@
             @if (isset($menuData[0]))
                 @foreach ($menuData[0]->menu as $menu)
                     @if (Auth::user())
-                    {{-- User loggedin check --}}
+                        {{-- User loggedin menu --}}
                         @if (Auth::user()->is_admin == 1)
                             @if (isset($menu->admin))
-                            {{-- ADMIN role --}}
+                                {{-- ADMIN role --}}
                                 @if (isset($menu->navheader))
                                     <li class="navigation-header">
                                         <span>{{ __('locale.' . $menu->navheader) }}</span>
@@ -102,9 +102,10 @@
                                     </li>
                                 @endif
                             @endif
-                            @else
-                            {{-- USER role --}}
-                            @if (isset($menu->navheader))
+                        @else
+                            {{-- USER role -> Comp chung của user --}}
+                            @if (isset($menu->user))
+                                @if (isset($menu->navheader))
                                     <li class="navigation-header">
                                         <span>{{ __('locale.' . $menu->navheader) }}</span>
                                         <i data-feather="more-horizontal"></i>
@@ -136,16 +137,57 @@
                                         @endif
                                     </li>
                                 @endif
+                            @endif
                         @endif
 
                     @else
-                    {{-- Not loggedin check --}}
-
+                        {{-- Not loggedin menu --}}
                     @endif
                 @endforeach
+                @if (Auth::user())
+                    @if (Auth::user()->is_admin == 0)
+                        {{-- USER role -> Comp riêng của từng user --}}
+                        {{-- Nav header --}}
+                        <li class="nav-item">
+                            <a data-bs-toggle="modal" data-bs-target="#addNewProject"
+                                href="{{ isset($p->slug) ? url($p->slug) : 'javascript:void(0)' }}"
+                                class="d-flex align-items-center" target="_self"
+                                style=" font-weight: bold">
+                                <i data-feather='plus-square'></i>
+                                <span class="menu-title text-truncate">Add new project</span>
+                            </a>
+                        </li>
+                        <li class="navigation-header">
+                            <span>My project</span>
+                            <i data-feather="more-horizontal"></i>
+                        </li>
+                        {{-- Project List --}}
+                        @foreach ($projects as $p)
+                            @php
+                                $logo = Str::substr($p->name, 0, 1) . '.png';
+                                $currentUrl = request()->url();
+                                $slug = Str::after($currentUrl, 'project/');
+								$slug = explode('/', $slug)[0];
+                            @endphp
+                            <li class="nav-item {{ $slug === $p->slug ? 'active' : '' }}">
+                                <a href="{{ isset($p->slug) ? url(route('view.project.board', ['slug'=>$p->slug])) : 'javascript:void(0)' }}"
+                                    class="d-flex align-items-center" target="_self">
+                                    <img class="rounded me-1"
+                                        src="{{ Auth::user() ? asset('images/avatars/' . $logo) : '' }}"
+                                        alt="avatar" height="25" width="25">
+                                    <span class="menu-title text-truncate">{{ $p->name }}</span>
+                                </a>
+                            </li>
+                        @endforeach
+                    @endif
+                @endif
             @endif
             {{-- Foreach menu item ends --}}
         </ul>
     </div>
+    
+    @include('panels/reminderLayout')
 </div>
+
 <!-- END: Main Menu-->
+@include('content._partials._modals.modal-add-new-project')

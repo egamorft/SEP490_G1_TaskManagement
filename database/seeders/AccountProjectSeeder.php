@@ -5,6 +5,8 @@ namespace Database\Seeders;
 use App\Models\Account;
 use App\Models\AccountProject;
 use App\Models\Project;
+use App\Models\Role;
+use Faker\Factory as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -17,16 +19,19 @@ class AccountProjectSeeder extends Seeder
      */
     public function run()
     {
-        $accounts = Account::all();
-        $projects = Project::all();
-
+        $faker = Faker::create();
+        $accounts = Account::pluck('id')->toArray();
+        $projects = Project::pluck('id')->toArray();
+        $roles = Role::pluck('id')->toArray();
         foreach ($accounts as $account) {
-            $randomProjects = $projects->random(2);
+            foreach ($projects as $project) {
+                $role = $faker->randomElement($roles);
 
-            foreach ($randomProjects as $project) {
                 AccountProject::create([
-                    'account_id' => $account->id,
-                    'project_id' => $project->id,
+                    'project_id' => $project,
+                    'account_id' => $account,
+                    'role_id' => $role,
+                    'status' => $faker->randomElement([-2, -1, 0, 1]),
                 ]);
             }
         }

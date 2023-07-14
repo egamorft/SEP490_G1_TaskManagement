@@ -5,8 +5,8 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Comment;
-use App\Models\SubTask;
 use App\Models\Account;
+use App\Models\Task;
 use Faker\Factory as Faker;
 
 class CommentSeeder extends Seeder
@@ -18,21 +18,19 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
+        // $faker = Faker::create();
 
-        $subTasks = SubTask::all();
-        $accounts = Account::all();
+        // $tasks = Task::pluck('id')->toArray();
+        // $accounts = Account::pluck('id')->toArray();
 
-        foreach ($subTasks as $subTask) {
-            for ($i = 0; $i < 5; $i++) {
-                Comment::create([
-                    'sub_task_id' => $subTask->id,
-                    'content' => $faker->sentence,
-                    'visible' => $faker->boolean,
-                    'created_by' => $accounts->random()->id,
-                    'updated_at' => $faker->date(),
-                ]);
-            }
-        }
+        // foreach ($tasks as $task) {
+        //     for ($i = 0; $i < 5; $i++) {
+        //         Comment::create([
+        //             'task_id' => $faker->randomElement($tasks),
+        //             'content' => $faker->sentence,
+        //             'created_by' => $faker->randomElement($accounts)
+        //         ]);
+        //     }
+        // }
     }
 }

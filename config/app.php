@@ -179,6 +179,14 @@ return [
         App\Providers\RouteServiceProvider::class,
         // custom theme menu provider
         App\Providers\MenuServiceProvider::class,
+        //Menu sidebar
+        App\Providers\ProjectsComposerServiceProvider::class,
+        //Account provider
+        App\Providers\AccountServiceProvider::class,
+        //Projet permisison
+        App\Providers\PermissionProjectProvider::class,
+        //QR code
+        // SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
     ],
 
     /*
@@ -196,6 +204,7 @@ return [
         // custom theme helper
         'Helper' => App\Helpers\Helpers::class,
         'Socialite' => Laravel\Socialite\Facades\Socialite::class,
+        'QrCode' => SimpleSoftwareIO\QrCode\Facades\QrCode::class,
     ])->toArray(),
 
 ];

@@ -11,19 +11,31 @@ class Task extends Model
     public $timestamps = false;
     protected $table = 'tasks';
     protected $fillable = [
-        'name',
-        'project_id',
-        'limitation',
+        'taskList_id',
+        'title',
+        'due_date',
+        'created_by',
+        'assign_to',
+        'status',
+        'attachments',
         'description',
+        'created_at',
+        'deleted_at'
     ];
 
-    public function project()
+    // Define the relationships
+    public function taskList()
     {
-        return $this->belongsTo(Project::class);
+        return $this->belongsTo(TaskList::class);
     }
 
     public function subTasks()
     {
-        return $this->hasMany(SubTask::class);
+        return $this->hasMany(SubTask::class, 'task_id', 'id');
+    }
+
+    public function comments()
+    {
+        return $this->hasMany(Comment::class, 'task_id', 'id');
     }
 }

@@ -16,13 +16,31 @@ class PermissionSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
-
-        for ($i = 0; $i < 5; $i++) {
-            Permission::create([
-                'name' => $faker->word,
-                'slug' => $faker->slug,
-            ]);
-        }
+        //Project settings permissions
+        Permission::create([
+            'name' => 'Change project information',
+            'slug' => 'change-project-information',
+        ]);
+        
+        Permission::create([
+            'name' => 'Set Up Project Privilege',
+            'slug' => 'set-up-project-privilege',
+        ]);
+        
+        Permission::create([
+            'name' => 'Evaluate project',
+            'slug' => 'evaluate-project',
+        ]);
+        
+        Permission::create([
+            'name' => 'Control teamsize',
+            'slug' => 'control-teamsize',
+        ]);
+        
+        Permission::create([
+            'name' => 'View Member List',
+            'slug' => 'view-member-list',
+        ]);
+        //Project settings permissions
     }
 }

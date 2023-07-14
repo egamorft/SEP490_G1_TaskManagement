@@ -1,796 +1,678 @@
 @extends('layouts/contentLayoutMaster')
 
-@section('title', 'Tabs')
+@section('title', 'Project-' . $project->name)
+
+@section('vendor-style')
+    <!-- vendor css files -->
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/editors/quill/katex.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/editors/quill/monokai-sublime.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/editors/quill/quill.snow.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/pickers/flatpickr/flatpickr.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/extensions/dragula.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/forms/wizard/bs-stepper.min.css')) }}">
+@endsection
+
+@section('page-style')
+    <!-- Page css files -->
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-quill-editor.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-flat-pickr.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-todo.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-wizard.css')) }}">
+@endsection
 
 @section('content')
-<!-- Basic tabs start -->
-<section id="basic-tabs-components">
-  <div class="row match-height">
-    <!-- Basic Tabs starts -->
-    <div class="col-xl-6 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Basic Tab</h4>
-        </div>
-        <div class="card-body">
-          <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                id="home-tab"
-                data-bs-toggle="tab"
-                href="#home"
-                aria-controls="home"
-                role="tab"
-                aria-selected="true"
-                >Home</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="profile-tab"
-                data-bs-toggle="tab"
-                href="#profile"
-                aria-controls="profile"
-                role="tab"
-                aria-selected="false"
-                >Service</a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="disabled" id="disabled-tab" class="nav-link disabled">Disabled</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="about-tab"
-                data-bs-toggle="tab"
-                href="#about"
-                aria-controls="about"
-                role="tab"
-                aria-selected="false"
-                >Account</a
-              >
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="home" aria-labelledby="home-tab" role="tabpanel">
-              <p>
-                Candy canes donut chupa chups candy canes lemon drops oat cake wafer. Cotton candy candy canes marzipan
-                carrot cake. Sesame snaps lemon drops candy marzipan donut brownie tootsie roll. Icing croissant bonbon
-                biscuit gummi bears. Pudding candy canes sugar plum cookie chocolate cake powder croissant.
-              </p>
-              <p>
-                Carrot cake tiramisu danish candy cake muffin croissant tart dessert. Tiramisu caramels candy canes
-                chocolate cake sweet roll liquorice icing cupcake. Candy cookie sweet roll bear claw sweet roll.
-              </p>
-            </div>
-            <div class="tab-pane" id="profile" aria-labelledby="profile-tab" role="tabpanel">
-              <p>
-                Dragée jujubes caramels tootsie roll gummies gummies icing bonbon. Candy jujubes cake cotton candy.
-                Jelly-o lollipop oat cake marshmallow fruitcake candy canes toffee. Jelly oat cake pudding jelly beans
-                brownie lemon drops ice cream halvah muffin. Brownie candy tiramisu macaroon tootsie roll danish.
-              </p>
-              <p>
-                Croissant pie cheesecake sweet roll. Gummi bears cotton candy tart jelly-o caramels apple pie jelly
-                danish marshmallow. Icing caramels lollipop topping. Bear claw powder sesame snaps.
-              </p>
-            </div>
-            <div class="tab-pane" id="disabled" aria-labelledby="disabled-tab" role="tabpanel">
-              <p>
-                Chocolate croissant cupcake croissant jelly donut. Cheesecake toffee apple pie chocolate bar biscuit
-                tart croissant. Lemon drops danish cookie. Oat cake macaroon icing tart lollipop cookie sweet bear claw.
-              </p>
-            </div>
-            <div class="tab-pane" id="about" aria-labelledby="about-tab" role="tabpanel">
-              <p>
-                Gingerbread cake cheesecake lollipop topping bonbon chocolate sesame snaps. Dessert macaroon bonbon
-                carrot cake biscuit. Lollipop lemon drops cake gingerbread liquorice. Sweet gummies dragée. Donut bear
-                claw pie halvah oat cake cotton candy sweet roll. Cotton candy sweet roll donut ice cream.
-              </p>
-              <p>
-                Halvah bonbon topping halvah ice cream cake candy. Wafer gummi bears chocolate cake topping powder.
-                Sweet marzipan cheesecake jelly-o powder wafer lemon drops lollipop cotton candy.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Basic Tabs ends -->
+    <!-- Basic tabs start -->
+    <section id="basic-tabs-components">
+        <div class="row match-height" id="section-block">
 
-    <!-- Tabs with Icon starts -->
-    <div class="col-xl-6 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Tab with icon</h4>
-        </div>
-        <div class="card-body">
-          <ul class="nav nav-tabs" role="tablist">
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                id="homeIcon-tab"
-                data-bs-toggle="tab"
-                href="#homeIcon"
-                aria-controls="home"
-                role="tab"
-                aria-selected="true"
-                ><i data-feather="home"></i> Home</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="profileIcon-tab"
-                data-bs-toggle="tab"
-                href="#profileIcon"
-                aria-controls="profile"
-                role="tab"
-                aria-selected="false"
-                ><i data-feather="tool"></i> Service</a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="disabledIcon" id="disabledIcon-tab" class="nav-link disabled"
-                ><i data-feather="eye-off"></i> Disabled</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="aboutIcon-tab"
-                data-bs-toggle="tab"
-                href="#aboutIcon"
-                aria-controls="about"
-                role="tab"
-                aria-selected="false"
-                ><i data-feather="user"></i> Account</a
-              >
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane active" id="homeIcon" aria-labelledby="homeIcon-tab" role="tabpanel">
-              <p>
-                Candy canes donut chupa chups candy canes lemon drops oat cake wafer. Cotton candy candy canes marzipan
-                carrot cake. Sesame snaps lemon drops candy marzipan donut brownie tootsie roll. Icing croissant bonbon
-                biscuit gummi bears. Pudding candy canes sugar plum cookie chocolate cake powder croissant.
-              </p>
-              <p>
-                Carrot cake tiramisu danish candy cake muffin croissant tart dessert. Tiramisu caramels candy canes
-                chocolate cake sweet roll liquorice icing cupcake. Candy cookie sweet roll bear claw sweet roll.
-              </p>
-            </div>
-            <div class="tab-pane" id="profileIcon" aria-labelledby="profileIcon-tab" role="tabpanel">
-              <p>
-                Dragée jujubes caramels tootsie roll gummies gummies icing bonbon. Candy jujubes cake cotton candy.
-                Jelly-o lollipop oat cake marshmallow fruitcake candy canes toffee. Jelly oat cake pudding jelly beans
-                brownie lemon drops ice cream halvah muffin. Brownie candy tiramisu macaroon tootsie roll danish.
-              </p>
-              <p>
-                Croissant pie cheesecake sweet roll. Gummi bears cotton candy tart jelly-o caramels apple pie jelly
-                danish marshmallow. Icing caramels lollipop topping. Bear claw powder sesame snaps.
-              </p>
-            </div>
-            <div class="tab-pane" id="disabledIcon" aria-labelledby="disabledIcon-tab" role="tabpanel">
-              <p>
-                Chocolate croissant cupcake croissant jelly donut. Cheesecake toffee apple pie chocolate bar biscuit
-                tart croissant. Lemon drops danish cookie. Oat cake macaroon icing tart lollipop cookie sweet bear claw.
-              </p>
-            </div>
-            <div class="tab-pane" id="aboutIcon" aria-labelledby="aboutIcon-tab" role="tabpanel">
-              <p>
-                Gingerbread cake cheesecake lollipop topping bonbon chocolate sesame snaps. Dessert macaroon bonbon
-                carrot cake biscuit. Lollipop lemon drops cake gingerbread liquorice. Sweet gummies dragée. Donut bear
-                claw pie halvah oat cake cotton candy sweet roll. Cotton candy sweet roll donut ice cream.
-              </p>
-              <p>
-                Halvah bonbon topping halvah ice cream cake candy. Wafer gummi bears chocolate cake topping powder.
-                Sweet marzipan cheesecake jelly-o powder wafer lemon drops lollipop cotton candy.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Tabs with Icon ends -->
-  </div>
-</section>
-<!-- Basic Tabs end -->
+            <!-- Tabs with Icon starts -->
+            <div class="col-lg-12">
+                <div class="card">
+                    {{-- <div class="card-header">
+                        <h4 class="card-title">Tab with icon</h4>
+                    </div> --}}
+                    <div class="card-body">
+                        <ul class="nav nav-tabs" role="tablist">
+                            <li class="nav-item">
+                                <a class="nav-link" id="taskList-tab" data-bs-toggle="tab" href="#taskList"
+                                    aria-controls="taskList" role="tab" aria-selected="false"><i
+                                        data-feather='list'></i>
+                                    Task List</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="gantt-tab" data-bs-toggle="tab" href="#gantt" aria-controls="gantt"
+                                    role="tab" aria-selected="false"><i data-feather='activity'></i>
+                                    Gantt</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="calendar-tab" data-bs-toggle="tab" href="#calendar"
+                                    aria-controls="calendar" role="tab" aria-selected="false"><i
+                                        data-feather='calendar'></i>
+                                    Calendar</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" id="report-tab" data-bs-toggle="tab" href="#report"
+                                    aria-controls="report" role="tab" aria-selected="false"><i
+                                        data-feather='alert-octagon'></i>
+                                    Report</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link active" id="settings-tab" data-bs-toggle="tab" href="#settings"
+                                    aria-controls="settings" role="tab" aria-selected="true"><i
+                                        data-feather='settings'></i>
+                                    Settings</a>
+                            </li>
+                            @can('check-permission', 'evaluate-project')
+                                <li class="nav-item ms-auto">
+                                    <div class="btn-group dropstart">
+                                        <button type="button"
+                                            class="btn btn-primary dropdown-toggle waves-effect waves-float waves-light"
+                                            data-bs-toggle="dropdown" aria-expanded="false">
+                                            Evaluate project
+                                        </button>
+                                        <div class="dropdown-menu">
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#modalRejectProject">
+                                                <i data-feather='x-circle'></i>
+                                                Reject
+                                            </a>
+                                            <a class="dropdown-item" data-bs-toggle="modal"
+                                                data-bs-target="#modalApproveProject">
+                                                <i data-feather='check-circle'></i>
+                                                Mark as done
+                                            </a>
+                                        </div>
+                                    </div>
+                                </li>
+                            @endcan
 
-<!-- Vertical Tabs start -->
-<section id="vertical-tabs">
-  <div class="row match-height">
-    <!-- Vertical Left Tabs start -->
-    <div class="col-xl-6 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Vertical Left Tabs</h4>
-        </div>
-        <div class="card-body">
-          <div class="nav-vertical">
-            <ul class="nav nav-tabs nav-left flex-column" role="tablist">
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  id="baseVerticalLeft-tab1"
-                  data-bs-toggle="tab"
-                  aria-controls="tabVerticalLeft1"
-                  href="#tabVerticalLeft1"
-                  role="tab"
-                  aria-selected="true"
-                  >Tab 1</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  id="baseVerticalLeft-tab2"
-                  data-bs-toggle="tab"
-                  aria-controls="tabVerticalLeft2"
-                  href="#tabVerticalLeft2"
-                  role="tab"
-                  aria-selected="false"
-                  >Tab 2</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  id="baseVerticalLeft-tab3"
-                  data-bs-toggle="tab"
-                  aria-controls="tabVerticalLeft3"
-                  href="#tabVerticalLeft3"
-                  role="tab"
-                  aria-selected="false"
-                  >Tab 3
-                </a>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div
-                class="tab-pane active"
-                id="tabVerticalLeft1"
-                role="tabpanel"
-                aria-labelledby="baseVerticalLeft-tab1"
-              >
-                <p>
-                  Oat cake marzipan cake lollipop caramels wafer pie jelly beans. Icing halvah chocolate cake carrot
-                  cake. Jelly beans carrot cake marshmallow gingerbread chocolate cake. Sweet fruitcake cheesecake
-                  biscuit cotton candy. Cookie powder marshmallow donut. Gummies cupcake croissant.
-                </p>
-              </div>
-              <div class="tab-pane" id="tabVerticalLeft2" role="tabpanel" aria-labelledby="baseVerticalLeft-tab2">
-                <p>
-                  Sugar plum tootsie roll biscuit caramels. Liquorice brownie pastry cotton candy oat cake fruitcake
-                  jelly chupa chups. Sweet fruitcake cheesecake biscuit cotton candy. Cookie powder marshmallow donut.
-                  Pudding caramels pastry powder cake soufflé wafer caramels. Jelly-o pie cupcake.
-                </p>
-              </div>
-              <div class="tab-pane" id="tabVerticalLeft3" role="tabpanel" aria-labelledby="baseVerticalLeft-tab3">
-                <p>
-                  Icing croissant powder jelly bonbon cake marzipan fruitcake. Tootsie roll marzipan tart marshmallow
-                  pastry cupcake chupa chups cookie. Fruitcake dessert lollipop pudding jelly. Cookie dragée jujubes
-                  croissant lemon drops cotton candy. Carrot cake candy canes powder donut toffee cookie.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Vertical Left Tabs ends -->
+                        </ul>
+                        <div class="tab-content">
+                            <div class="tab-pane" id="taskList" aria-labelledby="taskList-tab" role="tabpanel">
+                                <p>
+                                    Task List
+                                </p>
+                            </div>
+                            <div class="tab-pane" id="gantt" aria-labelledby="gantt-tab" role="tabpanel">
+                                <p>
+                                    gantt
+                                </p>
+                            </div>
+                            <div class="tab-pane" id="calendar" aria-labelledby="calendar-tab" role="tabpanel">
+                                <p>
+                                    calendar
+                                </p>
+                            </div>
+                            <div class="tab-pane" id="report" aria-labelledby="report-tab" role="tabpanel">
+                                <p>
+                                    report
+                                </p>
+                            </div>
+                            <div class="tab-pane active" id="settings" aria-labelledby="settings-tab" role="tabpanel">
+                                <!-- Settings Tab Wizard -->
+                                <section class="modern-vertical-wizard">
+                                    <div class="bs-stepper vertical wizard-modern modern-vertical-wizard-example">
+                                        <div class="bs-stepper-header">
+                                            @can('check-permission', 'change-project-information')
+                                                <div class="step" data-target="#project-information" role="tab"
+                                                    id="project-information-trigger">
+                                                    <button type="button" class="step-trigger">
+                                                        <span class="bs-stepper-box">
+                                                            <i data-feather='info' class="font-medium-5"></i>
+                                                        </span>
+                                                        <span class="bs-stepper-label">
+                                                            <span class="bs-stepper-title">Project information</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            @endcan
+                                            @can('check-permission', 'view-member-list')
+                                                <div class="step" data-target="#project-members" role="tab"
+                                                    id="project-members-trigger">
+                                                    <button type="button" class="step-trigger">
+                                                        <span class="bs-stepper-box">
+                                                            <i data-feather='users' class="font-medium-5"></i>
+                                                        </span>
+                                                        <span class="bs-stepper-label">
+                                                            <span class="bs-stepper-title">Project Members</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            @endcan
+                                            @can('check-permission', 'set-up-project-privilege')
+                                                <div class="step" data-target="#permission-role" role="tab"
+                                                    id="permission-role-trigger">
+                                                    <button type="button" class="step-trigger">
+                                                        <span class="bs-stepper-box">
+                                                            <i data-feather='shield' class="font-medium-5"></i>
+                                                        </span>
+                                                        <span class="bs-stepper-label">
+                                                            <span class="bs-stepper-title">Permission By Role</span>
+                                                        </span>
+                                                    </button>
+                                                </div>
+                                            @endcan
+                                        </div>
+                                        <div class="bs-stepper-content">
+                                            <div id="project-information" class="content" role="tabpanel"
+                                                aria-labelledby="project-information-trigger">
+                                                <form action="{{ route('project.update', $project->id) }}"
+                                                    method="post">
+                                                    @csrf
+                                                    <div class="col-12 col-md-12 mb-2">
+                                                        <label class="form-label" for="settingProjectName">Project
+                                                            Name</label>
+                                                        <input type="text" id="settingProjectName"
+                                                            name="settingProjectName"
+                                                            class="form-control @error('settingProjectName') is-invalid @enderror"
+                                                            placeholder="Project Name"
+                                                            value="{{ old('settingProjectName', $project->name) }}"
+                                                            data-msg="Please enter your project name" />
+                                                        @error('settingProjectName')
+                                                            <span style="color: red">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-12 col-md-12 mb-2">
+                                                        <label class="form-label" for="fp-range-1">Pick your project
+                                                            duration</label>
+                                                        <input name="settingDuration" type="text" id="fp-range-1"
+                                                            class="form-control flatpickr-range @error('settingDuration') is-invalid @enderror"
+                                                            placeholder="YYYY-MM-DD to YYYY-MM-DD"
+                                                            value="{{ old('settingDuration', $project->start_date . ' to ' . $project->end_date) }}" />
+                                                        @error('settingDuration')
+                                                            <span style="color: red">{{ $message }}</span>
+                                                        @enderror
+                                                    </div>
+                                                    <div class="col-12 mb-2">
+                                                        <label class="form-label" for="settingDesc">Description</label>
+                                                        <textarea id="settingDesc" name="settingDesc" class="form-control"
+                                                            placeholder="To sell or distribute something as a business deal">{{ $project->description }}</textarea>
+                                                    </div>
+                                                    <div class="d-flex justify-content-between mt-2">
+                                                        <button type="submit" class="btn btn-outline-primary">
+                                                            Save
+                                                        </button>
+                                                    </div>
+                                                </form>
+                                            </div>
+                                            <div id="project-members" class="content" role="tabpanel"
+                                                aria-labelledby="project-members-trigger">
+                                                <div class="content-header row">
+                                                    <div class="col-6">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-1">
+                                                            <h5 class="mb-0" style="font-size: 1rem;">Project Manager
+                                                            </h5>
+                                                        </div>
+                                                        <div class="d-flex align-items-center">
+                                                            <img class="round me-1"
+                                                                src="{{ Auth::user() ? asset('images/avatars/' . $pmAccount->avatar) : '' }}"
+                                                                alt="avatar" height="40" width="40">
+                                                            <div>
+                                                                <h5 class="mb-0" style="font-size: 1rem;">
+                                                                    {{ $pmAccount->fullname }}
+                                                                </h5>
+                                                                <small
+                                                                    style="font-size: 0.7rem;">{{ $pmAccount->email }}</small>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                    <div class="col-6">
+                                                        <div
+                                                            class="d-flex justify-content-between align-items-center mb-1">
+                                                            <h6 class="mb-0">Project Supervisor
+                                                            </h6>
+                                                        </div>
+                                                        @if (isset($supervisorAccount))
+                                                            <div class="d-flex align-items-center">
+                                                                <img class="round me-1"
+                                                                    src="{{ Auth::user() ? asset('images/avatars/' . $supervisorAccount->avatar) : '' }}"
+                                                                    alt="avatar" height="40" width="40">
+                                                                <div>
+                                                                    <h6 class="mb-0">{{ $supervisorAccount->fullname }}
+                                                                    </h6>
+                                                                    <small
+                                                                        style="font-size: 0.7rem;">{{ $supervisorAccount->email }}</small>
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                        @can('check-permission', 'control-teamsize')
+                                                            @if (isset($pendingSupervisorAccount))
+                                                                <div
+                                                                    class="d-flex justify-content-between bg-light opacity-50">
+                                                                    <div class="d-flex align-items-center">
+                                                                        <img class="round me-1"
+                                                                            src="{{ Auth::user() ? asset('images/avatars/' . $pendingSupervisorAccount->avatar) : '' }}"
+                                                                            alt="avatar" height="40" width="40">
+                                                                        <div>
+                                                                            <h6 class="mb-0">
+                                                                                {{ $pendingSupervisorAccount->fullname }}
+                                                                            </h6>
+                                                                            <small
+                                                                                style="font-size: 0.7rem;">{{ $pendingSupervisorAccount->email }}</small>
+                                                                        </div>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center me-2">
+                                                                        <strong>Pending invite...</strong>
+                                                                        <div class="spinner-border ms-2" role="status"
+                                                                            aria-hidden="true"></div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        @else
+                                                            @if (isset($pendingSupervisorAccount))
+                                                                <div
+                                                                    class="d-flex justify-content-between bg-light opacity-50">
+                                                                    <div class="d-flex align-items-center me-2">
+                                                                        <strong>Waiting for supervisor to accept
+                                                                            invitation...</strong>
+                                                                        <div class="spinner-border ms-2" role="status"
+                                                                            aria-hidden="true"></div>
+                                                                    </div>
+                                                                </div>
+                                                            @endif
+                                                        @endcan
+                                                    </div>
+                                                </div>
+                                                <hr class="my-2">
+                                                <div class="row">
+                                                    <div class="mb-3 col-md-12">
+                                                        <div class="d-flex justify-content-between">
+                                                            <h6 class="mb-0">Project Members</h6>
+                                                            @can('check-permission', 'control-teamsize')
+                                                                @if ($checkLimitation < 4)
+                                                                    <a data-bs-toggle="modal"
+                                                                        data-bs-target="#inviteToProject">
+                                                                        <div class="d-flex align-items-center">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="18" height="18"
+                                                                                fill="currentColor"
+                                                                                class="bi bi-person-plus-fill me-1"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path
+                                                                                    d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6z" />
+                                                                                <path fill-rule="evenodd"
+                                                                                    d="M13.5 5a.5.5 0 0 1 .5.5V7h1.5a.5.5 0 0 1 0 1H14v1.5a.5.5 0 0 1-1 0V8h-1.5a.5.5 0 0 1 0-1H13V5.5a.5.5 0 0 1 .5-.5z" />
+                                                                            </svg>
+                                                                            <h6 class="mb-0">Add new member</h6>
+                                                                        </div>
+                                                                    </a>
+                                                                @else
+                                                                    <div class="alert alert-warning">
+                                                                        <div class="d-flex align-items-center alert-body">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="18" height="18"
+                                                                                fill="currentColor"
+                                                                                class="bi bi-person-slash me-1"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path
+                                                                                    d="M13.879 10.414a2.501 2.501 0 0 0-3.465 3.465l3.465-3.465Zm.707.707-3.465 3.465a2.501 2.501 0 0 0 3.465-3.465Zm-4.56-1.096a3.5 3.5 0 1 1 4.949 4.95 3.5 3.5 0 0 1-4.95-4.95ZM11 5a3 3 0 1 1-6 0 3 3 0 0 1 6 0ZM8 7a2 2 0 1 0 0-4 2 2 0 0 0 0 4Zm.256 7a4.474 4.474 0 0 1-.229-1.004H3c.001-.246.154-.986.832-1.664C4.484 10.68 5.711 10 8 10c.26 0 .507.009.74.025.226-.341.496-.65.804-.918C9.077 9.038 8.564 9 8 9c-5 0-6 3-6 4s1 1 1 1h5.256Z" />
+                                                                            </svg>
+                                                                            <h6 class="mb-0">Your team have reached limit of
+                                                                                <strong>4</strong> invitaion & member
+                                                                            </h6>
+                                                                        </div>
+                                                                    </div>
+                                                                @endif
+                                                            @endcan
+                                                        </div>
+                                                    </div>
+                                                    @forelse ($memberAccount as $mem)
+                                                        <div class="mb-1 col-md-4">
+                                                            <div class="d-flex align-items-center">
+                                                                <img class="round me-1"
+                                                                    src="{{ Auth::user() ? asset('images/avatars/' . $mem->avatar) : '' }}"
+                                                                    alt="avatar" height="40" width="40">
+                                                                <div>
+                                                                    <h6 class="mb-0">{{ $mem->fullname }}
+                                                                    </h6>
+                                                                    <small
+                                                                        style="font-size: 0.7rem;">{{ $mem->email }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-1 col-md-3">
+                                                            <div class="d-flex align-items-center">
+                                                                <h5 class="mb-0">Member</h5>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-1 col-md-5">
+                                                            <div class="d-flex justify-content-end">
+                                                                @can('check-permission', 'control-teamsize')
+                                                                    <div class="d-flex align-items-center me-5">
+                                                                        <a data-bs-toggle="modal"
+                                                                            data-bs-target="#setNewPMModal{{ $mem->id }}"
+                                                                            class="d-flex align-items-center">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="20" height="20"
+                                                                                fill="currentColor"
+                                                                                class="bi bi-c-circle me-1"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path
+                                                                                    d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8Zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0ZM8.146 4.992c-1.212 0-1.927.92-1.927 2.502v1.06c0 1.571.703 2.462 1.927 2.462.979 0 1.641-.586 1.729-1.418h1.295v.093c-.1 1.448-1.354 2.467-3.03 2.467-2.091 0-3.269-1.336-3.269-3.603V7.482c0-2.261 1.201-3.638 3.27-3.638 1.681 0 2.935 1.054 3.029 2.572v.088H9.875c-.088-.879-.768-1.512-1.729-1.512Z" />
+                                                                            </svg>
+                                                                            <h5 class="mb-0">Set as new manager</h5>
+                                                                        </a>
+                                                                    </div>
+                                                                    <div class="d-flex align-items-center">
 
-    <!-- Vertical Right Tabs start -->
-    <div class="col-xl-6 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Vertical Right Tabs</h4>
-        </div>
-        <div class="card-body">
-          <div class="nav-vertical">
-            <ul class="nav nav-tabs nav-right flex-column" role="tablist">
-              <li class="nav-item">
-                <a
-                  class="nav-link active"
-                  id="baseVerticalRight-tab1"
-                  data-bs-toggle="tab"
-                  aria-controls="tabVerticalRight1"
-                  href="#tabVerticalRight1"
-                  role="tab"
-                  aria-selected="true"
-                  >Tab 1</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  id="baseVerticalRight-tab2"
-                  data-bs-toggle="tab"
-                  aria-controls="tabVerticalRight2"
-                  href="#tabVerticalRight2"
-                  role="tab"
-                  aria-selected="false"
-                  >Tab 2</a
-                >
-              </li>
-              <li class="nav-item">
-                <a
-                  class="nav-link"
-                  id="baseVerticalRight-tab3"
-                  data-bs-toggle="tab"
-                  aria-controls="tabVerticalRight3"
-                  href="#tabVerticalRight3"
-                  role="tab"
-                  aria-selected="false"
-                  >Tab 3
-                </a>
-              </li>
-            </ul>
-            <div class="tab-content">
-              <div
-                class="tab-pane active"
-                id="tabVerticalRight1"
-                role="tabpanel"
-                aria-labelledby="baseVerticalRight-tab1"
-              >
-                <p>
-                  Oat cake marzipan cake lollipop caramels wafer pie jelly beans. Icing halvah chocolate cake carrot
-                  cake. Jelly beans carrot cake marshmallow gingerbread chocolate cake. Sweet fruitcake cheesecake
-                  biscuit cotton candy. Cookie powder marshmallow donut. Gummies cupcake croissant.
-                </p>
-              </div>
-              <div class="tab-pane" id="tabVerticalRight2" role="tabpanel" aria-labelledby="baseVerticalRight-tab2">
-                <p>
-                  Sugar plum tootsie roll biscuit caramels. Liquorice brownie pastry cotton candy oat cake fruitcake
-                  jelly chupa chups. Sweet fruitcake cheesecake biscuit cotton candy. Cookie powder marshmallow donut.
-                  Pudding caramels pastry powder cake soufflé wafer caramels. Jelly-o pie cupcake.
-                </p>
-              </div>
-              <div class="tab-pane" id="tabVerticalRight3" role="tabpanel" aria-labelledby="baseVerticalRight-tab3">
-                <p>
-                  Icing croissant powder jelly bonbon cake marzipan fruitcake. Tootsie roll marzipan tart marshmallow
-                  pastry cupcake chupa chups cookie. Fruitcake dessert lollipop pudding jelly. Cookie dragée jujubes
-                  croissant lemon drops cotton candy. Carrot cake candy canes powder donut toffee cookie.
-                </p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Vertical Right Tabs ends -->
-  </div>
-</section>
-<!-- Vertical Tabs end -->
+                                                                        <a data-bs-toggle="modal"
+                                                                            data-bs-target="#removeMemberModal{{ $mem->id }}"
+                                                                            class="d-flex align-items-center">
+                                                                            <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                width="20" height="20"
+                                                                                fill="currentColor"
+                                                                                class="bi bi-person-x-fill me-1"
+                                                                                viewBox="0 0 16 16">
+                                                                                <path fill-rule="evenodd"
+                                                                                    d="M1 14s-1 0-1-1 1-4 6-4 6 3 6 4-1 1-1 1H1zm5-6a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm6.146-2.854a.5.5 0 0 1 .708 0L14 6.293l1.146-1.147a.5.5 0 0 1 .708.708L14.707 7l1.147 1.146a.5.5 0 0 1-.708.708L14 7.707l-1.146 1.147a.5.5 0 0 1-.708-.708L13.293 7l-1.147-1.146a.5.5 0 0 1 0-.708z" />
+                                                                            </svg>
+                                                                            <h5 class="mb-0">Remove</h5>
+                                                                        </a>
+                                                                    </div>
+                                                                @endcan
+                                                            </div>
+                                                        </div>
+                                                        @include('content._partials._modals.modal-change-pm')
+                                                        @include('content._partials._modals.modal-remove-member')
+                                                    @empty
+                                                    @endforelse
 
-<section id="nav-filled">
-  <div class="row match-height">
-    <!-- Filled Tabs starts -->
-    <div class="col-xl-6 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Filled</h4>
-        </div>
-        <div class="card-body">
-          <!-- Nav tabs -->
-          <ul class="nav nav-tabs nav-fill" id="myTab" role="tablist">
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                id="home-tab-fill"
-                data-bs-toggle="tab"
-                href="#home-fill"
-                role="tab"
-                aria-controls="home-fill"
-                aria-selected="true"
-                >Home</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="profile-tab-fill"
-                data-bs-toggle="tab"
-                href="#profile-fill"
-                role="tab"
-                aria-controls="profile-fill"
-                aria-selected="false"
-                >Profile</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="messages-tab-fill"
-                data-bs-toggle="tab"
-                href="#messages-fill"
-                role="tab"
-                aria-controls="messages-fill"
-                aria-selected="false"
-                >Messages</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="settings-tab-fill"
-                data-bs-toggle="tab"
-                href="#settings-fill"
-                role="tab"
-                aria-controls="settings-fill"
-                aria-selected="false"
-                >Settings</a
-              >
-            </li>
-          </ul>
+                                                    @forelse ($pendingInvitedMemberAccount as $penAcc)
+                                                        <div class="mb-1 col-md-4 bg-light opacity-50">
+                                                            <div class="d-flex align-items-center">
+                                                                <img class="round me-1"
+                                                                    src="{{ Auth::user() ? asset('images/avatars/' . $penAcc->avatar) : '' }}"
+                                                                    alt="avatar" height="40" width="40">
+                                                                <div>
+                                                                    <h6 class="mb-0">{{ $penAcc->fullname }}
+                                                                    </h6>
+                                                                    <small
+                                                                        style="font-size: 0.7rem;">{{ $penAcc->email }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-1 col-md-3 bg-light opacity-50">
+                                                            <div class="d-flex align-items-center">
+                                                                <strong>Pending invite...</strong>
+                                                                <div class="spinner-border ms-2" role="status"
+                                                                    aria-hidden="true"></div>
+                                                            </div>
+                                                        </div>
+                                                        <div class="mb-1 col-md-5 bg-light opacity-50">
+                                                            <div class="d-flex justify-content-end">
+                                                                <div class="d-flex align-items-center">
+                                                                    <a data-bs-toggle="modal"
+                                                                        data-bs-target="#cancelInvitationModal{{ $penAcc->id }}"
+                                                                        class="d-flex align-items-center">
+                                                                        <svg xmlns="http://www.w3.org/2000/svg"
+                                                                            width="20" height="20"
+                                                                            fill="currentColor"
+                                                                            class="bi bi-backspace-reverse-fill me-1"
+                                                                            viewBox="0 0 16 16">
+                                                                            <path
+                                                                                d="M0 3a2 2 0 0 1 2-2h7.08a2 2 0 0 1 1.519.698l4.843 5.651a1 1 0 0 1 0 1.302L10.6 14.3a2 2 0 0 1-1.52.7H2a2 2 0 0 1-2-2V3zm9.854 2.854a.5.5 0 0 0-.708-.708L7 7.293 4.854 5.146a.5.5 0 1 0-.708.708L6.293 8l-2.147 2.146a.5.5 0 0 0 .708.708L7 8.707l2.146 2.147a.5.5 0 0 0 .708-.708L7.707 8l2.147-2.146z" />
+                                                                        </svg>
+                                                                        <h5 class="mb-0">Cancel invitation</h5>
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        @include('content._partials._modals.modal-cancel-invitation')
+                                                    @empty
+                                                    @endforelse
 
-          <!-- Tab panes -->
-          <div class="tab-content pt-1">
-            <div class="tab-pane active" id="home-fill" role="tabpanel" aria-labelledby="home-tab-fill">
-              <p>
-                Chocolate cake sweet roll lemon drops marzipan chocolate cake cupcake cotton candy. Dragée ice cream
-                dragée biscuit chupa chups bear claw cupcake brownie cotton candy. Sesame snaps topping cupcake cake.
-                Macaroon lemon drops gummies danish marzipan donut.
-              </p>
-              <p>
-                Chocolate bar soufflé tiramisu tiramisu jelly-o carrot cake gummi bears cake. Candy canes wafer
-                croissant donut bonbon dragée bear claw jelly sugar plum. Sweet lemon drops caramels croissant
-                cheesecake jujubes carrot cake fruitcake. Halvah biscuit lemon drops fruitcake tart.
-              </p>
-            </div>
-            <div class="tab-pane" id="profile-fill" role="tabpanel" aria-labelledby="profile-tab-fill">
-              <p>
-                Bear claw jelly beans wafer pastry jelly beans candy macaroon biscuit topping. Sesame snaps lemon drops
-                donut gingerbread dessert cotton candy wafer croissant jelly beans. Sweet roll halvah gingerbread bonbon
-                apple pie gummies chocolate bar pastry gummi bears.
-              </p>
-              <p>
-                Croissant danish chocolate bar pie muffin. Gummi bears marshmallow chocolate bar bear claw. Fruitcake
-                halvah chupa chups dragée carrot cake cookie. Carrot cake oat cake cake chocolate bar cheesecake. Wafer
-                gingerbread sweet roll candy chocolate bar gingerbread.
-              </p>
-            </div>
-            <div class="tab-pane" id="messages-fill" role="tabpanel" aria-labelledby="messages-tab-fill">
-              <p>
-                Croissant jelly tootsie roll candy canes. Donut sugar plum jujubes sweet roll chocolate cake wafer. Tart
-                caramels jujubes. Dragée tart oat cake. Fruitcake cheesecake danish. Danish topping candy jujubes. Candy
-                canes candy canes lemon drops caramels tiramisu chocolate bar pie.
-              </p>
-              <p>
-                Gummi bears tootsie roll cake wafer. Gummies powder apple pie bear claw. Caramels bear claw fruitcake
-                topping lemon drops. Carrot cake macaroon ice cream liquorice donut soufflé. Gummi bears carrot cake
-                toffee bonbon gingerbread lemon drops chocolate cake.
-              </p>
-            </div>
-            <div class="tab-pane" id="settings-fill" role="tabpanel" aria-labelledby="settings-tab-fill">
-              <p>
-                Candy canes halvah biscuit muffin dessert biscuit marzipan. Gummi bears marzipan bonbon chupa chups
-                biscuit lollipop topping. Muffin sweet apple pie sweet roll jujubes chocolate. Topping cake chupa chups
-                chocolate bar tiramisu tart sweet roll chocolate cake.
-              </p>
-              <p>
-                Jelly beans caramels muffin wafer sesame snaps chupa chups chocolate cake pastry halvah. Sugar plum
-                cotton candy macaroon tootsie roll topping. Liquorice topping chocolate cake tart tootsie roll danish
-                bear claw. Donut candy canes marshmallow. Wafer cookie apple pie.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Filled Tabs ends -->
+                                                    @forelse ($removedMember as $rev)
+                                                        <div
+                                                            class="mb-1 col-md-4 bg-light opacity-50 text-decoration-line-through">
+                                                            <div class="d-flex align-items-center">
+                                                                <img class="round me-1"
+                                                                    src="{{ Auth::user() ? asset('images/avatars/' . $rev->avatar) : '' }}"
+                                                                    alt="avatar" height="40" width="40">
+                                                                <div>
+                                                                    <h6 class="mb-0">{{ $rev->fullname }}
+                                                                    </h6>
+                                                                    <small
+                                                                        style="font-size: 0.7rem;">{{ $rev->email }}</small>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                        <div
+                                                            class="mb-1 col-md-8 bg-light opacity-50 text-decoration-line-through">
+                                                            <div class="d-flex align-items-center">
+                                                                <strong>Member</strong>
+                                                            </div>
+                                                        </div>
+                                                    @empty
+                                                    @endforelse
 
-    <!-- Justified Tabs starts -->
-    <div class="col-xl-6 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Justified</h4>
-        </div>
-        <div class="card-body">
-          <ul class="nav nav-tabs nav-justified" id="myTab2" role="tablist">
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                id="home-tab-justified"
-                data-bs-toggle="tab"
-                href="#home-just"
-                role="tab"
-                aria-controls="home-just"
-                aria-selected="true"
-                >Home</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="profile-tab-justified"
-                data-bs-toggle="tab"
-                href="#profile-just"
-                role="tab"
-                aria-controls="profile-just"
-                aria-selected="true"
-                >Profile</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="messages-tab-justified"
-                data-bs-toggle="tab"
-                href="#messages-just"
-                role="tab"
-                aria-controls="messages-just"
-                aria-selected="false"
-                >Messages</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="settings-tab-justified"
-                data-bs-toggle="tab"
-                href="#settings-just"
-                role="tab"
-                aria-controls="settings-just"
-                aria-selected="false"
-                >Settings</a
-              >
-            </li>
-          </ul>
+                                                </div>
+                                            </div>
+                                            <div id="permission-role" class="content" role="tabpanel"
+                                                aria-labelledby="permission-role-trigger">
+                                                <div class="content-header">
+                                                    <h4 class="mb-0">Sets of project privilege</h4>
+                                                </div>
+                                                <div class="col-12">
+                                                    <!-- Permission table -->
+                                                    <div class="table-responsive">
+                                                        <table class="table table-flush-spacing">
+                                                            <tbody>
+                                                                <tr>
+                                                                    <td class="text-nowrap fw-bolder">
+                                                                        Permission by roles
+                                                                    </td>
+                                                                    @php
+                                                                        $role_count = $roles->count();
+                                                                    @endphp
+                                                                    @forelse ($roles as $r)
+                                                                        <td class="align-middle text-center">
+                                                                            @if ($r->name == 'pm')
+                                                                                Project manager
+                                                                                <span data-bs-toggle="tooltip"
+                                                                                    data-bs-placement="top" title=""
+                                                                                    data-bs-original-title="Have all role in a project">
+                                                                                    <svg xmlns="http://www.w3.org/2000/svg"
+                                                                                        width="14" height="14"
+                                                                                        viewBox="0 0 24 24" fill="none"
+                                                                                        stroke="currentColor"
+                                                                                        stroke-width="2"
+                                                                                        stroke-linecap="round"
+                                                                                        stroke-linejoin="round"
+                                                                                        class="feather feather-info">
+                                                                                        <circle cx="12"
+                                                                                            cy="12" r="10">
+                                                                                        </circle>
+                                                                                        <line x1="12"
+                                                                                            y1="16" x2="12"
+                                                                                            y2="12"></line>
+                                                                                        <line x1="12"
+                                                                                            y1="8" x2="12.01"
+                                                                                            y2="8"></line>
+                                                                                    </svg>
+                                                                                </span>
+                                                                            @else
+                                                                                {{ $r->name }}
+                                                                            @endif
+                                                                        </td>
+                                                                    @empty
+                                                                    @endforelse
+                                                                </tr>
+                                                                @forelse ($permissions as $p)
+                                                                    <tr>
+                                                                        <td class="text-nowrap fw-bolder py-2">
+                                                                            {{ $p->name }}
+                                                                        </td>
+                                                                        @forelse ($roles as $r)
+                                                                            <td class="align-middle text-center">
+                                                                                @php
+                                                                                    $isChecked = $r->projectRolePermissions->contains(function ($permission) use ($p, $project) {
+                                                                                        return $permission->permission_id == $p->id && $permission->project_id == $project->id;
+                                                                                    });
+                                                                                @endphp
+                                                                                @if ($r->name == 'pm')
+                                                                                    <div
+                                                                                        class="form-check form-check-secondary align-middle text-center ms-5">
+                                                                                        <input disabled
+                                                                                            class="form-check-input"
+                                                                                            type="checkbox"
+                                                                                            id="{{ $r->id }}_{{ $p->id }}"
+                                                                                            {{ $isChecked ? 'checked' : '' }}>
+                                                                                    </div>
+                                                                                @else
+                                                                                    <div
+                                                                                        class="form-check form-check-primary ms-2">
+                                                                                        <input type="hidden"
+                                                                                            name="csrf-token"
+                                                                                            value="{{ csrf_token() }}">
+                                                                                        <input
+                                                                                            class="form-check-input permission-role-editor"
+                                                                                            type="checkbox"
+                                                                                            id="{{ $r->id }}_{{ $p->id }}"
+                                                                                            {{ $isChecked ? 'checked' : '' }}>
+                                                                                    </div>
+                                                                                @endif
+                                                                            </td>
+                                                                        @empty
+                                                                        @endforelse
+                                                                    </tr>
+                                                                @empty
+                                                                    <tr>
+                                                                        <td colspan="{{ $role_count }}">
+                                                                            No permission found
+                                                                        </td>
+                                                                    </tr>
+                                                                @endforelse
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
+                                                    <!-- Permission table -->
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </section>
+                                <!-- /Settings Tab Wizard -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Left Sidebar reject project starts -->
+            <div class="modal modal-slide-in sidebar-todo-modal fade" id="modalRejectProject">
+                <div class="modal-dialog sidebar-lg" style="left: 0">
+                    <div class="modal-content p-0">
+                        <form id="formRejectProject" class="todo-modal">
+                            <div class="modal-header align-items-center mb-1">
+                                <h5 class="modal-title">Reject "{{ $project->name }}"</h5>
+                                <div class="todo-item-action d-flex align-items-center justify-content-between ms-auto">
+                                    <span class="todo-item-favorite cursor-pointer me-75"><i data-feather="star"
+                                            class="font-medium-2"></i></span>
+                                    <i data-feather="x" class="cursor-pointer" data-bs-dismiss="modal"
+                                        stroke-width="3"></i>
+                                </div>
+                            </div>
+                            <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
+                                <div class="action-tags">
+                                    <div class="alert alert-danger mb-2" role="alert">
+                                        <h6 class="alert-heading">You are trying to reject this project?</h6>
+                                        <div class="alert-body fw-normal">Your action will stop all of activities in project
+                                        </div>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label">Reason</label>
+                                        <div id="reject-project" class="border-bottom-0"
+                                            data-placeholder="Why you want reject this project?"></div>
+                                        <div class="d-flex justify-content-end desc-toolbar-2 border-top-0">
+                                            <span class="ql-formats me-0">
+                                                <button class="ql-bold"></button>
+                                                <button class="ql-italic"></button>
+                                                <button class="ql-underline"></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="my-1">
+                                    <button type="submit" class="btn btn-danger add-todo-item me-1">Reject</button>
+                                    <button type="button" class="btn btn-outline-secondary add-todo-item"
+                                        data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            <!-- Left Sidebar reject project ends -->
 
-          <!-- Tab panes -->
-          <div class="tab-content pt-1">
-            <div class="tab-pane active" id="home-just" role="tabpanel" aria-labelledby="home-tab-justified">
-              <p>
-                Chocolate cake sweet roll lemon drops marzipan chocolate cake cupcake cotton candy. Dragée ice cream
-                dragée biscuit chupa chups bear claw cupcake brownie cotton candy. Sesame snaps topping cupcake cake.
-                Macaroon lemon drops gummies danish marzipan donut.
-              </p>
-              <p>
-                Chocolate bar soufflé tiramisu tiramisu jelly-o carrot cake gummi bears cake. Candy canes wafer
-                croissant donut bonbon dragée bear claw jelly sugar plum. Sweet lemon drops caramels croissant
-                cheesecake jujubes carrot cake fruitcake. Halvah biscuit lemon drops fruitcake tart.
-              </p>
+            
+            <!-- Right Sidebar approve project starts -->
+            <div class="modal modal-slide-in sidebar-todo-modal fade" id="modalApproveProject">
+                <div class="modal-dialog sidebar-lg">
+                    <div class="modal-content p-0">
+                        <form id="formApproveProject" class="todo-modal">
+                            <div class="modal-header align-items-center mb-1">
+                                <h5 class="modal-title">Approve "{{ $project->name }}"</h5>
+                                <div class="todo-item-action d-flex align-items-center justify-content-between ms-auto">
+                                    <span class="todo-item-favorite cursor-pointer me-75"><i data-feather="star"
+                                            class="font-medium-2"></i></span>
+                                    <i data-feather="x" class="cursor-pointer" data-bs-dismiss="modal"
+                                        stroke-width="3"></i>
+                                </div>
+                            </div>
+                            <div class="modal-body flex-grow-1 pb-sm-0 pb-3">
+                                <div class="action-tags">
+                                    <div class="alert alert-success mb-2" role="alert">
+                                        <h6 class="alert-heading">You are trying to approve this project?</h6>
+                                        <div class="alert-body fw-normal">Congratulation for your project succeed
+                                        </div>
+                                    </div>
+                                    <div class="mb-1">
+                                        <label class="form-label">Reason</label>
+                                        <div id="approve-project" class="border-bottom-0"
+                                            data-placeholder="Why you want reject this project?"></div>
+                                        <div class="d-flex justify-content-end desc-toolbar-1 border-top-0">
+                                            <span class="ql-formats me-0">
+                                                <button class="ql-bold"></button>
+                                                <button class="ql-italic"></button>
+                                                <button class="ql-underline"></button>
+                                            </span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="my-1">
+                                    <button type="submit" class="btn btn-success add-todo-item me-1">Approve</button>
+                                    <button type="button" class="btn btn-outline-secondary add-todo-item"
+                                        data-bs-dismiss="modal">
+                                        Cancel
+                                    </button>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
             </div>
-            <div class="tab-pane" id="profile-just" role="tabpanel" aria-labelledby="profile-tab-justified">
-              <p>
-                Bear claw jelly beans wafer pastry jelly beans candy macaroon biscuit topping. Sesame snaps lemon drops
-                donut gingerbread dessert cotton candy wafer croissant jelly beans. Sweet roll halvah gingerbread bonbon
-                apple pie gummies chocolate bar pastry gummi bears.
-              </p>
-              <p>
-                Croissant danish chocolate bar pie muffin. Gummi bears marshmallow chocolate bar bear claw. Fruitcake
-                halvah chupa chups dragée carrot cake cookie. Carrot cake oat cake cake chocolate bar cheesecake. Wafer
-                gingerbread sweet roll candy chocolate bar gingerbread.
-              </p>
-            </div>
-            <div class="tab-pane" id="messages-just" role="tabpanel" aria-labelledby="messages-tab-justified">
-              <p>
-                Croissant jelly tootsie roll candy canes. Donut sugar plum jujubes sweet roll chocolate cake wafer. Tart
-                caramels jujubes. Dragée tart oat cake. Fruitcake cheesecake danish. Danish topping candy jujubes. Candy
-                canes candy canes lemon drops caramels tiramisu chocolate bar pie.
-              </p>
-              <p>
-                Gummi bears tootsie roll cake wafer. Gummies powder apple pie bear claw. Caramels bear claw fruitcake
-                topping lemon drops. Carrot cake macaroon ice cream liquorice donut soufflé. Gummi bears carrot cake
-                toffee bonbon gingerbread lemon drops chocolate cake.
-              </p>
-            </div>
-            <div class="tab-pane" id="settings-just" role="tabpanel" aria-labelledby="settings-tab-justified">
-              <p>
-                Candy canes halvah biscuit muffin dessert biscuit marzipan. Gummi bears marzipan bonbon chupa chups
-                biscuit lollipop topping. Muffin sweet apple pie sweet roll jujubes chocolate. Topping cake chupa chups
-                chocolate bar tiramisu tart sweet roll chocolate cake.
-              </p>
-              <p>
-                Jelly beans caramels muffin wafer sesame snaps chupa chups chocolate cake pastry halvah. Sugar plum
-                cotton candy macaroon tootsie roll topping. Liquorice topping chocolate cake tart tootsie roll danish
-                bear claw. Donut candy canes marshmallow. Wafer cookie apple pie.
-              </p>
-            </div>
-          </div>
+            <!-- Right Sidebar approve project ends -->
+            @include('content._partials._modals.modal-refer-earn')
+            <!-- Tabs with Icon ends -->
         </div>
-      </div>
-    </div>
-    <!-- Justified Tabs ends -->
-  </div>
-</section>
+    </section>
+@endsection
 
-<section id="nav-tabs-aligned">
-  <div class="row match-height">
-    <!-- Centered Aligned Tabs starts -->
-    <div class="col-xl-6 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">Center</h4>
-        </div>
-        <div class="card-body">
-          <ul class="nav nav-tabs justify-content-center" role="tablist">
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="home-tab-center"
-                data-bs-toggle="tab"
-                href="#home-center"
-                aria-controls="home-center"
-                role="tab"
-                aria-selected="true"
-                >Home</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                id="service-tab-center"
-                data-bs-toggle="tab"
-                href="#service-center"
-                aria-controls="service-center"
-                role="tab"
-                aria-selected="false"
-                >Service</a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link disabled">Disabled</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="account-tab-center"
-                data-bs-toggle="tab"
-                href="#account-center"
-                aria-controls="account-center"
-                role="tab"
-                aria-selected="false"
-                >Account</a
-              >
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane" id="home-center" aria-labelledby="home-tab-center" role="tabpanel">
-              <p>
-                Pie fruitcake lollipop. Chupa chups apple pie marzipan danish soufflé soufflé oat cake gingerbread.
-                Bonbon jujubes donut gummies sesame snaps cookie gingerbread cotton candy pastry. Biscuit sugar plum
-                jelly-o tootsie roll gummies cookie croissant cotton candy. Bear claw lollipop liquorice chocolate
-                topping dessert macaroon dessert dragée.
-              </p>
-              <p>
-                Jelly-o gingerbread chocolate carrot cake chocolate soufflé cake macaroon cheesecake. Donut sesame snaps
-                bear claw. Chocolate bar tootsie roll sweet wafer chocolate cake dessert icing. Cotton candy chocolate
-                bar soufflé lollipop. Jelly beans cookie sesame snaps donut.
-              </p>
-            </div>
-            <div class="tab-pane active" id="service-center" aria-labelledby="service-tab-center" role="tabpanel">
-              <p>
-                Lemon drops caramels macaroon muffin. Icing chupa chups cupcake chupa chups cheesecake chocolate cake
-                jelly marzipan. Candy icing apple pie powder dragée bear claw sweet roll. Dragée liquorice ice cream
-                jujubes. Lemon drops lollipop donut cupcake macaroon icing. Wafer lemon drops jelly. Bear claw candy
-                wafer wafer jelly cake biscuit.
-              </p>
-              <p>
-                Liquorice tootsie roll cheesecake muffin chupa chups toffee toffee. Pie sesame snaps biscuit sweet roll.
-                Tiramisu cake oat cake croissant halvah candy brownie croissant. Bonbon sugar plum muffin tart brownie
-                macaroon lollipop dragée. Jujubes halvah cheesecake.
-              </p>
-            </div>
-            <div class="tab-pane" id="account-center" aria-labelledby="account-tab-center" role="tabpanel">
-              <p>
-                Danish tiramisu donut chocolate bar. Toffee oat cake candy toffee pudding soufflé lemon drops. Gummi
-                bears cake oat cake. Tiramisu sugar plum sugar plum cake marzipan cake. Wafer muffin marshmallow biscuit
-                oat cake sweet roll danish. Chocolate jelly topping dessert donut. Cheesecake jelly-o carrot cake carrot
-                cake candy canes jelly.
-              </p>
-              <p>
-                Wafer chocolate caramels jujubes biscuit powder marzipan. Lollipop gingerbread muffin. Tiramisu brownie
-                tart marshmallow wafer sweet caramels croissant chocolate bar. Sweet marzipan toffee muffin sugar plum
-                marzipan. Soufflé bear claw muffin cake powder danish dragée.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Centered Aligned Tabs ends -->
-
-    <!-- Tabs Aligned at End starts -->
-    <div class="col-xl-6 col-lg-12">
-      <div class="card">
-        <div class="card-header">
-          <h4 class="card-title">End</h4>
-        </div>
-        <div class="card-body">
-          <ul class="nav nav-tabs justify-content-end" role="tablist">
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="home-tab-end"
-                data-bs-toggle="tab"
-                href="#home-align-end"
-                aria-controls="home-align-end"
-                role="tab"
-                aria-selected="true"
-                >Home</a
-              >
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link active"
-                id="service-tab-end"
-                data-bs-toggle="tab"
-                href="#service-align-end"
-                aria-controls="service-align-end"
-                role="tab"
-                aria-selected="false"
-                >Service</a
-              >
-            </li>
-            <li class="nav-item">
-              <a href="#" class="nav-link disabled">Disabled</a>
-            </li>
-            <li class="nav-item">
-              <a
-                class="nav-link"
-                id="account-tab-end"
-                data-bs-toggle="tab"
-                href="#account-align-end"
-                aria-controls="account-align-end"
-                role="tab"
-                aria-selected="false"
-                >Account</a
-              >
-            </li>
-          </ul>
-          <div class="tab-content">
-            <div class="tab-pane" id="home-align-end" aria-labelledby="home-tab-end" role="tabpanel">
-              <p>
-                Pie fruitcake lollipop. Chupa chups apple pie marzipan danish soufflé soufflé oat cake gingerbread.
-                Bonbon jujubes donut gummies sesame snaps cookie gingerbread cotton candy pastry. Biscuit sugar plum
-                jelly-o tootsie roll gummies cookie croissant cotton candy. Bear claw lollipop liquorice chocolate
-                topping dessert macaroon dessert dragée.
-              </p>
-              <p>
-                Jelly-o gingerbread chocolate carrot cake chocolate soufflé cake macaroon cheesecake. Donut sesame snaps
-                bear claw. Chocolate bar tootsie roll sweet wafer chocolate cake dessert icing. Cotton candy chocolate
-                bar soufflé lollipop. Jelly beans cookie sesame snaps donut.
-              </p>
-            </div>
-            <div class="tab-pane active" id="service-align-end" aria-labelledby="service-tab-end" role="tabpanel">
-              <p>
-                Lemon drops caramels macaroon muffin. Icing chupa chups cupcake chupa chups cheesecake chocolate cake
-                jelly marzipan. Candy icing apple pie powder dragée bear claw sweet roll. Dragée liquorice ice cream
-                jujubes. Lemon drops lollipop donut cupcake macaroon icing. Wafer lemon drops jelly. Bear claw candy
-                wafer wafer jelly cake biscuit.
-              </p>
-              <p>
-                Liquorice tootsie roll cheesecake muffin chupa chups toffee toffee. Pie sesame snaps biscuit sweet roll.
-                Tiramisu cake oat cake croissant halvah candy brownie croissant. Bonbon sugar plum muffin tart brownie
-                macaroon lollipop dragée. Jujubes halvah cheesecake.
-              </p>
-            </div>
-            <div class="tab-pane" id="account-align-end" aria-labelledby="account-tab-end" role="tabpanel">
-              <p>
-                Danish tiramisu donut chocolate bar. Toffee oat cake candy toffee pudding soufflé lemon drops. Gummi
-                bears cake oat cake. Tiramisu sugar plum sugar plum cake marzipan cake. Wafer muffin marshmallow biscuit
-                oat cake sweet roll danish. Chocolate jelly topping dessert donut. Cheesecake jelly-o carrot cake carrot
-                cake candy canes jelly.
-              </p>
-              <p>
-                Wafer chocolate caramels jujubes biscuit powder marzipan. Lollipop gingerbread muffin. Tiramisu brownie
-                tart marshmallow wafer sweet caramels croissant chocolate bar. Sweet marzipan toffee muffin sugar plum
-                marzipan. Soufflé bear claw muffin cake powder danish dragée.
-              </p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <!-- Tabs Aligned at End ends -->
-  </div>
-</section>
+@section('vendor-script')
+    <!-- vendor files -->
+    <script src="{{ asset(mix('vendors/js/editors/quill/katex.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/editors/quill/highlight.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/editors/quill/quill.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/extensions/dragula.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/forms/wizard/bs-stepper.min.js')) }}"></script>
 @endsection
 
 @section('page-script')
-  <script src="{{asset('js/scripts/components/components-navs.js')}}"></script>
+    <script src="{{ asset(mix('js/scripts/extensions/ext-component-clipboard.js')) }}"></script>
+    <script src="{{ asset('js/scripts/components/components-navs.js') }}"></script>
+    <script src="{{ asset(mix('js/scripts/forms/form-wizard.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/app-todo.js')) }}"></script>
 @endsection

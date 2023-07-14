@@ -21,6 +21,8 @@ $(function () {
     updateTodoItem = $('.update-todo-item'),
     updateBtns = $('.update-btn'),
     taskDesc = $('#task-desc'),
+    approveProject = $('#approve-project'),
+    rejectProject = $('#reject-project'),
     taskAssignSelect = $('#task-assigned'),
     taskTag = $('#task-tag'),
     overlay = $('.body-content-overlay'),
@@ -178,7 +180,33 @@ $(function () {
         syntax: true,
         toolbar: '.desc-toolbar'
       },
-      placeholder: 'Write Your Description',
+      placeholder: 'Say something about this project?',
+      theme: 'snow'
+    });
+  }
+
+  if (approveProject.length) {
+    var todoDescEditor = new Quill('#approve-project', {
+      bounds: '#approve-project',
+      modules: {
+        formula: true,
+        syntax: true,
+        toolbar: '.desc-toolbar-1'
+      },
+      placeholder: 'Say something about the project succeed',
+      theme: 'snow'
+    });
+  }
+
+  if (rejectProject.length) {
+    var todoDescEditor = new Quill('#reject-project', {
+      bounds: '#reject-project',
+      modules: {
+        formula: true,
+        syntax: true,
+        toolbar: '.desc-toolbar-2'
+      },
+      placeholder: 'Why you want to reject this project?',
       theme: 'snow'
     });
   }

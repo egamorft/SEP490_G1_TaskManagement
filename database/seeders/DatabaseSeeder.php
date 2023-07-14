@@ -17,16 +17,17 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         $this->call(PermissionSeeder::class);
         $this->call(RoleSeeder::class);
-        $this->call(AccountSeeder::class);
         $this->call(PermissionRoleSeeder::class);
-        $this->call(AccountRoleSeeder::class);
+        $this->call(AccountSeeder::class);
         $this->call(ProjectSeeder::class);
         $this->call(AccountProjectSeeder::class);
-        $this->call(TaskSeeder::class);
-        $this->call(SubTaskSeeder::class);
-        $this->call(CommentSeeder::class);
+        $this->call(ProjectRolePermissionSeeder::class);
         $this->call(SocialSeeder::class);
-        $this->call(NotificationSeeder::class);
+        $this->call(BoardSeeder::class);
+        $this->call(TaskListSeeder::class);
+        $this->call(TaskSeeder::class);
+        $this->call(CommentSeeder::class);
         $this->call(ReportSeeder::class);
+        $this->call(NotificationSeeder::class);
     }
 }
