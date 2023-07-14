@@ -769,18 +769,6 @@ class ProjectController extends Controller
         $project = Project::where('slug', $slug)->first();
         $accounts = $project->accounts()->get();
 
-        $pmAccount = Project::findOrFail($project->id)
-            ->findAccountWithRoleNameAndStatus('pm', 1)
-            ->first();
-
-        $supervisorAccount = Project::findOrFail($project->id)
-            ->findAccountWithRoleNameAndStatus('supervisor', 1)
-            ->first();
-
-        $memberAccount = Project::findOrFail($project->id)
-            ->findAccountWithRoleNameAndStatus('member', 1)
-            ->get();
-
         $board = Board::findOrFail($board_id);
 
         $disabledProject = $this->checkDisableProject($project);
@@ -866,9 +854,6 @@ class ProjectController extends Controller
         return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
             ->with(compact(
                 'project',
-                'pmAccount',
-                'supervisorAccount',
-                'memberAccount',
                 'board',
                 'disabledProject',
                 'kanbanData',
@@ -930,31 +915,33 @@ class ProjectController extends Controller
         $project = Project::where('slug', $slug)->first();
         $accounts = $project->accounts()->get();
 
-        $pmAccount = Project::findOrFail($project->id)
-            ->findAccountWithRoleNameAndStatus('pm', 1)
-            ->first();
-
-        $supervisorAccount = Project::findOrFail($project->id)
-            ->findAccountWithRoleNameAndStatus('supervisor', 1)
-            ->first();
-
-        $memberAccount = Project::findOrFail($project->id)
-            ->findAccountWithRoleNameAndStatus('member', 1)
-            ->get();
-
         $board = Board::findOrFail($board_id);
         $disabledProject = $this->checkDisableProject($project);
 
-        $board = Board::findOrFail($board_id);
+        //Pending filter
+        $tasks = Task::all();
+        $tasksCalendar = [];
+        foreach ($tasks as $task) {
+            $task_status = $this->checkTaskStatus($task->status, $task);
+            $taskCalendar = [
+                "id" => $task->id,
+                "url" => 'aaa',
+                "title" => $task->title,
+                "start" => $task->created_at,
+                "end" => $task->due_date,
+                "extendedProps" => [
+                    "calendar" => $task_status
+                ]
+            ];
+            $tasksCalendar[] = $taskCalendar;
+        }
 
         return view('project.calendar', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'calendar'])
             ->with(compact(
                 'project',
-                'pmAccount',
-                'supervisorAccount',
-                'memberAccount',
                 'disabledProject',
-                'board'
+                'board',
+                'tasksCalendar'
             ));
     }
 
@@ -1168,5 +1155,44 @@ class ProjectController extends Controller
             ->value('role_id');
         $roleName = Role::where('id', $roleId)->value('name');
         return $roleName;
+    }
+
+    public function checkTaskStatus($status, $task)
+    {
+        $props = "";
+        switch ($status) {
+            case -1:
+                $props = "Late";
+                break;
+
+            case 0:
+                if ($task->due_date < now()->format('Y-m-d')) {
+                    $props = "Overdue";
+                    break;
+                }
+                $props = "Todo";
+                break;
+
+            case 1:
+                if ($task->due_date < now()->format('Y-m-d')) {
+                    $props = "Overdue";
+                    break;
+                }
+                $props = "Doing";
+                break;
+
+            case 2:
+                $props = "Reviewing";
+                break;
+
+            case 3:
+                $props = "Done";
+                break;
+
+            default:
+                $props = "Undefined";
+                break;
+        }
+        return $props;
     }
 }

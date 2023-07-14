@@ -48,12 +48,11 @@
 @endsection
 
 @php
-	$tasks = array('Todo','Todo','Doing','Doing','Doing','Ontime','Ontime','Late','Overdue','Overdue','Overdue','Overdue');
+    $tasks = ['Late', 'Todo', 'Doing', 'Reviewing', 'Done'];
 @endphp
 
 <script>
-	var tasks = @json($tasks);
-	console.log(tasks);
+    var tasks = @json($tasks);
 
     var date = new Date();
     var nextDay = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);
@@ -64,140 +63,5 @@
     var prevMonth = date.getMonth() === 11 ? new Date(date.getFullYear() - 1, 0, 1) : new Date(date.getFullYear(), date
         .getMonth() - 1, 1);
 
-    var events = [{
-            id: 1,
-            url: 'project/ahiiiii',
-            title: 'Design Review',
-            start: date,
-            end: nextDay,
-            allDay: false,
-            extendedProps: {
-                calendar: 'Todo'
-            }
-        },
-        {
-            id: 2,
-            url: 'project/ahiiiii',
-            title: 'Meeting With Client',
-            start: new Date('07/11/2023'),
-            end: new Date('07/14/2023'),
-            allDay: true,
-            extendedProps: {
-                calendar: 'Todo'
-            }
-        },
-        {
-            id: 3,
-            url: 'project/ahiiiii',
-            title: 'Late Trip',
-            allDay: true,
-            start: new Date('07/15/2023'),
-            end: new Date('07/21/2023'),
-            extendedProps: {
-                calendar: 'Doing'
-            }
-        },
-        {
-            id: 4,
-            url: 'project/ahiiiii',
-            title: "Doctor's Appointment",
-            start: new Date('07/21/2023'),
-            end: new Date('07/25/2023'),
-            allDay: true,
-            extendedProps: {
-                calendar: 'Overdue'
-            }
-        },
-        {
-            id: 5,
-            url: 'project/ahiiiii',
-            title: 'Dart Game?',
-            start: new Date('07/11/2023'),
-            end: new Date('07/19/2023'),
-            allDay: true,
-            extendedProps: {
-                calendar: 'Ontime'
-            }
-        },
-        {
-            id: 6,
-            url: 'project/ahiiiii',
-            title: 'Meditation',
-            start: new Date('07/21/2023'),
-            end: new Date('07/31/2023'),
-            allDay: true,
-            extendedProps: {
-                calendar: 'Reviewing'
-            }
-        },
-        {
-            id: 7,
-            url: 'project/ahiiiii',
-            title: 'Dinner',
-            start: new Date('07/21/2023'),
-            end: new Date('08/11/2023'),
-            allDay: true,
-            extendedProps: {
-                calendar: 'Late'
-            }
-        },
-        {
-            id: 8,
-            url: 'project/ahiiiii',
-            title: 'Product Review',
-            start: new Date('07/19/2023'),
-            end: new Date('07/31/2023'),
-            allDay: true,
-            extendedProps: {
-                calendar: 'Todo'
-            }
-        },
-        {
-            id: 9,
-            url: 'project/ahiiiii',
-            title: 'Monthly Meeting',
-            start: nextMonth,
-            end: nextMonth,
-            allDay: true,
-            extendedProps: {
-                calendar: 'Todo'
-            }
-        },
-        {
-            id: 10,
-            url: 'project/ahiiiii',
-            title: 'Monthly Checkup',
-            start: prevMonth,
-            end: prevMonth,
-            allDay: true,
-            extendedProps: {
-                calendar: 'Reviewing'
-            }
-        },
-        {
-            id: 10,
-            url: 'project/ahiiiii',
-            title: 'Monthly Checkup',
-            start: prevMonth,
-            end: prevMonth,
-            allDay: true,
-            extendedProps: {
-                calendar: 'Reviewing'
-            }
-        },
-        {
-            id: 10,
-            url: 'project/ahiiiii',
-            title: 'Monthly Checkup',
-            start: prevMonth,
-            end: prevMonth,
-            allDay: true,
-            extendedProps: {
-                calendar: 'Overdue'
-            }
-        }
-    ];
-
+    var events = @json($tasksCalendar)
 </script>
-
-
