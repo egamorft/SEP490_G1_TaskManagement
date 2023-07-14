@@ -748,6 +748,15 @@ class ProjectController extends Controller
             'pageClass' => 'kanban-application',
         ];
 
+        //Get modal task details params
+        $show = request()->query('show');
+        $task_id = request()->query('task_id');
+        $taskDetails = null;
+        if ($show == "task") {
+            $taskDetails = Task::with('assignTo', 'createdBy')->findOrFail($task_id);
+            // dd($taskDetails);
+        }
+
         $q = $request->query('q');
         $dueToday = $request->query('dueToday');
         $overdue = $request->query('overdue');
@@ -812,8 +821,9 @@ class ProjectController extends Controller
             }
 
             $tasks = $tasks
-                ->with('accounts', 'comments')
-                ->orderByRaw("FIELD(status, 2, 3, 1, 4, 5, 6)")->get();
+                ->with('assignTo', 'comments', 'createdBy')
+                ->orderByRaw("FIELD(status, 2, 3, 1, 4, 5, 6)")
+                ->get();
 
             $taskItems = [];
 
@@ -829,8 +839,8 @@ class ProjectController extends Controller
                     'badge' => $flags['badgeColor'],
                     'due-date' => $task->due_date, // replace with actual due date
                     'attachments' => $attachmentsCount, // replace with actual attachments count
-                    'assigned' => $task->accounts->avatar, // replace with actual assigned members
-                    'members' => $task->accounts->fullname // replace with actual members
+                    'assigned' => $task->assignTo->avatar, // replace with actual assigned members
+                    'members' => $task->assignTo->fullname // replace with actual members
                 ];
 
                 $taskItems[] = $taskItem;
@@ -861,7 +871,8 @@ class ProjectController extends Controller
                 'memberAccount',
                 'board',
                 'disabledProject',
-                'kanbanData'
+                'kanbanData',
+                'tasks'
             ));
     }
 
@@ -1070,7 +1081,6 @@ class ProjectController extends Controller
         return redirect()->back();
     }
 
-
     public function add_task_list_modal(Request $request)
     {
 
@@ -1118,7 +1128,6 @@ class ProjectController extends Controller
 
         return array("percent_completed" => $percent_completed, "days_left" => $days_left);
     }
-
 
     // **
     public function checkDueDate($dueDate)

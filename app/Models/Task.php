@@ -26,7 +26,7 @@ class Task extends Model
     // Define the relationships
     public function taskList()
     {
-        return $this->belongsTo(TaskList::class);
+        return $this->belongsTo(TaskList::class, 'taskList_id');
     }
 
     public function subTasks()
@@ -39,8 +39,13 @@ class Task extends Model
         return $this->hasMany(Comment::class, 'task_id', 'id');
     }
 
-    public function accounts()
+    public function assignTo()
     {
         return $this->belongsTo(Account::class, 'assign_to', 'id');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(Account::class, 'created_by', 'id');
     }
 }

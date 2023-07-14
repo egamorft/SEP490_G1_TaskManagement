@@ -88,7 +88,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('add-taskList', [TaskController::class, 'addTaskList'])->name('add.taskList');
     Route::post('move-task-taskList', [TaskController::class, 'moveTaskToTaskList'])->name('move.task');
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
-
+   
     //Required project access (user in project - account_project ft status == 1)
     Route::group(['prefix' => 'project/{slug}', 'middleware' => ['check.project.access']], function () {
         Route::get('/', [ProjectController::class, 'index'])->name('project.settings');
@@ -106,7 +106,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('board/{board_id}/calendar', [ProjectController::class, 'view_board_calendar'])->name('view.board.calendar');
         Route::get('board/{board_id}/list', [ProjectController::class, 'view_board_list'])->name('view.board.list');
         Route::get('report/member/{user_id}', [ProjectController::class, 'view_report_member'])->name('view.project.member');
-        Route::get('board/{board_id}/kanban/&show=task&id={id?}', [ProjectController::class, 'view_board_kanban'])->name('view.task');
+        Route::get('task-detail/{board_id}/{task_id}', [TaskController::class, 'task_detail'])->name('task.modalsDetail');
 
         Route::post('add-board', [ProjectController::class, 'add_board'])->name('add.board');
         Route::post('edit-board', [ProjectController::class, 'edit_board'])->name('edit.board');

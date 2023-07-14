@@ -17,6 +17,7 @@ $(function () {
     var csrfToken = $('input[name="csrf-token"]').val();
     var boardId = $('input[name="board_id"]').val();
     var section = $('#section-block');
+    const targetTaskModal = $('#targetTaskModal');
     if ($("body").attr("data-framework") === "laravel") {
         assetPath = $("body").attr("data-asset-path");
     }
@@ -213,71 +214,42 @@ $(function () {
             class: "kanban-title-button btn btn-default btn-xs", // default class of the button
             footer: false, // position the button on footer
         },
+        //On click task
         click: function (el) {
-            console.log(el);
             var el = $(el);
-            var flag = false;
-            var title = el.attr("data-eid")
-                ? el.find(".kanban-text").text()
-                : el.text(),
-                date = el.attr("data-due-date"),
-                dateObj = new Date(),
-                year = dateObj.getFullYear(),
-                dateToUse = date
-                    ? date + ", " + year
-                    : dateObj.getDate() +
-                    " " +
-                    dateObj.toLocaleString("en", {
-                        month: "long",
-                    }) +
-                    ", " +
-                    year,
-                label = el.attr("data-badge-text"),
-                avatars = el.attr("data-assigned");
 
             if (el.find(".kanban-item-avatar").length) {
                 el.find(".kanban-item-avatar").on("click", function (e) {
                     e.stopPropagation();
                 });
             }
-            $(document).on("click", ".item-dropdown", function (e) {
-                flag = true;
-            });
-            setTimeout(function () {
-                var elementId = el.attr("data-eid");
-                var url = "/&show=task&id=" + elementId;
-                var currentUrl = window.location.href.split("/&", (window.location.href).length)[0];
-                currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
-                if (flag === false) {
-                    sidebar.modal("show");
-                    if (url != currentUrl) {
-                        history.replaceState(null, null, window.location.pathname + url);
-                    }
+
+            var elementId = el.attr("data-eid");
+            var url = "?show=task&task_id=" + elementId;
+            var currentUrl = window.location.href.split("?", (window.location.href).length)[0];
+            history.replaceState(null, null, window.location.pathname + url);
+            currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
+            sidebar.modal("show");
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const taskId = urlParams.get('task_id');
+
+            var taskRoute = taskRoutes.replace(':taskId', taskId);
+            const response = fetch(taskRoute);
+            response.then(res => {
+                if (res.ok) {
+                    return res.text();
+                } else {
+                    throw new Error('Network response was not ok');
                 }
-            }, 50);
-            sidebar.find(".update-item-form").on("submit", function (e) {
-                e.preventDefault();
+            }).then(html => {
+                targetTaskModal.find('.task-wrapper').html(html);
+            }).catch(error => {
+                targetTaskModal.find('.task-wrapper').html(error);
             });
-            sidebar.find("#title").val(title);
-            sidebar.find(datePicker).next(".form-control").val(dateToUse);
-            sidebar.find(select2).val(label).trigger("change");
-            sidebar.find(".assigned").empty();
-            sidebar
-                .find(".assigned")
-                .append(
-                    renderAvatar(
-                        avatars,
-                        false,
-                        "50",
-                        el.attr("data-members"),
-                        32
-                    ) +
-                    "<li class='avatar avatar-add-member ms-50'>" +
-                    "<span class='avatar-content'>" +
-                    feather.icons["plus"].toSvg({ class: "avatar-icon" }) +
-                    "</li>"
-                );
+
         },
+        //Add task kanban
         buttonClick: function (el, taskListId) {
             var addNew = document.createElement("form");
             addNew.setAttribute("class", "new-item-form");
@@ -381,6 +353,7 @@ $(function () {
                 .find(".item-dropdown, .item-dropdown .dropdown-menu.show")
                 .removeClass("show");
         },
+        //Move task to another task list
         dropEl: function (el, target, source, sibling) {
             var task_id = el.getAttribute('data-eid');
             var taskList_id = target.parentNode.getAttribute('data-id');
@@ -559,7 +532,7 @@ $(function () {
         addNewInput.toggle();
     });
 
-    // Add new board
+    // Add new task list
     addNewForm.on("submit", function (e) {
         e.preventDefault();
         var $this = $(this),
@@ -726,13 +699,27 @@ $(function () {
     }
 
     $('.btn-close').on("click", function () {
-        var url = window.location.href.split("/&", window.location.href.toString().length)[0];
+        var url = window.location.href.split("?", window.location.href.toString().length)[0];
         history.replaceState(null, null, url);
     });
 
     $(window).on("load", function () {
-        var url = window.location.href.split("/&", window.location.href.toString().length);
-        if (url[1] !== undefined) {
+        const urlParams = new URLSearchParams(window.location.search);
+        const taskId = urlParams.get('task_id');
+        if (taskId !== undefined && taskId !== null) {
+            var taskRoute = taskRoutes.replace(':taskId', taskId);
+            const response = fetch(taskRoute);
+            response.then(res => {
+                if (res.ok) {
+                    return res.text();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            }).then(html => {
+                targetTaskModal.find('.task-wrapper').html(html);
+            }).catch(error => {
+                targetTaskModal.find('.task-wrapper').html(error);
+            });
             sidebar.modal("show");
         }
     })

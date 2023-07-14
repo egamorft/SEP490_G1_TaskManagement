@@ -9,7 +9,12 @@
 
 <script>
     var kanbanBoard = @json($kanbanData);
+    var taskRoutes = "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id , 'task_id' => ':taskId']) }}";
 </script>
+
+<script>
+</script>
+
 @section('vendor-style')
     <!-- Vendor css files -->
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/jkanban/jkanban.min.css')) }}">

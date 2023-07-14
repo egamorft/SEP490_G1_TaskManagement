@@ -43,7 +43,7 @@ class TaskController extends Controller
         $taskListDataId = $request->input('taskListDataId');
         $parts = explode('_', $taskListDataId);
         $taskListId = end($parts);
-        
+
         $task = TaskList::findOrFail($taskListId);
         $task->title = $newTitle;
         $task->save();
@@ -58,5 +58,12 @@ class TaskController extends Controller
         $parts = explode('_', $taskListDataId);
         $taskListId = end($parts);
         //Pending update task columns
+    }
+
+    public function task_detail($slug, $board_id , $task_id)
+    {
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
+        return view('content._partials._modals.modal-task-detail')
+            ->with(compact("taskDetails", "slug", "board_id"));
     }
 }

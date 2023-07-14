@@ -82,7 +82,7 @@
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="doneTask"
                             {{ request()->input('doneTask') == "on" ? "checked" : "" }}>
                         <span class="filter-date-title">
-                            <i data-feather="clock" class="filter-date-icon"></i>
+                            <i data-feather='check-circle' class="filter-date-icon"></i>
                             <span class="span-date-filter">Done task</span>
                         </span>
                     </div>
@@ -91,7 +91,7 @@
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="doingTask"
                             {{ request()->input('doingTask') == "on" ? "checked" : "" }}>
                         <span class="filter-date-title">
-                            <i data-feather="clock" class="filter-date-icon"></i>
+                            <i data-feather='play-circle' class="filter-date-icon"></i>
                             <span class="span-date-filter">Doing task</span>
                         </span>
                     </div>
