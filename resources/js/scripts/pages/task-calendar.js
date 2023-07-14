@@ -75,6 +75,14 @@ document.addEventListener("DOMContentLoaded", function () {
     // Calendar plugins
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
+        validRange: {
+          start: projectStartDate,
+          end: projectEndDate
+        },
+        validRange: {
+          start: projectStartDate,
+          end: projectEndDate
+        },
         events: fetchEvents,
         editable: true,
         weekends: true,

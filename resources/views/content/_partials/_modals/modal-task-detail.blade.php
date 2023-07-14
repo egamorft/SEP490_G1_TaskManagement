@@ -18,9 +18,10 @@
         <div class="mb-1 flex-box">
             <div class="kanban-detail-user">
                 <div class="user-title custom-sub-title">Assign to</div>
-
-                <img title="{{ $taskDetails->assignTo->fullname }}" class="user-add-assignee"
-                    src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar) }}" alt="IMG" />
+                @if ($taskDetails->assignTo)
+                    <img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
+                        src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" />
+                @endif
                 <button href="#" class="user-add-assignee">
                     <i data-feather="plus"></i>
                 </button>

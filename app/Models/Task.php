@@ -13,11 +13,13 @@ class Task extends Model
     protected $fillable = [
         'taskList_id',
         'title',
+        'start_date',
         'due_date',
         'created_by',
         'assign_to',
         'status',
         'attachments',
+        'prev_tasks',
         'description',
         'created_at',
         'deleted_at'
