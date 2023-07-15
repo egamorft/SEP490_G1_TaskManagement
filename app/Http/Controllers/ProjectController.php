@@ -905,11 +905,14 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function view_board_calendar($slug, $board_id)
+    public function view_board_calendar($slug, $board_id, Request $request)
     {
         $pageConfigs = [
             'pageHeader' => false,
         ];
+
+        $q = $request->query('q');
+        $role = $request->query('role');
 
         //Project info & members
         $project = Project::where('slug', $slug)->first();
@@ -918,8 +921,24 @@ class ProjectController extends Controller
         $board = Board::findOrFail($board_id);
         $disabledProject = $this->checkDisableProject($project);
 
-        //Pending filter
-        $tasks = Task::all();
+        $accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
+        $tasks = Task::query();
+        if ($accountRoleName == "member") {
+            $tasks = $tasks->where('created_by', Auth::id())
+                ->orWhere('assign_to', Auth::id());
+        }
+        if($q){
+            $tasks = $tasks->where('title', 'like', '%' . $q . '%');
+        }
+        if($role == "creator"){
+            $tasks = $tasks->where('created_by', Auth::id());
+        }
+        if($role == "assignee"){
+            $tasks = $tasks->where('assign_to', Auth::id());
+        }
+        $tasks = $tasks
+                ->with('assignTo', 'comments', 'createdBy')
+                ->get();
         $tasksCalendar = [];
         foreach ($tasks as $task) {
             $task_status = $this->checkTaskStatus($task->status, $task);
