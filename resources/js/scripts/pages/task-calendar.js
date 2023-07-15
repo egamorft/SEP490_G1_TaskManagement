@@ -27,7 +27,7 @@ document.addEventListener("DOMContentLoaded", function () {
             Todo: "info",
             Doing: "primary",
             Reviewing: "warning",
-            Ontime: "success",
+            Done: "success",
             Late: "secondary",
             Overdue: "danger",
         },
@@ -68,14 +68,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event click function
     function eventClick(info) {
-        console.log("Show card detail");
+        console.log(info);
+        alert("Show card detail");
     }
 
     // Calendar plugins
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
+        validRange: {
+          start: projectStartDate,
+          end: projectEndDate
+        },
+        validRange: {
+          start: projectStartDate,
+          end: projectEndDate
+        },
         events: fetchEvents,
         editable: true,
+        weekends: true,
         dragScroll: true,
         dayMaxEvents: 2,
         eventResizableFromStart: true,

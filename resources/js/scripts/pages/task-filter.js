@@ -51,7 +51,7 @@ $(window).on("load", function () {
         }
 
         // Replace current querystring with the new one.
-        window.location.href = window.location.origin + window.location.pathname + "?&" + queryParams.toString();
+        window.location.href = window.location.origin + window.location.pathname + "?" + queryParams.toString();
         // window.history.replaceState(null, null, "?&" + queryParams.toString());
     }
 
