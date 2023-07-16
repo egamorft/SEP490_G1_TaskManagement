@@ -921,6 +921,12 @@ class ProjectController extends Controller
         $board = Board::findOrFail($board_id);
         $disabledProject = $this->checkDisableProject($project);
 
+        $taskLists = TaskList::where('board_id', $board_id)->get();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
         $accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
         $tasks = Task::query();
         if ($accountRoleName == "member") {
@@ -940,6 +946,7 @@ class ProjectController extends Controller
                 ->with('assignTo', 'comments', 'createdBy')
                 ->get();
         $tasksCalendar = [];
+
         foreach ($tasks as $task) {
             $task_status = $this->checkTaskStatus($task->status, $task);
             $taskCalendar = [
@@ -960,7 +967,9 @@ class ProjectController extends Controller
                 'project',
                 'disabledProject',
                 'board',
-                'tasksCalendar'
+                'tasksCalendar',
+                'taskLists',
+                'memberAccount'
             ));
     }
 
