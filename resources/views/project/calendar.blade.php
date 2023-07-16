@@ -49,10 +49,14 @@
 
 @php
     $tasks = ['Late', 'Todo', 'Doing', 'Reviewing', 'Done'];
+    // dd($project->start_date);
 @endphp
 
 <script>
     var tasks = @json($tasks);
+
+    var projectStartDate = new Date("{{ date('Y-m-d', strtotime($project->start_date)) }}").toISOString().substr(0, 10);
+    var projectEndDate = new Date("{{ date('Y-m-d', strtotime($project->end_date)) }}").toISOString().substr(0, 10);
 
     var date = new Date();
     var nextDay = new Date(new Date().getTime() + 24 * 60 * 60 * 1000);

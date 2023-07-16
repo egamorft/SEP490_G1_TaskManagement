@@ -8,7 +8,7 @@
                 aria-expanded="false">
                 Add Task
             </button>
-            <ul class="dropdown-menu" style="width: 210px;"">
+            <ul class="dropdown-menu" style="width: 210px;">
                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addNewTask">Add New Task</a></li>
                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addNewTaskList">Add New Task
                         List</a></li>
