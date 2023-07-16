@@ -1223,4 +1223,11 @@ class ProjectController extends Controller
         }
         return $props;
     }
+
+
+	public function save_gantt(Request $request)
+    {
+        Session::flash('error', 'Something went wrong');
+        return redirect()->back();
+    }
 }

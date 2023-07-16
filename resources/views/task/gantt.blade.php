@@ -6,8 +6,9 @@
 	<button class="undo-btn" onclick='gantt.undo()'>Undo</button>
 	<button class="redo-btn" onclick='gantt.redo()'>Redo</button>
 	<button class="btn btn-primary save-btn">Save All Change</button>
+	<input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
 </div>
-<div id="gantt_here" style='width:100%; height:calc(100vh - 52px);'></div>
+<div id="gantt_here" style='width:100%; height:calc(100vh - 282px);'></div>
 <script>
 
 	// Gantt Size
@@ -17,20 +18,20 @@
 	// Project Info
 	var today = new Date('07/20/2023');
 	var start = new Date('07/12/2023');
-	var end = new Date('08/20/2023');
+	var end = new Date('07/28/2023');
 
 	// Tasks Info
 	var gantt_data = {
 		data: [
 			{id: 1, text: "My Project", start_date: "12-07-2023", duration: "10", open: true, type: "project"},
-			{id: 2, text: "Task 1", start_date: "12-07-2023", duration: "2", parent: "1", progress: "1"},
-			{id: 3, text: "Task 2", start_date: "14-07-2023", duration: "5", parent: "1", progress: "1"},
-			{id: 4, text: "Task 3", start_date: "16-07-2023", duration: "5", parent: "1", progress: "1"},
-			{id: 5, text: "Task 4", start_date: "18-07-2023", duration: "5", parent: "1", progress: "1"},
-			{id: 6, text: "Task 5", start_date: "20-07-2023", duration: "2", parent: "1", progress: "1"},
-			{id: 7, text: "Task 6", start_date: "21-07-2023", duration: "2", parent: "1", progress: "1"},
-			{id: 8, text: "Task 7", start_date: "22-07-2023", duration: "1", parent: "1", progress: "0"},
-			{id: 9, text: "Task 8", start_date: "23-07-2023", duration: "1", parent: "1", progress: "0"},
+			{id: 2, text: "Task 1", start_date: "12-07-2023", duration: "2", parent: "1", progress: "1", status: "-1"},
+			{id: 3, text: "Task 2", start_date: "14-07-2023", duration: "5", parent: "1", progress: "1", status: "0"},
+			{id: 4, text: "Task 3", start_date: "16-07-2023", duration: "5", parent: "1", progress: "1", status: "1"},
+			{id: 5, text: "Task 4", start_date: "18-07-2023", duration: "5", parent: "1", progress: "1", status: "2"},
+			{id: 6, text: "Task 5", start_date: "20-07-2023", duration: "2", parent: "1", progress: "1", status: "3"},
+			{id: 7, text: "Task 6", start_date: "21-07-2023", duration: "2", parent: "1", progress: "1", status: "4"},
+			{id: 8, text: "Task 7", start_date: "22-07-2023", duration: "1", parent: "1", progress: "0", status: "3"},
+			{id: 9, text: "Task 8", start_date: "23-07-2023", duration: "1", parent: "1", progress: "0", status: "4"},
 		],
 		links: [
 			{id: "1", source: "3", target: "4", type: "0"},

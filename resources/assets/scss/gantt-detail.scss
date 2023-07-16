@@ -47,11 +47,11 @@
     background-color: #f5fff6;
 }
 .gantt_task_line.gantt_project {
-    background-color: #65c16f;
-    border: 1px solid #3c9445;
+    background-color: #65c16f !important;
+    border: 1px solid #3c9445 !important;
 }
 .gantt_task_line.gantt_project .gantt_task_progress {
-    background-color: #46ad51;
+    background-color: #46ad51 !important;
 }
 .buttonBg {
     background: #fff;
@@ -682,7 +682,7 @@ div.dhx_modal_cover {
 .gantt_task_progress {
     text-align: center;
     z-index: 0;
-    background: #299cb4;
+    background: transparent;
 }
 .gantt_task_progress_wrapper {
     border-radius: inherit;
@@ -923,7 +923,7 @@ div.dhx_modal_cover {
     box-shadow: 0 0 5px #299cb4;
 }
 .gantt_task_line.gantt_project.gantt_selected {
-    box-shadow: 0 0 5px #46ad51;
+    box-shadow: 0 0 5px #46ad51 !important;
 }
 .gantt_task_line.gantt_milestone {
     visibility: hidden;
@@ -2078,7 +2078,7 @@ div.dhx_modal_cover {
 
 
 .gantt_marker{
-	background-color: rgba(255, 0, 0, 0.8);
+	background-color: #0ca30a;
 }
 
 .gantt_task_line, .gantt_task_link{
