@@ -3379,7 +3379,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                         ((s = r(
                             [
                                 n,
-                                a.rtl ? "task_right" : "task_left",
+                                a.rtl ? "task_right" : "task_right",
                                 "task_start_date",
                             ].join(" ")
                         )).setAttribute("data-bind-property", "start_date"),
@@ -3389,7 +3389,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                             ((s = r(
                                 [
                                     n,
-                                    a.rtl ? "task_left" : "task_right",
+                                    a.rtl ? "task_right" : "task_right",
                                     "task_end_date",
                                 ].join(" ")
                             )).setAttribute("data-bind-property", "end_date"),
@@ -26683,14 +26683,14 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                         var i = null;
                         return (
                             e && n
-                                ? (i = t.config.links.start_to_start)
+                                ? (i = t.config.links.finish_to_start)
                                 : !e && n
                                 ? (i = t.config.links.finish_to_start)
                                 : e || n
                                 ? e &&
                                   !n &&
-                                  (i = t.config.links.start_to_finish)
-                                : (i = t.config.links.finish_to_finish),
+                                  (i = t.config.links.finish_to_start)
+                                : (i = t.config.links.finish_to_start),
                             i
                         );
                     }),
