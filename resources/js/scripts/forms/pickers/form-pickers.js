@@ -15,6 +15,7 @@
     dateTimePickr = $('.flatpickr-date-time'),
     multiPickr = $('.flatpickr-multiple'),
     rangePickr = $('.flatpickr-range'),
+    rangePickrTask = $('.flatpickr-range-task'),
     humanFriendlyPickr = $('.flatpickr-human-friendly'),
     disabledRangePickr = $('.flatpickr-disabled-range'),
     inlineRangePickr = $('.flatpickr-inline');
@@ -52,6 +53,19 @@
   if (rangePickr.length) {
     rangePickr.flatpickr({
       mode: 'range'
+    });
+  }
+
+  // Range task
+  if (rangePickrTask.length) {
+    rangePickrTask.flatpickr({
+      mode: 'range',
+      enable: [
+        {
+          from: projectStartDate,
+          to: projectEndDate
+        }
+      ]
     });
   }
 

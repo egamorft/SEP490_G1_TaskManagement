@@ -108,6 +108,7 @@ $(function () {
                 " data-bs-toggle": "dropdown",
                 "aria-haspopup": "true",
                 "aria-expanded": "false",
+                onclick: "event.stopPropagation();",
             }) +
             "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='item-dropdown'>" +
             "<a class='dropdown-item' href='#'>Copy task link</a>" +
@@ -117,8 +118,25 @@ $(function () {
             "</div>"
         );
     }
+    // add a stopPropagation() function to prevent the click event from bubbling up
+    function stopPropagation(event) {
+        event.stopPropagation();
+    }
     // Render header
     function renderHeader(color, text) {
+        if (text == "") {
+            return (
+                "<div class='d-flex justify-content-between flex-wrap align-items-center mb-1'>" +
+                "<div class='item-badges'> " +
+                "<div class='badge rounded-pill badge-light-" +
+                color +
+                "'> " +
+                "Fill your due date" +
+                "</div>" +
+                "</div>" +
+                "</div>"
+            );
+        }
         return (
             "<div class='d-flex justify-content-between flex-wrap align-items-center mb-1'>" +
             "<div class='item-badges'> " +
@@ -146,28 +164,51 @@ $(function () {
                         margin !== undefined && index !== arr.length - 1
                             ? " me-" + margin + ""
                             : "";
-
-                    return (
-                        "<li class='avatar kanban-item-avatar" +
-                        " " +
-                        $transition +
-                        " " +
-                        $margin +
-                        "'" +
-                        "data-bs-toggle='tooltip' data-bs-placement='top'" +
-                        "title='" +
-                        member[index] +
-                        "'" +
-                        ">" +
-                        "<img src='" +
-                        assetPath +
-                        "images/avatars/" +
-                        img +
-                        "' alt='Avatar' height='" +
-                        size +
-                        "'>" +
-                        "</li>"
-                    );
+                    if (img == "") {
+                        return (
+                            "<li class='avatar kanban-item-avatar" +
+                            " " +
+                            $transition +
+                            " " +
+                            $margin +
+                            "'" +
+                            "data-bs-toggle='tooltip' data-bs-placement='top'" +
+                            "title='" +
+                            "You have not assign to anyone" +
+                            "'" +
+                            ">" +
+                            "<img src='" +
+                            assetPath +
+                            "images/avatars/" +
+                            "default.png" +
+                            "' alt='Avatar' height='" +
+                            size +
+                            "'>" +
+                            "</li>"
+                        );
+                    } else {
+                        return (
+                            "<li class='avatar kanban-item-avatar" +
+                            " " +
+                            $transition +
+                            " " +
+                            $margin +
+                            "'" +
+                            "data-bs-toggle='tooltip' data-bs-placement='top'" +
+                            "title='" +
+                            member[index] +
+                            "'" +
+                            ">" +
+                            "<img src='" +
+                            assetPath +
+                            "images/avatars/" +
+                            img +
+                            "' alt='Avatar' height='" +
+                            size +
+                            "'>" +
+                            "</li>"
+                        );
+                    }
                 })
                 .join(" ")
             : "";
@@ -292,63 +333,66 @@ $(function () {
                         });
                     },
                     success: function (response) {
+                        var msgSuccess = response.message;
                         var newTaskId = response.id;
                         // Handle success response
                         if (response.success) {
-                            var currentBoard = $(
-                                ".kanban-board[data-id='" + taskListId + "']"
-                            );
-                            kanban.addElement(taskListId, {
-                                title:
-                                    "<span class='kanban-text'>" +
-                                    task_title +
-                                    "</span>",
-                                id:
-                                    taskListId +
-                                    "-" +
-                                    currentBoard.find(".kanban-item").length +
-                                    1,
-                            });
+                            setTimeout(function () {
+                                toastr['success'](msgSuccess, 'Success!', {
+                                    showMethod: 'slideDown',
+                                    hideMethod: 'slideUp',
+                                    progressBar: true,
+                                    closeButton: true,
+                                    tapToDismiss: false,
+                                    rtl: isRtl
+                                });
+                                var currentBoard = $(
+                                    ".kanban-board[data-id='" + taskListId + "']"
+                                );
+                                kanban.addElement(taskListId, {
+                                    title:
+                                        "<span class='kanban-text'>" +
+                                        task_title +
+                                        "</span>",
+                                    id:
+                                        taskListId +
+                                        "-" +
+                                        currentBoard.find(".kanban-item").length +
+                                        1,
+                                });
 
-                            currentBoard
-                                .find(".kanban-item:last-child .kanban-text")
-                                .before(renderDropdown());
-                            addNew.remove();
+                                currentBoard
+                                    .find(".kanban-item:last-child .kanban-text")
+                                    .before(renderDropdown());
+                                addNew.remove();
 
-                            var url = "?show=task&task_id=" + newTaskId;
-                            var currentUrl = window.location.href.split("?", (window.location.href).length)[0];
-                            history.replaceState(null, null, window.location.pathname + url);
-                            currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
-                            sidebar.modal("show");
+                                var url = "?show=task&task_id=" + newTaskId;
+                                var currentUrl = window.location.href.split("?", (window.location.href).length)[0];
+                                history.replaceState(null, null, window.location.pathname + url);
+                                currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
+                                sidebar.modal("show");
 
-                            const urlParams = new URLSearchParams(window.location.search);
-                            const taskId = urlParams.get('task_id');
+                                const urlParams = new URLSearchParams(window.location.search);
+                                const taskId = urlParams.get('task_id');
 
-                            var taskRoute = taskRoutes.replace(':taskId', taskId);
-                            const response = fetch(taskRoute);
-                            response.then(res => {
-                                if (res.ok) {
-                                    return res.text();
-                                } else {
-                                    throw new Error('Network response was not ok');
-                                }
-                            }).then(html => {
-                                targetTaskModal.find('.task-wrapper').html(html);
-                            }).catch(error => {
-                                targetTaskModal.find('.task-wrapper').html(error);
-                            });
-                            toastr['success'](response.message, 'Error!', {
-                                showMethod: 'slideDown',
-                                hideMethod: 'slideUp',
-                                progressBar: true,
-                                closeButton: true,
-                                tapToDismiss: false,
-                                rtl: isRtl
-                            });
+                                var taskRoute = taskRoutes.replace(':taskId', taskId);
+                                const response = fetch(taskRoute);
+                                response.then(res => {
+                                    if (res.ok) {
+                                        return res.text();
+                                    } else {
+                                        throw new Error('Network response was not ok');
+                                    }
+                                }).then(html => {
+                                    targetTaskModal.find('.task-wrapper').html(html);
+                                }).catch(error => {
+                                    targetTaskModal.find('.task-wrapper').html(error);
+                                });
+                            }, 2000);
                         }
                     },
                     error: function (response) {
-                        var errMsg = "Sorry! Something went wrong here";
+                        var errMsg = "Sorry, something went wrong here. Load the page and try again!!";
                         if (response.message) {
                             errMsg = response.message;
                         }
@@ -420,7 +464,7 @@ $(function () {
                     }
                 },
                 error: function (response) {
-                    var errMsg = "Sorry! Something went wrong here";
+                    var errMsg = "Sorry, something went wrong here. Load the page and try again!!";
                     if (response.message) {
                         errMsg = response.message;
                     }
@@ -510,7 +554,7 @@ $(function () {
                 }
             },
             error: function (response) {
-                var errMsg = "Sorry! Something went wrong here";
+                var errMsg = "Sorry, something went wrong here. Load the page and try again!!";
                 if (response.message) {
                     errMsg = response.message;
                 }
@@ -595,7 +639,7 @@ $(function () {
                 }
             },
             error: function (response) {
-                var errMsg = "Sorry! Something went wrong here";
+                var errMsg = "Sorry, something went wrong here. Load the page and try again!!";
                 if (response.message) {
                     errMsg = response.message;
                 }
