@@ -126,3 +126,5 @@
         </div>
     </div>
 </div>
+
+<script src="{{ URL::asset('js/scripts/pages/app-kanban-detail.js') }}"></script>
