@@ -169,7 +169,7 @@
                         </div>
                         <div class="comment-text-wrapper">
                             <div class="text-data">
-                                Test thử xem được chưa nhé
+                                Task này assign rồi, xong chưa bạn nhỉ
                             </div>
                         </div>
                     </div>
@@ -186,7 +186,7 @@
                         </div>
                         <div class="comment-text-wrapper">
                             <div class="text-data">
-                                Được rồi bạn ơi
+                                Vì task này đã assign rồi đấy
                             </div>
                         </div>
                     </div>
