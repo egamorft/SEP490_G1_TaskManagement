@@ -76,6 +76,25 @@ class TaskController extends Controller
         $memberAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
+		dd($project);
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
+        return view('content._partials._modals.modal-task-detail')
+            ->with(compact(
+                "taskDetails",
+                "slug",
+                "board_id",
+                "memberAccount",
+                "project"
+            ));
+    }
+
+	public function view_task($slug, $task_id)
+    {
+        $project = Project::where('slug', $slug)->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
 
         $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
         return view('content._partials._modals.modal-task-detail')

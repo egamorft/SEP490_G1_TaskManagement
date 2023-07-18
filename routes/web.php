@@ -120,6 +120,7 @@ Route::middleware(['auth'])->group(function () {
 
 		// Save Gantt
         Route::post('gantt/save-gantt', [ProjectController::class, 'save_gantt'])->name('save.project.gantt');
+        Route::get('task/{task_id}', [TaskController::class, 'task_detail'])->name('view.task');
 
     });
 

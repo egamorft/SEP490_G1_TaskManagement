@@ -12487,6 +12487,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                         // }
 						console.log("show box");
 						console.log(t);
+						TASK.showTaskDetail(t);
                     }),
                     (t._get_timepicker_step = function () {
                         if (this.config.round_dnd_dates) {
@@ -25338,7 +25339,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                     icon_save: "Save",
                     icon_cancel: "Cancel",
                     icon_details: "Details",
-                    icon_edit: "Edit",
+                    icon_edit: "Detail",
                     icon_delete: "Delete",
                     confirm_closing: "",
                     confirm_deleting:
