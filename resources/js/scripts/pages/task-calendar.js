@@ -12,7 +12,10 @@
 
 // RTL Support
 var direction = "ltr",
-    assetPath = "../../../app-assets/";
+    assetPath = "../../../app-assets/",
+    csrfToken = $('input[name="csrf-token"]').val(),
+    section = $('#section-block'),
+    isRtl = $('html').attr('data-textdirection') === 'rtl';
 if ($("html").data("textdirection") == "rtl") {
     direction = "rtl";
 }
@@ -83,7 +86,7 @@ document.addEventListener("DOMContentLoaded", function () {
         editable: true,
         weekends: true,
         dragScroll: true,
-        dayMaxEvents: 4,
+        dayMaxEvents: 2,
         eventResizableFromStart: true,
         customButtons: {
             sidebarToggle: {
@@ -115,9 +118,65 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         eventDrop: function(e) {
           var id = e.event.id;
-        //   var start_date = moment(start).format("YYYY-MM-DD");
-        //   var end_date = moment(end).format("YYYY-MM-DD");
-          console.log(e);
+          const days_diff = e.delta.days;
+          $.ajax({
+            url: '/move-task-calendar',
+            method: 'POST',
+            headers: {
+                'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
+            },
+            data: {
+                task_id: id,
+                days_diff: days_diff
+            },
+            beforeSend: function () {
+                section.block({
+                    message:
+                        '<div class="d-flex justify-content-center align-items-center"><p class="me-50 mb-0">Please wait...</p><div class="spinner-grow spinner-grow-sm text-white" role="status"></div> </div>',
+                    timeout: 2000,
+                    css: {
+                        backgroundColor: 'transparent',
+                        color: '#fff',
+                        border: '0'
+                    },
+                    overlayCSS: {
+                        opacity: 0.5
+                    }
+                });
+            },
+            success: function (response) {
+                // Handle success response
+                if (response.success) {
+                    setTimeout(function () {
+                        toastr['success'](response.message, 'Error!', {
+                            showMethod: 'slideDown',
+                            hideMethod: 'slideUp',
+                            progressBar: true,
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl
+                        });
+                    }, 2000);
+                }
+            },
+            error: function (response) {
+                var errMsg = "Sorry, something went wrong here. Load the page and try again!!";
+                if (response.message) {
+                    errMsg = response.message;
+                }
+                // Handle error response
+                setTimeout(function () {
+                    toastr['error'](errMsg, 'Error!', {
+                        showMethod: 'slideDown',
+                        hideMethod: 'slideUp',
+                        progressBar: true,
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: isRtl
+                    });
+                }, 2000);
+            }
+        });
         },
     });
 

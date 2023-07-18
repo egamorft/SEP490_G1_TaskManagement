@@ -1,18 +1,17 @@
 @include('content._partials._modals.modal-add-new-task')
-@include('content._partials._modals.modal-add-new-task-list')
+{{-- @include('content._partials._modals.modal-add-new-task-list') --}}
 <!-- Sidebar -->
 <div class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column" id="app-calendar-sidebar">
     <div class="sidebar-wrapper">
         <div class="card-body add-task d-flex justify-content-center">
-            <button type="button" class="btn btn-primary dropdown-toggle w-100" data-bs-toggle="dropdown"
-                aria-expanded="false">
+            <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#addNewTask">
                 Add Task
             </button>
-            <ul class="dropdown-menu" style="width: 210px;">
+            {{-- <ul class="dropdown-menu" style="width: 210px;">
                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addNewTask">Add New Task</a></li>
                 <li><a class="dropdown-item" data-bs-toggle="modal" data-bs-target="#addNewTaskList">Add New Task
                         List</a></li>
-            </ul>
+            </ul> --}}
         </div>
         <div class="pt-0 pb-0 card-body d-flex justify-content-center">
             <!-- Todo search starts -->
