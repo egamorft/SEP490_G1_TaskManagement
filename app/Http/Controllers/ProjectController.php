@@ -1002,6 +1002,8 @@ class ProjectController extends Controller
 
         $board = Board::findOrFail($board_id);
 
+		 //Bind data for kanban
+		$taskLists = TaskList::where('board_id', $board_id)->get();
         $disabledProject = $this->checkDisableProject($project);
 
         return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
@@ -1011,7 +1013,8 @@ class ProjectController extends Controller
                 'supervisorAccount',
                 'memberAccount',
                 'disabledProject',
-                'board'
+                'board',
+				'taskLists'
             ));
     }
 
