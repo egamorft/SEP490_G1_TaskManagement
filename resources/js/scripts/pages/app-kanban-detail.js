@@ -7,9 +7,8 @@
     Author URL: http://www.themeforest.net/user/pixinvent
 ==========================================================================================*/
 
-$(window).on("load", function () {
-    "use strict";
-
+$(document).ready(function(){
+	console.log($(".description-button-edit"))
     // Action sau khi click button edit trong description
     $(".description-button-edit").on("click", function () {
         $(".description-button-edit").hide();

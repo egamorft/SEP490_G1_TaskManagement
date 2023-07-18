@@ -46,6 +46,5 @@
 @section('page-script')
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/pages/app-kanban.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/pages/app-kanban-detail.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/project/board.js')) }}"></script>
 @endsection
