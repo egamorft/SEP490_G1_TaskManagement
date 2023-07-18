@@ -217,7 +217,7 @@
                 },
                 axisX: {
                     interval: 1,
-                    intervalType: "month"
+                    intervalType: "week"
                 },
                 axisY: {
                     valueFormatString: "# Tasks",
@@ -233,33 +233,33 @@
                         showInLegend: true,
                         color: "#00cfe8",
                         name: "Todo",
-                        dataPoints: [{
-                                y: 6.75,
-                                x: new Date(2023, 01, 01)
+						dataPoints: [{
+                                y: 65,
+                                x: new Date('07/01/2023')
                             },
                             {
-                                y: 8.57,
-                                x: new Date(2023, 02, 01)
+                                y: 87,
+                                x: new Date('07/08/2023')
                             },
                             {
-                                y: 10.64,
-                                x: new Date(2023, 03, 01)
+                                y:  04,
+                                x: new Date('07/15/2023')
                             },
                             {
-                                y: 13.97,
-                                x: new Date(2023, 04, 01)
+                                y:  37,
+                                x: new Date('07/22/2023')
                             },
                             {
-                                y: 15.42,
-                                x: new Date(2023, 05, 01)
+                                y:  52,
+                                x: new Date('07/29/2023')
                             },
                             {
-                                y: 17.26,
-                                x: new Date(2023, 06, 01)
+                                y:  76,
+                                x: new Date('08/05/2023')
                             },
                             {
-                                y: 20.26,
-                                x: new Date(2023, 07, 01)
+                                y:  06,
+                                x: new Date('08/12/2023')
                             }
                         ]
                     },
@@ -269,32 +269,32 @@
                         name: "Doing",
                         color: "#7367f0",
                         dataPoints: [{
-                                y: 6.82,
-                                x: new Date(2023, 01, 01)
+                                y: 65,
+                                x: new Date('07/01/2023')
                             },
                             {
-                                y: 9.02,
-                                x: new Date(2023, 02, 01)
+                                y: 87,
+                                x: new Date('07/08/2023')
                             },
                             {
-                                y: 11.80,
-                                x: new Date(2023, 03, 01)
+                                y:  04,
+                                x: new Date('07/15/2023')
                             },
                             {
-                                y: 14.11,
-                                x: new Date(2023, 04, 01)
+                                y:  37,
+                                x: new Date('07/22/2023')
                             },
                             {
-                                y: 15.96,
-                                x: new Date(2023, 05, 01)
+                                y:  52,
+                                x: new Date('07/29/2023')
                             },
                             {
-                                y: 17.73,
-                                x: new Date(2023, 06, 01)
+                                y:  76,
+                                x: new Date('08/05/2023')
                             },
                             {
-                                y: 21.5,
-                                x: new Date(2023, 07, 01)
+                                y:  06,
+                                x: new Date('08/12/2023')
                             }
                         ]
                     },
@@ -304,32 +304,32 @@
                         name: "Reviewing",
                         color: "#ff9f43",
                         dataPoints: [{
-                                y: 7.28,
-                                x: new Date(2023, 01, 01)
+                                y: 65,
+                                x: new Date('07/01/2023')
                             },
                             {
-                                y: 9.72,
-                                x: new Date(2023, 02, 01)
+                                y: 87,
+                                x: new Date('07/08/2023')
                             },
                             {
-                                y: 13.30,
-                                x: new Date(2023, 03, 01)
+                                y:  04,
+                                x: new Date('07/15/2023')
                             },
                             {
-                                y: 14.9,
-                                x: new Date(2023, 04, 01)
+                                y:  37,
+                                x: new Date('07/22/2023')
                             },
                             {
-                                y: 18.10,
-                                x: new Date(2023, 05, 01)
+                                y:  52,
+                                x: new Date('07/29/2023')
                             },
                             {
-                                y: 18.68,
-                                x: new Date(2023, 06, 01)
+                                y:  76,
+                                x: new Date('08/05/2023')
                             },
                             {
-                                y: 22.45,
-                                x: new Date(2023, 07, 01)
+                                y:  06,
+                                x: new Date('08/12/2023')
                             }
                         ]
                     },
@@ -339,32 +339,32 @@
                         name: "Ontime",
                         color: "#28c76f",
                         dataPoints: [{
-                                y: 8.44,
-                                x: new Date(2023, 01, 01)
+                                y: 65,
+                                x: new Date('07/01/2023')
                             },
                             {
-                                y: 10.58,
-                                x: new Date(2023, 02, 01)
+                                y: 87,
+                                x: new Date('07/08/2023')
                             },
                             {
-                                y: 14.41,
-                                x: new Date(2023, 03, 01)
+                                y:  04,
+                                x: new Date('07/15/2023')
                             },
                             {
-                                y: 16.86,
-                                x: new Date(2023, 04, 01)
+                                y:  37,
+                                x: new Date('07/22/2023')
                             },
                             {
-                                y: 10.64,
-                                x: new Date(2023, 05, 01)
+                                y:  52,
+                                x: new Date('07/29/2023')
                             },
                             {
-                                y: 21.32,
-                                x: new Date(2023, 06, 01)
+                                y:  76,
+                                x: new Date('08/05/2023')
                             },
                             {
-                                y: 26.06,
-                                x: new Date(2023, 07, 01)
+                                y:  06,
+                                x: new Date('08/12/2023')
                             }
                         ]
                     },
@@ -374,32 +374,32 @@
                         name: "Late",
                         color: "#82868b",
                         dataPoints: [{
-                                y: 8.44,
-                                x: new Date(2023, 01, 01)
+                                y: 65,
+                                x: new Date('07/01/2023')
                             },
                             {
-                                y: 10.58,
-                                x: new Date(2023, 02, 01)
+                                y: 87,
+                                x: new Date('07/08/2023')
                             },
                             {
-                                y: 14.41,
-                                x: new Date(2023, 03, 01)
+                                y:  04,
+                                x: new Date('07/15/2023')
                             },
                             {
-                                y: 16.86,
-                                x: new Date(2023, 04, 01)
+                                y:  37,
+                                x: new Date('07/22/2023')
                             },
                             {
-                                y: 10.64,
-                                x: new Date(2023, 05, 01)
+                                y:  52,
+                                x: new Date('07/29/2023')
                             },
                             {
-                                y: 21.32,
-                                x: new Date(2023, 06, 01)
+                                y:  76,
+                                x: new Date('08/05/2023')
                             },
                             {
-                                y: 26.06,
-                                x: new Date(2023, 07, 01)
+                                y:  06,
+                                x: new Date('08/12/2023')
                             }
                         ]
                     },
@@ -409,32 +409,32 @@
                         name: "Overdue",
                         color: "#ea5455",
                         dataPoints: [{
-                                y: 8.44,
-                                x: new Date(2023, 01, 01)
+                                y: 65,
+                                x: new Date('07/01/2023')
                             },
                             {
-                                y: 10.58,
-                                x: new Date(2023, 02, 01)
+                                y: 87,
+                                x: new Date('07/08/2023')
                             },
                             {
-                                y: 14.41,
-                                x: new Date(2023, 03, 01)
+                                y:  04,
+                                x: new Date('07/15/2023')
                             },
                             {
-                                y: 16.86,
-                                x: new Date(2023, 04, 01)
+                                y:  37,
+                                x: new Date('07/22/2023')
                             },
                             {
-                                y: 10.64,
-                                x: new Date(2023, 05, 01)
+                                y:  52,
+                                x: new Date('07/29/2023')
                             },
                             {
-                                y: 21.32,
-                                x: new Date(2023, 06, 01)
+                                y:  76,
+                                x: new Date('08/05/2023')
                             },
                             {
-                                y: 26.06,
-                                x: new Date(2023, 07, 01)
+                                y:  06,
+                                x: new Date('08/12/2023')
                             }
                         ]
                     }

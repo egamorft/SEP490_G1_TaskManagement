@@ -40,6 +40,15 @@
                 margin-right: 10px;
                 width: 20px;
             }
+
+            .flex-box > input {
+                min-width: 230px;
+                max-width: 250px;
+            }
+        }
+
+        .kanban-detail-prevtask {
+            margin-left: 10px;
         }
     }
 

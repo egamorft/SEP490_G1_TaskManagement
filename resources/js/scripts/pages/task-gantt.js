@@ -55362,6 +55362,9 @@ $(window).on("load", function () {
 		{name: "duration", align: "center", width: 70, resize: true},
 		{
 			name: "status", label: "Status", align: "center", template: function (obj) {
+				if (!obj.status) {
+					return "Todo"
+				}
 				if (obj.status == 0) {
 					return "Todo"
 				}
@@ -55386,6 +55389,9 @@ $(window).on("load", function () {
 		switch (task.status) {
 			case "-1":
 				return "bg-secondary";
+				break;
+			case undefined:
+				return "bg-info";
 				break;
 			case "0":
 				return "bg-info";
