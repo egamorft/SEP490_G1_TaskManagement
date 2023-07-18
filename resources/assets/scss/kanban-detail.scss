@@ -212,3 +212,35 @@
 .custom-css-content {
     margin-left: 33px;
 }
+
+.form-input-textarea {
+    width: 100%;
+}
+
+.btn-post-comment {
+    margin-left: 46px;
+}
+
+.btn-post-comment:hover {
+    box-shadow: 0 8px 25px -8px #7367f0;
+    background-color: #6258cc !important;
+    color: #fff !important;
+}
+
+.assignTask {
+    position: relative;
+}
+
+.dropdown-menu-assignee {
+    position: absolute;
+    top: 40px;
+    list-style-type: none;
+    width: 300px;
+    border: 1px solid #eee;
+    padding-left: 0px;
+    z-index: 10000;
+    background: #fff;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 250px;
+}

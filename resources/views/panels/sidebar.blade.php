@@ -139,6 +139,7 @@
                                 @endif
                             @endif
                         @endif
+
                     @else
                         {{-- Not loggedin menu --}}
                     @endif
@@ -184,6 +185,9 @@
             {{-- Foreach menu item ends --}}
         </ul>
     </div>
+    
+    @include('panels/reminderLayout')
 </div>
+
 <!-- END: Main Menu-->
 @include('content._partials._modals.modal-add-new-project')

@@ -18,7 +18,7 @@
 <script src="{{ asset(mix('vendors/js/pickers/pickadate/legacy.js')) }}"></script>
 <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
 <script src="{{ asset(mix('js/scripts/forms/pickers/form-pickers.js')) }}"></script>
-
+<script src="{{ asset(mix('js/scripts/pages/page-reminder.js')) }}"></script>
 <!-- custome scripts file for user -->
 <script src="{{ asset(mix('js/core/scripts.js')) }}"></script>
 
