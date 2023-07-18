@@ -856,7 +856,7 @@ class ProjectController extends Controller
                 'project',
                 'board',
                 'disabledProject',
-                'kanbanData',
+                'kanbanData'
             ));
     }
 

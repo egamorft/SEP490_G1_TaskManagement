@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskList;
 use Carbon\Carbon;
@@ -70,9 +71,21 @@ class TaskController extends Controller
 
     public function task_detail($slug, $board_id, $task_id)
     {
+        $project = Project::where('slug', $slug)->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
         $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
         return view('content._partials._modals.modal-task-detail')
-            ->with(compact("taskDetails", "slug", "board_id"));
+            ->with(compact(
+                "taskDetails",
+                "slug",
+                "board_id",
+                "memberAccount",
+                "project"
+            ));
     }
 
     public function moveTaskCalendar(Request $request)
@@ -96,6 +109,6 @@ class TaskController extends Controller
         $task->due_date = $new_due_date;
         $task->save();
 
-        return response()->json(['success' => true, 'message' => 'Success move task '. $task->title]);
+        return response()->json(['success' => true, 'message' => 'Success move task ' . $task->title]);
     }
 }
