@@ -8,7 +8,6 @@
 ==========================================================================================*/
 
 $(document).ready(function () {
-
     // Action sau khi click button edit trong description
     $(".description-button-edit").on("click", function () {
         $(".description-button-edit").hide();
@@ -77,12 +76,24 @@ $(document).ready(function () {
             reader.onload = function (e) {
                 $(canvas).submit();
             };
-            reader.readAsDataURL(input.files[0]);
+            // reader.readAsDataURL(input.files[0]);
+
+            var files = $(this)
+                .val()
+                .replace(/C:\\fakepath\\/i, "");
+            $(".custom-file-content").append(`
+                <div class='file-name'>
+                    <i data-feather="file" class='custom-mini-icon'></i>
+                    <span class='file-item -txt'>${files}</span>
+                </div>
+              `);
+
+			feather.replace()
         }
 
-        submit_form(canvas, function() {
-            alert("Submit ok")
-        })
+        // submit_form(canvas, function() {
+        //     alert("Submit ok")
+        // })
     });
 
     $("#comment-input").keypress(function (e) {
@@ -92,258 +103,277 @@ $(document).ready(function () {
             return false;
         }
 
-        submit_form(canvas, function() {
+        submit_form(canvas, function () {
             alert("Comment thành công");
-        })
+        });
     });
 
     function submit_form(canvas, fn = false) {
-        $("#formImageUpload").on("submit", fn || function(e) {
-            alert("Submit form thành công")
-        });
+        $("#formImageUpload").on(
+            "submit",
+            fn ||
+                function (e) {
+                    alert("Submit form thành công");
+                }
+        );
     }
 
-    $('.button-filter-header').on("click", function() {
-        if ($('.filter-list').hasClass("hidden")) {
-            $('.filter-list').removeClass("hidden");
+    $(".button-filter-header").on("click", function () {
+        if ($(".filter-list").hasClass("hidden")) {
+            $(".filter-list").removeClass("hidden");
         } else {
-            $('.filter-list').addClass("hidden");
+            $(".filter-list").addClass("hidden");
         }
     });
 
-    $(".user-add-assignee").on("click", function() {
-        var dropdown = $('.dropdown-menu-assignee');
+    $(".user-add-assignee").on("click", function () {
+        var dropdown = $(".dropdown-menu-assignee");
         if (dropdown.hasClass("hidden")) {
             dropdown.removeClass("hidden");
         } else {
             dropdown.addClass("hidden");
         }
     });
-
-    
 });
 
 (function (window, document, $) {
-    'use strict';
-  
+    "use strict";
+
     /*******  Flatpickr  *****/
-    var basicPickr = $('.flatpickr-basic'),
-      timePickr = $('.flatpickr-time'),
-      dateTimePickr = $('.flatpickr-date-time'),
-      multiPickr = $('.flatpickr-multiple'),
-      rangePickr = $('.flatpickr-range'),
-      rangePickrTask = $('.flatpickr-range-task'),
-      humanFriendlyPickr = $('.flatpickr-human-friendly'),
-      disabledRangePickr = $('.flatpickr-disabled-range'),
-      inlineRangePickr = $('.flatpickr-inline');
-  
+    var basicPickr = $(".flatpickr-basic"),
+        timePickr = $(".flatpickr-time"),
+        dateTimePickr = $(".flatpickr-date-time"),
+        multiPickr = $(".flatpickr-multiple"),
+        rangePickr = $(".flatpickr-range"),
+        rangePickrTask = $(".flatpickr-range-task"),
+        humanFriendlyPickr = $(".flatpickr-human-friendly"),
+        disabledRangePickr = $(".flatpickr-disabled-range"),
+        inlineRangePickr = $(".flatpickr-inline");
+
     // Default
     if (basicPickr.length) {
-      basicPickr.flatpickr();
+        basicPickr.flatpickr();
     }
-  
+
     // Time
     if (timePickr.length) {
-      timePickr.flatpickr({
-        enableTime: true,
-        noCalendar: true
-      });
+        timePickr.flatpickr({
+            enableTime: true,
+            noCalendar: true,
+        });
     }
-  
+
     // Date & TIme
     if (dateTimePickr.length) {
-      dateTimePickr.flatpickr({
-        enableTime: true
-      });
+        dateTimePickr.flatpickr({
+            enableTime: true,
+        });
     }
-  
+
     // Multiple Dates
     if (multiPickr.length) {
-      multiPickr.flatpickr({
-        weekNumbers: true,
-        mode: 'multiple',
-        minDate: 'today'
-      });
+        multiPickr.flatpickr({
+            weekNumbers: true,
+            mode: "multiple",
+            minDate: "today",
+        });
     }
-  
+
     // Range
     if (rangePickr.length) {
-      rangePickr.flatpickr({
-        mode: 'range'
-      });
+        rangePickr.flatpickr({
+            mode: "range",
+        });
     }
-  
+
     // Range task
     if (rangePickrTask.length) {
-      rangePickrTask.flatpickr({
-        mode: 'range',
-        enable: [
-          {
-            from: projectStartDate,
-            to: projectEndDate
-          }
-        ]
-      });
+        rangePickrTask.flatpickr({
+            mode: "range",
+            enable: [
+                {
+                    from: projectStartDate,
+                    to: projectEndDate,
+                },
+            ],
+        });
     }
-  
+
     // Human Friendly
     if (humanFriendlyPickr.length) {
-      humanFriendlyPickr.flatpickr({
-        altInput: true,
-        altFormat: 'F j, Y',
-        dateFormat: 'Y-m-d'
-      });
+        humanFriendlyPickr.flatpickr({
+            altInput: true,
+            altFormat: "F j, Y",
+            dateFormat: "Y-m-d",
+        });
     }
-  
+
     // Disabled Range
     if (disabledRangePickr.length) {
-      disabledRangePickr.flatpickr({
-        dateFormat: 'Y-m-d',
-        disable: [
-          {
-            from: new Date().fp_incr(2),
-            to: new Date().fp_incr(7)
-          }
-        ]
-      });
+        disabledRangePickr.flatpickr({
+            dateFormat: "Y-m-d",
+            disable: [
+                {
+                    from: new Date().fp_incr(2),
+                    to: new Date().fp_incr(7),
+                },
+            ],
+        });
     }
-  
+
     // Inline
     if (inlineRangePickr.length) {
-      inlineRangePickr.flatpickr({
-        inline: true
-      });
+        inlineRangePickr.flatpickr({
+            inline: true,
+        });
     }
     /*******  Pick-a-date Picker  *****/
     // Basic date
-    $('.pickadate').pickadate();
-  
+    $(".pickadate").pickadate();
+
     // Format Date Picker
-    $('.format-picker').pickadate({
-      format: 'mmmm, d, yyyy'
+    $(".format-picker").pickadate({
+        format: "mmmm, d, yyyy",
     });
-  
+
     // Date limits
-    $('.pickadate-limits').pickadate({
-      min: [2019, 3, 20],
-      max: [2019, 5, 28]
+    $(".pickadate-limits").pickadate({
+        min: [2019, 3, 20],
+        max: [2019, 5, 28],
     });
-  
+
     // Disabled Dates & Weeks
-  
-    $('.pickadate-disable').pickadate({
-      disable: [1, [2019, 3, 6], [2019, 3, 20]]
+
+    $(".pickadate-disable").pickadate({
+        disable: [1, [2019, 3, 6], [2019, 3, 20]],
     });
-  
+
     // Picker Translations
-    $('.pickadate-translations').pickadate({
-      formatSubmit: 'dd/mm/yyyy',
-      monthsFull: [
-        'Janvier',
-        'Février',
-        'Mars',
-        'Avril',
-        'Mai',
-        'Juin',
-        'Juillet',
-        'Août',
-        'Septembre',
-        'Octobre',
-        'Novembre',
-        'Décembre'
-      ],
-      monthsShort: ['Jan', 'Fev', 'Mar', 'Avr', 'Mai', 'Juin', 'Juil', 'Aou', 'Sep', 'Oct', 'Nov', 'Dec'],
-      weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-      today: "aujourd'hui",
-      clear: 'clair',
-      close: 'Fermer'
+    $(".pickadate-translations").pickadate({
+        formatSubmit: "dd/mm/yyyy",
+        monthsFull: [
+            "Janvier",
+            "Février",
+            "Mars",
+            "Avril",
+            "Mai",
+            "Juin",
+            "Juillet",
+            "Août",
+            "Septembre",
+            "Octobre",
+            "Novembre",
+            "Décembre",
+        ],
+        monthsShort: [
+            "Jan",
+            "Fev",
+            "Mar",
+            "Avr",
+            "Mai",
+            "Juin",
+            "Juil",
+            "Aou",
+            "Sep",
+            "Oct",
+            "Nov",
+            "Dec",
+        ],
+        weekdaysShort: ["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"],
+        today: "aujourd'hui",
+        clear: "clair",
+        close: "Fermer",
     });
-  
+
     // Month Select Picker
-    $('.pickadate-months').pickadate({
-      selectYears: false,
-      selectMonths: true
+    $(".pickadate-months").pickadate({
+        selectYears: false,
+        selectMonths: true,
     });
-  
+
     // Month and Year Select Picker
-    $('.pickadate-months-year').pickadate({
-      selectYears: true,
-      selectMonths: true
+    $(".pickadate-months-year").pickadate({
+        selectYears: true,
+        selectMonths: true,
     });
-  
+
     // Short String Date Picker
-    $('.pickadate-short-string').pickadate({
-      weekdaysShort: ['S', 'M', 'Tu', 'W', 'Th', 'F', 'S'],
-      showMonthsShort: true
+    $(".pickadate-short-string").pickadate({
+        weekdaysShort: ["S", "M", "Tu", "W", "Th", "F", "S"],
+        showMonthsShort: true,
     });
-  
+
     // Change first weekday
-    $('.pickadate-firstday').pickadate({
-      firstDay: 1
+    $(".pickadate-firstday").pickadate({
+        firstDay: 1,
     });
-  
+
     /*******    Pick-a-time Picker  *****/
     // Basic time
-    $('.pickatime').pickatime();
-  
+    $(".pickatime").pickatime();
+
     // Format options
-    $('.pickatime-format').pickatime({
-      // Escape any “rule” characters with an exclamation mark (!).
-      format: 'T!ime selected: h:i a',
-      formatLabel: 'HH:i a',
-      formatSubmit: 'HH:i',
-      hiddenPrefix: 'prefix__',
-      hiddenSuffix: '__suffix'
+    $(".pickatime-format").pickatime({
+        // Escape any “rule” characters with an exclamation mark (!).
+        format: "T!ime selected: h:i a",
+        formatLabel: "HH:i a",
+        formatSubmit: "HH:i",
+        hiddenPrefix: "prefix__",
+        hiddenSuffix: "__suffix",
     });
-  
+
     // Format options
-    $('.pickatime-formatlabel').pickatime({
-      formatLabel: function (time) {
-        var hours = (time.pick - this.get('now').pick) / 60,
-          label = hours < 0 ? ' !hours to now' : hours > 0 ? ' !hours from now' : 'now';
-        return 'h:i a <sm!all>' + (hours ? Math.abs(hours) : '') + label + '</sm!all>';
-      }
+    $(".pickatime-formatlabel").pickatime({
+        formatLabel: function (time) {
+            var hours = (time.pick - this.get("now").pick) / 60,
+                label =
+                    hours < 0
+                        ? " !hours to now"
+                        : hours > 0
+                        ? " !hours from now"
+                        : "now";
+            return (
+                "h:i a <sm!all>" +
+                (hours ? Math.abs(hours) : "") +
+                label +
+                "</sm!all>"
+            );
+        },
     });
-  
+
     // Min - Max Time to select
-    $('.pickatime-min-max').pickatime({
-      // Using Javascript
-      min: new Date(2015, 3, 20, 7),
-      max: new Date(2015, 7, 14, 18, 30)
-  
-      // Using Array
-      // min: [7,30],
-      // max: [14,0]
+    $(".pickatime-min-max").pickatime({
+        // Using Javascript
+        min: new Date(2015, 3, 20, 7),
+        max: new Date(2015, 7, 14, 18, 30),
+
+        // Using Array
+        // min: [7,30],
+        // max: [14,0]
     });
-  
+
     // Intervals
-    $('.pickatime-intervals').pickatime({
-      interval: 150
+    $(".pickatime-intervals").pickatime({
+        interval: 150,
     });
-  
+
     // Disable Time
-    $('.pickatime-disable').pickatime({
-      disable: [
-        // Disable Using Integers
-        3,
-        5,
-        7,
-        13,
-        17,
-        21
-  
-        /* Using Array */
-        // [0,30],
-        // [2,0],
-        // [8,30],
-        // [9,0]
-      ]
+    $(".pickatime-disable").pickatime({
+        disable: [
+            // Disable Using Integers
+            3, 5, 7, 13, 17, 21,
+
+            /* Using Array */
+            // [0,30],
+            // [2,0],
+            // [8,30],
+            // [9,0]
+        ],
     });
-  
+
     // Close on a user action
-    $('.pickatime-close-action').pickatime({
-      closeOnSelect: false,
-      closeOnClear: false
+    $(".pickatime-close-action").pickatime({
+        closeOnSelect: false,
+        closeOnClear: false,
     });
-  })(window, document, jQuery);
-  
+})(window, document, jQuery);

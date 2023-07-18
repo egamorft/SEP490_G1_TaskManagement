@@ -161,7 +161,12 @@
         </div>
 
         <div class="custom-css-content">
-            <img src="" alt="No image" />
+            <div class="custom-file-content">
+                <div class='file-name'>
+                    <i data-feather="file" class='custom-mini-icon'></i>
+                    <span class='file-item -txt'>File name</span>
+                </div>
+            </div>
 
             <div class="upload-files mt-1">
                 <form action="" id="formImageUpload" method="GET" enctype="multipart/form-data">

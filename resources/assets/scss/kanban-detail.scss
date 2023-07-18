@@ -253,3 +253,18 @@
     overflow-x: hidden;
     max-height: 250px;
 }
+
+.file-name {
+    padding: 8px;
+    border: 1px solid #d8d6de;
+    margin: 10px 0px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #6e6b7b;
+    background-color: #fff;
+    border-radius: 0.357rem;
+
+    .file-item.-txt {
+        margin-left: 10px;
+    }
+}
