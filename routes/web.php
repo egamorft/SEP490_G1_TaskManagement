@@ -40,7 +40,8 @@ use PhpParser\Node\Stmt\Return_;
 
 // Main Page Route
 
-Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
 
 Route::middleware(['guest'])->group(function () {

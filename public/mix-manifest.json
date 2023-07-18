@@ -132,6 +132,7 @@
     "/js/scripts/pages/auth-reset-password.js": "/js/scripts/pages/auth-reset-password.js",
     "/js/scripts/pages/auth-two-steps.js": "/js/scripts/pages/auth-two-steps.js",
     "/js/scripts/pages/dashboard-analytics.js": "/js/scripts/pages/dashboard-analytics.js",
+    "/js/scripts/pages/dashboard-calendar.js": "/js/scripts/pages/dashboard-calendar.js",
     "/js/scripts/pages/dashboard-ecommerce.js": "/js/scripts/pages/dashboard-ecommerce.js",
     "/js/scripts/pages/modal-add-new-address.js": "/js/scripts/pages/modal-add-new-address.js",
     "/js/scripts/pages/modal-add-new-cc.js": "/js/scripts/pages/modal-add-new-cc.js",

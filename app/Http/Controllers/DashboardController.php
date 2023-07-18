@@ -22,4 +22,12 @@ class DashboardController extends Controller
 
     return view('content.dashboard.dashboard-ecommerce', ['pageConfigs' => $pageConfigs]);
   }
+
+  // Dashboard
+  public function dashboard()
+  {
+    $pageConfigs = ['pageHeader' => false];
+
+    return view('dashboard.dashboard-member', ['pageConfigs' => $pageConfigs]);
+  }
 }
