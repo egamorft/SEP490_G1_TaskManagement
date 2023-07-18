@@ -206,8 +206,6 @@
                         <a class="confirm-delete-task js-confirm-delete-task">Xóa</a>
                     </div>
                 </div>
-<<<<<<< HEAD
-=======
 
                 <fieldset class="mb-75">
                     <label class="form-label" for="label-textarea">Add Comment</label>
@@ -215,7 +213,6 @@
                 </fieldset>
                 <button class="btn btn-sm btn-primary waves-effect waves-float waves-light" type="submit">Post
                     comment</button>
->>>>>>> b2260ace037e435a57df3140dd76e2765ea6be3b
             </form>
         </div>
     </div>
@@ -226,4 +223,7 @@
 </script>
 
 <script src="{{ URL::asset('js/scripts/pages/app-kanban-detail.js') }}"></script>
-<script src="{{ URL::asset('js/core/app.js') }}"></script>
+<script src="{{ URL::asset('js/app.js') }}"></script>
+<script>
+    feather.replace()
+</script>
