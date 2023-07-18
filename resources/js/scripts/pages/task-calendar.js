@@ -79,15 +79,11 @@ document.addEventListener("DOMContentLoaded", function () {
           start: projectStartDate,
           end: projectEndDate
         },
-        validRange: {
-          start: projectStartDate,
-          end: projectEndDate
-        },
         events: fetchEvents,
         editable: true,
         weekends: true,
         dragScroll: true,
-        dayMaxEvents: 2,
+        dayMaxEvents: 4,
         eventResizableFromStart: true,
         customButtons: {
             sidebarToggle: {
@@ -116,6 +112,12 @@ document.addEventListener("DOMContentLoaded", function () {
         },
         eventClick: function (info) {
             eventClick(info);
+        },
+        eventDrop: function(e) {
+          var id = e.event.id;
+        //   var start_date = moment(start).format("YYYY-MM-DD");
+        //   var end_date = moment(end).format("YYYY-MM-DD");
+          console.log(e);
         },
     });
 
