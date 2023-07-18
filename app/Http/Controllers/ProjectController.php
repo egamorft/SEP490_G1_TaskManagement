@@ -952,8 +952,8 @@ class ProjectController extends Controller
                 "id" => $task->id,
                 "url" => 'aaa',
                 "title" => $task->title,
-                "start" => $task->created_at,
-                "end" => $task->due_date,
+                "start" => $task->start_date,
+                "end" => Carbon::parse($task->due_date)->endOfDay(),
                 "extendedProps" => [
                     "calendar" => $task_status
                 ]
