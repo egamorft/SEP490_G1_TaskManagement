@@ -200,7 +200,7 @@
                                                         <div class="d-flex justify-content-between">
                                                             <h6 class="mb-0">Project Members</h6>
                                                             @can('check-permission', 'control-teamsize')
-                                                                @if ($checkLimitation < 4)
+                                                                @if ($checkLimitation < 5)
                                                                     <a data-bs-toggle="modal"
                                                                         data-bs-target="#inviteToProject">
                                                                         <div class="d-flex align-items-center">

@@ -12,49 +12,115 @@
     </div>
 </div>
 
-<form method="POST" id="formEditTask"
-    action="{{ route('edit.task.modal', ['slug' => $slug, 'board_id' => $board_id, 'task_id' => $taskDetails->id]) }}">
-    <div class="mb-2 kanban-detail-progress">
-        <div class="mb-1 flex-box">
-            <div class="kanban-detail-user">
-                <div class="user-title custom-sub-title">Assign to</div>
-                @if ($taskDetails->assignTo)
-                    <img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
-                        src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" />
-                @endif
-                <button href="#" class="user-add-assignee">
-                    <i data-feather="plus"></i>
-                </button>
+<div class="mb-2 kanban-detail-progress">
+    <div class="mb-1 flex-box">
+        <div class="kanban-detail-user">
+            <div class="user-title custom-sub-title">Assign to</div>
+            @if ($taskDetails->assignTo)
+                <img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
+                    src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" />
+            @endif
+
+            <div class="assignTask">
+                <ul class="dropdown-menu-assignee hidden" style="width: 250px;">
+                    <li>
+                        <div class="select-header border-bottom">Assign To</div>
+                    </li>
+                    @foreach ($memberAccount as $acc)
+                        <li>
+                            <a class="add-assignee dropdown-item text-primary" id="0_assignee">
+                                <div class="avatar float-start bg-white rounded me-1">
+                                    <div class="avatar bg-light-danger">
+                                        <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
+                                            width="33" height="33" />
+                                    </div>
+                                </div>
+                                <div class="more-info">
+                                    <small>{{ $acc->email }}</small>
+                                    <h6 class="mb-0">{{ $acc->fullname }}</h6>
+                                </div>
+                            </a>
+                        </li>
+                    @endforeach
+                    <li><a class="remove-assignee dropdown-item border-top" data-bs-toggle="modal"
+                            data-bs-target="#removeAssignee0" id="0_assignee">
+                            <div class="list-item d-flex align-items-start">
+                                <div class="me-1">
+                                    <div class="avatar bg-light-danger">
+                                        <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="more-info">
+                                    <h6 class=" text-danger" style="margin-top: 7px;">Remove Assignee</h6>
+                                </div>
+                            </div>
+                        </a></li>
+                </ul>
             </div>
 
-            <div class="kanban-detail-date">
-                <div class="date-title custom-sub-title">Task duration</div>
-                <div class="flex-box">
-                    <input autocomplete="off" name="duration" type="text" id="fp-range"
-                        class="form-control flatpickr-range" placeholder="dd/MM/yyyy to dd/MM/yyyy" />
-                </div>
+        </div>
+
+        <div class="kanban-detail-user">
+            <div class="user-title custom-sub-title">Reviewed by</div>
+            @if ($taskDetails->createdBy)
+                <img title="{{ $taskDetails->createdBy->fullname ?? '' }}" class="user-add-assignee"
+                    src="{{ asset('images/avatars/' . $taskDetails->createdBy->avatar ?? '') }}" alt="IMG" />
+            @endif
+
+            <div class="assignTask">
+                <ul class="dropdown-menu-assignee hidden" style="width: 250px;">
+                    <li>
+                        <div class="select-header border-bottom">Assign To</div>
+                    </li>
+                    @foreach ($memberAccount as $acc)
+                        <li>
+                            <a class="add-assignee dropdown-item text-primary" id="0_assignee">
+                                <div class="avatar float-start bg-white rounded me-1">
+                                    <div class="avatar bg-light-danger">
+                                        <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
+                                            width="33" height="33" />
+                                    </div>
+                                </div>
+                                <div class="more-info">
+                                    <small>{{ $acc->email }}</small>
+                                    <h6 class="mb-0">{{ $acc->fullname }}</h6>
+                                </div>
+                            </a>
+                        </li>
+                    @endforeach
+                    <li><a class="remove-assignee dropdown-item border-top" data-bs-toggle="modal"
+                            data-bs-target="#removeAssignee0" id="0_assignee">
+                            <div class="list-item d-flex align-items-start">
+                                <div class="me-1">
+                                    <div class="avatar bg-light-danger">
+                                        <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="more-info">
+                                    <h6 class=" text-danger" style="margin-top: 7px;">Remove Assignee</h6>
+                                </div>
+                            </div>
+                        </a></li>
+                </ul>
             </div>
 
-            <div class="kanban-detail-prevtask">
-                <div class="date-title custom-sub-title">Task To Finish</div>
-                <div class="flex-box">
-                    <div class="prevtask-item">Task 1, Task 2, ...</div>
-                    <select class="select2 form-select hidden" id="modalAddPreviousTask" name="previousTask" multiple>
-                        <option value="task_1">Task 1</option>
-                        <option value="task_2">Task 2</option>
-                        <option value="task_3">Task 3</option>
-                        <option value="task_4">Task 4</option>
-                        <option value="task_5">Task 5</option>
-                        <option value="task_6">Task 6</option>
-                        <option value="no_task_required" selected>No Task Before</option>
-                        <option value="" disabled>No data available</option>
-                    </select>
-                    <div class="custom-title-icon" data-feather="edit-2"></div>
-                </div>
+        </div>
+
+        <div class="kanban-detail-date">
+            <div class="date-title custom-sub-title">Task duration</div>
+            <div class="flex-box">
+                <input name="duration" type="text" id="fp-range"
+                    class="form-control flatpickr-range-task flatpickr-input active" placeholder="YYYY-MM-DD to YYYY-MM-DD"
+                    value="{{ $taskDetails->start_date }} to {{ $taskDetails->due_date }}">
             </div>
         </div>
     </div>
+</div>
 
+<form method="POST" id="formEditTask"
+    action="{{ route('edit.task.modal', ['slug' => $slug, 'board_id' => $board_id, 'task_id' => $taskDetails->id]) }}">
     <div class="mb-2 kanban-detail-description">
         <div class="mb-1">
             <div class="description-header flex-box">
@@ -140,10 +206,24 @@
                         <a class="confirm-delete-task js-confirm-delete-task">Xóa</a>
                     </div>
                 </div>
+<<<<<<< HEAD
+=======
+
+                <fieldset class="mb-75">
+                    <label class="form-label" for="label-textarea">Add Comment</label>
+                    <textarea class="form-control" id="label-textarea" rows="3" placeholder="Add Comment"></textarea>
+                </fieldset>
+                <button class="btn btn-sm btn-primary waves-effect waves-float waves-light" type="submit">Post
+                    comment</button>
+>>>>>>> b2260ace037e435a57df3140dd76e2765ea6be3b
             </form>
         </div>
     </div>
 </div>
+<script>
+    var projectStartDate = new Date("{{ date('Y-m-d', strtotime($project->start_date)) }}").toISOString().substr(0, 10);
+    var projectEndDate = new Date("{{ date('Y-m-d', strtotime($project->end_date)) }}").toISOString().substr(0, 10);
+</script>
 
 <script src="{{ URL::asset('js/scripts/pages/app-kanban-detail.js') }}"></script>
 <script src="{{ URL::asset('js/core/app.js') }}"></script>
