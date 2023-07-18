@@ -7,14 +7,6 @@
     @include('task.kanban')
 @endsection
 
-<script>
-    var kanbanBoard = @json($kanbanData);
-    var taskRoutes = "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id , 'task_id' => ':taskId']) }}";
-</script>
-
-<script>
-</script>
-
 @section('vendor-style')
     <!-- Vendor css files -->
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/jkanban/jkanban.min.css')) }}">
@@ -34,6 +26,7 @@
 @endsection
 
 @section('vendor-script')
+
     <!-- Vendor js files -->
     <script src="{{ asset(mix('vendors/js/jkanban/jkanban.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
@@ -44,6 +37,11 @@
     <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
 @endsection
 @section('page-script')
+    <script>
+        var kanbanBoard = @json($kanbanData);
+        var taskRoutes = "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id , 'task_id' => ':taskId']) }}";
+    </script>
+
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/pages/app-kanban.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/project/board.js')) }}"></script>

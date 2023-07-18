@@ -3379,7 +3379,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                         ((s = r(
                             [
                                 n,
-                                a.rtl ? "task_right" : "task_left",
+                                a.rtl ? "task_right" : "task_right",
                                 "task_start_date",
                             ].join(" ")
                         )).setAttribute("data-bind-property", "start_date"),
@@ -3389,7 +3389,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                             ((s = r(
                                 [
                                     n,
-                                    a.rtl ? "task_left" : "task_right",
+                                    a.rtl ? "task_right" : "task_right",
                                     "task_end_date",
                                 ].join(" ")
                             )).setAttribute("data-bind-property", "end_date"),
@@ -26683,14 +26683,14 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                         var i = null;
                         return (
                             e && n
-                                ? (i = t.config.links.start_to_start)
+                                ? (i = t.config.links.finish_to_start)
                                 : !e && n
                                 ? (i = t.config.links.finish_to_start)
                                 : e || n
                                 ? e &&
                                   !n &&
-                                  (i = t.config.links.start_to_finish)
-                                : (i = t.config.links.finish_to_finish),
+                                  (i = t.config.links.finish_to_start)
+                                : (i = t.config.links.finish_to_start),
                             i
                         );
                     }),
@@ -55283,6 +55283,7 @@ $(window).on("load", function () {
 			icon.className = icon.className.replace("fa-expand", "fa-compress");
 		}
 		$('.gantt_control').addClass('full-screen');
+		$('#gantt_here').css('height', 'calc(100vh - 70px)');
 	});
 	gantt.attachEvent("onCollapse", function () {
 		var icon = gantt.toggleIcon;
@@ -55290,6 +55291,7 @@ $(window).on("load", function () {
 			icon.className = icon.className.replace("fa-compress", "fa-expand");
 		}
 		$('.gantt_control').removeClass('full-screen');
+		$('#gantt_here').css('height', 'calc(100vh - 282px)');
 	});
 
 
@@ -55353,6 +55355,113 @@ $(window).on("load", function () {
 		return "";
 	};
 
+	gantt.config.columns = [
+		{name: "add", width: 44, resize: true},
+		{name: "text", tree: false, width: 150, resize: true},
+		{name: "start_date", align: "center", width: 120, resize: true},
+		{name: "duration", align: "center", width: 70, resize: true},
+		{
+			name: "status", label: "Status", align: "center", template: function (obj) {
+				if (obj.status == 0) {
+					return "Todo"
+				}
+				if (obj.status == 1) {
+					return "Doing"
+				}
+				if (obj.status == 2) {
+					return "Reviewing"
+				}
+				if (obj.status == 3) {
+					return "Done"
+				}
+				if (obj.status == -1) {
+					return "Late"
+				}
+				return "Overdue"
+			}
+		},
+	];
+
+	gantt.templates.task_class = function (start, end, task) {
+		switch (task.status) {
+			case "-1":
+				return "bg-secondary";
+				break;
+			case "0":
+				return "bg-info";
+				break;
+			case "1":
+				return "bg-primary";
+				break;
+			case "2":
+				return "bg-warning";
+				break;
+			case "3":
+				return "bg-success";
+				break;
+			default:
+				return "bg-danger";
+		}
+	};
+
 	gantt.init("gantt_here");
 	gantt.parse(gantt_data);
+
+
+	// ------------------------- Binding Save Envent ---------------------------------------------------------------
+	$('.save-btn').on('click', function() {
+
+		var tasks = gantt.$data.tasksStore.pull;
+		var links = gantt.$data.linksStore.pull;
+		var csrfToken = $('input[name="csrf-token"]').val();
+
+		console.log(tasks);
+		console.log(links);
+
+		$.ajax({
+			url: 'gantt/save-gantt',
+			method: 'POST',
+			headers: {
+				'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
+			},
+			data: {
+				tasks: tasks,
+				links: links,
+			},
+			success: function (response) {
+				var msgSuccess = response.message;
+				// Handle success response
+				if (response.success) {
+					setTimeout(function () {
+						toastr['success'](msgSuccess, 'Success!', {
+							showMethod: 'slideDown',
+							hideMethod: 'slideUp',
+							progressBar: true,
+							closeButton: true,
+							tapToDismiss: false,
+							rtl: isRtl
+						});
+					}, 2000);
+				}
+			},
+			error: function (response) {
+				var errMsg = "Sorry, something went wrong here. Load the page and try again!!";
+				if (response.message) {
+					errMsg = response.message;
+				}
+				// Handle error response
+				setTimeout(function () {
+					toastr['error'](errMsg, 'Error!', {
+						showMethod: 'slideDown',
+						hideMethod: 'slideUp',
+						progressBar: true,
+						closeButton: true,
+						tapToDismiss: false,
+						rtl: isRtl
+					});
+				}, 2000);
+			}
+		});
+	});
+
 });
