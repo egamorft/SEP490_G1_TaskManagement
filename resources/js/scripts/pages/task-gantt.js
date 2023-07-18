@@ -55338,6 +55338,13 @@ $(window).on("load", function () {
 	gantt.config.order_branch_free = true;
 
 
+	// -------------------------- Gantt Setup Form Edit -------------------------------------------------------------------------------------
+	gantt.config.lightbox.sections = [
+		{name: "description", height: 38, map_to: "text", type: "textarea", focus: true},
+		{name: "time", type: "time", map_to: "auto", time_format: ["%d", "%m", "%Y", "%H:%i"]}
+	];
+
+
 	// -------------------- Start Gantt -----------------------------------------------------------------------------------------------------
 	gantt.config.date_format = "%d-%m-%Y";
 	gantt.config.start_date = start_gantt;
