@@ -50,6 +50,20 @@
                         <span id="error-modal-duedate" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12">
+                        <label class="form-label" for="select2-limited">Task To Finish</label>
+                        <select class="select2 form-select" id="modalAddPreviousTask" name="previousTask" multiple>
+                            <option value="task_1">Task 1</option>
+                            <option value="task_2">Task 2</option>
+                            <option value="task_3">Task 3</option>
+                            <option value="task_4">Task 4</option>
+                            <option value="task_5">Task 5</option>
+                            <option value="task_6">Task 6</option>
+                            <option value="no_task_required" selected>No Task Before</option>
+                            <option value="" disabled>No data available</option>
+                        </select>
+                        <span id="error-modalTaskAssignee" style="color: red; display: none"></span>
+                    </div>
+                    <div class="col-12">
                         <label class="form-label" for="modalTaskDesc">Description</label>
                         <div id="task-desc" class="border-bottom-0" data-placeholder="Write Your Description"></div>
                         <div class="d-flex justify-content-end desc-toolbar border-top-0">
