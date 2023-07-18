@@ -31,7 +31,7 @@
 			{id: 6, text: "Task 5", "readonly": true, start_date: "20-07-2023", duration: "2", parent: "1", progress: "1", status: "3"},
 			{id: 7, text: "Task 6", start_date: "21-07-2023", duration: "2", parent: "1", progress: "1", status: "4"},
 			{id: 8, text: "Task 7", "readonly": true, start_date: "22-07-2023", duration: "1", parent: "1", progress: "0", status: "3"},
-			{id: 9, text: "Task 8", start_date: "23-07-2023", duration: "1", parent: "1", progress: "0", status: "4"},
+			{id: 119, text: "Task 8", start_date: "23-07-2023", duration: "1", parent: "1", progress: "0", status: "4"},
 		],
 		links: [
 			{id: "1", source: "3", target: "4", type: "0"},

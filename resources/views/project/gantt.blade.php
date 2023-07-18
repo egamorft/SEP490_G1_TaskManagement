@@ -35,4 +35,5 @@
 @section('page-script')
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/pages/task-gantt.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/task-detail.js')) }}"></script>
 @endsection
