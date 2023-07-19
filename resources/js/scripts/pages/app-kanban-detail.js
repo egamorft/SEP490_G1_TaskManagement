@@ -156,6 +156,7 @@ $(document).ready(function () {
 	});
 	
 	$(".add-assignee").on("click", function() {
+		var assignTo = $(".user-add-assignee").attr("data-id");
 		var input = this;
 		var dataImage = $(input).find("img");
 		var imageSrc = dataImage.attr("src");
@@ -166,12 +167,19 @@ $(document).ready(function () {
 				<img class="user-add-assignee" src="${imageSrc}" alt="IMG" />
 			`);
 		} else {
-		$(this).closest(".kanban-detail-user").find(".user-add-assignee").attr("src", imageSrc);
+			$(this).closest(".kanban-detail-user").find(".user-add-assignee").attr("src", imageSrc);
 		}
+
+		if (assignTo !== undefined) {
+			$(this).closest(".dropdown-menu-assignee").find(`li[data-id=${assignTo}]`).removeClass("hidden");
+		}
+		$(this).addClass("hidden");
+		
 		$(this).closest(".dropdown-menu-assignee").addClass("hidden");
 	});
 
 	$(".add-reviewer").on("click", function() {
+		var reviewBy = $(".user-add-reviewer").attr("data-id");
 		var input = this;
 		var dataImage = $(input).find("img");
 		var imageSrc = dataImage.attr("src");
@@ -184,6 +192,12 @@ $(document).ready(function () {
 		} else {
 			$(this).closest(".kanban-detail-user").find(".user-add-reviewer").attr("src", imageSrc);
 		}
+
+		if (reviewBy !== undefined) {
+			$(this).closest(".dropdown-menu-reviewer").find(`li[data-id=${reviewBy}]`).removeClass("hidden");
+		}
+		
+		$(this).addClass("hidden");
 		$(this).closest(".dropdown-menu-reviewer").addClass("hidden");
 	});
 });

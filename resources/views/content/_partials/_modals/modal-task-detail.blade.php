@@ -23,7 +23,7 @@
                         <div class="select-header border-bottom">Assign To</div>
                     </li>
                     @foreach ($memberAccount as $acc)
-                        <li>
+                        <li data-id='{{ $acc->id }}' class='{{ $acc->id == $taskDetails->assign_to ? "hidden" : "" }}'>
                             <a class="add-assignee dropdown-item text-primary" id="0_assignee">
                                 <div class="avatar float-start bg-white rounded me-1">
                                     <div class="avatar bg-light-danger">
@@ -57,7 +57,7 @@
 
 			@if ($taskDetails->assignTo)
 				<img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
-					src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" />
+					src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" data-id="{{ $taskDetails->assign_to }}" />
 			@else
 				<i data-feather="plus" class="user-add-assignee user-icon-plus"></i>
 			@endif
@@ -73,7 +73,7 @@
                         <div class="select-header border-bottom">Reviewed By</div>
                     </li>
                     @foreach ($memberAccount as $acc)
-                        <li>
+                        <li data-id='{{ $acc->id }}' class='{{ $acc->id == $taskDetails->created_by ? "hidden" : "" }}'>
                             <a class="add-reviewer dropdown-item text-primary" id="reviewer">
                                 <div class="avatar float-start bg-white rounded me-1">
                                     <div class="avatar bg-light-danger">
@@ -88,6 +88,22 @@
                             </a>
                         </li>
                     @endforeach
+					@if ($taskDetails->createdBy)
+						<li data-id='{{ $taskDetails->createdBy }}' class='hidden'>
+                            <a class="add-reviewer dropdown-item text-primary" id="reviewer">
+                                <div class="avatar float-start bg-white rounded me-1">
+                                    <div class="avatar bg-light-danger">
+                                        <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
+                                            width="33" height="33" />
+                                    </div>
+                                </div>
+                                <div class="more-info">
+                                    <small>Selected_user@gmail.com</small>
+                                    <h6 class="mb-0">Selected User</h6>
+                                </div>
+                            </a>
+                        </li>
+					@endif
                     <li><a class="remove-reviewer dropdown-item border-top" data-bs-toggle="modal"
                             data-bs-target="#removeReviewer" id="reviewer">
                             <div class="list-item d-flex align-items-start">
