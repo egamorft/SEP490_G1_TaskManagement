@@ -95,12 +95,9 @@ $(document).ready(function () {
 
 			feather.replace()
 		}
-
-		// submit_form(canvas, function() {
-		//     alert("Submit ok")
-		// })
 	});
 
+	//Xử lý comment input khi enter
 	$("#comment-input").keypress(function (e) {
 		var canvas = "#formUploadComment";
 		if (e.which == 13) {
@@ -149,9 +146,18 @@ $(document).ready(function () {
 		}
 	});
 
-	function showDialog(canvas_user, canvas_dropdown) {
-		$(canvas_user).on("click", function () {
-			var dropdown = $(canvas_dropdown);
+	function onClickAddEvent() {
+		$(".user-add-assignee").on("click", function () {
+			var dropdown = $(".dropdown-menu-assignee");
+			if (dropdown.hasClass("hidden")) {
+				dropdown.removeClass("hidden");
+			} else {
+				dropdown.addClass("hidden");
+			}
+		});
+	
+		$(".user-add-reviewer").on("click", function () {
+			var dropdown = $(".dropdown-menu-reviewer");
 			if (dropdown.hasClass("hidden")) {
 				dropdown.removeClass("hidden");
 			} else {
@@ -167,6 +173,32 @@ $(document).ready(function () {
 		} else {
 			prevTask.addClass("hidden");
 		}
+	});
+	
+	$(".add-assignee").on("click", function() {
+		var input = this;
+		var dataImage = $(input).find("img");
+		var imageSrc = dataImage.attr("src");
+
+		$(this).closest(".kanban-detail-user").find(".user-add-assignee").remove();
+		$(this).closest(".kanban-detail-user").append(`
+			<img class="user-add-assignee" src="${imageSrc}" alt="IMG" />
+		`);
+		$(this).closest(".dropdown-menu-assignee").hide();
+		// onClickAddEvent();
+	});
+
+	$(".add-reviewer").on("click", function() {
+		var input = this;
+		var dataImage = $(input).find("img");
+		var imageSrc = dataImage.attr("src");
+
+		$(this).closest(".kanban-detail-user").find(".user-add-reviewer").remove();
+		$(this).closest(".kanban-detail-user").append(`
+			<img class="user-add-reviewer" src="${imageSrc}" alt="IMG" />
+		`);
+		$(this).closest(".dropdown-menu-reviewer").hide();
+		// onClickAddEvent();
 	});
 });
 

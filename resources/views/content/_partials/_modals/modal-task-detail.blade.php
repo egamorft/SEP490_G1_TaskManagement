@@ -17,13 +17,6 @@
         <div class="kanban-detail-user">
             <div class="user-title custom-sub-title">Assign to</div>
 
-            @if ($taskDetails->assignTo)
-                <img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
-                    src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" />
-            @else
-                <i data-feather="plus" class="user-add-assignee user-icon-plus"></i>
-            @endif
-
             <div class="assignTask">
                 <ul class="dropdown-menu-assignee hidden" style="width: 250px;">
                     <li>
@@ -62,17 +55,17 @@
                 </ul>
             </div>
 
+			@if ($taskDetails->assignTo)
+				<img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
+					src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" />
+			@else
+				<i data-feather="plus" class="user-add-assignee user-icon-plus"></i>
+			@endif
+
         </div>
 
         <div class="kanban-detail-user">
             <div class="user-title custom-sub-title">Reviewed by</div>
-
-            @if ($taskDetails->createdBy)
-                <img title="{{ $taskDetails->createdBy->fullname ?? '' }}" class="user-add-reviewer"
-                    src="{{ asset('images/avatars/' . $taskDetails->createdBy->avatar ?? '') }}" alt="IMG" />
-            @else
-                <i data-feather="plus" class="user-add-reviewer user-icon-plus"></i>
-            @endif
 
             <div class="assignTask">
                 <ul class="dropdown-menu-reviewer hidden" style="width: 250px;">
@@ -111,6 +104,13 @@
                         </a></li>
                 </ul>
             </div>
+
+			@if ($taskDetails->createdBy)
+				<img title="{{ $taskDetails->createdBy->fullname ?? '' }}" class="user-add-reviewer"
+					src="{{ asset('images/avatars/' . $taskDetails->createdBy->avatar ?? '') }}" alt="IMG" />
+			@else
+				<i data-feather="plus" class="user-add-reviewer user-icon-plus"></i>
+			@endif
 
         </div>
 
