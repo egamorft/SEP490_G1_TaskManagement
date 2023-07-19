@@ -16,9 +16,12 @@
     <div class="mb-1 flex-box">
         <div class="kanban-detail-user">
             <div class="user-title custom-sub-title">Assign to</div>
+
             @if ($taskDetails->assignTo)
                 <img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
                     src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" />
+            @else
+                <i data-feather="plus" class="user-add-assignee"></i>
             @endif
 
             <div class="assignTask">
@@ -63,19 +66,22 @@
 
         <div class="kanban-detail-user">
             <div class="user-title custom-sub-title">Reviewed by</div>
+
             @if ($taskDetails->createdBy)
-                <img title="{{ $taskDetails->createdBy->fullname ?? '' }}" class="user-add-assignee"
+                <img title="{{ $taskDetails->createdBy->fullname ?? '' }}" class="user-add-reviewer"
                     src="{{ asset('images/avatars/' . $taskDetails->createdBy->avatar ?? '') }}" alt="IMG" />
+            @else
+                <i data-feather="plus" class="user-add-reviewer"></i>
             @endif
 
             <div class="assignTask">
-                <ul class="dropdown-menu-assignee hidden" style="width: 250px;">
+                <ul class="dropdown-menu-reviewer hidden" style="width: 250px;">
                     <li>
-                        <div class="select-header border-bottom">Assign To</div>
+                        <div class="select-header border-bottom">Reviewed By</div>
                     </li>
                     @foreach ($memberAccount as $acc)
                         <li>
-                            <a class="add-assignee dropdown-item text-primary" id="0_assignee">
+                            <a class="add-reviewer dropdown-item text-primary" id="reviewer">
                                 <div class="avatar float-start bg-white rounded me-1">
                                     <div class="avatar bg-light-danger">
                                         <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
@@ -89,8 +95,8 @@
                             </a>
                         </li>
                     @endforeach
-                    <li><a class="remove-assignee dropdown-item border-top" data-bs-toggle="modal"
-                            data-bs-target="#removeAssignee0" id="0_assignee">
+                    <li><a class="remove-reviewer dropdown-item border-top" data-bs-toggle="modal"
+                            data-bs-target="#removeReviewer" id="reviewer">
                             <div class="list-item d-flex align-items-start">
                                 <div class="me-1">
                                     <div class="avatar bg-light-danger">
@@ -99,7 +105,7 @@
                                     </div>
                                 </div>
                                 <div class="more-info">
-                                    <h6 class=" text-danger" style="margin-top: 7px;">Remove Assignee</h6>
+                                    <h6 class=" text-danger" style="margin-top: 7px;">Remove Reviewer</h6>
                                 </div>
                             </div>
                         </a></li>
@@ -228,7 +234,7 @@
 </script>
 
 <script src="{{ URL::asset('js/scripts/pages/app-kanban-detail.js') }}"></script>
-<script src="{{ URL::asset('js/app.js') }}"></script>
+<script src="{{ URL::asset('js/core/app.js') }}"></script>
 <script>
     feather.replace()
 </script>

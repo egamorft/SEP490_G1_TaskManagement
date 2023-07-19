@@ -21,7 +21,8 @@
         .kanban-detail-user {
             margin-right: 20px;
 
-            .user-add-assignee {
+            .user-add-assignee,
+            .user-add-reviewer {
                 width: 30px;
                 height: 30px;
                 border-radius: 100%;
@@ -240,7 +241,8 @@
     position: relative;
 }
 
-.dropdown-menu-assignee {
+.dropdown-menu-assignee,
+.dropdown-menu-reviewer {
     position: absolute;
     top: 40px;
     list-style-type: none;

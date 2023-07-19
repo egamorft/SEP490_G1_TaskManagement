@@ -134,6 +134,26 @@ $(document).ready(function () {
             dropdown.addClass("hidden");
         }
     });
+
+	$(".user-add-reviewer").on("click", function () {
+        var dropdown = $(".dropdown-menu-reviewer");
+        if (dropdown.hasClass("hidden")) {
+            dropdown.removeClass("hidden");
+        } else {
+            dropdown.addClass("hidden");
+        }
+    });
+
+	function showDialog(canvas_user, canvas_dropdown) {
+		$(canvas_user).on("click", function () {
+			var dropdown = $(canvas_dropdown);
+			if (dropdown.hasClass("hidden")) {
+				dropdown.removeClass("hidden");
+			} else {
+				dropdown.addClass("hidden");
+			}
+		});
+	}
 });
 
 (function (window, document, $) {
