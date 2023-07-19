@@ -180,10 +180,14 @@ $(document).ready(function () {
 		var dataImage = $(input).find("img");
 		var imageSrc = dataImage.attr("src");
 
-		$(this).closest(".kanban-detail-user").find(".user-add-assignee").remove();
-		$(this).closest(".kanban-detail-user").append(`
-			<img class="user-add-assignee" src="${imageSrc}" alt="IMG" />
-		`);
+		if ($(this).closest(".kanban-detail-user").find(".user-add-assignee").hasClass("user-icon-plus")) {
+			$(this).closest(".kanban-detail-user").find(".user-add-assignee").remove();
+			$(this).closest(".kanban-detail-user").append(`
+				<img class="user-add-assignee" src="${imageSrc}" alt="IMG" />
+			`);
+		} else {
+		$(this).closest(".kanban-detail-user").find(".user-add-assignee").attr("src", imageSrc);
+		}
 		$(this).closest(".dropdown-menu-assignee").hide();
 		// onClickAddEvent();
 	});
@@ -193,10 +197,14 @@ $(document).ready(function () {
 		var dataImage = $(input).find("img");
 		var imageSrc = dataImage.attr("src");
 
-		$(this).closest(".kanban-detail-user").find(".user-add-reviewer").remove();
-		$(this).closest(".kanban-detail-user").append(`
-			<img class="user-add-reviewer" src="${imageSrc}" alt="IMG" />
-		`);
+		if ($(this).closest(".kanban-detail-user").find(".user-add-assignee").hasClass("user-icon-plus")) {
+			$(this).closest(".kanban-detail-user").find(".user-add-assignee").remove();
+			$(this).closest(".kanban-detail-user").append(`
+				<img class="user-add-reviewer" src="${imageSrc}" alt="IMG" />
+			`);
+		} else {
+			$(this).closest(".kanban-detail-user").find(".user-add-reviewer").attr("src", imageSrc);
+		}
 		$(this).closest(".dropdown-menu-reviewer").hide();
 		// onClickAddEvent();
 	});
