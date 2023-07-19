@@ -114,54 +114,17 @@
 
         <div class="row match-height">
             <div class="col-lg-4 col-12">
-                <div class="row match-height">
-                    <!-- Bar Chart - Orders -->
-                    <div class="col-lg-6 col-md-3 col-6">
-                        <div class="card">
-                            <div class="card-body pb-50">
-                                <h6>Orders</h6>
-                                <h2 class="fw-bolder mb-1">2,76k</h2>
-                                <div id="statistics-order-chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/ Bar Chart - Orders -->
-
-                    <!-- Line Chart - Profit -->
-                    <div class="col-lg-6 col-md-3 col-6">
-                        <div class="card card-tiny-line-stats">
-                            <div class="card-body pb-50">
-                                <h6>Profit</h6>
-                                <h2 class="fw-bolder mb-1">6,24k</h2>
-                                <div id="statistics-profit-chart"></div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/ Line Chart - Profit -->
-
-                    <!-- Earnings Card -->
-                    <div class="col-lg-12 col-md-6 col-12">
-                        <div class="card earnings-card">
-                            <div class="card-body">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <h4 class="card-title mb-1">Earnings</h4>
-                                        <div class="font-small-2">This Month</div>
-                                        <h5 class="mb-1">$4055.56</h5>
-                                        <p class="card-text text-muted font-small-2">
-                                            <span class="fw-bolder">68.2%</span><span> more earnings than last
-                                                month.</span>
-                                        </p>
-                                    </div>
-                                    <div class="col-6">
-                                        <div id="earnings-chart"></div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    <!--/ Earnings Card -->
+                <!-- Donut Chart Starts-->
+				<div class="card">
+					<div class="card-header flex-column align-items-start">
+						<h4 class="card-title mb-75">Task Overview</h4>
+						<span class="card-subtitle text-muted">Task breakdown by statuses </span>
+					</div>
+					<div class="card-body">
+						<div id="donut-chart"></div>
+					</div>
                 </div>
+                <!-- Donut Chart Ends-->
             </div>
 
             <!-- Revenue Report Card -->
@@ -183,9 +146,12 @@
     <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/forms/validation/jquery.validate.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/charts/apexcharts.min.js')) }}"></script>
+
 @endsection
 @section('page-script')
     {{-- Page js files --}}
+    <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/app-calendar-events.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/dashboard-calendar.js')) }}"></script>
 @endsection
