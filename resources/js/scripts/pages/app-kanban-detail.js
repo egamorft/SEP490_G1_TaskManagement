@@ -146,26 +146,6 @@ $(document).ready(function () {
 		}
 	});
 
-	function onClickAddEvent() {
-		$(".user-add-assignee").on("click", function () {
-			var dropdown = $(".dropdown-menu-assignee");
-			if (dropdown.hasClass("hidden")) {
-				dropdown.removeClass("hidden");
-			} else {
-				dropdown.addClass("hidden");
-			}
-		});
-	
-		$(".user-add-reviewer").on("click", function () {
-			var dropdown = $(".dropdown-menu-reviewer");
-			if (dropdown.hasClass("hidden")) {
-				dropdown.removeClass("hidden");
-			} else {
-				dropdown.addClass("hidden");
-			}
-		});
-	}
-
 	$(".edit-prevtask-wrapper").on("click", function () {
 		var prevTask = $("#addPrevTask");
 		if (prevTask.hasClass("hidden")) {
@@ -188,8 +168,7 @@ $(document).ready(function () {
 		} else {
 		$(this).closest(".kanban-detail-user").find(".user-add-assignee").attr("src", imageSrc);
 		}
-		$(this).closest(".dropdown-menu-assignee").hide();
-		// onClickAddEvent();
+		$(this).closest(".dropdown-menu-assignee").addClass("hidden");
 	});
 
 	$(".add-reviewer").on("click", function() {
@@ -205,8 +184,7 @@ $(document).ready(function () {
 		} else {
 			$(this).closest(".kanban-detail-user").find(".user-add-reviewer").attr("src", imageSrc);
 		}
-		$(this).closest(".dropdown-menu-reviewer").hide();
-		// onClickAddEvent();
+		$(this).closest(".dropdown-menu-reviewer").addClass("hidden");
 	});
 });
 
