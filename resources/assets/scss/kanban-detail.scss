@@ -20,13 +20,19 @@
 
         .kanban-detail-user {
             margin-right: 20px;
+            min-width: 7em;
+            max-width: 8em;
 
             .user-add-assignee,
             .user-add-reviewer {
-                width: 30px;
-                height: 30px;
+                width: 28px;
+                height: 28px;
                 border-radius: 100%;
                 border: none;
+            }
+
+            .user-icon-plus {
+                background-color: #eee;
             }
         }
         
@@ -35,6 +41,7 @@
         }
 
         .kanban-detail-date {
+            margin-left: auto;
             margin-right: 10px;
 
             .checkbox-finish-task {
@@ -49,7 +56,19 @@
         }
 
         .kanban-detail-prevtask {
-            margin-left: 10px;
+            min-width: 12em;
+            max-width: 13em;
+
+            .edit-prevtask-wrapper {
+                border: 1px solid #aaa;
+                padding: 2px 4px;
+                border-radius: 3px;
+
+                .icon-edit-prevtask {
+                    width: 14px;
+                    height: 14px;
+                }
+            }
         }
     }
 

@@ -21,7 +21,7 @@
                 <img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
                     src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" />
             @else
-                <i data-feather="plus" class="user-add-assignee"></i>
+                <i data-feather="plus" class="user-add-assignee user-icon-plus"></i>
             @endif
 
             <div class="assignTask">
@@ -71,7 +71,7 @@
                 <img title="{{ $taskDetails->createdBy->fullname ?? '' }}" class="user-add-reviewer"
                     src="{{ asset('images/avatars/' . $taskDetails->createdBy->avatar ?? '') }}" alt="IMG" />
             @else
-                <i data-feather="plus" class="user-add-reviewer"></i>
+                <i data-feather="plus" class="user-add-reviewer user-icon-plus"></i>
             @endif
 
             <div class="assignTask">
@@ -112,6 +112,26 @@
                 </ul>
             </div>
 
+        </div>
+
+        <div class="kanban-detail-prevtask">
+            <div class="date-title custom-sub-title">Task To Finish</div>
+            <div class="flex-box">
+                <div class="prevtask-item">Task 1, Task 2, ...</div>
+                <select class="select2 form-select hidden" id="modalAddPreviousTask" name="previousTask" multiple>
+                    <option value="task_1">Task 1</option>
+                    <option value="task_2">Task 2</option>
+                    <option value="task_3">Task 3</option>
+                    <option value="task_4">Task 4</option>
+                    <option value="task_5">Task 5</option>
+                    <option value="task_6">Task 6</option>
+                    <option value="no_task_required" selected>No Task Before</option>
+                    <option value="" disabled>No data available</option>
+                </select>
+                <div class="edit-prevtask-wrapper">
+                    <i class="custom-title-icon icon-edit-prevtask" data-feather="edit-2"></i>
+                </div>
+            </div>
         </div>
 
         <div class="kanban-detail-date">
