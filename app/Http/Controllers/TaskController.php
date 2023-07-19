@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskList;
 use Carbon\Carbon;
@@ -68,10 +69,46 @@ class TaskController extends Controller
         return response()->json(['success' => true, 'id' => $task->id, 'message' => 'Success create new task']);
     }
 
-    public function task_detail($slug, $board_id , $task_id)
+    public function task_detail($slug, $board_id, $task_id)
     {
+        $project = Project::where('slug', $slug)->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
         $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
         return view('content._partials._modals.modal-task-detail')
-            ->with(compact("taskDetails", "slug", "board_id"));
+            ->with(compact(
+                "taskDetails",
+                "slug",
+                "board_id",
+                "memberAccount",
+                "project"
+            ));
+    }
+
+    public function moveTaskCalendar(Request $request)
+    {
+        $task_id = $request->input('task_id');
+        $days_diff = $request->input('days_diff');
+        $task = Task::findOrFail($task_id);
+
+        $start_date = Carbon::parse($task->start_date);
+        $due_date = Carbon::parse($task->due_date);
+
+        if ($days_diff >= 0) {
+            $new_start_date = $start_date->addDays($days_diff);
+            $new_due_date = $due_date->addDays($days_diff);
+        } else {
+            $new_start_date = $start_date->subDays(abs($days_diff));
+            $new_due_date = $due_date->subDays(abs($days_diff));
+        }
+
+        $task->start_date = $new_start_date;
+        $task->due_date = $new_due_date;
+        $task->save();
+
+        return response()->json(['success' => true, 'message' => 'Success move task ' . $task->title]);
     }
 }

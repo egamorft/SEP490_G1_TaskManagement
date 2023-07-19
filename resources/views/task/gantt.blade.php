@@ -35,13 +35,13 @@
 		],
 		links: [
 			{id: "1", source: "3", target: "4", type: "0"},
-			{id: "2", source: "4", target: "3", type: "0"},
-			// {id: "3", source: "2", target: "6", type: "0"},
-			// {id: "4", source: "4", target: "6", type: "0"},
-			// {id: "5", source: "5", target: "6", type: "0"},
-			// {id: "6", source: "6", target: "7", type: "0"},
-			// {id: "7", source: "7", target: "9", type: "0"},
-			// {id: "8", source: "8", target: "9", type: "0"},
+			{id: "2", source: "4", target: "6", type: "0"},
+			{id: "3", source: "2", target: "6", type: "0"},
+			{id: "4", source: "4", target: "6", type: "0"},
+			{id: "5", source: "5", target: "6", type: "0"},
+			{id: "6", source: "6", target: "7", type: "0"},
+			{id: "7", source: "7", target: "9", type: "0"},
+			{id: "8", source: "8", target: "9", type: "0"},
 		]
 	}
 </script>

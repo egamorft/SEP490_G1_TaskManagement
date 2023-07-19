@@ -94,9 +94,9 @@
                             </label>
                             <input type="hidden" name="modalInviteToken" value="{{ $project->token }}">
                             <input type="hidden" name="modalInviteSlug" value="{{ $project->slug }}">
-                            <input {{ $checkLimitation >= 4 ? 'disabled' : '' }} type="text" id="modalInviteEmail"
+                            <input {{ $checkLimitation >= 5 ? 'disabled' : '' }} type="text" id="modalInviteEmail"
                                 class="form-control" name="modalInviteEmail"
-                                placeholder="{{ $checkLimitation >= 4 ? 'Your team have reached limitation of invitation' : 'Enter your teammate email' }}"
+                                placeholder="{{ $checkLimitation >= 5 ? 'Your team have reached limitation of invitation' : 'Enter your teammate email' }}"
                                 aria-label="example@domain.com" />
                             <span id="error-modalInviteEmail" style="color: red; display: none"></span>
                         </div>
@@ -106,8 +106,8 @@
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="visually-hidden">Loading...</span>
                             </button>
-                            <button {{ $checkLimitation >= 4 ? 'disabled' : '' }} type="submit" id="submitBtnInvite"
-                                class="btn btn-primary w-100">{{ $checkLimitation >= 4 ? 'Limited' : 'Send' }}</button>
+                            <button {{ $checkLimitation >= 5 ? 'disabled' : '' }} type="submit" id="submitBtnInvite"
+                                class="btn btn-primary w-100">{{ $checkLimitation >= 5 ? 'Limited' : 'Send' }}</button>
                         </div>
                     </form>
 

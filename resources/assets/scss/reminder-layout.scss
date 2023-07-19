@@ -4,10 +4,10 @@
     left: 120px;
     width: 60px;
     height: 60px;
-    border: 1px solid;
     border-radius: 50px;
     background-color: #eee;
     z-index: 10000;
+    box-shadow: 1px 1px #F3F3BB;
 
     .reminder-button-wrapper {
         cursor: pointer;
@@ -20,6 +20,10 @@
         width: 24px;
         height: 24px;
     }
+}
+
+#reminder-canvas-wrapper:hover {
+    background-color: #e3e3e3;
 }
 
 .menu-fixed:has(#reminder-canvas) {
