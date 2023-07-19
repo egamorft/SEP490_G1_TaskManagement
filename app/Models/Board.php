@@ -13,7 +13,6 @@ class Board extends Model
     protected $fillable = [
         'title',
         'project_id',
-        'limitation',
         'created_at',
         'deleted_at'
     ];
@@ -27,5 +26,10 @@ class Board extends Model
     public function taskLists()
     {
         return $this->hasMany(TaskList::class, 'board_id', 'id');
+    }
+
+    public function tasks()
+    {
+        return $this->hasManyThrough(Task::class, TaskList::class, 'board_id', 'taskList_id');
     }
 }

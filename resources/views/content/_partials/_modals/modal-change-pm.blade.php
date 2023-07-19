@@ -19,7 +19,7 @@
                     </div>
                 </div>
 
-                <form id="setNewPMForm" class="row" method="POST" action="{{ route('set.pm') }}">
+                <form id="setNewPMForm" class="row" method="POST" action="{{ route('set.pm', ['slug' => $project->slug]) }}">
                     @csrf
                     <div class="text-center mt-2">
                         <input type="hidden" name="account" value="{{ $mem->id }}">

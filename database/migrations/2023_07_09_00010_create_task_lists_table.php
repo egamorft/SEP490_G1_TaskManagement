@@ -17,7 +17,6 @@ return new class extends Migration
             $table->id();
             $table->string('title', 100);
             $table->unsignedBigInteger('board_id');
-            $table->integer('limitation');
             $table->timestamp('created_at')->useCurrent();
             $table->timestamp('deleted_at')->nullable();
 

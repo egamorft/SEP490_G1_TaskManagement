@@ -86,7 +86,7 @@
 
                 <div class="px-sm-5 mx-50">
                     <h4 class="fw-bolder mt-5 mb-1">Invite your teammate</h4>
-                    <form id="modalInviteForm" class="row g-1" action="{{ route('invite.member') }}" method="POST">
+                    <form id="modalInviteForm" class="row g-1" action="{{ route('invite.member', ['slug' => $project->slug]) }}" method="POST">
                         @csrf
                         <div class="col-lg-10">
                             <label class="form-label" for="modalInviteEmail">
@@ -94,9 +94,9 @@
                             </label>
                             <input type="hidden" name="modalInviteToken" value="{{ $project->token }}">
                             <input type="hidden" name="modalInviteSlug" value="{{ $project->slug }}">
-                            <input {{ $checkLimitation >= 4 ? 'disabled' : '' }} type="text" id="modalInviteEmail"
+                            <input {{ $checkLimitation >= 5 ? 'disabled' : '' }} type="text" id="modalInviteEmail"
                                 class="form-control" name="modalInviteEmail"
-                                placeholder="{{ $checkLimitation >= 4 ? 'Your team have reached limitation of invitation' : 'Enter your teammate email' }}"
+                                placeholder="{{ $checkLimitation >= 5 ? 'Your team have reached limitation of invitation' : 'Enter your teammate email' }}"
                                 aria-label="example@domain.com" />
                             <span id="error-modalInviteEmail" style="color: red; display: none"></span>
                         </div>
@@ -106,8 +106,8 @@
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="visually-hidden">Loading...</span>
                             </button>
-                            <button {{ $checkLimitation >= 4 ? 'disabled' : '' }} type="submit" id="submitBtnInvite"
-                                class="btn btn-primary w-100">{{ $checkLimitation >= 4 ? 'Limited' : 'Send' }}</button>
+                            <button {{ $checkLimitation >= 5 ? 'disabled' : '' }} type="submit" id="submitBtnInvite"
+                                class="btn btn-primary w-100">{{ $checkLimitation >= 5 ? 'Limited' : 'Send' }}</button>
                         </div>
                     </form>
 

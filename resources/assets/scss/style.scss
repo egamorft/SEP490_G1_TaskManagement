@@ -9,3 +9,60 @@ NOTE:
 ------
 PLACE HERE YOUR OWN SCSS CODES AND IF NEEDED, OVERRIDE THE STYLES FROM THE OTHER STYLESHEETS.
 WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BETTER LIKE THIS.  */
+
+.main-menu .navbar-header .navbar-brand svg {
+	width: 40px;
+	animation-delay: 0.3s;
+}
+
+.main-menu .navbar-header.expanded .navbar-brand svg {
+	width: 75px;
+	animation-delay: 0.3s;
+}
+
+.pl-5 {
+	padding-left: 50px;
+}
+
+.mr-0 {
+    margin-right: 0 !important;
+}
+
+.pl-0 {
+    padding-left: 0 !important;
+}
+
+.m-0 {
+	margin: 0 !important;
+}
+.border-left {
+	border-left: 1px solid #ebe9f1 !important;
+}
+.border-right {
+	border-right: 1px solid #ebe9f1 !important;
+}
+
+.picker {
+	top: auto;
+}
+#task-desc.ql-container, #task-desc .ql-editor {
+	height: auto;
+}
+
+.content-header-right .border-bottom-primary {
+    border-bottom: 3px solid #7367f0;
+    border-radius: 0;
+}
+
+.fc .fc-daygrid-day-number, .fc .fc-timegrid-slot-label-cushion, .fc .fc-list-event-time {
+	pointer-events: none;
+	cursor: default;
+}
+
+.fc .fc-daygrid-day-bottom {
+    margin-top: 60px !important;
+}
+@import 'project-layout';
+@import 'kanban-detail';
+@import 'gantt-detail';
+@import 'reminder-layout';

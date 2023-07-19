@@ -19,7 +19,7 @@
                     </div>
                 </div>
 
-                <form id="removeMemberForm" class="row" method="POST" action="{{ route('remove.member') }}">
+                <form id="removeMemberForm" class="row" method="POST" action="{{ route('remove.member', ['slug' => $project->slug]) }}">
                     @csrf
                     <div class="text-center mt-2">
                         <input type="hidden" name="account" value="{{ $mem->id }}">

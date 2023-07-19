@@ -2,15 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Requests\BoardRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Mail\ProjectInvitation;
 use App\Models\Account;
 use App\Models\AccountProject;
+use App\Models\Board;
 use App\Models\Permission;
 use App\Models\PermissionRole;
 use App\Models\Project;
 use App\Models\ProjectRolePermission;
 use App\Models\Role;
+use App\Models\Task;
+use App\Models\TaskList;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -30,6 +34,8 @@ class ProjectController extends Controller
      */
     public function index($slug)
     {
+        $pageConfigs = ['pageHeader' => false];
+
         //Project info & members
         $project = Project::where('slug', $slug)->first();
         $accounts = $project->accounts()->get();
@@ -79,9 +85,9 @@ class ProjectController extends Controller
         $roles = Role::all();
         $permissions = Permission::all();
 
+        $disabledProject = $this->checkDisableProject($project);
 
-
-        return view('content.components.component-tabs')
+        return view('project.settings', ['pageConfigs' => $pageConfigs, 'page' => 'settings'])
             ->with(compact(
                 'project',
                 'pmAccount',
@@ -92,7 +98,8 @@ class ProjectController extends Controller
                 'checkLimitation',
                 'removedMember',
                 'roles',
-                'permissions'
+                'permissions',
+                'disabledProject'
             ));
     }
 
@@ -118,6 +125,22 @@ class ProjectController extends Controller
         // Access the start date and end date
         $startDate = $dates['start_date'];
         $endDate = $dates['end_date'];
+        // Convert the end date to a Carbon instance
+        $endDateCarbon = Carbon::createFromFormat('Y-m-d', $endDate)->startOfDay();
+        // Get the current date as a Carbon instance
+        $now = Carbon::now()->startOfDay()->format('Y-m-d');
+        // dd($endDateCarbon, $now);
+        // Check if the end date is smaller than or equal to the current date
+        if ($endDateCarbon->lte($now)) {
+            // Return an error response with a 422 Unprocessable Entity status code
+            return response()->json([
+                'errors' => [
+                    'duration' => [
+                        'The end date must be greater than the current date.'
+                    ]
+                ]
+            ], 422);
+        }
         $project_name = $request->input('modalAddProjectName');
 
         $project_slug = Str::slug($project_name, '-');
@@ -214,9 +237,10 @@ class ProjectController extends Controller
     {
         //Invitation page
         $project = Project::where('slug', $slug)->where('token', $token)->first();
+        $projectId = $project->id;
 
         $accountId = Auth::user()->id;
-        $check_account_project_invitation_valid = AccountProject::where('project_id', $project->id)
+        $check_account_project_invitation_valid = AccountProject::where('project_id', $projectId)
             ->where('account_id', $accountId)->where('status', 0)
             ->first();
 
@@ -246,14 +270,24 @@ class ProjectController extends Controller
             }
 
             //Get total members in project
-            $totalAccounts = AccountProject::where('project_id', $project->id)->where('status', 1)->count();
+            $totalAccounts = AccountProject::where('project_id', $projectId)->where('status', 1)->count();
+
+            $supervisorAccounts = Account::whereHas('roles', function ($query) use ($projectId) {
+                $query->where('roles.id', 2)
+                    ->where('account_project.status', 1)
+                    ->where('account_project.project_id', $projectId);
+            })
+                ->join('account_project', 'accounts.id', '=', 'account_project.account_id')
+                ->select('accounts.*')
+                ->first();
 
             return view('content.project.app-project-invitation')
                 ->with(compact(
                     'project',
                     'accountsInProject',
                     'totalAccounts',
-                    'check_account_project_invitation_valid'
+                    'check_account_project_invitation_valid',
+                    'supervisorAccounts'
                 ));
         } else {
             Session::flash('error', 'Something went wrong or this invitation is expired');
@@ -279,7 +313,7 @@ class ProjectController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(Request $request, $slug, $id)
     {
         $validatedData = $request->validate([
             'settingProjectName' => 'required|max:50',
@@ -303,6 +337,16 @@ class ProjectController extends Controller
         // Access the start date and end date
         $startDate = $dates['start_date'];
         $endDate = $dates['end_date'];
+
+        // Convert the end date to a Carbon instance
+        $endDateCarbon = Carbon::createFromFormat('Y-m-d', $endDate)->startOfDay();
+        // Get the current date as a Carbon instance
+        $now = Carbon::now()->startOfDay()->format('Y-m-d');
+        // Check if the end date is smaller than or equal to the current date
+        if ($endDateCarbon->lte($now)) {
+            Session::flash('error', 'The end date must be greater than the current date');
+            return redirect(url('/project/' . $slug));
+        }
 
         $project->name = $request->input('settingProjectName');
         $project->slug = $project_slug;
@@ -355,13 +399,18 @@ class ProjectController extends Controller
     {
         //Handle the invitation submit
         $project = Project::where('slug', $slug)->where('token', $token)->first();
-        $accountId = Auth::user()->id;
+        $account = Auth::user();
         if ($project) {
             $accountProject = AccountProject::where('project_id', $project->id)
-                ->where('account_id', $accountId)
+                ->where('account_id', $account->id)
                 ->first();
+            $check_supervisor_role = Str::endsWith($account->email, '@fe.edu.vn');
             if ($accountProject) {
                 if ($request->input('approve') == 1) {
+                    if ($check_supervisor_role) {
+                        $project->project_status = 1;
+                        $project->save();
+                    }
                     $accountProject->status = 1;
                     $accountProject->save();
                     Session::flash('success', 'You have success to join the ' . $project->name);
@@ -530,16 +579,657 @@ class ProjectController extends Controller
             if ($isChecked === "true") {
                 // Attach the permission to the role in the project
                 $project->roles()->attach($roleId, ['permission_id' => $permissionId]);
+                Session::flash('success', 'Permission attach successfully');
                 return response()->json(['message' => 'Permission attach successfully']);
             } else {
                 // Detach the permission from the role in the project
                 ProjectRolePermission::where('project_id', $project->id)->where('role_id', $roleId)
                     ->where('permission_id', $permissionId)
                     ->delete();
+                Session::flash('success', 'Permission detach successfully');
                 return response()->json(['message' => 'Permission detach successfully']);
             }
         }
 
+        Session::flash('error', 'Project or role not found');
         return response()->json(['message' => 'Project or role not found'], 404);
+    }
+
+    /**
+     * Display a report view of project
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view_report_member($slug, $user_id)
+    {
+        $pageConfigs = [
+            'pageHeader' => false,
+        ];
+
+        //Project info & members
+        $project = Project::where('slug', $slug)->first();
+        $accounts = $project->accounts()->get();
+
+        $pmAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('pm', 1)
+            ->first();
+
+        $supervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 1)
+            ->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
+
+        $disabledProject = $this->checkDisableProject($project);
+
+        return view('project.member_report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
+            ->with(compact(
+                'project',
+                'pmAccount',
+                'supervisorAccount',
+                'memberAccount',
+                'disabledProject'
+            ));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view_report($slug)
+    {
+        $pageConfigs = [
+            'pageHeader' => false,
+        ];
+
+        //Project info & members
+        $project = Project::where('slug', $slug)->first();
+        $accounts = $project->accounts()->get();
+
+        $pmAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('pm', 1)
+            ->first();
+
+        $supervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 1)
+            ->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
+        //Check disabled and calculate project progress
+        $disabledProject = $this->checkDisableProject($project);
+        $result = $this->calculateProjectProgress($project);
+        $days_left = $result["days_left"];
+        $percent_completed = $result["percent_completed"];
+        if ($days_left < 0) {
+            if (!$disabledProject) {
+                $disabledProject = true;
+            }
+        }
+        //Check disabled and calculate project progress
+
+        return view('project.report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
+            ->with(compact(
+                'project',
+                'pmAccount',
+                'supervisorAccount',
+                'memberAccount',
+                'disabledProject'
+            ));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view_board($slug)
+    {
+        $pageConfigs = ['pageHeader' => false];
+        //Project info & members
+        $project = Project::where('slug', $slug)->first();
+        $accounts = $project->accounts()->get();
+
+        $pmAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('pm', 1)
+            ->first();
+
+        $supervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 1)
+            ->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
+        //Check disabled and calculate project progress
+        $disabledProject = $this->checkDisableProject($project);
+        $result = $this->calculateProjectProgress($project);
+        $days_left = $result["days_left"];
+        $percent_completed = $result["percent_completed"];
+        if ($days_left < 0) {
+            Session::flash('projectState', 'Your project have been end');
+            if (!$disabledProject) {
+                $disabledProject = true;
+            }
+        }
+        //Check disabled and calculate project progress
+
+        $boards = Board::where('project_id', $project->id)->with('tasks')->get();
+
+        return view('project.board', ['pageConfigs' => $pageConfigs, 'page' => 'board'])
+            ->with(compact(
+                'project',
+                'pmAccount',
+                'supervisorAccount',
+                'memberAccount',
+                'disabledProject',
+                'boards',
+                'percent_completed',
+                'days_left'
+            ));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view_board_kanban($slug, $board_id, Request $request)
+    {
+        $pageConfigs = [
+            'pageHeader' => false,
+            'pageClass' => 'kanban-application',
+        ];
+
+        //Get modal task details params
+        $show = request()->query('show');
+        $task_id = request()->query('task_id');
+        $taskDetails = null;
+        if ($show == "task") {
+            $taskDetails = Task::with('assignTo', 'createdBy')->findOrFail($task_id);
+            // dd($taskDetails);
+        }
+
+        $q = $request->query('q');
+        $dueToday = $request->query('dueToday');
+        $overdue = $request->query('overdue');
+        $dueTomorrow = $request->query('dueTomorrow');
+        $dueNextWeek = $request->query('dueNextWeek');
+        $doneTask = $request->query('doneTask');
+        $doingTask = $request->query('doingTask');
+
+        //Project info & members
+        $project = Project::where('slug', $slug)->first();
+        $accounts = $project->accounts()->get();
+
+        $board = Board::findOrFail($board_id);
+
+        $disabledProject = $this->checkDisableProject($project);
+
+        //Bind data for kanban
+        $taskLists = TaskList::where('board_id', $board_id)->get();
+        $kanbanData = [];
+        foreach ($taskLists as $taskList) {
+            //Check role to display task
+            $accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
+            $tasks = Task::query()->where('taskList_id', $taskList->id);
+            if ($accountRoleName == "member") {
+                $tasks = $tasks->where('taskList_id', $taskList->id)
+                    ->where('created_by', Auth::id())
+                    ->orWhere('assign_to', Auth::id());
+            }
+
+            if ($q) {
+                $tasks = $tasks->where('title', 'like', '%' . $q . '%');
+            }
+            if ($dueToday) {
+                $tasks = $tasks->whereDate('due_date', '=', now()->format('Y-m-d'));
+            }
+            if ($overdue) {
+                $tasks = $tasks->whereDate('due_date', '<', now()->format('Y-m-d'));
+            }
+            if ($dueTomorrow) {
+                $tasks = $tasks->whereDate('due_date', '=', now()->addDay()->format('Y-m-d'));
+            }
+            if ($dueNextWeek) {
+                $tasks = $tasks->whereDate('due_date', '=', now()->addWeek()->format('Y-m-d'));
+            }
+            if ($doneTask) {
+                $tasks = $tasks->where('status', 4);
+            }
+            if ($doingTask) {
+                $tasks = $tasks->where('status', 2);
+            }
+
+            $tasks = $tasks
+                ->with('assignTo', 'comments', 'createdBy')
+                ->orderByRaw("FIELD(status, 2, 3, 1, 4, 5, 6)")
+                ->get();
+
+            $taskItems = [];
+
+            foreach ($tasks as $task) {
+                $attachmentsCount = $task->attachments ? count($task->attachments) : 0;
+                $flags = $this->checkDueDate($task->due_date);
+                // dd($task);
+                $taskItem = [
+                    'id' => $task->id,
+                    'title' => $task->title,
+                    'comments' => $task->comments()->count(), // replace with actual comments count
+                    'badge-text' => $task->due_date ?? "", // replace with actual badge text
+                    'badge' => $flags['badgeColor'],
+                    'due-date' => $task->due_date ?? "", // replace with actual due date
+                    'attachments' => $attachmentsCount, // replace with actual attachments count
+                    'assigned' => $task->assignTo->avatar ?? "", // replace with actual assigned members
+                    'members' => $task->assignTo->fullname ?? "" // replace with actual members
+                ];
+
+                $taskItems[] = $taskItem;
+            }
+
+            // Generate the dragTo array
+            $dragTo = [];
+            foreach ($taskLists as $otherTaskList) {
+                if ($otherTaskList->id != $taskList->id) {
+                    $dragTo[] = 'taskList_' . $otherTaskList->id;
+                }
+            }
+
+            $kanbanData[] = [
+                'id' => 'taskList_' . $taskList->id,
+                'title' => $taskList->title,
+                'dragTo' => $dragTo,
+                'item' => $taskItems
+            ];
+        }
+        // dd($kanbanData);
+
+        return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
+            ->with(compact(
+                'project',
+                'board',
+                'disabledProject',
+                'kanbanData'
+            ));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view_gantt($slug)
+    {
+        $pageConfigs = [
+            'pageHeader' => false,
+        ];
+
+        //Project info & members
+        $project = Project::where('slug', $slug)->first();
+        $accounts = $project->accounts()->get();
+
+        $pmAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('pm', 1)
+            ->first();
+
+        $supervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 1)
+            ->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
+        $disabledProject = $this->checkDisableProject($project);
+
+        return view('project.gantt', ['pageConfigs' => $pageConfigs, 'page' => 'gantt'])
+            ->with(compact(
+                'project',
+                'pmAccount',
+                'supervisorAccount',
+                'memberAccount',
+                'disabledProject'
+            ));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view_board_calendar($slug, $board_id, Request $request)
+    {
+        $pageConfigs = [
+            'pageHeader' => false,
+        ];
+
+        $q = $request->query('q');
+        $role = $request->query('role');
+
+        //Project info & members
+        $project = Project::where('slug', $slug)->first();
+        $accounts = $project->accounts()->get();
+
+        $board = Board::findOrFail($board_id);
+        $disabledProject = $this->checkDisableProject($project);
+
+        $taskLists = TaskList::where('board_id', $board_id)->get();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
+        $accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
+        $tasks = Task::query();
+        if ($accountRoleName == "member") {
+            $tasks = $tasks->where('created_by', Auth::id())
+                ->orWhere('assign_to', Auth::id());
+        }
+        if($q){
+            $tasks = $tasks->where('title', 'like', '%' . $q . '%');
+        }
+        if($role == "creator"){
+            $tasks = $tasks->where('created_by', Auth::id());
+        }
+        if($role == "assignee"){
+            $tasks = $tasks->where('assign_to', Auth::id());
+        }
+        $tasks = $tasks
+                ->with('assignTo', 'comments', 'createdBy')
+                ->get();
+        $tasksCalendar = [];
+
+        foreach ($tasks as $task) {
+            $task_status = $this->checkTaskStatus($task->status, $task);
+            $taskCalendar = [
+                "id" => $task->id,
+                "url" => 'aaa',
+                "title" => $task->title,
+                "start" => $task->start_date,
+                "end" => Carbon::parse($task->due_date)->endOfDay(),
+                "extendedProps" => [
+                    "calendar" => $task_status
+                ]
+            ];
+            $tasksCalendar[] = $taskCalendar;
+        }
+
+        return view('project.calendar', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'calendar'])
+            ->with(compact(
+                'project',
+                'disabledProject',
+                'board',
+                'tasksCalendar',
+                'taskLists',
+                'memberAccount'
+            ));
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function view_board_list($slug, $board_id)
+    {
+        $pageConfigs = [
+            'pageHeader' => false,
+            'pageClass' => 'kanban-application',
+        ];
+
+        //Project info & members
+        $project = Project::where('slug', $slug)->first();
+        $accounts = $project->accounts()->get();
+
+        $pmAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('pm', 1)
+            ->first();
+
+        $supervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 1)
+            ->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+
+        $board = Board::findOrFail($board_id);
+
+		 //Bind data for kanban
+		$taskLists = TaskList::where('board_id', $board_id)->get();
+        $disabledProject = $this->checkDisableProject($project);
+
+        return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
+            ->with(compact(
+                'project',
+                'pmAccount',
+                'supervisorAccount',
+                'memberAccount',
+                'disabledProject',
+                'board',
+				'taskLists'
+            ));
+    }
+
+    public function add_board(BoardRequest $request)
+    {
+        Board::create([
+            'title' => $request->input('modalBoardName'),
+            'project_id' => $request->input('project_id'),
+        ]);
+
+        Session::flash('success', 'Create successfully board');
+        // Redirect or return a response
+        return response()->json(['success' => true]);
+    }
+    public function edit_board(Request $request)
+    {
+        $board = Board::findOrFail($request->input('id'));
+        $request->validate([
+            'modalBoardTitleEdit' => [
+                'required',
+                'max:100',
+                Rule::unique('boards', 'title')->ignore($board->id),
+            ],
+        ]);
+        $board->title = $request->input('modalBoardTitleEdit');
+        $board->save();
+
+        Session::flash('success', 'Edit successfully board');
+        // Redirect or return a response
+        return response()->json(['success' => true]);
+    }
+    public function remove_board(Request $request)
+    {
+        $board = Board::findOrFail($request->input('id'));
+        $board->delete();
+
+        Session::flash('success', 'Deleted board ' . $board->title);
+        // Redirect or return a response
+        return response()->json(['success' => true]);
+    }
+
+    public function checkDisableProject($project)
+    {
+        switch ($project->project_status) {
+            case -1:
+                Session::put('projectState', 'Your project is being rejected by your supervisor!!');
+                return true;
+                break;
+
+            case 0:
+                Session::put('projectState', 'Waiting for your supervisor to join the project...');
+                return true;
+                break;
+
+            case 1:
+                return false;
+                break;
+
+            case 2:
+                Session::put('projectState', 'Your project is being approved by your supervisor :D');
+                return true;
+                break;
+
+            default:
+                Session::put('projectState', 'You can not use this project anymore!!');
+                return true;
+                break;
+        }
+    }
+
+    public function add_task_modal(Request $request)
+    {
+        Session::flash('error', 'Something went wrong');
+        return redirect()->back();
+    }
+
+    public function edit_task_modal(Request $request, $slug, $board_id, $task_id)
+    {
+
+        Session::flash('error', 'Something went wrong');
+        return redirect()->back();
+    }
+
+    public function add_task_list_modal(Request $request)
+    {
+
+        Session::flash('error', 'Something went wrong');
+        return redirect()->back();
+    }
+
+    public function calculateProjectProgress($project)
+    {
+
+        // Convert the project's start and end dates to Carbon objects
+        $start_date = Carbon::parse($project->start_date)->startOfDay();
+        $end_date = Carbon::parse($project->end_date)->endOfDay();
+        // Get the current date as a Carbon object
+        $current_date = Carbon::now();
+
+        $percent_completed = 0;
+        $days_left = 0;
+
+        if ($end_date > $start_date) {
+            if ($current_date < $start_date) {
+                // If the project is in the future, set percent_completed to 0
+                $percent_completed = 0;
+                $days_left = $start_date->diffInDays($current_date);
+            } elseif ($current_date >= $end_date) {
+                // If the project is completed, set percent_completed to 100
+                $percent_completed = 100;
+                $days_left = -1;
+            } else {
+                // Calculate the total duration of the project in days
+                $total_days = $start_date->diffInDays($end_date) + 1;
+
+                // Calculate the number of days that have already passed since the project started
+                $days_passed = $start_date->diffInDays($current_date) + 1;
+
+                // Calculate the percentage completed
+                $percent_completed = round($days_passed / $total_days * 100, 2);
+
+                // Calculate the number of days left
+                $days_left = $total_days - $days_passed;
+            }
+        }
+        // Make sure percent_completed is within the range of 0 to 100
+        $percent_completed = max(0, min(100, $percent_completed));
+
+        return array("percent_completed" => $percent_completed, "days_left" => $days_left);
+    }
+
+    // **
+    public function checkDueDate($dueDate)
+    {
+        $now = Carbon::now()->format('Y-m-d');
+        $daysDifference = Carbon::parse($now)->diffInDays(Carbon::parse($dueDate), false);
+        $onGoingDue = false;
+        $warningDue = false;
+        $overDue = false;
+
+        if ($daysDifference > 0) {
+            // Due date is in the future
+            if ($daysDifference == 1) {
+                $warningDue = true;
+            } elseif ($daysDifference > 1) {
+                $onGoingDue = true;
+            }
+        } elseif ($daysDifference == 0) {
+            // Due date is today
+            $warningDue = true;
+        } else {
+            // Due date is in the past
+            $overDue = true;
+        }
+
+        $badgeColor = $onGoingDue ? 'success' : ($warningDue ? 'warning' : ($overDue ? 'danger' : ''));
+        return compact('onGoingDue', 'warningDue', 'overDue', 'badgeColor');
+    }
+
+    public function getProjectRoleNameWithProjectAndAccount($currentProjectSlug)
+    {
+        $currentProjectId = Project::where('slug', $currentProjectSlug)->value('id');
+        $currentAccountId = Auth::id();
+        // $currentAccountSlug = Auth::user()->email;
+        $roleId = AccountProject::where('project_id', $currentProjectId)
+            ->where('account_id', $currentAccountId)
+            ->where('status', '1')
+            ->value('role_id');
+        $roleName = Role::where('id', $roleId)->value('name');
+        return $roleName;
+    }
+
+    public function checkTaskStatus($status, $task)
+    {
+        $props = "";
+        switch ($status) {
+            case -1:
+                $props = "Late";
+                break;
+
+            case 0:
+                if ($task->due_date < now()->format('Y-m-d')) {
+                    $props = "Overdue";
+                    break;
+                }
+                $props = "Todo";
+                break;
+
+            case 1:
+                if ($task->due_date < now()->format('Y-m-d')) {
+                    $props = "Overdue";
+                    break;
+                }
+                $props = "Doing";
+                break;
+
+            case 2:
+                $props = "Reviewing";
+                break;
+
+            case 3:
+                $props = "Done";
+                break;
+
+            default:
+                $props = "Undefined";
+                break;
+        }
+        return $props;
+    }
+
+
+	public function save_gantt(Request $request)
+    {
+        Session::flash('error', 'Something went wrong');
+        return redirect()->back();
     }
 }

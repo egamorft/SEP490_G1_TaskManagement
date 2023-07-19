@@ -1,0 +1,134 @@
+#reminder-canvas-wrapper {
+    position: absolute;
+    bottom: 30px;
+    left: 120px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50px;
+    background-color: #eee;
+    z-index: 10000;
+    box-shadow: 1px 1px #F3F3BB;
+
+    .reminder-button-wrapper {
+        cursor: pointer;
+        position: absolute;
+        top: 17px;
+        left: 17px;
+    }
+
+    .reminder-icon-wrapper {
+        width: 24px;
+        height: 24px;
+    }
+}
+
+#reminder-canvas-wrapper:hover {
+    background-color: #e3e3e3;
+}
+
+.menu-fixed:has(#reminder-canvas) {
+    overflow: visible;
+}
+
+#reminder-canvas {
+    z-index: 1000;
+    position: absolute;
+    bottom: 100px;
+    left: -20px;
+    border: 1px solid;
+    width: 400px;
+    background: #fff;
+    border-radius: 10px;
+
+    .reminder-header {
+        background-color: #eee;
+        border-top-left-radius: 10px;
+        border-top-right-radius: 10px;
+
+        .reminder-close {
+            position: absolute;
+            top: 22px;
+            right: 20px;
+            width: 18px;
+            height: 18px;
+            cursor: pointer;
+        }
+
+        .reminder-header-title {
+            padding: 18px;
+            font-size: 18px;
+            font-weight: bold;
+        }
+
+        .tabs {
+            justify-content: space-between;
+            display: flex;
+
+            .reminder-tab {
+                padding: 10px 0px;
+                width: 33%;
+                text-align: center;
+                cursor: pointer;
+            }
+
+            .reminder-tab.active {
+                border-bottom: 2px solid;
+            }
+        }
+    }
+
+    .reminder-body {
+        height: 380px;
+        overflow-y: auto;
+
+        .tab {
+            display: none;
+        }
+
+        .tab.active {
+            display: block;
+        }
+    }
+
+    .reminder-footer {
+        border-top: 1px solid rgba(0,0,0,0.1);
+        height: 35px;
+        text-align: center;
+        padding-top: 7px;
+        cursor: pointer;
+    }
+}
+
+.reminder-body {
+    .reminder-content {
+        padding: 12px 20px;
+        border-bottom: 1px solid #d3d3d3;
+    }
+
+    .reminder-title {
+        font-size: 14px;
+        font-weight: 500;
+    }
+
+    .reminder-sub-title {
+        display: flex;
+        font-size: 12px;
+        font-weight: normal;
+
+        .reminder-date-input {
+            margin-right: 5px;
+        }
+
+        .reminder-date-input.date-alert {
+            color: #D96C6C;
+        }
+
+        .reminder-date-input.date-success {
+            color: #28c76f;
+        }
+
+        .reminder-date-input.date-doing {
+            color: #7367f0;
+        }
+    }
+}

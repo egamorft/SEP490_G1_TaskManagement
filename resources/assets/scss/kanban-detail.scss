@@ -1,0 +1,315 @@
+.update-item-sidebar {
+    .kanban-detail-header {
+        .kanban-detail-title {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 8px;
+
+            .detail-title-text {
+                margin-left: 10px;
+            }
+        }
+
+        .kanban-detail-status {
+            margin-left: 35px;
+        }
+    }
+
+    .kanban-detail-progress {
+        margin-left: 40px;
+
+        .kanban-detail-user {
+            margin-right: 20px;
+            min-width: 7em;
+            max-width: 8em;
+
+            .user-add-assignee,
+            .user-add-reviewer {
+                width: 28px;
+                height: 28px;
+                border-radius: 100%;
+                border: none;
+            }
+
+            .user-icon-plus {
+                background-color: #eee;
+            }
+        }
+        
+        .kanban-detail-noti {
+            margin-right: 10px;
+        }
+
+        .kanban-detail-date {
+            margin-left: auto;
+            margin-right: 10px;
+
+            .checkbox-finish-task {
+                margin-right: 10px;
+                width: 20px;
+            }
+
+            .flex-box > input {
+                min-width: 230px;
+                max-width: 250px;
+            }
+        }
+
+        .kanban-detail-prevtask {
+            min-width: 12em;
+            max-width: 13em;
+
+            .edit-prevtask-wrapper {
+                border: 1px solid #aaa;
+                padding: 2px 4px;
+                border-radius: 3px;
+                position: absolute;
+                top: -5px;
+                right: 0px;
+
+                .icon-edit-prevtask {
+                    width: 14px;
+                    height: 14px;
+                }
+            }
+
+            .prev-flex-item {
+                position: relative;
+            }
+        }
+    }
+
+    .kanban-detail-description {
+        .description-header {
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+
+        .description-button {
+            margin-left: 33px;
+            margin-top: 10px;
+        }
+    }
+
+    .kanban-detail-attachment {
+        .attachment-header {
+            justify-content: space-between;
+            margin-bottom: 10px;
+        }
+    }
+
+    .comment-item-wrapper {
+        display: flex;
+        margin-bottom: 20px;
+
+
+        .comment-item-info {
+            width: 100%;
+
+            .comment-item-info-header {
+                margin-bottom: 5px;
+
+                .comment-header-title {
+                    font-weight: bold;
+                    margin-right: 5px;
+                }
+
+                .comment-header-date-log {
+                    font-size: 12px;
+                    padding-top: 3px;
+                }
+            }
+
+            #comment-input {
+                background-color: #fff;
+            }
+        }
+    }
+}
+
+.confirm-delete-task {
+    text-decoration: underline !important;
+    color: #44546F !important;
+    font-size: 13px;
+    margin-left: 10px;
+}
+
+.navbar-header-container {
+    display: flex;
+    justify-content: space-between;
+
+    .filter-nav-header {
+        display: flex;
+        position: relative;
+        margin-top: auto;
+
+        .filter-by-status {
+            padding: 0px 1.5rem;
+
+            .calendar-events-filter {
+                display: flex;
+
+                .form-check {
+                    margin-right: 12px;
+                }
+            }
+        }
+        
+        .filter-list {
+            position: absolute;
+            top: 40px;
+            right: 0px;
+            bottom: 0px;
+            width: 400px;
+            background-color: #fff;
+            height: 350px;
+            z-index: 100;
+            border: 1px solid #eee;
+            border-radius: 8px;
+            padding: 20px;
+
+            .filter-date {
+                margin: 20px 0px;
+                
+                .filter-date-range {
+                    margin: 8px 0px;
+                }
+
+                .span-date-filter {
+                    margin-left: 10px;
+                }
+
+                .filter-date-icon {
+                    margin-left: 10px;
+                    background-color: #091E420F;
+                    width: 16px;
+                    height: 16px;
+                    border-radius: 50px;
+                }
+
+                .filter-date-icon.color-alert {
+                    background-color: #CA3521;
+                    color: #fff;
+                }
+
+                .filter-date-icon.color-primary {
+                    background-color: #E2B203;
+                    color: #fff;
+                }
+            }
+        }
+    }
+}
+
+.flex-box {
+    display: flex;
+}
+
+.custom-button {
+    padding: 8px 16px;
+    background-color: #091E420F !important;
+    color: #172B4D !important;
+    border: none;
+}
+
+.custom-sub-title {
+    font-size: 12px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.custom-title {
+    font-size: 16px;
+    font-weight: bold;
+    margin-bottom: 5px;
+}
+
+.custom-title-icon {
+    width: 20px;
+    height: 20px;
+}
+
+.center {
+    margin-top: auto;
+    margin-bottom: auto;
+}
+
+.custom-title-ml {
+    margin-left: 10px;
+}
+
+.custom-css-content {
+    margin-left: 33px;
+}
+
+.form-input-textarea {
+    width: 100%;
+}
+
+.btn-post-comment {
+    margin-left: 46px;
+}
+
+.btn-post-comment:hover {
+    box-shadow: 0 8px 25px -8px #7367f0;
+    background-color: #6258cc !important;
+    color: #fff !important;
+}
+
+.assignTask {
+    position: relative;
+}
+
+.dropdown-menu-assignee,
+.dropdown-menu-reviewer {
+    position: absolute;
+    top: 25px;
+    list-style-type: none;
+    width: 300px;
+    border: 1px solid #eee;
+    padding-left: 0px;
+    z-index: 10000;
+    background: #fff;
+    overflow-y: auto;
+    overflow-x: hidden;
+    max-height: 250px;
+}
+
+.file-name {
+    padding: 8px;
+    border: 1px solid #d8d6de;
+    margin: 10px 0px;
+    font-weight: 400;
+    line-height: 1.45;
+    color: #6e6b7b;
+    background-color: #fff;
+    border-radius: 0.357rem;
+
+    .file-item.-txt {
+        margin-left: 10px;
+    }
+}
+
+
+.comment-item-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    border: 1px solid #eee;
+    margin-right: 8px;
+}
+
+.comment-wrapper {
+    display: flex;
+
+    .comment-section {
+        width: 100%;
+    }
+}
+
+#addPrevTask {
+    position: absolute;
+    top: 30px;
+    right: 0px;
+    width: 300px;
+}

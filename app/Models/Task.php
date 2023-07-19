@@ -13,10 +13,13 @@ class Task extends Model
     protected $fillable = [
         'taskList_id',
         'title',
+        'start_date',
         'due_date',
+        'created_by',
         'assign_to',
         'status',
-        'attachment',
+        'attachments',
+        'prev_tasks',
         'description',
         'created_at',
         'deleted_at'
@@ -25,7 +28,7 @@ class Task extends Model
     // Define the relationships
     public function taskList()
     {
-        return $this->belongsTo(TaskList::class);
+        return $this->belongsTo(TaskList::class, 'taskList_id');
     }
 
     public function subTasks()
@@ -36,5 +39,15 @@ class Task extends Model
     public function comments()
     {
         return $this->hasMany(Comment::class, 'task_id', 'id');
+    }
+
+    public function assignTo()
+    {
+        return $this->belongsTo(Account::class, 'assign_to', 'id');
+    }
+
+    public function createdBy()
+    {
+        return $this->belongsTo(Account::class, 'created_by', 'id');
     }
 }

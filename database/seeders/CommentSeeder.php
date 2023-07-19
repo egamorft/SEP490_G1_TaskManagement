@@ -18,19 +18,19 @@ class CommentSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
+        // $faker = Faker::create();
 
-        $tasks = Task::pluck('id')->toArray();
-        $accounts = Account::pluck('id')->toArray();
+        // $tasks = Task::pluck('id')->toArray();
+        // $accounts = Account::pluck('id')->toArray();
 
-        foreach ($tasks as $task) {
-            for ($i = 0; $i < 5; $i++) {
-                Comment::create([
-                    'task_id' => $faker->randomElement($tasks),
-                    'content' => $faker->sentence,
-                    'created_by' => $faker->randomElement($accounts)
-                ]);
-            }
-        }
+        // foreach ($tasks as $task) {
+        //     for ($i = 0; $i < 5; $i++) {
+        //         Comment::create([
+        //             'task_id' => $faker->randomElement($tasks),
+        //             'content' => $faker->sentence,
+        //             'created_by' => $faker->randomElement($accounts)
+        //         ]);
+        //     }
+        // }
     }
 }

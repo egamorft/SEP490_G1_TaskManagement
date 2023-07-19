@@ -139,6 +139,7 @@
                                 @endif
                             @endif
                         @endif
+
                     @else
                         {{-- Not loggedin menu --}}
                     @endif
@@ -166,9 +167,10 @@
                                 $logo = Str::substr($p->name, 0, 1) . '.png';
                                 $currentUrl = request()->url();
                                 $slug = Str::after($currentUrl, 'project/');
+								$slug = explode('/', $slug)[0];
                             @endphp
                             <li class="nav-item {{ $slug === $p->slug ? 'active' : '' }}">
-                                <a href="{{ isset($p->slug) ? url('project/' . $p->slug) : 'javascript:void(0)' }}"
+                                <a href="{{ isset($p->slug) ? url(route('view.project.board', ['slug'=>$p->slug])) : 'javascript:void(0)' }}"
                                     class="d-flex align-items-center" target="_self">
                                     <img class="rounded me-1"
                                         src="{{ Auth::user() ? asset('images/avatars/' . $logo) : '' }}"
@@ -183,6 +185,9 @@
             {{-- Foreach menu item ends --}}
         </ul>
     </div>
+    
+    @include('panels/reminderLayout')
 </div>
+
 <!-- END: Main Menu-->
 @include('content._partials._modals.modal-add-new-project')
