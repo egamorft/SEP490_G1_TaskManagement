@@ -23,8 +23,8 @@
                         <div class="select-header border-bottom">Assign To</div>
                     </li>
                     @foreach ($memberAccount as $acc)
-                        <li data-id='{{ $acc->id }}' class='{{ $acc->id == $taskDetails->assign_to ? "hidden" : "" }}'>
-                            <a class="add-assignee dropdown-item text-primary" id="0_assignee">
+                        <li data-id='{{ $acc->id }}'>
+                            <a class='add-assignee dropdown-item text-primary {{ $acc->id == $taskDetails->assign_to ? "hidden" : "" }}' id="0_assignee">
                                 <div class="avatar float-start bg-white rounded me-1">
                                     <div class="avatar bg-light-danger">
                                         <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
@@ -73,8 +73,8 @@
                         <div class="select-header border-bottom">Reviewed By</div>
                     </li>
                     @foreach ($memberAccount as $acc)
-                        <li data-id='{{ $acc->id }}' class='{{ $acc->id == $taskDetails->created_by ? "hidden" : "" }}'>
-                            <a class="add-reviewer dropdown-item text-primary" id="reviewer">
+                        <li data-id='{{ $acc->id }}' class=''>
+                            <a class='add-reviewer dropdown-item text-primary {{ $acc->id == $taskDetails->created_by ? "hidden" : "" }}' id="reviewer">
                                 <div class="avatar float-start bg-white rounded me-1">
                                     <div class="avatar bg-light-danger">
                                         <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"

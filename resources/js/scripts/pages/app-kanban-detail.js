@@ -161,17 +161,21 @@ $(document).ready(function () {
 		var dataImage = $(input).find("img");
 		var imageSrc = dataImage.attr("src");
 
+		var thisAssignTo = $(this).closest("li").attr("data-id");
 		if ($(this).closest(".kanban-detail-user").find(".user-add-assignee").hasClass("user-icon-plus")) {
 			$(this).closest(".kanban-detail-user").find(".user-add-assignee").remove();
 			$(this).closest(".kanban-detail-user").append(`
-				<img class="user-add-assignee" src="${imageSrc}" alt="IMG" />
+				<img class="user-add-assignee" src="${imageSrc}" alt="IMG" data-id=${thisAssignTo} />
 			`);
 		} else {
 			$(this).closest(".kanban-detail-user").find(".user-add-assignee").attr("src", imageSrc);
+			$(this).closest(".kanban-detail-user").find(".user-add-assignee").attr("data-id", thisAssignTo);
 		}
 
 		if (assignTo !== undefined) {
-			$(this).closest(".dropdown-menu-assignee").find(`li[data-id=${assignTo}]`).removeClass("hidden");
+			$(this).closest(".dropdown-menu-assignee").find("li").each(function() {
+				$(this).find(".add-assignee").removeClass("hidden");
+			});
 		}
 		$(this).addClass("hidden");
 		
@@ -184,18 +188,21 @@ $(document).ready(function () {
 		var dataImage = $(input).find("img");
 		var imageSrc = dataImage.attr("src");
 
-		if ($(this).closest(".kanban-detail-user").find(".user-add-assignee").hasClass("user-icon-plus")) {
-			$(this).closest(".kanban-detail-user").find(".user-add-assignee").remove();
+		var thisReviewBy = $(this).closest("li").attr("data-id");
+		if ($(this).closest(".kanban-detail-user").find(".user-add-reviewer").hasClass("user-icon-plus")) {
+			$(this).closest(".kanban-detail-user").find(".user-add-reviewer").remove();
 			$(this).closest(".kanban-detail-user").append(`
-				<img class="user-add-reviewer" src="${imageSrc}" alt="IMG" />
+				<img class="user-add-reviewer" src="${imageSrc}" alt="IMG" data-id=${thisReviewBy} />
 			`);
 		} else {
 			$(this).closest(".kanban-detail-user").find(".user-add-reviewer").attr("src", imageSrc);
+			$(this).closest(".kanban-detail-user").find(".user-add-reviewer").attr("data-id", thisReviewBy);
 		}
 
 		if (reviewBy !== undefined) {
-			$(this).closest(".dropdown-menu-reviewer").find(`li[data-id=${reviewBy}]`).removeClass("hidden");
-		}
+			$(this).closest(".dropdown-menu-reviewer").find("li").each(function() {
+				$(this).find(".add-reviewer").removeClass("hidden");
+			});		}
 		
 		$(this).addClass("hidden");
 		$(this).closest(".dropdown-menu-reviewer").addClass("hidden");
