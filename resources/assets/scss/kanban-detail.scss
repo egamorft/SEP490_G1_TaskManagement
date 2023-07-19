@@ -63,11 +63,18 @@
                 border: 1px solid #aaa;
                 padding: 2px 4px;
                 border-radius: 3px;
+                position: absolute;
+                top: -5px;
+                right: 0px;
 
                 .icon-edit-prevtask {
                     width: 14px;
                     height: 14px;
                 }
+            }
+
+            .prev-flex-item {
+                position: relative;
             }
         }
     }
@@ -95,13 +102,6 @@
         display: flex;
         margin-bottom: 20px;
 
-        .comment-item-image {
-            width: 40px;
-            height: 40px;
-            border-radius: 50px;
-            border: 1px solid #eee;
-            margin-right: 8px;
-        }
 
         .comment-item-info {
             width: 100%;
@@ -287,5 +287,22 @@
 
     .file-item.-txt {
         margin-left: 10px;
+    }
+}
+
+
+.comment-item-image {
+    width: 40px;
+    height: 40px;
+    border-radius: 50px;
+    border: 1px solid #eee;
+    margin-right: 8px;
+}
+
+.comment-wrapper {
+    display: flex;
+
+    .comment-section {
+        width: 100%;
     }
 }
