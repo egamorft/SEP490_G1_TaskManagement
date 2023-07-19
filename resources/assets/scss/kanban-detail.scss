@@ -313,3 +313,17 @@
     right: 0px;
     width: 300px;
 }
+
+.file-name {
+	position: relative;
+
+	.remove-file-icon {
+		position: absolute;
+		top: 7px;
+		right: 16px;
+		border: 1px solid #aaa;
+		padding: 0px 3px 2px;
+		border-radius: 4px;
+		cursor: pointer;
+	}
+}
