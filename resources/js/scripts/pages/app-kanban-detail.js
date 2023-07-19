@@ -154,6 +154,15 @@ $(document).ready(function () {
 			}
 		});
 	}
+
+    $(".edit-prevtask-wrapper").on("click", function() {
+        var prevTask = $("#addPrevTask");
+        if (prevTask.hasClass("hidden")) {
+            prevTask.removeClass("hidden");
+        } else {
+            prevTask.addClass("hidden");
+        }
+    });
 });
 
 (function (window, document, $) {

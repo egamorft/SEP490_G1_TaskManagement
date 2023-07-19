@@ -263,7 +263,7 @@
 .dropdown-menu-assignee,
 .dropdown-menu-reviewer {
     position: absolute;
-    top: 40px;
+    top: 25px;
     list-style-type: none;
     width: 300px;
     border: 1px solid #eee;
@@ -305,4 +305,11 @@
     .comment-section {
         width: 100%;
     }
+}
+
+#addPrevTask {
+    position: absolute;
+    top: 30px;
+    right: 0px;
+    width: 300px;
 }

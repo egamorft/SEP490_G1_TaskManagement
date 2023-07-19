@@ -118,7 +118,7 @@
             <div class="date-title custom-sub-title">Task To Finish</div>
             <div class="flex-box prev-flex-item">
                 <div class="prevtask-item">Task 1, Task 2, ...</div>
-                <select class="select2 form-select hidden" id="modalAddPreviousTask" name="previousTask" multiple>
+                <select class="select2 form-select hidden" id="addPrevTask" name="previousTask" multiple>
                     <option value="task_1">Task 1</option>
                     <option value="task_2">Task 2</option>
                     <option value="task_3">Task 3</option>
