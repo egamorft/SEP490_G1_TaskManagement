@@ -207,6 +207,9 @@
                 <div class='file-name'>
                     <i data-feather="file" class='custom-mini-icon'></i>
                     <span class='file-item -txt'>File name</span>
+					<div class="remove-file-icon">
+						<i class="rm-icon" data-feather="x"></i>
+					</div>
                 </div>
             </div>
 
@@ -286,7 +289,6 @@
 </script>
 
 <script src="{{ URL::asset('js/scripts/pages/app-kanban-detail.js') }}"></script>
-<script src="{{ URL::asset('js/core/app.js') }}"></script>
 <script>
     feather.replace()
 </script>
