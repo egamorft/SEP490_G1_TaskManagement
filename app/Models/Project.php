@@ -62,4 +62,9 @@ class Project extends Model
     {
         return $this->hasMany(Task::class);
     }
+
+    public function boards()
+    {
+        return $this->hasMany(Board::class);
+    }
 }

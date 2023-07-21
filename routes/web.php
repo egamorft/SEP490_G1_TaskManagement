@@ -114,7 +114,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('remove-board', [ProjectController::class, 'remove_board'])->name('remove.board');
         //TODO: Edit with {slug} url
         // Request Action on Board
-        Route::post('board/{board_id}/add-task', [ProjectController::class, 'add_task_modal'])->name('add.task.modal');
+        Route::post('board/{board_id}/add-task', [TaskController::class, 'add_task_calendar_modal'])->name('add.task.modal');
         Route::post('board/{board_id}/edit-task/{task_id}', [ProjectController::class, 'edit_task_modal'])->name('edit.task.modal');
         Route::post('board/{board_id}/add-task-list', [ProjectController::class, 'add_task_list_modal'])->name('add.task.list.modal');
 

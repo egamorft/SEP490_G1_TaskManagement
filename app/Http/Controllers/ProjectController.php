@@ -775,15 +775,18 @@ class ProjectController extends Controller
 
         //Bind data for kanban
         $taskLists = TaskList::where('board_id', $board_id)->get();
+
         $kanbanData = [];
+
         foreach ($taskLists as $taskList) {
             //Check role to display task
             $accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
-            $tasks = Task::query()->where('taskList_id', $taskList->id);
+            $tasks = Task::query()->where('taskList_id', $taskList->id)->with('assignTo', 'comments', 'createdBy');
             if ($accountRoleName == "member") {
-                $tasks = $tasks->where('taskList_id', $taskList->id)
-                    ->where('created_by', Auth::id())
-                    ->orWhere('assign_to', Auth::id());
+                $tasks = $tasks->where(function ($query) {
+                    $query->where('created_by', Auth::id())
+                        ->orWhere('assign_to', Auth::id());
+                });
             }
 
             if ($q) {
@@ -802,15 +805,14 @@ class ProjectController extends Controller
                 $tasks = $tasks->whereDate('due_date', '=', now()->addWeek()->format('Y-m-d'));
             }
             if ($doneTask) {
-                $tasks = $tasks->where('status', 4);
+                $tasks = $tasks->where('status', 3);
             }
             if ($doingTask) {
-                $tasks = $tasks->where('status', 2);
+                $tasks = $tasks->where('status', 1);
             }
 
             $tasks = $tasks
-                ->with('assignTo', 'comments', 'createdBy')
-                ->orderByRaw("FIELD(status, 2, 3, 1, 4, 5, 6)")
+                ->orderByRaw("FIELD(status, 1, 2, 0, 3, -1)")
                 ->get();
 
             $taskItems = [];
@@ -849,7 +851,6 @@ class ProjectController extends Controller
                 'item' => $taskItems
             ];
         }
-        // dd($kanbanData);
 
         return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
             ->with(compact(
@@ -918,32 +919,49 @@ class ProjectController extends Controller
         $accounts = $project->accounts()->get();
 
         $board = Board::findOrFail($board_id);
+
         $disabledProject = $this->checkDisableProject($project);
 
+        //Get all task in project
+        $tasksInProject = [];
+
+        $boards = $project->boards()->get();
+        foreach ($boards as $board) {
+            $taskLists = $board->taskLists()->get();
+
+            foreach ($taskLists as $taskList) {
+                $tasksInProject = array_merge($tasksInProject, $taskList->tasks()->get()->toArray());
+            }
+        }
+        //Get all task in project
+
         $taskLists = TaskList::where('board_id', $board_id)->get();
+
+        $taskListIds = $taskLists->pluck('id')->toArray();
 
         $memberAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
 
         $accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
-        $tasks = Task::query();
+        $tasks = Task::query()->whereIn('taskList_id', $taskListIds);
         if ($accountRoleName == "member") {
             $tasks = $tasks->where('created_by', Auth::id())
                 ->orWhere('assign_to', Auth::id());
         }
-        if($q){
+        if ($q) {
             $tasks = $tasks->where('title', 'like', '%' . $q . '%');
         }
-        if($role == "creator"){
+        if ($role == "creator") {
             $tasks = $tasks->where('created_by', Auth::id());
         }
-        if($role == "assignee"){
+        if ($role == "assignee") {
             $tasks = $tasks->where('assign_to', Auth::id());
         }
         $tasks = $tasks
-                ->with('assignTo', 'comments', 'createdBy')
-                ->get();
+            ->with('assignTo', 'comments', 'createdBy')
+            ->get();
+
         $tasksCalendar = [];
 
         foreach ($tasks as $task) {
@@ -961,6 +979,8 @@ class ProjectController extends Controller
             $tasksCalendar[] = $taskCalendar;
         }
 
+        $board = Board::findOrFail($board_id);
+
         return view('project.calendar', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'calendar'])
             ->with(compact(
                 'project',
@@ -968,7 +988,9 @@ class ProjectController extends Controller
                 'board',
                 'tasksCalendar',
                 'taskLists',
-                'memberAccount'
+                'memberAccount',
+                'tasks',
+                'tasksInProject'
             ));
     }
 
@@ -1002,8 +1024,8 @@ class ProjectController extends Controller
 
         $board = Board::findOrFail($board_id);
 
-		 //Bind data for kanban
-		$taskLists = TaskList::where('board_id', $board_id)->get();
+        //Bind data for kanban
+        $taskLists = TaskList::where('board_id', $board_id)->get();
         $disabledProject = $this->checkDisableProject($project);
 
         return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
@@ -1014,7 +1036,7 @@ class ProjectController extends Controller
                 'memberAccount',
                 'disabledProject',
                 'board',
-				'taskLists'
+                'taskLists'
             ));
     }
 
@@ -1083,12 +1105,6 @@ class ProjectController extends Controller
                 return true;
                 break;
         }
-    }
-
-    public function add_task_modal(Request $request)
-    {
-        Session::flash('error', 'Something went wrong');
-        return redirect()->back();
     }
 
     public function edit_task_modal(Request $request, $slug, $board_id, $task_id)
@@ -1227,7 +1243,7 @@ class ProjectController extends Controller
     }
 
 
-	public function save_gantt(Request $request)
+    public function save_gantt(Request $request)
     {
         Session::flash('error', 'Something went wrong');
         return redirect()->back();
