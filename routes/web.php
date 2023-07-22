@@ -40,7 +40,8 @@ use PhpParser\Node\Stmt\Return_;
 
 // Main Page Route
 
-Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
 
 Route::middleware(['guest'])->group(function () {
@@ -120,6 +121,7 @@ Route::middleware(['auth'])->group(function () {
 
 		// Save Gantt
         Route::post('gantt/save-gantt', [ProjectController::class, 'save_gantt'])->name('save.project.gantt');
+        Route::get('task/{task_id}', [TaskController::class, 'view_task'])->name('view.task');
 
     });
 

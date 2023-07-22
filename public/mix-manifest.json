@@ -132,6 +132,7 @@
     "/js/scripts/pages/auth-reset-password.js": "/js/scripts/pages/auth-reset-password.js",
     "/js/scripts/pages/auth-two-steps.js": "/js/scripts/pages/auth-two-steps.js",
     "/js/scripts/pages/dashboard-analytics.js": "/js/scripts/pages/dashboard-analytics.js",
+    "/js/scripts/pages/dashboard-calendar.js": "/js/scripts/pages/dashboard-calendar.js",
     "/js/scripts/pages/dashboard-ecommerce.js": "/js/scripts/pages/dashboard-ecommerce.js",
     "/js/scripts/pages/modal-add-new-address.js": "/js/scripts/pages/modal-add-new-address.js",
     "/js/scripts/pages/modal-add-new-cc.js": "/js/scripts/pages/modal-add-new-cc.js",
@@ -153,6 +154,7 @@
     "/js/scripts/pages/page-profile.js": "/js/scripts/pages/page-profile.js",
     "/js/scripts/pages/page-reminder.js": "/js/scripts/pages/page-reminder.js",
     "/js/scripts/pages/task-calendar.js": "/js/scripts/pages/task-calendar.js",
+    "/js/scripts/pages/task-detail.js": "/js/scripts/pages/task-detail.js",
     "/js/scripts/pages/task-filter.js": "/js/scripts/pages/task-filter.js",
     "/js/scripts/pages/task-gantt.js": "/js/scripts/pages/task-gantt.js",
     "/js/scripts/pagination/components-pagination.js": "/js/scripts/pagination/components-pagination.js",
@@ -1472,6 +1474,8 @@
     "/images/svg/google.svg": "/images/svg/google.svg",
     "/data/ajax.php": "/data/ajax.php",
     "/data/fullcalendar/json/events.json": "/data/fullcalendar/json/events.json",
+    "/data/fullcalendar/json/task.json": "/data/fullcalendar/json/task.json",
+    "/data/fullcalendar/json/user.json": "/data/fullcalendar/json/user.json",
     "/data/fullcalendar/php/get-events.php": "/data/fullcalendar/php/get-events.php",
     "/data/fullcalendar/php/get-timezones.php": "/data/fullcalendar/php/get-timezones.php",
     "/data/fullcalendar/php/utils.php": "/data/fullcalendar/php/utils.php",
@@ -1483,6 +1487,7 @@
     "/data/permissions-list.json": "/data/permissions-list.json",
     "/data/projects-list.json": "/data/projects-list.json",
     "/data/search.json": "/data/search.json",
+    "/data/status-list.json": "/data/status-list.json",
     "/data/table-datatable.json": "/data/table-datatable.json",
     "/data/user-list.json": "/data/user-list.json"
 }
