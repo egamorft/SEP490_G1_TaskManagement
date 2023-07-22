@@ -108,21 +108,7 @@ $(document).ready(function () {
             $(canvas).submit();
             return false;
         }
-
-        submit_form(canvas, function () {
-            alert("Comment thành công");
-        });
     });
-
-    function submit_form(canvas, fn = false) {
-        $("#formImageUpload").on(
-            "submit",
-            fn ||
-                function (e) {
-                    alert("Submit form thành công");
-                }
-        );
-    }
 
     $(".button-filter-header").on("click", function () {
         if ($(".filter-list").hasClass("hidden")) {
@@ -239,6 +225,18 @@ function autoRender() {
         $("input[type=file]").val("");
     });
 }
+
+$(document).mouseup(function (e) {
+	var container = $(".dropdown-menu-assignee");
+	if (!container.is(e.target) && container.has(e.target).length === 0 && !(container.hasClass("hidden"))) {
+		container.addClass("hidden");
+	}
+
+	var container_reviewer = $(".dropdown-menu-reviewer");
+	if (!container_reviewer.is(e.target) && container_reviewer.has(e.target).length === 0 && !(container_reviewer.hasClass("hidden"))) {
+		container_reviewer.addClass("hidden");
+	}
+});
 
 function renderAddUser() {
     $(".user-add-assignee").on("click", function () {

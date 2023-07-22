@@ -18,7 +18,7 @@
             <div class="user-title custom-sub-title">Assign to</div>
 
             <div class="assignTask">
-                <ul class="dropdown-menu-assignee hidden" style="width: 250px;">
+                <ul class="dropdown-menu-assignee hidden" style="width: 270px;">
                     <li>
                         <div class="select-header border-bottom">Assign To</div>
                     </li>
@@ -68,7 +68,7 @@
             <div class="user-title custom-sub-title">Reviewed by</div>
 
             <div class="assignTask">
-                <ul class="dropdown-menu-reviewer hidden" style="width: 250px;">
+                <ul class="dropdown-menu-reviewer hidden" style="width: 270px;">
                     <li>
                         <div class="select-header border-bottom">Reviewed By</div>
                     </li>
