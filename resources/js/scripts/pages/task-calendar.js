@@ -16,6 +16,9 @@ var direction = "ltr",
     csrfToken = $('input[name="csrf-token"]').val(),
     section = $('#section-block'),
     isRtl = $('html').attr('data-textdirection') === 'rtl';
+
+const modalCalendarTask = $('#modalCalendarTask');
+
 if ($("html").data("textdirection") == "rtl") {
     direction = "rtl";
 }
@@ -71,8 +74,29 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event click function
     function eventClick(info) {
-        console.log(info);
-        alert("Show card detail");
+        const task_id = info.event.id;
+        var url = "?show=task&task_id=" + task_id;
+        var currentUrl = window.location.href.split("?", (window.location.href).length)[0];
+        history.replaceState(null, null, window.location.pathname + url);
+        currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
+        modalCalendarTask.modal("show");
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const taskId = urlParams.get('task_id');
+
+        var taskRoute = taskRoutes.replace(':taskId', taskId);
+        const response = fetch(taskRoute);
+        response.then(res => {
+            if (res.ok) {
+                return res.text();
+            } else {
+                throw new Error('Something went wrong here');
+            }
+        }).then(html => {
+            modalCalendarTask.find('.task-wrapper').html(html);
+        }).catch(error => {
+            modalCalendarTask.find('.task-wrapper').html(error);
+        });
     }
 
     // Calendar plugins
@@ -217,8 +241,8 @@ document.addEventListener("DOMContentLoaded", function () {
         var _token = $('meta[name="csrf-token"]').attr('content');
         var description = taskDesc.querySelector('.ql-editor').innerHTML;
         var data = form.serializeArray();
-        data.push({name: '_token', value: _token});
-        data.push({name: 'description', value: description});
+        data.push({ name: '_token', value: _token });
+        data.push({ name: 'description', value: description });
         $.ajax({
             url: url,
             method: method,
@@ -249,5 +273,10 @@ document.addEventListener("DOMContentLoaded", function () {
                 }, 500);
             }
         });
+    });
+
+    $('.btn-close').on("click", function () {
+        var url = window.location.href.split("?", window.location.href.toString().length)[0];
+        history.replaceState(null, null, url);
     });
 });

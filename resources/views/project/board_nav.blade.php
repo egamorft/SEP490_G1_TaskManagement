@@ -44,7 +44,7 @@
 
                     <div class="filter-date-range">
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="dueToday"
-                            {{ request()->input('dueToday') == "on" ? "checked" : "" }}>
+                            {{ request()->input('dueToday') == 'on' ? 'checked' : '' }}>
                         <span class="filter-date-title">
                             <i data-feather="calendar" class="filter-date-icon"></i>
                             <span class="span-date-filter">Out of date in day</span>
@@ -53,7 +53,7 @@
 
                     <div class="filter-date-range">
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="overdue"
-                            {{ request()->input('overdue') == "on" ? "checked" : "" }}>
+                            {{ request()->input('overdue') == 'on' ? 'checked' : '' }}>
                         <span class="filter-date-title">
                             <i data-feather="clock" class="filter-date-icon color-alert"></i>
                             <span class="span-date-filter">Overdue</span>
@@ -62,7 +62,7 @@
 
                     <div class="filter-date-range">
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="dueTomorrow"
-                            {{ request()->input('dueTomorrow') == "on" ? "checked" : "" }}>
+                            {{ request()->input('dueTomorrow') == 'on' ? 'checked' : '' }}>
                         <span class="filter-date-title">
                             <i data-feather="clock" class="filter-date-icon color-primary"></i>
                             <span class="span-date-filter">Deadline is tomorrow</span>
@@ -71,7 +71,7 @@
 
                     <div class="filter-date-range">
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="dueNextWeek"
-                            {{ request()->input('dueNextWeek') == "on" ? "checked" : "" }}>
+                            {{ request()->input('dueNextWeek') == 'on' ? 'checked' : '' }}>
                         <span class="filter-date-title">
                             <i data-feather="clock" class="filter-date-icon"></i>
                             <span class="span-date-filter">Deadline is next week</span>
@@ -80,7 +80,7 @@
 
                     <div class="filter-date-range">
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="doneTask"
-                            {{ request()->input('doneTask') == "on" ? "checked" : "" }}>
+                            {{ request()->input('doneTask') == 'on' ? 'checked' : '' }}>
                         <span class="filter-date-title">
                             <i data-feather='check-circle' class="filter-date-icon"></i>
                             <span class="span-date-filter">Done task</span>
@@ -89,7 +89,7 @@
 
                     <div class="filter-date-range">
                         <input class="form-check-input checkbox-finish-task" type="checkbox" name="doingTask"
-                            {{ request()->input('doingTask') == "on" ? "checked" : "" }}>
+                            {{ request()->input('doingTask') == 'on' ? 'checked' : '' }}>
                         <span class="filter-date-title">
                             <i data-feather='play-circle' class="filter-date-icon"></i>
                             <span class="span-date-filter">Doing task</span>
@@ -100,7 +100,7 @@
                         <button type="submit" class="btn btn-primary">Submit</button>
                     </div>
                 </div>
+            </form>
         </div>
-        </form>
     </div>
 </div>

@@ -968,7 +968,6 @@ class ProjectController extends Controller
             $task_status = $this->checkTaskStatus($task->status, $task);
             $taskCalendar = [
                 "id" => $task->id,
-                "url" => 'aaa',
                 "title" => $task->title,
                 "start" => $task->start_date,
                 "end" => Carbon::parse($task->due_date)->endOfDay(),
@@ -1024,9 +1023,23 @@ class ProjectController extends Controller
 
         $board = Board::findOrFail($board_id);
 
+        $disabledProject = $this->checkDisableProject($project);
+
+        //Get all task in project
+        $tasksInProject = [];
+
+        $boards = $project->boards()->get();
+        foreach ($boards as $board) {
+            $taskLists = $board->taskLists()->get();
+
+            foreach ($taskLists as $taskList) {
+                $tasksInProject = array_merge($tasksInProject, $taskList->tasks()->get()->toArray());
+            }
+        }
+        //Get all task in project
+
         //Bind data for kanban
         $taskLists = TaskList::where('board_id', $board_id)->get();
-        $disabledProject = $this->checkDisableProject($project);
 
         return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
             ->with(compact(
@@ -1036,7 +1049,8 @@ class ProjectController extends Controller
                 'memberAccount',
                 'disabledProject',
                 'board',
-                'taskLists'
+                'taskLists',
+                'tasksInProject'
             ));
     }
 

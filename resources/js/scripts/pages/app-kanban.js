@@ -281,7 +281,7 @@ $(function () {
                 if (res.ok) {
                     return res.text();
                 } else {
-                    throw new Error('Network response was not ok');
+                    throw new Error('Something went wrong here');
                 }
             }).then(html => {
                 targetTaskModal.find('.task-wrapper').html(html);
