@@ -9,63 +9,59 @@
                 <div class="text-center mb-2">
                     <h1 class="mb-1">Add New Task</h1>
                 </div>
-                <form id="addTaskForm" class="row gy-1 pt-75"
+                <form id="addTaskFormCalendar" class="row gy-1 pt-75"
                     action="{{ route('add.task.modal', ['slug' => $project->slug, 'board_id' => $board->id]) }}"
-                    method="POST" enctype="multipart/form-data">
-                    @csrf
+                    method="POST">
+
                     <div class="col-12 col-md-12">
-                        <label class="form-label" for="modalAddTaskName">Task Name</label>
-                        <input type="text" id="modalAddTaskName" name="taskName" class="form-control"
-                            placeholder="Task Name" data-msg="Please enter your task name" />
-                        <span id="error-modalAddTaskName" style="color: red; display: none"></span>
+                        <label class="form-label" for="modalAddTaskTitle">Task Title</label>
+                        <input type="text" id="modalAddTaskTitle" name="modalAddTaskTitle" class="form-control"
+                            placeholder="Task Title" data-msg="Please enter your task title" />
+                        <span id="error-modalAddTaskTitle" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-12">
-                        <label class="form-label" for="select-modalTaskList">Select Task List</label>
-                        <select class="select2 form-select" id="modalAddTaskList" name="taskList">
+                        <label class="form-label" for="modalAddTaskList">Select Task List</label>
+                        <select class="select2 form-select" id="modalAddTaskList" name="modalAddTaskList">
                             @foreach ($taskLists as $list)
                                 <option value="{{ $list->id }}">{{ $list->title }}</option>
                             @endforeach
                         </select>
-                        <span id="error-modalTaskList" style="color: red; display: none"></span>
+                        <span id="error-modalAddTaskList" style="color: red; display: none"></span>
                     </div>
                     <!-- Limit Selected Options -->
                     <div class="col-12 col-md-6">
-                        <label class="form-label" for="select2-limited">Assignee</label>
-                        <select class="select2 form-select" id="modalAddTaskAssignee" name="taskAssignee">
+                        <label class="form-label" for="modalAddTaskAssignee">Assign to</label>
+                        <select class="select2 form-select" id="modalAddTaskAssignee" name="modalAddTaskAssignee">
                             @forelse ($memberAccount as $acc)
                                 <option {{ $acc->id == Auth::id() ? 'disabled' : '' }} value="{{ $acc->id }}">
                                     {{ $acc->fullname }} - {{ $acc->email }}
+                                    {{ $acc->id == Auth::id() ? '(YOU)' : '' }}
                                 </option>
                             @empty
                                 <option value="" disabled>No data available</option>
                             @endforelse
                         </select>
-                        <span id="error-modalTaskAssignee" style="color: red; display: none"></span>
+                        <span id="error-modalAddTaskAssignee" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12 col-md-6">
-                        <label class="form-label" for="fp-range">Due Date</label>
-                        <input name="taskDuration" type="text" id="pd-default"
+                        <label class="form-label" for="dueDateModal">Duration</label>
+                        <input name="modalAddTaskDuration" type="text" id="dueDateModal"
                             class="form-control flatpickr-range-task flatpickr-input active"
-                            placeholder="YYYY-MM-DD to YYYY-MM-DD" />
-                        <span id="error-modal-duedate" style="color: red; display: none"></span>
+                            placeholder="Choose your duration" />
+                        <span id="error-modalAddTaskDuration" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12">
-                        <label class="form-label" for="select2-limited">Task To Finish</label>
-                        <select class="select2 form-select" id="modalAddPreviousTask" name="previousTask" multiple>
-                            <option value="task_1">Task 1</option>
-                            <option value="task_2">Task 2</option>
-                            <option value="task_3">Task 3</option>
-                            <option value="task_4">Task 4</option>
-                            <option value="task_5">Task 5</option>
-                            <option value="task_6">Task 6</option>
-                            <option value="no_task_required" selected>No Task Before</option>
-                            <option value="" disabled>No data available</option>
+                        <label class="form-label" for="modalAddPreviousTask">Task To Finish</label>
+                        <select class="select2 form-select" id="modalAddPreviousTask" name="modalAddPreviousTask[]" multiple>
+                            @foreach ($tasksInProject as $task)
+                                <option value="{{ $task['id'] }}">{{ $task['title'] }}</option>
+                            @endforeach
                         </select>
-                        <span id="error-modalTaskAssignee" style="color: red; display: none"></span>
+                        <span id="error-modalAddPreviousTask" style="color: red; display: none"></span>
                     </div>
                     <div class="col-12">
                         <label class="form-label" for="modalTaskDesc">Description</label>
-                        <div id="task-desc" class="border-bottom-0" data-placeholder="Write Your Description"></div>
+                        <div name="body" id="task-desc" class="border-bottom-0" data-placeholder="Write Your Description"></div>
                         <div class="d-flex justify-content-end desc-toolbar border-top-0">
                             <span class="ql-formats me-0">
                                 <button class="ql-bold"></button>
@@ -76,9 +72,15 @@
                             </span>
                         </div>
                     </div>
+                    <input type="hidden" name="description" id="task-desc-input">
                     <div class="col-12 text-center mt-2 pt-50">
-                        <button type="submit" class="btn btn-primary me-1">Submit</button>
-                        <button type="reset" class="btn btn-outline-secondary" data-bs-dismiss="modal"
+                        <button style="display: none" id="spinnerBtnProjectModalCalendar"
+                            class="btn btn-outline-primary waves-effect" type="button" disabled="">
+                            <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                            <span class="ms-25 align-middle">Loading...</span>
+                        </button>
+                        <button type="submit" id="submitBtnProjectModalCalendar" class="btn btn-primary me-1">Submit</button>
+                        <button type="reset" id="resetBtnProjectModalCalendar" class="btn btn-outline-secondary" data-bs-dismiss="modal"
                             aria-label="Close">
                             Dicard
                         </button>

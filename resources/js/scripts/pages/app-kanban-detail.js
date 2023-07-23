@@ -78,9 +78,9 @@ $(document).ready(function () {
 			};
 			// reader.readAsDataURL(input.files[0]);
 
-			var files = input.files
+			var files = input.files;
 			var html = ``;
-			
+
 			for (let i = 0; i < files.length; i++) {
 				var file = files[i];
 				var fileName = file.name;
@@ -88,12 +88,16 @@ $(document).ready(function () {
                 <div class='file-name'>
                     <i data-feather="file" class='custom-mini-icon'></i>
                     <span class='file-item -txt'>${fileName}</span>
+                    <div class="remove-file-icon">
+						<i class="rm-icon" data-feather="x"></i>
+					</div>
                 </div>
               	`;
 			}
 			$(".custom-file-content").append(html);
+			autoRender();
 
-			feather.replace()
+			feather.replace();
 		}
 	});
 
@@ -104,21 +108,7 @@ $(document).ready(function () {
 			$(canvas).submit();
 			return false;
 		}
-
-		submit_form(canvas, function () {
-			alert("Comment thành công");
-		});
 	});
-
-	function submit_form(canvas, fn = false) {
-		$("#formImageUpload").on(
-			"submit",
-			fn ||
-			function (e) {
-				alert("Submit form thành công");
-			}
-		);
-	}
 
 	$(".button-filter-header").on("click", function () {
 		if ($(".filter-list").hasClass("hidden")) {
@@ -128,6 +118,127 @@ $(document).ready(function () {
 		}
 	});
 
+	$(".edit-prevtask-wrapper").on("click", function () {
+		var prevTask = $("#addPrevTask");
+		if (prevTask.hasClass("hidden")) {
+			prevTask.removeClass("hidden");
+		} else {
+			prevTask.addClass("hidden");
+		}
+	});
+
+	$(".add-assignee").on("click", function () {
+		var assignTo = $(".user-add-assignee").attr("data-id");
+		var input = this;
+		var dataImage = $(input).find("img");
+		var imageSrc = dataImage.attr("src");
+
+		var thisAssignTo = $(this).closest("li").attr("data-id");
+		if (
+			$(this)
+				.closest(".kanban-detail-user")
+				.find(".user-add-assignee")
+				.hasClass("user-icon-plus")
+		) {
+			$(this)
+				.closest(".kanban-detail-user")
+				.find(".user-add-assignee")
+				.remove();
+			$(this).closest(".kanban-detail-user").append(`
+				<img class="user-add-assignee" src="${imageSrc}" alt="IMG" data-id=${thisAssignTo} />
+			`);
+		} else {
+			$(this)
+				.closest(".kanban-detail-user")
+				.find(".user-add-assignee")
+				.attr("src", imageSrc);
+			$(this)
+				.closest(".kanban-detail-user")
+				.find(".user-add-assignee")
+				.attr("data-id", thisAssignTo);
+		}
+
+		if (assignTo !== undefined) {
+			$(this)
+				.closest(".dropdown-menu-assignee")
+				.find("li")
+				.each(function () {
+					$(this).find(".add-assignee").removeClass("hidden");
+				});
+		}
+		$(this).addClass("hidden");
+
+		$(this).closest(".dropdown-menu-assignee").addClass("hidden");
+	});
+
+	$(".add-reviewer").on("click", function () {
+		var reviewBy = $(".user-add-reviewer").attr("data-id");
+		var input = this;
+		var dataImage = $(input).find("img");
+		var imageSrc = dataImage.attr("src");
+
+		var thisReviewBy = $(this).closest("li").attr("data-id");
+		if (
+			$(this)
+				.closest(".kanban-detail-user")
+				.find(".user-add-reviewer")
+				.hasClass("user-icon-plus")
+		) {
+			$(this)
+				.closest(".kanban-detail-user")
+				.find(".user-add-reviewer")
+				.remove();
+			$(this).closest(".kanban-detail-user").append(`
+				<img class="user-add-reviewer" src="${imageSrc}" alt="IMG" data-id=${thisReviewBy} />
+			`);
+		} else {
+			$(this)
+				.closest(".kanban-detail-user")
+				.find(".user-add-reviewer")
+				.attr("src", imageSrc);
+			$(this)
+				.closest(".kanban-detail-user")
+				.find(".user-add-reviewer")
+				.attr("data-id", thisReviewBy);
+		}
+
+		if (reviewBy !== undefined) {
+			$(this)
+				.closest(".dropdown-menu-reviewer")
+				.find("li")
+				.each(function () {
+					$(this).find(".add-reviewer").removeClass("hidden");
+				});
+		}
+
+		$(this).addClass("hidden");
+		$(this).closest(".dropdown-menu-reviewer").addClass("hidden");
+	});
+
+	autoRender();
+	renderAddUser();
+});
+
+function autoRender() {
+	$(".remove-file-icon").on("click", function () {
+		$(this).closest(".file-name").remove();
+		$("input[type=file]").val("");
+	});
+}
+
+$(document).mouseup(function (e) {
+	click_container(".dropdown-menu-assignee");
+	click_container(".dropdown-menu-reviewer")
+});
+
+function click_container(canvas) {
+	var container_reviewer = $(canvas);
+	if (!container_reviewer.is(e.target) && container_reviewer.has(e.target).length === 0 && !(container_reviewer.hasClass("hidden"))) {
+		container_reviewer.addClass("hidden");
+	}
+}
+
+function renderAddUser() {
 	$(".user-add-assignee").on("click", function () {
 		var dropdown = $(".dropdown-menu-assignee");
 		if (dropdown.hasClass("hidden")) {
@@ -145,101 +256,9 @@ $(document).ready(function () {
 			dropdown.addClass("hidden");
 		}
 	});
+}
 
-	$(".edit-prevtask-wrapper").on("click", function () {
-		var prevTask = $("#addPrevTask");
-		if (prevTask.hasClass("hidden")) {
-			prevTask.removeClass("hidden");
-		} else {
-			prevTask.addClass("hidden");
-		}
-	});
-	
-	$(".add-assignee").on("click", function() {
-		var assignTo = $(".user-add-assignee").attr("data-id");
-		var input = this;
-		var dataImage = $(input).find("img");
-		var imageSrc = dataImage.attr("src");
-
-		var thisAssignTo = $(this).closest("li").attr("data-id");
-		if ($(this).closest(".kanban-detail-user").find(".user-add-assignee").hasClass("user-icon-plus")) {
-			$(this).closest(".kanban-detail-user").find(".user-add-assignee").remove();
-			$(this).closest(".kanban-detail-user").append(`
-				<img class="user-add-assignee" src="${imageSrc}" alt="IMG" data-id=${thisAssignTo} />
-			`);
-		} else {
-			$(this).closest(".kanban-detail-user").find(".user-add-assignee").attr("src", imageSrc);
-			$(this).closest(".kanban-detail-user").find(".user-add-assignee").attr("data-id", thisAssignTo);
-		}
-
-		if (assignTo !== undefined) {
-			$(this).closest(".dropdown-menu-assignee").find("li").each(function() {
-				$(this).find(".add-assignee").removeClass("hidden");
-			});
-		}
-		$(this).addClass("hidden");
-		
-		$(this).closest(".dropdown-menu-assignee").addClass("hidden");
-	});
-
-	$(".add-reviewer").on("click", function() {
-		var reviewBy = $(".user-add-reviewer").attr("data-id");
-		var input = this;
-		var dataImage = $(input).find("img");
-		var imageSrc = dataImage.attr("src");
-
-		var thisReviewBy = $(this).closest("li").attr("data-id");
-		if ($(this).closest(".kanban-detail-user").find(".user-add-reviewer").hasClass("user-icon-plus")) {
-			$(this).closest(".kanban-detail-user").find(".user-add-reviewer").remove();
-			$(this).closest(".kanban-detail-user").append(`
-				<img class="user-add-reviewer" src="${imageSrc}" alt="IMG" data-id=${thisReviewBy} />
-			`);
-		} else {
-			$(this).closest(".kanban-detail-user").find(".user-add-reviewer").attr("src", imageSrc);
-			$(this).closest(".kanban-detail-user").find(".user-add-reviewer").attr("data-id", thisReviewBy);
-		}
-
-		if (reviewBy !== undefined) {
-			$(this).closest(".dropdown-menu-reviewer").find("li").each(function() {
-				$(this).find(".add-reviewer").removeClass("hidden");
-			});		}
-		
-		$(this).addClass("hidden");
-		$(this).closest(".dropdown-menu-reviewer").addClass("hidden");
-	});
-
-	$(".remove-file-icon").on("click", function() {
-		e.preventDefault();
-		var input = this;
-		var canvas = "#formImageUpload";
-		if (input.files && input.files[0]) {
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				$(canvas).submit();
-			};
-			// reader.readAsDataURL(input.files[0]);
-
-			var files = input.files
-			var html = ``;
-			
-			for (let i = 0; i < files.length; i++) {
-				var file = files[i];
-				var fileName = file.name;
-				html += `
-                <div class='file-name'>
-                    <i data-feather="file" class='custom-mini-icon'></i>
-                    <span class='file-item -txt'>${fileName}</span>
-                </div>
-              	`;
-			}
-			$(".custom-file-content").append(html);
-
-			feather.replace()
-		}
-	});
-})
-
-$(function (window, document, $) {
+(function (window, document, $) {
 	"use strict";
 
 	/*******  Flatpickr  *****/
@@ -479,4 +498,4 @@ $(function (window, document, $) {
 		closeOnSelect: false,
 		closeOnClear: false,
 	});
-})
+})(window, document, jQuery);

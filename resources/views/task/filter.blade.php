@@ -1,5 +1,4 @@
 @include('content._partials._modals.modal-add-new-task')
-{{-- @include('content._partials._modals.modal-add-new-task-list') --}}
 <!-- Sidebar -->
 <div class="col app-calendar-sidebar flex-grow-0 overflow-hidden d-flex flex-column" id="app-calendar-sidebar">
     <div class="sidebar-wrapper">

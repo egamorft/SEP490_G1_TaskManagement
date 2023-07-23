@@ -40,7 +40,8 @@ use PhpParser\Node\Stmt\Return_;
 
 // Main Page Route
 
-Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
+Route::get('dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
 
 Route::middleware(['guest'])->group(function () {
@@ -114,12 +115,13 @@ Route::middleware(['auth'])->group(function () {
         Route::post('remove-board', [ProjectController::class, 'remove_board'])->name('remove.board');
         //TODO: Edit with {slug} url
         // Request Action on Board
-        Route::post('board/{board_id}/add-task', [ProjectController::class, 'add_task_modal'])->name('add.task.modal');
+        Route::post('board/{board_id}/add-task', [TaskController::class, 'add_task_calendar_modal'])->name('add.task.modal');
         Route::post('board/{board_id}/edit-task/{task_id}', [ProjectController::class, 'edit_task_modal'])->name('edit.task.modal');
         Route::post('board/{board_id}/add-task-list', [ProjectController::class, 'add_task_list_modal'])->name('add.task.list.modal');
 
 		// Save Gantt
         Route::post('gantt/save-gantt', [ProjectController::class, 'save_gantt'])->name('save.project.gantt');
+        Route::get('task/{task_id}', [TaskController::class, 'view_task'])->name('view.task');
 
     });
 

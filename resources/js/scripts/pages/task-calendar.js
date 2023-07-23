@@ -16,6 +16,9 @@ var direction = "ltr",
     csrfToken = $('input[name="csrf-token"]').val(),
     section = $('#section-block'),
     isRtl = $('html').attr('data-textdirection') === 'rtl';
+
+const modalCalendarTask = $('#modalCalendarTask');
+
 if ($("html").data("textdirection") == "rtl") {
     direction = "rtl";
 }
@@ -71,16 +74,37 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Event click function
     function eventClick(info) {
-        console.log(info);
-        alert("Show card detail");
+        const task_id = info.event.id;
+        var url = "?show=task&task_id=" + task_id;
+        var currentUrl = window.location.href.split("?", (window.location.href).length)[0];
+        history.replaceState(null, null, window.location.pathname + url);
+        currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
+        modalCalendarTask.modal("show");
+
+        const urlParams = new URLSearchParams(window.location.search);
+        const taskId = urlParams.get('task_id');
+
+        var taskRoute = taskRoutes.replace(':taskId', taskId);
+        const response = fetch(taskRoute);
+        response.then(res => {
+            if (res.ok) {
+                return res.text();
+            } else {
+                throw new Error('Something went wrong here');
+            }
+        }).then(html => {
+            modalCalendarTask.find('.task-wrapper').html(html);
+        }).catch(error => {
+            modalCalendarTask.find('.task-wrapper').html(error);
+        });
     }
 
     // Calendar plugins
     var calendar = new FullCalendar.Calendar(calendarEl, {
         initialView: "dayGridMonth",
         validRange: {
-          start: projectStartDate,
-          end: projectEndDate
+            start: projectStartDate,
+            end: projectEndDate
         },
         events: fetchEvents,
         editable: true,
@@ -116,39 +140,57 @@ document.addEventListener("DOMContentLoaded", function () {
         eventClick: function (info) {
             eventClick(info);
         },
-        eventDrop: function(e) {
-          var id = e.event.id;
-          const days_diff = e.delta.days;
-          $.ajax({
-            url: '/move-task-calendar',
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
-            },
-            data: {
-                task_id: id,
-                days_diff: days_diff
-            },
-            beforeSend: function () {
-                section.block({
-                    message:
-                        '<div class="d-flex justify-content-center align-items-center"><p class="me-50 mb-0">Please wait...</p><div class="spinner-grow spinner-grow-sm text-white" role="status"></div> </div>',
-                    timeout: 2000,
-                    css: {
-                        backgroundColor: 'transparent',
-                        color: '#fff',
-                        border: '0'
-                    },
-                    overlayCSS: {
-                        opacity: 0.5
+        eventDrop: function (e) {
+            var id = e.event.id;
+            const days_diff = e.delta.days;
+            $.ajax({
+                url: '/move-task-calendar',
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
+                },
+                data: {
+                    task_id: id,
+                    days_diff: days_diff
+                },
+                beforeSend: function () {
+                    section.block({
+                        message:
+                            '<div class="d-flex justify-content-center align-items-center"><p class="me-50 mb-0">Please wait...</p><div class="spinner-grow spinner-grow-sm text-white" role="status"></div> </div>',
+                        timeout: 2000,
+                        css: {
+                            backgroundColor: 'transparent',
+                            color: '#fff',
+                            border: '0'
+                        },
+                        overlayCSS: {
+                            opacity: 0.5
+                        }
+                    });
+                },
+                success: function (response) {
+                    // Handle success response
+                    if (response.success) {
+                        setTimeout(function () {
+                            toastr['success'](response.message, 'Error!', {
+                                showMethod: 'slideDown',
+                                hideMethod: 'slideUp',
+                                progressBar: true,
+                                closeButton: true,
+                                tapToDismiss: false,
+                                rtl: isRtl
+                            });
+                        }, 2000);
                     }
-                });
-            },
-            success: function (response) {
-                // Handle success response
-                if (response.success) {
+                },
+                error: function (response) {
+                    var errMsg = "Sorry, something went wrong here. Load the page and try again!!";
+                    if (response.message) {
+                        errMsg = response.message;
+                    }
+                    // Handle error response
                     setTimeout(function () {
-                        toastr['success'](response.message, 'Error!', {
+                        toastr['error'](errMsg, 'Error!', {
                             showMethod: 'slideDown',
                             hideMethod: 'slideUp',
                             progressBar: true,
@@ -158,25 +200,7 @@ document.addEventListener("DOMContentLoaded", function () {
                         });
                     }, 2000);
                 }
-            },
-            error: function (response) {
-                var errMsg = "Sorry, something went wrong here. Load the page and try again!!";
-                if (response.message) {
-                    errMsg = response.message;
-                }
-                // Handle error response
-                setTimeout(function () {
-                    toastr['error'](errMsg, 'Error!', {
-                        showMethod: 'slideDown',
-                        hideMethod: 'slideUp',
-                        progressBar: true,
-                        closeButton: true,
-                        tapToDismiss: false,
-                        rtl: isRtl
-                    });
-                }, 2000);
-            }
-        });
+            });
         },
     });
 
@@ -200,10 +224,59 @@ document.addEventListener("DOMContentLoaded", function () {
     if (filterInput.length) {
         filterInput.on("change", function () {
             $(".input-filter:checked").length <
-            calEventFilter.find("input").length
+                calEventFilter.find("input").length
                 ? selectAll.prop("checked", false)
                 : selectAll.prop("checked", true);
             calendar.refetchEvents();
         });
     }
+
+    const taskDesc = document.getElementById('task-desc');
+    //Add task form calendar
+    $('#addTaskFormCalendar').submit(function (event) {
+        event.preventDefault();
+        var form = $(this);
+        var url = form.attr('action');
+        var method = form.attr('method');
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        var description = taskDesc.querySelector('.ql-editor').innerHTML;
+        var data = form.serializeArray();
+        data.push({ name: '_token', value: _token });
+        data.push({ name: 'description', value: description });
+        $.ajax({
+            url: url,
+            method: method,
+            data: data,
+            dataType: 'json',
+            beforeSend: function () {
+                $('#spinnerBtnProjectModalCalendar').show();
+                $('#submitBtnProjectModalCalendar').hide();
+            },
+            success: function (response) {
+                // handle success
+                if (response.success) {
+                    location.reload();
+                }
+            },
+            error: function (response) {
+                setTimeout(function () {
+                    $('#spinnerBtnProjectModalCalendar').hide();
+                    $('#submitBtnProjectModalCalendar').show();
+                    if (response.status == 422) {
+                        var errors = response.responseJSON.errors;
+                        for (var key in errors) {
+                            $('#' + key).addClass(' is-invalid');
+                            $('#error-' + key).show();
+                            $('#error-' + key).text(errors[key][0])
+                        }
+                    }
+                }, 500);
+            }
+        });
+    });
+
+    $('.btn-close').on("click", function () {
+        var url = window.location.href.split("?", window.location.href.toString().length)[0];
+        history.replaceState(null, null, url);
+    });
 });
