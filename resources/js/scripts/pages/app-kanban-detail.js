@@ -207,9 +207,39 @@ $(document).ready(function () {
 		$(this).addClass("hidden");
 		$(this).closest(".dropdown-menu-reviewer").addClass("hidden");
 	});
-});
 
-(function (window, document, $) {
+	$(".remove-file-icon").on("click", function() {
+		e.preventDefault();
+		var input = this;
+		var canvas = "#formImageUpload";
+		if (input.files && input.files[0]) {
+			var reader = new FileReader();
+			reader.onload = function (e) {
+				$(canvas).submit();
+			};
+			// reader.readAsDataURL(input.files[0]);
+
+			var files = input.files
+			var html = ``;
+			
+			for (let i = 0; i < files.length; i++) {
+				var file = files[i];
+				var fileName = file.name;
+				html += `
+                <div class='file-name'>
+                    <i data-feather="file" class='custom-mini-icon'></i>
+                    <span class='file-item -txt'>${fileName}</span>
+                </div>
+              	`;
+			}
+			$(".custom-file-content").append(html);
+
+			feather.replace()
+		}
+	});
+})
+
+$(function (window, document, $) {
 	"use strict";
 
 	/*******  Flatpickr  *****/
@@ -449,4 +479,4 @@ $(document).ready(function () {
 		closeOnSelect: false,
 		closeOnClear: false,
 	});
-})(window, document, jQuery);
+})
