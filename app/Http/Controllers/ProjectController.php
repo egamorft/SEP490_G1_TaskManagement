@@ -1031,7 +1031,7 @@ class ProjectController extends Controller
         $boards = $project->boards()->get();
         foreach ($boards as $board) {
             $taskLists = $board->taskLists()->get();
-
+            
             foreach ($taskLists as $taskList) {
                 $tasksInProject = array_merge($tasksInProject, $taskList->tasks()->get()->toArray());
             }
@@ -1040,9 +1040,15 @@ class ProjectController extends Controller
 
         //Bind data for kanban
         $taskLists = TaskList::where('board_id', $board_id)->get();
+        $taskListsArray = [];
+        foreach ($taskLists as $taskList) {
+            $taskListsArray[$taskList->id] = $taskList;
+        }
+        $taskLists = $taskListsArray;
 
         return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
             ->with(compact(
+                'accounts',
                 'project',
                 'pmAccount',
                 'supervisorAccount',
