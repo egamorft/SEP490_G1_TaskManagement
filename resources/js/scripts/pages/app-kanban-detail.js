@@ -1,12 +1,3 @@
-/*=========================================================================================
-	File Name: dashboard-ecommerce.js
-	Description: dashboard ecommerce page content with Apexchart Examples
-	----------------------------------------------------------------------------------------
-	Item Name: Vuexy  - Vuejs, HTML & Laravel Admin Dashboard Template
-	Author: PIXINVENT
-	Author URL: http://www.themeforest.net/user/pixinvent
-==========================================================================================*/
-
 $(document).ready(function () {
 	// Action sau khi click button edit trong description
 	$(".description-button-edit").on("click", function () {
@@ -96,7 +87,6 @@ $(document).ready(function () {
 			}
 			$(".custom-file-content").append(html);
 			autoRender();
-
 			feather.replace();
 		}
 	});
