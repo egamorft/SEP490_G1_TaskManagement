@@ -92,7 +92,9 @@
                             @endphp
                             <tr data-id="{{ $task->id }}">
                                 <td>{{ $count }}</td>
-                                <td>{{ $task->title }}</td>
+                                <td>
+									<a href="{{ $_SERVER['REQUEST_URI'] }}/show=task&id={{ $task->id }}">{{ $task->title }}</a>
+								</td>
                                 <td>
                                     <span class="badge rounded-pill {{ $statusView["class"] }}">{{ $statusView["text"] }}</span>
                                 </td>
