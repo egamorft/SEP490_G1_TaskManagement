@@ -106,7 +106,7 @@
                         @forelse ($getAllAccount as $key => $account)
                             <tr class="odd" id="row{{ $account->id }}">
                                 <td>{{ $key + 1 }}</td>
-                                <td>{{ $account->fullname }}</td>
+                                <td>{{ $account->name }}</td>
                                 <td>{{ $account->email }}</td>
                                 @if ($account->is_admin == 0)
                                     <td>

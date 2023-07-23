@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Account;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Social;
@@ -19,7 +18,7 @@ class SocialSeeder extends Seeder
     {
         // $faker = Faker::create();
 
-        // $accounts = Account::pluck('id')->toArray();
+        // $accounts = User::pluck('id')->toArray();
 
         // foreach ($accounts as $account) {
         //     Social::create([

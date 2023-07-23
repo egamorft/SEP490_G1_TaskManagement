@@ -33,7 +33,7 @@
                                     src="{{ asset('images/avatars/' . $account->avatar) }}" height="110"
                                     width="110" alt="User avatar" />
                                 <div class="user-info text-center">
-                                    <h4>{{ $account->fullname }}</h4>
+                                    <h4>{{ $account->name }}</h4>
                                     <span
                                         class="badge bg-light-secondary">{{ $account->is_admin == 1 ? 'Admin' : 'User' }}</span>
                                 </div>

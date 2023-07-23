@@ -34,7 +34,7 @@
                         <select class="select2 form-select" id="modalAddTaskAssignee" name="modalAddTaskAssignee">
                             @forelse ($memberAccount as $acc)
                                 <option {{ $acc->id == Auth::id() ? 'disabled' : '' }} value="{{ $acc->id }}">
-                                    {{ $acc->fullname }} - {{ $acc->email }}
+                                    {{ $acc->name }} - {{ $acc->email }}
                                     {{ $acc->id == Auth::id() ? '(YOU)' : '' }}
                                 </option>
                             @empty

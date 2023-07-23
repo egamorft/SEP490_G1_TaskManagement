@@ -9,7 +9,7 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Mail\ResetPassword;
 use App\Mail\WelcomeSocial;
-use App\Models\Account;
+use App\Models\User;
 use App\Models\Social;
 use Socialite;
 use Illuminate\Http\Request;
@@ -45,7 +45,7 @@ class AuthController extends Controller
         return view('content.authentication.auth-forgot-password-cover', ['pageConfigs' => $pageConfigs]);
     }
 
-    // User Account Page
+    // User User Page
     public function user_view_account()
     {
         $pageConfigs = ['pageHeader' => true];
@@ -77,14 +77,14 @@ class AuthController extends Controller
     public function new_register(RegisterRequest $request)
     {
         $data = array();
-        $data['fullname'] = $request->input('register-fullname');
+        $data['name'] = $request->input('register-fullname');
         $data['email'] = $request->input('register-email');
         $data['password'] = Hash::make($request->input('register-password'));
-        $data['avatar'] = strtoupper(substr($data['fullname'], 0, 1)) . '.png';
+        $data['avatar'] = strtoupper(substr($data['name'], 0, 1)) . '.png';
         $data['token'] = mt_rand(100000, 999999);
         $data['status'] = 0;
 
-        $account_id = Account::insertGetId($data);
+        $account_id = User::insertGetId($data);
         if ($account_id) {
             return redirect()->route('mail.verify.account', $data);
             // return Redirect::to('/login')->with('success', 'You have success to sign up!!');
@@ -98,7 +98,7 @@ class AuthController extends Controller
     {
         $email = $request->input('login-email');
         $password = $request->input('login-password');
-        $account = Account::where('email', $email)->first();
+        $account = User::where('email', $email)->first();
         if ($account && Hash::check($password, $account->password)) {
             if ($account->status == 1) {
                 if (!$account->deleted_at) {
@@ -131,13 +131,13 @@ class AuthController extends Controller
         // handle form submission
         if ($request->validated()) {
             // validation passed
-            $user = Account::findOrFail($id);
+            $user = User::findOrFail($id);
 
             if ($user->status == 1) {
                 // Update the user's information
-                $user->fullname = $request->modalEditUserFullname;
+                $user->name = $request->modalEditUserFullname;
                 $user->address = $request->modalEditUserAddress;
-                $user->avatar = strtoupper(substr($user->fullname, 0, 1)) . '.png';
+                $user->avatar = strtoupper(substr($user->name, 0, 1)) . '.png';
 
                 $user->save();
 
@@ -160,7 +160,7 @@ class AuthController extends Controller
     {
         $id = Auth::user()->id;
 
-        $user = Account::findOrFail($id);
+        $user = User::findOrFail($id);
         if ($user->status == 1) {
             // Update the user's pass
             $user->password = Hash::make($request->newPassword);
@@ -186,7 +186,7 @@ class AuthController extends Controller
         $email = $request->input('email');
 
         $inputToken = $digit1 . $digit2 . $digit3 . $digit4 . $digit5 . $digit6;
-        $account = Account::where('email', $email)->first();
+        $account = User::where('email', $email)->first();
         if ($account) {
             if ($account->token == $inputToken) {
                 $account->status = 1;
@@ -209,12 +209,12 @@ class AuthController extends Controller
     public function check_forgot_password(Request $request)
     {
         $data = $request->all();
-        $email_exist = Account::where('email', $data['forgot-password-email'])->first();
+        $email_exist = User::where('email', $data['forgot-password-email'])->first();
         if ($email_exist) {
             if ($email_exist->password != "") {
                 $email_to = $data['forgot-password-email'];
                 $token = md5(uniqid());
-                $account = Account::where('email', $email_to)->first();
+                $account = User::where('email', $email_to)->first();
                 $account->token = $token;
                 $account->save();
             } else {
@@ -233,7 +233,7 @@ class AuthController extends Controller
     public function reset_password_cover($token)
     {
         if ($token) {
-            $account = Account::where('token', $token)->first();
+            $account = User::where('token', $token)->first();
             if ($account) {
                 $pageConfigs = ['blankPage' => true];
 
@@ -252,7 +252,7 @@ class AuthController extends Controller
         $new_password = $request->input('reset-password-new');
         $token = $request->input('hidden_token');
 
-        $account = Account::where('token', $token)->first();
+        $account = User::where('token', $token)->first();
         $account->token = null;
         $account->password = Hash::make($new_password);
         $account->save();
@@ -275,7 +275,7 @@ class AuthController extends Controller
             ->first();
         if ($social) {
             //Existed in system
-            $account = Account::findOrFail($social->account_id);
+            $account = User::findOrFail($social->account_id);
             Auth::login($account);
             return redirect()->route('dashboard')->with('success', 'Successfully login with facebook');
         } else {
@@ -285,13 +285,13 @@ class AuthController extends Controller
             ]);
 
             //Check email facebook exist?
-            $orang = Account::where('email', $provider->getEmail())->first();
+            $orang = User::where('email', $provider->getEmail())->first();
 
             if (!$orang) {
                 //Create new
-                $orang = Account::create([
+                $orang = User::create([
 
-                    'fullname' => $provider->getName(),
+                    'name' => $provider->getName(),
                     'email' => $provider->getEmail(),
                     'password' => '',
                     'address' => '',
@@ -321,7 +321,7 @@ class AuthController extends Controller
             ->first();
         if ($social) {
             //Existed in system
-            $account = Account::findOrFail($social->account_id);
+            $account = User::findOrFail($social->account_id);
             Auth::login($account);
             return redirect()->route('dashboard')->with('success', 'Successfully login with google');
         } else {
@@ -330,13 +330,13 @@ class AuthController extends Controller
                 'provider' => 'GOOGLE'
             ]);
             //Check email google exist?
-            $orang = Account::where('email', $provider->getEmail())->first();
+            $orang = User::where('email', $provider->getEmail())->first();
 
             if (!$orang) {
                 //Create new
-                $orang = Account::create([
+                $orang = User::create([
 
-                    'fullname' => $provider->getName(),
+                    'name' => $provider->getName(),
                     'email' => $provider->getEmail(),
                     'password' => '',
                     'address' => '',

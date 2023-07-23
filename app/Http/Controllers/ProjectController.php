@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\BoardRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Mail\ProjectInvitation;
-use App\Models\Account;
+use App\Models\User;
 use App\Models\AccountProject;
 use App\Models\Board;
 use App\Models\Permission;
@@ -70,7 +70,7 @@ class ProjectController extends Controller
         // $excludedAccounts = [$pmAccount->id, $supervisorAccount->id];
         // $excludedAccounts = array_merge($excludedAccounts, $memberAccount->pluck('id')->toArray());
 
-        // $accountsBeside = Account::whereNotIn('id', $excludedAccounts)
+        // $accountsBeside = User::whereNotIn('id', $excludedAccounts)
         //     ->where('is_admin', 0)
         //     ->where('status', 1)
         //     ->whereNull('deleted_at')
@@ -189,8 +189,8 @@ class ProjectController extends Controller
             'role_id' => $supervisorRoleId,
             'status' => 0
         ]);
-        $supervisor = Account::find($supervisorId);
-        Mail::to($supervisor->email)->send(new ProjectInvitation($project_slug, $project_token, $project_name, $supervisor->fullname, 'Supervisor'));
+        $supervisor = User::find($supervisorId);
+        Mail::to($supervisor->email)->send(new ProjectInvitation($project_slug, $project_token, $project_name, $supervisor->name, 'Supervisor'));
 
         $memberRoleId = Role::where('name', 'member')->pluck('id')->first();
         // Associate members with the project
@@ -202,8 +202,8 @@ class ProjectController extends Controller
                 'role_id' => $memberRoleId,
                 'status' => 0
             ]);
-            $member = Account::find($memberId);
-            Mail::to($member->email)->send(new ProjectInvitation($project_slug, $project_token, $project_name, $member->fullname, 'Member'));
+            $member = User::find($memberId);
+            Mail::to($member->email)->send(new ProjectInvitation($project_slug, $project_token, $project_name, $member->name, 'Member'));
         }
 
         /**
@@ -256,7 +256,7 @@ class ProjectController extends Controller
 
                 if ($role) {
                     $roleName = $role->name;
-                    $accountName = $account->fullname;
+                    $accountName = $account->name;
                     $accountEmail = $account->email;
                     $accountAvatar = $account->avatar;
 
@@ -272,7 +272,7 @@ class ProjectController extends Controller
             //Get total members in project
             $totalAccounts = AccountProject::where('project_id', $projectId)->where('status', 1)->count();
 
-            $supervisorAccounts = Account::whereHas('roles', function ($query) use ($projectId) {
+            $supervisorAccounts = User::whereHas('roles', function ($query) use ($projectId) {
                 $query->where('roles.id', 2)
                     ->where('account_project.status', 1)
                     ->where('account_project.project_id', $projectId);
@@ -473,7 +473,7 @@ class ProjectController extends Controller
         $project_token = $validatedData['modalInviteToken'];
 
         $project = Project::where('slug', $project_slug)->where('token', $project_token)->first();
-        $invitedAccount = Account::where('email', $validatedData['modalInviteEmail'])->first();
+        $invitedAccount = User::where('email', $validatedData['modalInviteEmail'])->first();
         if (
             $invitedAccount &&
             $invitedAccount->is_admin == 0 &&
@@ -489,14 +489,14 @@ class ProjectController extends Controller
                 'status' => 0
             ]);
 
-            Mail::to($invitedAccount->email)->send(new ProjectInvitation($project_slug, $project_token, $project->name, $invitedAccount->fullname, 'Member'));
+            Mail::to($invitedAccount->email)->send(new ProjectInvitation($project_slug, $project_token, $project->name, $invitedAccount->name, 'Member'));
 
-            Session::flash('success', 'Successfully invite ' . $invitedAccount->fullname);
+            Session::flash('success', 'Successfully invite ' . $invitedAccount->name);
             // Return a response indicating the success of the operation
             return response()->json(['success' => true]);
         } else {
             // Return a response indicating the success of the operation
-            return response()->json(['message' => 'Something went wrong with ' . $invitedAccount->fullname . ' account'], Response::HTTP_BAD_REQUEST);
+            return response()->json(['message' => 'Something went wrong with ' . $invitedAccount->name . ' account'], Response::HTTP_BAD_REQUEST);
         }
     }
 
@@ -504,7 +504,7 @@ class ProjectController extends Controller
     {
         $project_id = $request->input('project');
         $account_id = $request->input('account');
-        $account = Account::findOrFail($account_id);
+        $account = User::findOrFail($account_id);
         $accountProject = AccountProject::where('project_id', $project_id)->where('account_id', $account_id)->first();
         if ($accountProject) {
             $accountProject->delete();
@@ -522,7 +522,7 @@ class ProjectController extends Controller
     {
         $project_id = $request->input('project');
         $account_id = $request->input('account');
-        $account = Account::findOrFail($account_id);
+        $account = User::findOrFail($account_id);
         $project = Project::findOrFail($project_id);
         $accountProject = AccountProject::where('project_id', $project_id)->where('account_id', $account_id)->first();
         if ($accountProject) {
@@ -543,8 +543,8 @@ class ProjectController extends Controller
         $old_pm_id = Auth::user()->id;
         $project_id = $request->input('project');
         $new_pm_id = $request->input('account');
-        $newPmAccount = Account::findOrFail($new_pm_id);
-        $oldPmAccount = Account::findOrFail($old_pm_id);
+        $newPmAccount = User::findOrFail($new_pm_id);
+        $oldPmAccount = User::findOrFail($old_pm_id);
         // $project = Project::findOrFail($project_id);
         $newPmAccountProject = AccountProject::where('project_id', $project_id)->where('account_id', $new_pm_id)->first();
         $oldPmAccountProject = AccountProject::where('project_id', $project_id)->where('account_id', $old_pm_id)->first();
@@ -830,7 +830,7 @@ class ProjectController extends Controller
                     'due-date' => $task->due_date ?? "", // replace with actual due date
                     'attachments' => $attachmentsCount, // replace with actual attachments count
                     'assigned' => $task->assignTo->avatar ?? "", // replace with actual assigned members
-                    'members' => $task->assignTo->fullname ?? "" // replace with actual members
+                    'members' => $task->assignTo->name ?? "" // replace with actual members
                 ];
 
                 $taskItems[] = $taskItem;

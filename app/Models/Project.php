@@ -24,7 +24,7 @@ class Project extends Model
 
     // public function accountProject()
     // {
-    //     return $this->belongsToMany(Account::class, 'account_project')
+    //     return $this->belongsToMany(User::class, 'account_project')
     //         ->withPivot('status');
     // }
 
@@ -36,7 +36,7 @@ class Project extends Model
 
     public function findAccountWithRoleNameAndStatus($roleName, $status)
     {
-        return $this->belongsToMany(Account::class, 'account_project')
+        return $this->belongsToMany(User::class, 'account_project', 'project_id', 'account_id')
             ->wherePivot('role_id', function ($query) use ($roleName) {
                 $query->from('roles')
                     ->where('name', $roleName)
@@ -49,7 +49,7 @@ class Project extends Model
 
     public function accounts()
     {
-        return $this->belongsToMany(Account::class, 'account_project')
+        return $this->belongsToMany(User::class, 'account_project', 'project_id', 'account_id')
             ->withPivot('role_id');
     }
 

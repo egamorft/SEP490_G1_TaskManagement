@@ -2,10 +2,10 @@
 
 namespace Database\Seeders;
 
-use App\Models\Account;
 use App\Models\AccountProject;
 use App\Models\Project;
 use App\Models\Role;
+use App\Models\User;
 use Faker\Factory as Faker;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -20,7 +20,7 @@ class AccountProjectSeeder extends Seeder
     public function run()
     {
         $faker = Faker::create();
-        $accounts = Account::pluck('id')->toArray();
+        $accounts = User::pluck('id')->toArray();
         $projects = Project::pluck('id')->toArray();
         $roles = Role::pluck('id')->toArray();
         foreach ($accounts as $account) {

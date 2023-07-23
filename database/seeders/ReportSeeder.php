@@ -5,7 +5,7 @@ namespace Database\Seeders;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use App\Models\Report;
-use App\Models\Account;
+use App\Models\User;
 use Faker\Factory as Faker;
 
 class ReportSeeder extends Seeder
@@ -19,7 +19,7 @@ class ReportSeeder extends Seeder
     {
         $faker = Faker::create();
 
-        $accounts = Account::pluck('id')->toArray();
+        $accounts = User::pluck('id')->toArray();
 
         foreach ($accounts as $account) {
             for ($i = 0; $i < 5; $i++) {

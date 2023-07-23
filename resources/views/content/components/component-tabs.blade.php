@@ -210,7 +210,7 @@
                                                                 alt="avatar" height="40" width="40">
                                                             <div>
                                                                 <h5 class="mb-0" style="font-size: 1rem;">
-                                                                    {{ $pmAccount->fullname }}
+                                                                    {{ $pmAccount->name }}
                                                                 </h5>
                                                                 <small
                                                                     style="font-size: 0.7rem;">{{ $pmAccount->email }}</small>
@@ -229,7 +229,7 @@
                                                                     src="{{ Auth::user() ? asset('images/avatars/' . $supervisorAccount->avatar) : '' }}"
                                                                     alt="avatar" height="40" width="40">
                                                                 <div>
-                                                                    <h6 class="mb-0">{{ $supervisorAccount->fullname }}
+                                                                    <h6 class="mb-0">{{ $supervisorAccount->name }}
                                                                     </h6>
                                                                     <small
                                                                         style="font-size: 0.7rem;">{{ $supervisorAccount->email }}</small>
@@ -246,7 +246,7 @@
                                                                             alt="avatar" height="40" width="40">
                                                                         <div>
                                                                             <h6 class="mb-0">
-                                                                                {{ $pendingSupervisorAccount->fullname }}
+                                                                                {{ $pendingSupervisorAccount->name }}
                                                                             </h6>
                                                                             <small
                                                                                 style="font-size: 0.7rem;">{{ $pendingSupervisorAccount->email }}</small>
@@ -324,7 +324,7 @@
                                                                     src="{{ Auth::user() ? asset('images/avatars/' . $mem->avatar) : '' }}"
                                                                     alt="avatar" height="40" width="40">
                                                                 <div>
-                                                                    <h6 class="mb-0">{{ $mem->fullname }}
+                                                                    <h6 class="mb-0">{{ $mem->name }}
                                                                     </h6>
                                                                     <small
                                                                         style="font-size: 0.7rem;">{{ $mem->email }}</small>
@@ -385,7 +385,7 @@
                                                                     src="{{ Auth::user() ? asset('images/avatars/' . $penAcc->avatar) : '' }}"
                                                                     alt="avatar" height="40" width="40">
                                                                 <div>
-                                                                    <h6 class="mb-0">{{ $penAcc->fullname }}
+                                                                    <h6 class="mb-0">{{ $penAcc->name }}
                                                                     </h6>
                                                                     <small
                                                                         style="font-size: 0.7rem;">{{ $penAcc->email }}</small>
@@ -430,7 +430,7 @@
                                                                     src="{{ Auth::user() ? asset('images/avatars/' . $rev->avatar) : '' }}"
                                                                     alt="avatar" height="40" width="40">
                                                                 <div>
-                                                                    <h6 class="mb-0">{{ $rev->fullname }}
+                                                                    <h6 class="mb-0">{{ $rev->name }}
                                                                     </h6>
                                                                     <small
                                                                         style="font-size: 0.7rem;">{{ $rev->email }}</small>

@@ -164,7 +164,7 @@
                     </div>
                     <div class="more-info" style="margin-top: 10px;">
                         <small>Project Manager</small>
-                        <h6 class="mb-0">{{ $pmAccount->fullname ?? '' }}</h6>
+                        <h6 class="mb-0">{{ $pmAccount->name ?? '' }}</h6>
                     </div>
                 </div>
                 <div class="col mt-0">
@@ -177,7 +177,7 @@
                     <div class="more-info" style="margin-top: 10px;">
                         <small>Project Supervisor</small>
                         <h6 class="mb-0">
-                            {{ $supervisorAccount->fullname ?? 'Waiting for supervisor...' }}
+                            {{ $supervisorAccount->name ?? 'Waiting for supervisor...' }}
                         </h6>
                     </div>
                 </div>
@@ -188,7 +188,7 @@
                     <div class="avatar-group">
                         @forelse ($memberAccount as $acc)
                             <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-                                title="{{ $acc->fullname }}" class="avatar pull-up">
+                                title="{{ $acc->name }}" class="avatar pull-up">
                                 <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar" width="33"
                                     height="33" />
                             </a>

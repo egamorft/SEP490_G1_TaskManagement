@@ -2,8 +2,7 @@
 
 namespace Database\Seeders;
 
-use App\Models\Account;
-use App\Models\Role;
+use App\Models\User;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Faker\Factory as Faker;
@@ -20,8 +19,8 @@ class AccountSeeder extends Seeder
     public function run()
     {
         //admin account
-        Account::create([
-            'fullname' => 'admin',
+        User::create([
+            'name' => 'admin',
             'email' => 'admin@gmail.com',
             'password' => Hash::make('password'),
             'address' => 'admin',
@@ -33,8 +32,8 @@ class AccountSeeder extends Seeder
         ]);
 
         //user account
-        Account::create([
-            'fullname' => 'user',
+        User::create([
+            'name' => 'user',
             'email' => 'user@gmail.com',
             'password' => Hash::make('password'),
             'address' => 'user',
@@ -46,8 +45,8 @@ class AccountSeeder extends Seeder
         ]);
 
         //supervisor account
-        Account::create([
-            'fullname' => 'supervisor one',
+        User::create([
+            'name' => 'supervisor one',
             'email' => 'testingg@fe.edu.vn',
             'password' => Hash::make('password'),
             'address' => 'Hà Nội',
@@ -58,8 +57,8 @@ class AccountSeeder extends Seeder
             'deleted_at' => null,
         ]);
 
-        Account::create([
-            'fullname' => 'supervisor two',
+        User::create([
+            'name' => 'supervisor two',
             'email' => 'testing@fe.edu.vn',
             'password' => Hash::make('password'),
             'address' => 'Hải Phòng',
@@ -73,11 +72,11 @@ class AccountSeeder extends Seeder
         $faker = Faker::create();
 
         for ($i = 0; $i < 5; $i++) {
-            $fullname = $faker->name;
-            $avatar = Str::substr($fullname, 0, 1) . '.png';
+            $name = $faker->name;
+            $avatar = Str::substr($name, 0, 1) . '.png';
 
-            Account::create([
-                'fullname' => $fullname,
+            User::create([
+                'name' => $name,
                 'email' => $faker->email,
                 'password' => Hash::make('password'), // Set a default password or use Faker to generate one
                 'address' => $faker->address,

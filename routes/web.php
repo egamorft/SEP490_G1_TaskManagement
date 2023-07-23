@@ -77,8 +77,8 @@ Route::middleware(['guest'])->group(function () {
 
 Route::get('/api/check-auth', function () {
     $authenticated = Auth::check();
-    $fullname = Auth::user()->fullname;
-    return response()->json(['authenticated' => $authenticated, 'fullname' => $fullname]);
+    $name = Auth::user()->name;
+    return response()->json(['authenticated' => $authenticated, 'name' => $name]);
 });
 
 

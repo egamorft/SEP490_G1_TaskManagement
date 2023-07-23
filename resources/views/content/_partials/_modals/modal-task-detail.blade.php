@@ -33,7 +33,7 @@
                                 </div>
                                 <div class="more-info">
                                     <small>{{ $acc->email }}</small>
-                                    <h6 class="mb-0">{{ $acc->fullname }}</h6>
+                                    <h6 class="mb-0">{{ $acc->name }}</h6>
                                 </div>
                             </a>
                         </li>
@@ -56,7 +56,7 @@
             </div>
 
 			@if ($taskDetails->assignTo)
-				<img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
+				<img title="{{ $taskDetails->assignTo->name ?? '' }}" class="user-add-assignee"
 					src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" data-id="{{ $taskDetails->assign_to }}" />
 			@else
 				<i data-feather="plus" class="user-add-assignee user-icon-plus"></i>
@@ -83,7 +83,7 @@
                                 </div>
                                 <div class="more-info">
                                     <small>{{ $acc->email }}</small>
-                                    <h6 class="mb-0">{{ $acc->fullname }}</h6>
+                                    <h6 class="mb-0">{{ $acc->name }}</h6>
                                 </div>
                             </a>
                         </li>
@@ -122,7 +122,7 @@
             </div>
 
 			@if ($taskDetails->createdBy)
-				<img title="{{ $taskDetails->createdBy->fullname ?? '' }}" class="user-add-reviewer"
+				<img title="{{ $taskDetails->createdBy->name ?? '' }}" class="user-add-reviewer"
 					src="{{ asset('images/avatars/' . $taskDetails->createdBy->avatar ?? '') }}" alt="IMG" />
 			@else
 				<i data-feather="plus" class="user-add-reviewer user-icon-plus"></i>

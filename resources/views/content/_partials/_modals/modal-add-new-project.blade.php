@@ -23,7 +23,7 @@
                         <select disabled name="modalAddPM" class="select2 form-select" id="select2-modalAddPM">
                             @forelse ($students as $acc)
                                 <option value="{{ $acc->id }}"
-                                    {{ Auth::user()->id == $acc->id ? 'selected' : '' }}>{{ $acc->fullname }} (You)
+                                    {{ Auth::user()->id == $acc->id ? 'selected' : '' }}>{{ $acc->name }} (You)
                                 </option>
                             @empty
                                 <option value="" selected disabled>No data available</option>
@@ -35,7 +35,7 @@
                         <label class="form-label" for="select2-modalAddSupervisor">Project Supervisor</label>
                         <select name="modalAddSupervisor" class="select2 form-select" id="select2-modalAddSupervisor">
                             @forelse ($supervisors as $acc)
-                                <option value="{{ $acc->id }}">{{ $acc->fullname }}</option>
+                                <option value="{{ $acc->id }}">{{ $acc->name }}</option>
                             @empty
                                 <option value="" selected disabled>No data available</option>
                             @endforelse
@@ -47,7 +47,7 @@
                         <label class="form-label" for="select2-limited">Project Member</label>
                         <select name="modalAddMembers[]" class="max-length form-select" id="select2-limited" multiple>
                             @foreach ($students as $acc)
-                                <option value="{{ $acc->id }}">{{ $acc->fullname }} - {{ $acc->email }}</option>
+                                <option value="{{ $acc->id }}">{{ $acc->name }} - {{ $acc->email }}</option>
                             @endforeach
                         </select>
                         <span id="error-modalAddMembers" style="color: red; display: none"></span>
