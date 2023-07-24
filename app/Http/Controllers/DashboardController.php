@@ -35,4 +35,26 @@ class DashboardController extends Controller
 			'project'
 		));
   }
+
+  public function dashboard_member()
+  {
+    $pageConfigs = ['pageHeader' => false];
+	$project = Project::where('slug', "mine")->first();
+
+    return view('dashboard.dashboard-member', ['pageConfigs' => $pageConfigs])
+		->with(compact(
+			'project'
+		));
+  }
+
+  public function dashboard_admin()
+  {
+    $pageConfigs = ['pageHeader' => false];
+	$project = Project::where('slug', "mine")->first();
+
+    return view('dashboard.dashboard-admin', ['pageConfigs' => $pageConfigs])
+		->with(compact(
+			'project'
+		));
+  }
 }
