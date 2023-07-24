@@ -8,53 +8,46 @@ use App\Models\Project;
 
 class DashboardController extends Controller
 {
-  // Dashboard - Analytics
-  public function dashboardAnalytics()
-  {
-    $pageConfigs = ['pageHeader' => false];
+	// Dashboard - Analytics
+	public function dashboardAnalytics()
+	{
+		$pageConfigs = ['pageHeader' => false];
 
-    return view('/content/dashboard/dashboard-analytics', ['pageConfigs' => $pageConfigs]);
-  }
+		return view('/content/dashboard/dashboard-analytics', ['pageConfigs' => $pageConfigs]);
+	}
 
-  // Dashboard - Ecommerce
-  public function dashboardEcommerce()
-  {
-    $pageConfigs = ['pageHeader' => false];
+	// Dashboard - Ecommerce
+	public function dashboardEcommerce()
+	{
+		$pageConfigs = ['pageHeader' => false];
 
-    return view('content.dashboard.dashboard-ecommerce', ['pageConfigs' => $pageConfigs]);
-  }
+		return view('content.dashboard.dashboard-ecommerce', ['pageConfigs' => $pageConfigs]);
+	}
 
-  // Dashboard
-  public function dashboard()
-  {
-    $pageConfigs = ['pageHeader' => false];
-	$project = Project::where('slug', "mine")->first();
+	// Dashboard
+	public function dashboard()
+	{
+		$pageConfigs = ['pageHeader' => false];
+		if (!Auth::user()) {
+			return view('dashboard.not-authorized', ['pageConfigs' => $pageConfigs]);
+		}
+		if (Auth::user()->is_admin == 0) {
+			return DashboardController::dashboard_member();
+		}
+		return DashboardController::dashboard_admin();
+	}
 
-    return view('dashboard.dashboard-member', ['pageConfigs' => $pageConfigs])
-		->with(compact(
-			'project'
-		));
-  }
+	public function dashboard_member()
+	{
+		$pageConfigs = ['pageHeader' => false];
 
-  public function dashboard_member()
-  {
-    $pageConfigs = ['pageHeader' => false];
-	$project = Project::where('slug', "mine")->first();
+		return view('dashboard.dashboard-member', ['pageConfigs' => $pageConfigs]);
+	}
 
-    return view('dashboard.dashboard-member', ['pageConfigs' => $pageConfigs])
-		->with(compact(
-			'project'
-		));
-  }
+	public function dashboard_admin()
+	{
+		$pageConfigs = ['pageHeader' => false];
 
-  public function dashboard_admin()
-  {
-    $pageConfigs = ['pageHeader' => false];
-	$project = Project::where('slug', "mine")->first();
-
-    return view('dashboard.dashboard-admin', ['pageConfigs' => $pageConfigs])
-		->with(compact(
-			'project'
-		));
-  }
+		return view('dashboard.dashboard-admin', ['pageConfigs' => $pageConfigs]);
+	}
 }

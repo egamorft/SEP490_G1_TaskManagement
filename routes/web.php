@@ -40,7 +40,7 @@ use PhpParser\Node\Stmt\Return_;
 
 // Main Page Route
 
-Route::get('/', [DashboardController::class, 'dashboard_member'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('dashboard', [DashboardController::class, 'dashboard_member'])->name('dashboard.member');
 Route::get('admin/dashboard', [DashboardController::class, 'dashboard_admin'])->name('dashboard.admin');
 

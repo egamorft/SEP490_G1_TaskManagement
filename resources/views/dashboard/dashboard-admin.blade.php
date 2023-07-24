@@ -17,6 +17,7 @@
 @endsection
 
 @section('content')
+
     <!-- projects list start -->
     <section class="app-user-list">
         <div class="row">
@@ -25,11 +26,11 @@
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>
                             <h3 class="fw-bolder mb-75">{{ 10 }}</h3>
-                            <span>Total Users</span>
+                            <span>Doing Projects</span>
                         </div>
                         <div class="avatar bg-light-primary p-50">
                             <span class="avatar-content">
-                                <i data-feather="user" class="font-medium-4"></i>
+                                <i data-feather="fast-forward" class="font-medium-4"></i>
                             </span>
                         </div>
                     </div>
@@ -40,11 +41,11 @@
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>
                             <h3 class="fw-bolder mb-75">{{ 20 }}</h3>
-                            <span>Active Users</span>
+                            <span>Done Projects</span>
                         </div>
                         <div class="avatar bg-light-success p-50">
                             <span class="avatar-content">
-                                <i data-feather="user-check" class="font-medium-4"></i>
+                                <i data-feather="check" class="font-medium-4"></i>
                             </span>
                         </div>
                     </div>
@@ -55,11 +56,11 @@
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>
                             <h3 class="fw-bolder mb-75">{{ 30 }}</h3>
-                            <span>Inactive Users</span>
+                            <span>Todo Project</span>
                         </div>
                         <div class="avatar bg-light-warning p-50">
                             <span class="avatar-content">
-                                <i data-feather="user-x" class="font-medium-4"></i>
+                                <i data-feather="pause-circle" class="font-medium-4"></i>
                             </span>
                         </div>
                     </div>
@@ -70,11 +71,11 @@
                     <div class="card-body d-flex align-items-center justify-content-between">
                         <div>
                             <h3 class="fw-bolder mb-75">{{ 10 }}</h3>
-                            <span>Banned Users</span>
+                            <span>Rejected Projects</span>
                         </div>
                         <div class="avatar bg-light-danger p-50">
                             <span class="avatar-content">
-                                <i data-feather="user-plus" class="font-medium-4"></i>
+                                <i data-feather="alert-triangle" class="font-medium-4"></i>
                             </span>
                         </div>
                     </div>
@@ -91,7 +92,7 @@
                 </div>
             </div>
             <div class="card-datatable table-responsive pt-0">
-                @include('dashboard.dashboard-all-project')
+                @include('dashboard.all-project')
             </div>
         </div>
         <!-- list and filter end -->
