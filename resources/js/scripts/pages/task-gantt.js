@@ -12475,15 +12475,19 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                             return { lightbox: t._lightbox_id };
                         }),
                     (t.showLightbox = function (t) {
-                        if (this.callEvent("onBeforeLightbox", [t])) {
-                            var e = this.getTask(t),
-                                n = this.getLightbox(this.getTaskType(e.type));
-                            this._center_lightbox(n),
-                                this.showCover(),
-                                this._fill_lightbox(t, n),
-                                this._waiAria.lightboxVisibleAttr(n),
-                                this.callEvent("onLightbox", [t]);
-                        }
+                        //---------- show popup detail ------------------
+						// if (this.callEvent("onBeforeLightbox", [t])) {
+                        //     var e = this.getTask(t),
+                        //         n = this.getLightbox(this.getTaskType(e.type));
+                        //     this._center_lightbox(n),
+                        //         this.showCover(),
+                        //         this._fill_lightbox(t, n),
+                        //         this._waiAria.lightboxVisibleAttr(n),
+                        //         this.callEvent("onLightbox", [t]);
+                        // }
+						console.log("show box");
+						console.log(t);
+						TASK.showTaskDetail(t);
                     }),
                     (t._get_timepicker_step = function () {
                         if (this.config.round_dnd_dates) {
@@ -24545,7 +24549,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                     icon_save: "Simpan",
                     icon_cancel: "Batal",
                     icon_details: "Detail",
-                    icon_edit: "Edit",
+                    icon_edit: "Detail",
                     icon_delete: "Hapus",
                     confirm_closing: "",
                     confirm_deleting: "Acara akan dihapus",
@@ -25335,7 +25339,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
                     icon_save: "Save",
                     icon_cancel: "Cancel",
                     icon_details: "Details",
-                    icon_edit: "Edit",
+                    icon_edit: "Detail",
                     icon_delete: "Delete",
                     confirm_closing: "",
                     confirm_deleting:
@@ -46324,7 +46328,7 @@ This software is covered by DHTMLX Evaluation License. Contact sales@dhtmlx.com 
             e.default = function (t) {
                 t.ext || (t.ext = {}),
                     (t.ext.quickInfo = new i.QuickInfo(t)),
-                    (t.config.quickinfo_buttons = ["icon_delete", "icon_edit"]),
+                    (t.config.quickinfo_buttons = ["icon_edit"]),
                     (t.config.quick_info_detached = !0),
                     (t.config.show_quick_info = !0),
                     (t.templates.quick_info_title = function (t, e, n) {
@@ -55336,6 +55340,10 @@ $(window).on("load", function () {
 	});
 	gantt.config.order_branch = true;
 	gantt.config.order_branch_free = true;
+
+
+	// -------------------------- Gantt Setup Form Edit -------------------------------------------------------------------------------------
+	gantt.config.lightbox.sections = [];
 
 
 	// -------------------- Start Gantt -----------------------------------------------------------------------------------------------------
