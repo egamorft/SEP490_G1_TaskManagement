@@ -119,6 +119,9 @@ Route::middleware(['auth'])->group(function () {
         Route::post('board/{board_id}/edit-task/{task_id}', [ProjectController::class, 'edit_task_modal'])->name('edit.task.modal');
         Route::post('board/{board_id}/add-task-list', [ProjectController::class, 'add_task_list_modal'])->name('add.task.list.modal');
 
+        Route::post('board/{board_id}/add-task-in-list', [TaskController::class, 'add_task_in_list_modal'])->name("add.task.in.list.modal");
+        Route::get('board/{board_id}/list?role={role?}', [ProjectController::class, 'view_board_list'])->name("view.board.list");
+
 		// Save Gantt
         Route::post('gantt/save-gantt', [ProjectController::class, 'save_gantt'])->name('save.project.gantt');
         Route::get('task/{task_id}', [TaskController::class, 'view_task'])->name('view.task');

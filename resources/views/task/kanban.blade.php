@@ -40,5 +40,3 @@
     <!-- Kanban Popup ends -->
 </section>
 <!-- Kanban ends -->
-
-<script src="{{ asset(mix('js/scripts/pages/app-kanban-detail.js')) }}"></script>
