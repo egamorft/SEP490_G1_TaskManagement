@@ -59,9 +59,15 @@
                         data-feather="menu"></i></a></li>
         </ul>
         <ul class="nav navbar-nav bookmark-icons">
-            <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('chatify') }}"
-                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Chat"><i class="ficon"
-                        data-feather="message-square"></i></a></li>
+            <li class="nav-item d-none d-lg-block">
+                <a class="nav-link" href="{{ url('chatify') }}" data-bs-toggle="tooltip" data-bs-placement="bottom"
+                    title="Chat">
+                    <i class="ficon" data-feather="message-square"></i>
+                    <div class="pending-div">
+                        
+                    </div>
+                </a>
+            </li>
             <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/calendar') }}"
                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon"
                         data-feather="calendar"></i></a></li>

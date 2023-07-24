@@ -21,6 +21,7 @@ use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\vendor\Chatify\MessagesController;
 use App\Http\Middleware\CheckProjectAccess;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
@@ -42,6 +43,7 @@ use PhpParser\Node\Stmt\Return_;
 
 Route::get('/', [DashboardController::class, 'dashboardEcommerce'])->name('dashboard');
 
+Route::get('/updateUnseenMsg', [MessagesController::class, 'updateUnseenMsg']);
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
