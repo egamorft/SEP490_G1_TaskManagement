@@ -24,7 +24,7 @@
 
                         @foreach ($tasksInProject as $task)
                             @php
-								$task = (object) $task;
+                                $task = (object) $task;
                                 $count++;
                                 $status = $task->status;
                                 $statusView = [
@@ -59,8 +59,8 @@
                                             'class' => 'badge-light-secondary',
                                         ];
                                         break;
-
-									case 0:
+                                
+                                    case 0:
                                         $statusView = [
                                             'text' => 'Todo',
                                             'class' => 'badge-light-info',
@@ -80,40 +80,43 @@
                                         'class' => 'badge-light-danger',
                                     ];
                                 }
-
-								$taskList = $taskLists[$task->taskList_id];
-								$account = null;
-								foreach ($accounts as $acc) {
-									$acc = (object) $acc;
-									if ($acc->id == $task->assign_to) {
-										$account = $acc;
-									}
-								}
+                                
+                                $taskList = $taskLists[$task->taskList_id];
+                                $account = null;
+                                foreach ($accounts as $acc) {
+                                    $acc = (object) $acc;
+                                    if ($acc->id == $task->assign_to) {
+                                        $account = $acc;
+                                    }
+                                }
                             @endphp
                             <tr data-id="{{ $task->id }}">
                                 <td>{{ $count }}</td>
                                 <td>
-									<a href="{{ $_SERVER['REQUEST_URI'] }}?show=task&id={{ $task->id }}">{{ $task->title }}</a>
-								</td>
-                                <td>
-                                    <span class="badge rounded-pill {{ $statusView["class"] }}">{{ $statusView["text"] }}</span>
+                                    <a
+                                        href="{{ $_SERVER['REQUEST_URI'] }}?show=task&id={{ $task->id }}">{{ $task->title }}</a>
                                 </td>
                                 <td>
                                     <span
-                                        class="badge rounded-pill {{ $statusView["class"] }}">{{ date('D, M d, Y', strtotime($task->due_date)) }}</span>
+                                        class="badge rounded-pill {{ $statusView['class'] }}">{{ $statusView['text'] }}</span>
                                 </td>
-								<td>{{ $taskList->title }}</td>
                                 <td>
-									@if ($account)
-										<a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}"
-											data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-											title="{{ $account->fullname }}" class="avatar pull-up">
-											<img src="{{ asset('images/avatars/'.$account->avatar) }}" alt="Avatar" width="33"
-												height="33" />
-										</a>
-									@else
-										<div>Not assign yet</div>
-									@endif
+                                    <span
+                                        class="badge rounded-pill {{ $statusView['class'] }}">{{ date('D, M d, Y', strtotime($task->due_date)) }}</span>
+                                </td>
+                                <td>{{ $taskList->title }}</td>
+                                <td>
+                                    @if ($account)
+                                        <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}"
+                                            data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                            data-bs-placement="bottom" title="{{ $account->fullname }}"
+                                            class="avatar pull-up">
+                                            <img src="{{ asset('images/avatars/' . $account->avatar) }}" alt="Avatar"
+                                                width="33" height="33" />
+                                        </a>
+                                    @else
+                                        <div>Not assign yet</div>
+                                    @endif
                                 </td>
                             </tr>
                         @endforeach
@@ -125,5 +128,23 @@
         </div>
     </div>
 
+	<!-- Calendar task details Popup starts -->
+    <div class="modal update-item-sidebar fade" id="modalCalendarTask" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+            <div class="modal-content">
+                <div class="modal-header bg-transparent">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-5 px-sm-3 pt-50 task-wrapper">
+                    Loading ... 
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 <!-- Full calendar end -->
+
+<script src="{{ asset(mix('js/scripts/pages/task-in-list.js')) }}"></script>
+

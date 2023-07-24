@@ -998,7 +998,7 @@ class ProjectController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function view_board_list($slug, $board_id)
+    public function view_board_list(Request $request, $slug, $board_id, $role = "")
     {
         $pageConfigs = [
             'pageHeader' => false,
@@ -1008,6 +1008,7 @@ class ProjectController extends Controller
         //Project info & members
         $project = Project::where('slug', $slug)->first();
         $accounts = $project->accounts()->get();
+        $currentUser = Auth::user();
 
         $pmAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('pm', 1)
@@ -1029,11 +1030,26 @@ class ProjectController extends Controller
         $tasksInProject = [];
 
         $boards = $project->boards()->get();
+        $role = $request->get("role");
+
         foreach ($boards as $board) {
             $taskLists = $board->taskLists()->get();
             
             foreach ($taskLists as $taskList) {
-                $tasksInProject = array_merge($tasksInProject, $taskList->tasks()->get()->toArray());
+                if ($role == "") {
+                    $tasksInProject = array_merge($tasksInProject, $taskList->tasks()->get()->toArray());
+                    continue;
+                }
+                
+                if ($role == "creator") {
+                    $tasksInProject = array_merge($tasksInProject, $taskList->tasks()->where("created_by", $currentUser->id)->get()->toArray());
+                    continue;
+                }
+
+                if ($role == "assignee") {
+                    $tasksInProject = array_merge($tasksInProject, $taskList->tasks()->where("assign_to", $currentUser->id)->get()->toArray());
+                    continue;
+                }
             }
         }
         //Get all task in project

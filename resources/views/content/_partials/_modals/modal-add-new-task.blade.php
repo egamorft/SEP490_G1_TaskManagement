@@ -12,7 +12,7 @@
                 <form id="addTaskFormCalendar" class="row gy-1 pt-75"
                     action="{{ route('add.task.modal', ['slug' => $project->slug, 'board_id' => $board->id]) }}"
                     method="POST">
-
+                    @csrf
                     <div class="col-12 col-md-12">
                         <label class="form-label" for="modalAddTaskTitle">Task Title</label>
                         <input type="text" id="modalAddTaskTitle" name="modalAddTaskTitle" class="form-control"
