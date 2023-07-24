@@ -82,10 +82,14 @@
                                             $custom_classes = $menu->classlist;
                                         }
                                     @endphp
-                                    <li class="mt-2 nav-item {{ $custom_classes }} {{ Route::currentRouteName() === 'dashboard' ? 'active' : '' }}">
-                                        <a href="{{ route('dashboard') }}" class="d-flex align-items-center">
+                                    <li
+                                        class="nav-item {{ $custom_classes }} {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }}">
+                                        <a href="{{ isset($menu->url) ? url($menu->url) : route('dashboard.admin') }}"
+                                            class="d-flex align-items-center"
+                                            target="{{ isset($menu->newTab) ? '_blank' : '_self' }}">
                                             <i data-feather="{{ $menu->icon }}"></i>
-                                            <span class="menu-title text-truncate">{{ __('locale.' . $menu->name) }}</span>
+                                            <span
+                                                class="menu-title text-truncate">{{ __('locale.' . $menu->name) }}</span>
                                         </a>
                                     </li>
                                 @endif
