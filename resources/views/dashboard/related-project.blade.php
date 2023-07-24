@@ -1,192 +1,262 @@
-	<!-- Project table -->
-	<div class="card col-12">
-		<h4 class="card-header">Your Related Projects</h4>
-		<div class="table-responsive">
-			<table class="table datatable-project">
-				<thead>
-					<tr>
-						<th>Project</th>
-						<th>Status</th>
-						<th>Progress</th>
-						<th>Your Role</th>
-						<th>Your Task</th>
-					</tr>
-				</thead>
-				<tbody>
-					<tr class="odd">
-						<td>
-							<div class="d-flex justify-content-left align-items-center">
-								<div class="more-info">
-									<h6 class="mb-0 text-danger"><a href="{{ route('view.project.board', ['slug'=>'mine']) }}">Project 1</a></h6>
-									<small>Project desc ...</small>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="d-flex justify-content-left align-items-center">
-								<div class="avatar float-start bg-light-danger rounded me-1">
-									<div class="avatar-content">
-										<i data-feather="alert-triangle" class="avatar-icon font-medium-3"></i>
-									</div>
-								</div>
-								<div class="more-info">
-									<h6 class="mb-0 text-danger">False</h6>
-									<small>You have fail this project according to supervisor proposed</small>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="more-info">
-								<p class="mb-50">Duration: {{ 20 }}% @if (10 > 0)
-									({{ 10 }} days remaining) 
-									@endif
-									@if (10 == 0)
-									(last day in the project) 
-									@endif
-								</p>
-								<div class="progress progress-bar-secondary" style="height: 6px">
-									<div class="progress-bar progress-bar-striped" role="progressbar"
-										aria-valuenow="{{ 20 }}" aria-valuemin="{{ 20 }}"
-										aria-valuemax="100"
-										style="width: {{ 20 }}%; ; background-color: {{ '#45ba30' }}!important">
-									</div>
-								</div>
-							</div>
-						</td>
-						<td>Project Manager</td>
-						<td>120/200</td>
-					</tr>
-					<tr class="even">
-						<td>
-							<div class="d-flex justify-content-left align-items-center">
-								<div class="more-info">
-									<h6 class="mb-0 text-danger"><a href="{{ route('view.project.board', ['slug'=>'mine']) }}">Project 2</a></h6>
-									<small>Project desc ...</small>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="d-flex justify-content-left align-items-center">
-								<div class="avatar float-start bg-light-warning rounded me-1">
-									<div class="avatar-content">
-										<i data-feather="pause-circle" class="avatar-icon font-medium-3"></i>
-									</div>
-								</div>
-								<div class="more-info">
-									<h6 class="mb-0 text-warning">Todo</h6>
-									<small>The project is not have supervisor</small>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="more-info">
-								<p class="mb-50">Duration: {{ 20 }}% @if (10 > 0)
-									({{ 10 }} days remaining) 
-									@endif
-									@if (10 == 0)
-									(last day in the project) 
-									@endif
-								</p>
-								<div class="progress progress-bar-secondary" style="height: 6px">
-									<div class="progress-bar progress-bar-striped" role="progressbar"
-										aria-valuenow="{{ 20 }}" aria-valuemin="{{ 20 }}"
-										aria-valuemax="100"
-										style="width: {{ 20 }}%; ; background-color: {{ '#45ba30' }}!important">
-									</div>
-								</div>
-							</div>
-						</td>
-						<td>Project Supervisor</td>
-						<td>120/200</td>
-					</tr>
-					<tr class="odd">
-						<td>
-							<div class="d-flex justify-content-left align-items-center">
-								<div class="more-info">
-									<h6 class="mb-0 text-danger"><a href="{{ route('view.project.board', ['slug'=>'mine']) }}">Project 3</a></h6>
-									<small>Project desc ...</small>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="d-flex justify-content-left align-items-center">
-								<div class="avatar float-start bg-light-primary rounded me-1">
-									<div class="avatar-content">
-										<i data-feather="fast-forward" class="avatar-icon font-medium-3"></i>
-									</div>
-								</div>
-								<div class="more-info">
-									<h6 class="mb-0 text-primary">Doing</h6>
-									<small>The project is in progress</small>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="more-info">
-								<p class="mb-50">Duration: {{ 20 }}% @if (10 > 0)
-									({{ 10 }} days remaining) 
-									@endif
-									@if (10 == 0)
-									(last day in the project) 
-									@endif
-								</p>
-								<div class="progress progress-bar-secondary" style="height: 6px">
-									<div class="progress-bar progress-bar-striped" role="progressbar"
-										aria-valuenow="{{ 20 }}" aria-valuemin="{{ 20 }}"
-										aria-valuemax="100"
-										style="width: {{ 20 }}%; ; background-color: {{ '#db8223' }}!important">
-									</div>
-								</div>
-							</div>
-						</td>
-						<td>Project Member</td>
-						<td>120/200</td>
-					</tr>
-					<tr class="odd">
-						<td>
-							<div class="d-flex justify-content-left align-items-center">
-								<div class="more-info">
-									<h6 class="mb-0 text-danger"><a href="{{ route('view.project.board', ['slug'=>'mine']) }}">Project 4</a></h6>
-									<small>Project desc ...</small>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="d-flex justify-content-left align-items-center">
-								<div class="avatar float-start bg-light-success rounded me-1">
-									<div class="avatar-content">
-										<i data-feather="check" class="avatar-icon font-medium-3"></i>
-									</div>
-								</div>
-								<div class="more-info">
-									<h6 class="mb-0 text-success">Done</h6>
-									<small>Congratulations!! You have done this project</small>
-								</div>
-							</div>
-						</td>
-						<td>
-							<div class="more-info">
-								<p class="mb-50">Duration: {{ 20 }}% @if (10 > 0)
-									({{ 10 }} days remaining) 
-									@endif
-									@if (10 == 0)
-									(last day in the project) 
-									@endif
-								</p>
-								<div class="progress progress-bar-secondary" style="height: 6px">
-									<div class="progress-bar progress-bar-striped" role="progressbar"
-										aria-valuenow="{{ 20 }}" aria-valuemin="{{ 20 }}"
-										aria-valuemax="100"
-										style="width: {{ 20 }}%; ; background-color: {{ '#c4bc21' }}!important">
-									</div>
-								</div>
-							</div>
-						</td>
-						<td>Project Manager</td>
-						<td>120/200</td>
-					</tr>
-				</tbody>
-			</table>
-		</div>
-	</div>
-	<!-- /Project table -->
+@php
+    use Illuminate\Support\Carbon;
+@endphp
+<!-- Project table -->
+<div class="card col-12">
+    <h4 class="card-header">Your Related Projects</h4>
+    <div class="table-responsive">
+        <table class="table datatable-project">
+            <thead>
+                <tr>
+                    <th></th>
+                    <th>Project</th>
+                    <th>Status</th>
+                    <th>Progress</th>
+                    <th>Your Role</th>
+                    <th>Manager</th>
+                    <th>Supervisor</th>
+                    <th>Members</th>
+                </tr>
+            </thead>
+            <tbody>
+                @forelse ($accountProjects as $key => $project)
+                    @php
+                        $supervisor = null;
+                        $manager = $allAccounts[0];
+                        $members = [];
+						$role = "Project Member";
+
+                        foreach ($allAccountProjects as $accPro) {
+                            if ($accPro->project_id == $project->id) {
+                                foreach ($allAccounts as $acc) {
+                                    if ($acc->id == $accPro->account_id && $accPro->role_id == 1) {
+                                        $manager = $acc;
+                                    }
+                                    if ($acc->id == $accPro->account_id && $accPro->role_id == 2) {
+                                        $supervisor = $acc;
+                                    }
+                                    if ($acc->id == $accPro->account_id && $accPro->role_id == 3) {
+                                        $members[] = $acc;
+                                    }
+                                }
+                            }
+                        }
+
+						if ($manager->id == $account->id) {
+							$role = "Project Manager";
+						}
+						if ($supervisor) {
+							if ($supervisor->id == $account->id) {
+								$role = "Project Supervisor";
+							}
+						}
+
+                        // Convert the project's start and end dates to Carbon objects
+						$start_date = Carbon::parse($project->start_date)->startOfDay();
+						$end_date = Carbon::parse($project->end_date)->endOfDay();
+						// Get the current date as a Carbon object
+						$current_date = Carbon::now();
+
+						$percent_completed = 0;
+						$days_left = 0;
+
+						if ($end_date > $start_date) {
+							if ($current_date < $start_date) {
+								// If the project is in the future, set percent_completed to 0
+								$percent_completed = 0;
+								$days_left = $start_date->diffInDays($current_date);
+							} elseif ($current_date >= $end_date) {
+								// If the project is completed, set percent_completed to 100
+								$percent_completed = 100;
+								$days_left = -1;
+							} else {
+								// Calculate the total duration of the project in days
+								$total_days = $start_date->diffInDays($end_date) + 1;
+
+								// Calculate the number of days that have already passed since the project started
+								$days_passed = $start_date->diffInDays($current_date) + 1;
+
+								// Calculate the percentage completed
+								$percent_completed = round(($days_passed / $total_days) * 100, 2);
+
+								// Calculate the number of days left
+								$days_left = $total_days - $days_passed;
+							}
+						}
+						// Make sure percent_completed is within the range of 0 to 100
+						$percent_completed = max(0, min(100, $percent_completed));
+
+						$colorProgressState = '';
+						if (0 <= $percent_completed && $percent_completed <= 40) {
+							$colorProgressState = '#45ba30';
+						} elseif (40 < $percent_completed && $percent_completed <= 60) {
+							$colorProgressState = '#c4bc21';
+						} elseif (60 < $percent_completed && $percent_completed <= 80) {
+							$colorProgressState = '#db8223';
+						} elseif (80 < $percent_completed && $percent_completed <= 100) {
+							$colorProgressState = '#e63217';
+						} else {
+							$colorProgressState = '';
+                        }
+                    @endphp
+                    <tr class="odd" id="row{{ $project->id }}">
+                        <td>{{ $key + 1 }}</td>
+                        <td>
+                            <div class="d-flex justify-content-left align-items-center">
+                                <div class="more-info">
+                                    <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;"><a
+                                            href="{{ route('view.project.board', ['slug' => $project->slug]) }}">{{ $project->name }}</a>
+                                    </h6>
+                                    <small class="text-truncate"
+                                        style="max-width: 300px; display: block;">{{ $project->description ? $project->description : 'No Description' }}</small>
+                                </div>
+                            </div>
+                        </td>
+                        <td>
+                            @switch($project->project_status)
+                                @case(-1)
+                                    <div class="col mt-0">
+                                        <div class="avatar float-start bg-light-danger rounded me-1">
+                                            <div class="avatar-content">
+                                                <i data-feather="alert-triangle" class="avatar-icon font-medium-3"></i>
+                                            </div>
+                                        </div>
+                                        <div class="more-info pt-05">
+                                            <h6 class="mt-0 text-danger" style="min-width: 100px;">Fail</h6>
+                                        </div>
+                                    </div>
+                                @break
+
+                                @case(0)
+                                    <div class="col mt-0">
+                                        <div class="avatar float-start bg-light-warning rounded me-1">
+                                            <div class="avatar-content">
+                                                <i data-feather="pause-circle" class="avatar-icon font-medium-3"></i>
+                                            </div>
+                                        </div>
+                                        <div class="more-info pt-05">
+                                            <h6 class="mt-0 text-warning">Todo</h6>
+                                        </div>
+                                    </div>
+                                @break
+
+                                @case(1)
+                                    <div class="col mt-0">
+                                        <div class="avatar float-start bg-light-primary rounded me-1">
+                                            <div class="avatar-content">
+                                                <i data-feather="fast-forward" class="avatar-icon font-medium-3"></i>
+                                            </div>
+                                        </div>
+                                        <div class="more-info pt-05">
+                                            <h6 class="mt-0 text-primary">Doing</h6>
+                                        </div>
+                                    </div>
+                                @break
+
+                                @case(2)
+                                    <div class="col mt-0">
+                                        <div class="avatar float-start bg-light-success rounded me-1">
+                                            <div class="avatar-content">
+                                                <i data-feather="check" class="avatar-icon font-medium-3"></i>
+                                            </div>
+                                        </div>
+                                        <div class="more-info pt-05">
+                                            <h6 class="mt-0 text-success">Done</h6>
+                                        </div>
+                                    </div>
+                                @break
+
+                                @default
+                                    <div class="col mt-0">
+                                        <div class="avatar float-start bg-light-warning rounded me-1">
+                                            <div class="avatar-content">
+                                                <i data-feather="help-circle" class="avatar-icon font-medium-3"></i>
+                                            </div>
+                                        </div>
+                                        <div class="more-info">
+                                            <h6 class="mb-0 text-warning">Done</h6>
+                                        </div>
+                                    </div>
+                            @endswitch
+                        </td>
+
+                        <td>
+                            <div class="avatar float-start bg-light-primary rounded me-1">
+                                <div class="avatar-content">
+                                    <i data-feather="activity" class="avatar-icon font-medium-3"></i>
+                                </div>
+                            </div>
+
+                            <div class="more-info">
+                                <p class="mb-50">Duration: {{ $percent_completed }}% @if ($days_left > 0)
+                                        ({{ $days_left }} days remaining)
+                                    @endif
+                                    @if ($days_left == 0)
+                                        (last day in the project)
+                                    @endif
+                                </p>
+                                <div class="progress progress-bar-secondary" style="height: 6px">
+                                    <div class="progress-bar progress-bar-striped" role="progressbar"
+                                        aria-valuenow="{{ $percent_completed }}"
+                                        aria-valuemin="{{ $percent_completed }}" aria-valuemax="100"
+                                        style="width: {{ $percent_completed }}%; ; background-color: {{ $colorProgressState }}!important">
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+						<td>{{ $role }}</td>
+                        <td>
+                            <div class="avatar-group">
+								<a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $manager->id]) }}"
+									data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
+									title="{{ $manager->fullname }}" class="avatar pull-up">
+									<img src="{{ asset('images/avatars/' . $manager->avatar) }}" alt="Avatar"
+										width="33" height="33" />
+								</a>
+                            </div>
+                        </td>
+                        <td>
+							<div class="avatar-group">
+                                @if ($supervisor)
+                                    <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisor->id]) }}"
+                                        data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
+                                        title="{{ $supervisor->fullname }}" class="avatar pull-up">
+                                        <img src="{{ asset('images/avatars/' . $supervisor->avatar) }}" alt="Avatar"
+                                            width="33" height="33" />
+                                    </a>
+                                @else
+                                    <div class="d-flex align-items-center me-2">
+                                        <strong>Waiting ...</strong>
+                                    </div>
+                                @endif
+                            </div>
+                        </td>
+                        <td>
+                            <div class="avatar-group">
+                                @forelse ($members as $acc)
+                                    <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
+                                        data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
+                                        title="{{ $acc->fullname }}" class="avatar pull-up">
+                                        <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar"
+                                            width="33" height="33" />
+                                    </a>
+                                @empty
+                                    <div class="d-flex align-items-center me-2">
+                                        <strong>Waiting ...</strong>
+                                    </div>
+                                @endforelse
+                            </div>
+                        </td>
+                    </tr>
+                @empty
+                    <tr>
+                        <td colspan="6">
+                            No data
+                        </td>
+                    </tr>
+                @endforelse
+            </tbody>
+        </table>
+    </div>
+</div>
+<!-- /Project table -->

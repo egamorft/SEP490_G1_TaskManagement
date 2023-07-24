@@ -7,6 +7,7 @@ use App\Models\AccountProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Project;
+use App\Models\Task;
 
 class DashboardController extends Controller
 {
@@ -43,7 +44,23 @@ class DashboardController extends Controller
 	{
 		$pageConfigs = ['pageHeader' => false];
 
-		return view('dashboard.dashboard-member', ['pageConfigs' => $pageConfigs]);
+		$account = Auth::user();
+		$accountProjects = $account->projects()->wherePivot('status', 1)->get();
+
+		$allAccounts = Account::all();
+		$allAccountProjects = AccountProject::all();
+
+		$tasks = Task::all();
+        $allProjects = Project::all();
+
+		return view('dashboard.dashboard-member', ['pageConfigs' => $pageConfigs])
+			->with(compact(
+				'account',
+				'accountProjects',
+				'allAccounts',
+				'allAccountProjects',
+				'tasks',
+			));
 	}
 
 	public function dashboard_admin()
