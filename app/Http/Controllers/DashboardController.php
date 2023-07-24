@@ -2,6 +2,8 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Account;
+use App\Models\AccountProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Project;
@@ -48,6 +50,24 @@ class DashboardController extends Controller
 	{
 		$pageConfigs = ['pageHeader' => false];
 
-		return view('dashboard.dashboard-admin', ['pageConfigs' => $pageConfigs]);
+        $allProjects = Project::all();
+        $rejectedProjectNumber = count($allProjects->where('project_status', -1));
+        $todoProjectNumber = count($allProjects->where('project_status', 0));
+        $doingProjectNumber = count($allProjects->where('project_status', 1));
+        $doneProjectNumber = count($allProjects->where('project_status', 2));
+
+        $allAccounts = Account::all();
+		$allAccountProjects = AccountProject::all();
+
+		return view('dashboard.dashboard-admin', ['pageConfigs' => $pageConfigs])
+			->with(compact(
+				'todoProjectNumber',
+				'doingProjectNumber',
+				'doneProjectNumber',
+				'rejectedProjectNumber',
+				'allProjects',
+				'allAccounts',
+				'allAccountProjects'
+			));
 	}
 }
