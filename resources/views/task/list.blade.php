@@ -19,6 +19,19 @@
 					</thead>
 					<tbody>
 						@php
+							$count = 0;
+						@endphp
+						@foreach ($tasksInProject as $task)
+							@php
+								$count++;
+							@endphp
+							<tr data-id="{{ $task->id }}">
+								<td>{{ $count }}</td>
+								<td>{{ $task->name }}</td>
+							</tr>
+						@endforeach
+
+						@php
 							$tasks = [1, 2, 3, 4, 5, 6];
 						@endphp
 						@foreach ($tasks as $task)
