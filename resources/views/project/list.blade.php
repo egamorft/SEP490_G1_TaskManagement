@@ -43,6 +43,8 @@
 	{{-- <script src="{{ asset(mix('js/scripts/pages/dashboard-ecommerce.js')) }}"></script> --}}
 	<script src="{{ asset(mix('js/scripts/pages/task-filter.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/project/board.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/task-calendar.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/app-todo.js')) }}"></script>
 @endsection
 
 <script>
