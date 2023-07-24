@@ -83,7 +83,7 @@
 					@endswitch
 					<td>{{ 'Task List Name' }}</td>
 					<td>
-						<a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" data-bs-toggle="tooltip" data-popup="tooltip-custom"
+						<a href="{{ route('view.project.member', ['slug' => '$project->slug', 'user_id' => 0]) }}" data-bs-toggle="tooltip" data-popup="tooltip-custom"
 							data-bs-placement="bottom" title="{{ 'User Name' }}"
 							class="avatar pull-up">
 							<img src="{{ asset('images/avatars/H.png') }}" alt="Avatar"
