@@ -35,7 +35,7 @@
 					">
                         <div>
                             <h4 class="card-title">All Task</h4>
-                            <span class="card-subtitle text-muted">Commercial networks</span>
+                            <span class="card-subtitle text-muted">Group task by day</span>
                         </div>
                         <div class="d-flex align-items-center">
                             <i class="font-medium-2" data-feather="calendar"></i>
@@ -171,51 +171,97 @@
             lateTasks = @json($lateTasks),
             overdueTasks = @json($overdueTasks);
 
+        var dayByWeek = [];
+        // Project Info
+        var project = @json($project);
+        var today = new Date();
+        var start = new Date(project.start_date);
+        var end = new Date(project.end_date);
+
         var todoData = [],
             doingData = [],
             reviewingData = [],
             ontimeData = [],
             lateData = [],
             overdueData = [];
+        var dates = [];
+        var current = start;
+        while (current <= end) {
+            var day = String(current.getDate()).padStart(2, '0');
+            var month = String(current.getMonth() + 1).padStart(2, '0');
+			var dd = '', mm = '';
+			var task_number = 0;
+            dates.push(`${day}/${month}`);
+            current.setDate(current.getDate() + 1);
 
-        todoTasks.forEach(task => {
-            todoData.push({
-                y: 1,
-                x: new Date(task.created_at)
-            });
-        });
-        doingTasks.forEach(task => {
-            doingData.push({
-                y: 1,
-                x: new Date(task.created_at)
-            });
-        });
-        reviewingTasks.forEach(task => {
-            reviewingData.push({
-                y: 1,
-                x: new Date(task.created_at)
-            });
-        });
-        ontimeTasks.forEach(task => {
-            ontimeData.push({
-                y: 1,
-                x: new Date(task.created_at)
-            });
-        });
-        lateTasks.forEach(task => {
-            lateData.push({
-                y: 1,
-                x: new Date(task.created_at)
-            });
-        });
-        overdueTasks.forEach(task => {
-            overdueData.push({
-                y: 1,
-                x: new Date(task.created_at)
-            });
-        });
+			task_number = 0;
+            todoTasks.forEach(task => {
+				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+				if (dd == day && mm == month) {
+					task_number ++;
+				}
+			});
+			todoData.push(task_number);
 
+			task_number = 0;
+            doingTasks.forEach(task => {
+				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+				if (dd == day && mm == month) {
+					task_number ++;
+				}
+			});
+			doingData.push(task_number);
+
+			task_number = 0;
+            reviewingTasks.forEach(task => {
+				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+				if (dd == day && mm == month) {
+					task_number ++;
+				}
+			});
+			reviewingData.push(task_number);
+
+			task_number = 0;
+            ontimeTasks.forEach(task => {
+				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+				if (dd == day && mm == month) {
+					task_number ++;
+				}
+			});
+			ontimeData.push(task_number);
+
+			task_number = 0;
+            lateTasks.forEach(task => {
+				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+				if (dd == day && mm == month) {
+					task_number ++;
+				}
+			});
+			lateData.push(task_number);
+
+			task_number = 0;
+            overdueTasks.forEach(task => {
+				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+				if (dd == day && mm == month) {
+					task_number ++;
+				}
+			});
+			overdueData.push(task_number);
+        }
+        console.log(tasks);
         console.log(todoData);
+        console.log(doingData);
+        console.log(reviewingData);
+        console.log(ontimeData);
+        console.log(lateData);
+        console.log(overdueData);
+
     </script>
 @endsection
 
