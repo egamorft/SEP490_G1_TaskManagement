@@ -264,15 +264,18 @@
 .dropdown-menu-reviewer {
     position: absolute;
     top: 40px;
-    list-style-type: none;
-    width: 300px;
+    width: 330px;
     border: 1px solid #eee;
     padding-left: 0px;
     z-index: 10000;
     background: #fff;
-    overflow-y: auto;
-    overflow-x: hidden;
-    max-height: 250px;
+    list-style-type: none;
+
+    .member-account-select {
+        max-height: 200px;
+        overflow-y: auto;
+        overflow-x: hidden;
+    }
 }
 
 .file-name {
@@ -326,4 +329,30 @@
 		border-radius: 4px;
 		cursor: pointer;
 	}
+}
+
+::-webkit-scrollbar {
+    width: 10px;
+  }
+  
+  /* Track */
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+  }
+   
+  /* Handle */
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+  }
+  
+  /* Handle on hover */
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
+
+.select-dropdown-task {
+    position: absolute;
+    top: 40px;
+    right: 0px;
+    width: 250px;
 }

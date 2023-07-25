@@ -18,40 +18,28 @@
             <div class="user-title custom-sub-title">Assign to</div>
 
             <div class="assignTask">
-                <ul class="dropdown-menu-assignee hidden" style="width: 270px;">
+                <ul class="dropdown-menu-assignee hidden">
                     <li>
                         <div class="select-header border-bottom">Assign To</div>
                     </li>
-                    @foreach ($memberAccount as $acc)
-                        <li data-id='{{ $acc->id }}'>
-                            <a class='add-assignee dropdown-item text-primary {{ $acc->id == $taskDetails->assign_to ? "hidden" : "" }}' id="0_assignee">
-                                <div class="avatar float-start bg-white rounded me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
-                                            width="33" height="33" />
-                                    </div>
-                                </div>
-                                <div class="more-info">
-                                    <small>{{ $acc->email }}</small>
-                                    <h6 class="mb-0">{{ $acc->fullname }}</h6>
-                                </div>
-                            </a>
-                        </li>
-                    @endforeach
-                    <li><a class="remove-assignee dropdown-item border-top" data-bs-toggle="modal"
-                            data-bs-target="#removeAssignee0" id="0_assignee">
-                            <div class="list-item d-flex align-items-start">
-                                <div class="me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
+                    <span class="member-account-select">
+                        @foreach ($memberAccount as $acc)
+                            <li data-id='{{ $acc->id }}'>
+                                <a class='add-assignee dropdown-item text-primary {{ $acc->id == $taskDetails->assign_to ? "hidden" : "" }}' id="0_assignee">
+                                    <div class="avatar float-start bg-white rounded me-1">
+                                        <div class="avatar bg-light-danger">
+                                            <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
+                                                width="33" height="33" />
                                         </div>
                                     </div>
-                                </div>
-                                <div class="more-info">
-                                    <h6 class=" text-danger" style="margin-top: 7px;">Remove Assignee</h6>
-                                </div>
-                            </div>
-                        </a></li>
+                                    <div class="more-info">
+                                        <small>{{ $acc->email }}</small>
+                                        <h6 class="mb-0">{{ $acc->fullname }}</h6>
+                                    </div>
+                                </a>
+                            </li>
+                        @endforeach
+                    </span>
                 </ul>
             </div>
 
@@ -68,7 +56,7 @@
             <div class="user-title custom-sub-title">Reviewed by</div>
 
             <div class="assignTask">
-                <ul class="dropdown-menu-reviewer hidden" style="width: 270px;">
+                <ul class="dropdown-menu-reviewer hidden">
                     <li>
                         <div class="select-header border-bottom">Reviewed By</div>
                     </li>
@@ -104,20 +92,6 @@
                             </a>
                         </li>
 					@endif
-                    <li><a class="remove-reviewer dropdown-item border-top" data-bs-toggle="modal"
-                            data-bs-target="#removeReviewer" id="reviewer">
-                            <div class="list-item d-flex align-items-start">
-                                <div class="me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="more-info">
-                                    <h6 class=" text-danger" style="margin-top: 7px;">Remove Reviewer</h6>
-                                </div>
-                            </div>
-                        </a></li>
                 </ul>
             </div>
 
@@ -134,16 +108,17 @@
             <div class="date-title custom-sub-title">Task To Finish</div>
             <div class="flex-box prev-flex-item">
                 <div class="prevtask-item">Task 1, Task 2, ...</div>
-                <select class="select2 form-select hidden" id="addPrevTask" name="previousTask" multiple>
-                    <option value="task_1">Task 1</option>
-                    <option value="task_2">Task 2</option>
-                    <option value="task_3">Task 3</option>
-                    <option value="task_4">Task 4</option>
-                    <option value="task_5">Task 5</option>
-                    <option value="task_6">Task 6</option>
-                    <option value="no_task_required" selected>No Task Before</option>
-                    <option value="" disabled>No data available</option>
-                </select>
+                <div class="select-dropdown-task hidden">
+                    <select class="select2 form-select" id="modalAddPreviousTask" name="modalAddPreviousTask[]" multiple>
+                        <option value="task_1">Task 1</option>
+                        <option value="task_2">Task 2</option>
+                        <option value="task_3">Task 3</option>
+                        <option value="task_4">Task 4</option>
+                        <option value="task_5">Task 5</option>
+                        <option value="task_6">Task 6</option>
+                        <option value="no_task_required" selected>No Task Before</option>
+                    </select>
+                </div>
                 <div class="edit-prevtask-wrapper">
                     <i class="custom-title-icon icon-edit-prevtask" data-feather="edit-2"></i>
                 </div>
