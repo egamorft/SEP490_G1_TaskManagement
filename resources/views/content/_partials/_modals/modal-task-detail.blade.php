@@ -18,29 +18,17 @@
             <div class="user-title custom-sub-title">Assign to</div>
 
             <div class="assignTask">
-                <ul class="dropdown-menu-assignee hidden">
-                    <li>
-                        <div class="select-header border-bottom">Assign To</div>
-                    </li>
-                    <span class="member-account-select">
-                        @foreach ($memberAccount as $acc)
-                            <li data-id='{{ $acc->id }}'>
-                                <a class='add-assignee dropdown-item text-primary {{ $acc->id == $taskDetails->assign_to ? "hidden" : "" }}' id="0_assignee">
-                                    <div class="avatar float-start bg-white rounded me-1">
-                                        <div class="avatar bg-light-danger">
-                                            <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
-                                                width="33" height="33" />
-                                        </div>
-                                    </div>
-                                    <div class="more-info">
-                                        <small>{{ $acc->email }}</small>
-                                        <h6 class="mb-0">{{ $acc->fullname }}</h6>
-                                    </div>
-                                </a>
-                            </li>
-                        @endforeach
-                    </span>
-                </ul>
+                <div class="dropdown-menu-assignee hidden">
+                    <select class="select2 form-select" id="modalAddAssignee" name="modalAddAssignee">
+                        @if (count($memberAccount) <= 0)
+                            <option value="0" selected>No Assignee Found</option>
+                        @else
+                            @foreach ($memberAccount as $acc)
+                                <option class="add-assignee" value="{{ $acc->id }}" data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }} {{ $acc->id == $taskDetails->created_by ? "selected" : "" }}">{{ $acc->fullname }}</option>
+                            @endforeach                          
+                        @endif
+                    </select>
+                </div>
             </div>
 
 			@if ($taskDetails->assignTo)
@@ -56,43 +44,17 @@
             <div class="user-title custom-sub-title">Reviewed by</div>
 
             <div class="assignTask">
-                <ul class="dropdown-menu-reviewer hidden">
-                    <li>
-                        <div class="select-header border-bottom">Reviewed By</div>
-                    </li>
-                    @foreach ($memberAccount as $acc)
-                        <li data-id='{{ $acc->id }}' class=''>
-                            <a class='add-reviewer dropdown-item text-primary {{ $acc->id == $taskDetails->created_by ? "hidden" : "" }}' id="reviewer">
-                                <div class="avatar float-start bg-white rounded me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
-                                            width="33" height="33" />
-                                    </div>
-                                </div>
-                                <div class="more-info">
-                                    <small>{{ $acc->email }}</small>
-                                    <h6 class="mb-0">{{ $acc->fullname }}</h6>
-                                </div>
-                            </a>
-                        </li>
-                    @endforeach
-					@if ($taskDetails->createdBy)
-						<li data-id='{{ $taskDetails->createdBy }}' class='hidden'>
-                            <a class="add-reviewer dropdown-item text-primary" id="reviewer">
-                                <div class="avatar float-start bg-white rounded me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
-                                            width="33" height="33" />
-                                    </div>
-                                </div>
-                                <div class="more-info">
-                                    <small>Selected_user@gmail.com</small>
-                                    <h6 class="mb-0">Selected User</h6>
-                                </div>
-                            </a>
-                        </li>
-					@endif
-                </ul>
+                <div class="dropdown-menu-reviewer hidden">
+                    <select class="select2 form-select" id="modalAddReviewer" name="modalAddReviewer">
+                        @if (count($memberAccount) <= 0)
+                            <option value="0" selected>No Assignee Found</option>
+                        @else
+                            @foreach ($memberAccount as $acc)
+                                <option class="add-reviewer" value="{{ $acc->id }}" data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" {{ $acc->id == $taskDetails->created_by ? "selected" : "" }}>{{ $acc->fullname }}</option>
+                            @endforeach                          
+                        @endif
+                    </select>
+                </div>
             </div>
 
 			@if ($taskDetails->createdBy)
@@ -108,14 +70,16 @@
             <div class="date-title custom-sub-title">Task To Finish</div>
             <div class="flex-box prev-flex-item">
                 <div class="prevtask-item">Task 1, Task 2, ...</div>
+                @php
+                    $tasks = [
+                        1,2,3,4,5,6,7
+                    ];
+                @endphp
                 <div class="select-dropdown-task hidden">
                     <select class="select2 form-select" id="modalAddPreviousTask" name="modalAddPreviousTask[]" multiple>
-                        <option value="task_1">Task 1</option>
-                        <option value="task_2">Task 2</option>
-                        <option value="task_3">Task 3</option>
-                        <option value="task_4">Task 4</option>
-                        <option value="task_5">Task 5</option>
-                        <option value="task_6">Task 6</option>
+                        @foreach ($tasks as $task)
+                            <option value="{{ $task }}">{{ $task }}</option>
+                        @endforeach
                         <option value="no_task_required" selected>No Task Before</option>
                     </select>
                 </div>

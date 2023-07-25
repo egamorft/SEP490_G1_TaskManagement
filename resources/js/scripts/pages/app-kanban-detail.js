@@ -111,7 +111,7 @@ $(document).ready(function () {
     $(".add-assignee").on("click", function () {
         var assignTo = $(".user-add-assignee").attr("data-id");
         var input = this;
-        var dataImage = $(input).find("img");
+        var dataImage = $(input).attr("data-img");
         var imageSrc = dataImage.attr("src");
 
         var thisAssignTo = $(this).closest("li").attr("data-id");
@@ -494,8 +494,8 @@ function renderAddUser() {
         closeOnClear: false,
     });
 
-    var select = $(".select2");
-
+    var select = $(".select2"),
+        selectIcons = $(".select2-icons");
     select.each(function () {
         var $this = $(this);
         $this.wrap('<div class="position-relative"></div>');
@@ -505,6 +505,24 @@ function renderAddUser() {
             dropdownAutoWidth: true,
             width: "100%",
             dropdownParent: $this.parent(),
+            class: "add-assignee"
+        });
+    });
+
+    // Select With Icon
+    selectIcons.each(function () {
+        var $this = $(this);
+        $this.wrap('<div class="position-relative"></div>');
+        $this.select2({
+            dropdownAutoWidth: true,
+            width: "100%",
+            minimumResultsForSearch: Infinity,
+            dropdownParent: $this.parent(),
+            templateResult: iconFormat,
+            templateSelection: iconFormat,
+            escapeMarkup: function (es) {
+                return es;
+            },
         });
     });
 })(window, document, jQuery);
