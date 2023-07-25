@@ -88,13 +88,51 @@
                                         </div>
                                     </div>
                                 </td>
-                                <td>120</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
+                                @php
+                                    $todoNum = 0;
+                                    $doingNum = 0;
+                                    $reviewingNum = 0;
+                                    $ontimeNum = 0;
+                                    $lateNum = 0;
+                                    $overdueNum = 0;
+                                    foreach ($todoTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $todoNum++;
+                                        }
+                                    }
+                                    foreach ($doingTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $doingNum++;
+                                        }
+                                    }
+                                    foreach ($reviewingTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $reviewingNum++;
+                                        }
+                                    }
+                                    foreach ($ontimeTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $ontimeNum++;
+                                        }
+                                    }
+                                    foreach ($lateTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $lateNum++;
+                                        }
+                                    }
+                                    foreach ($overdueTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $overdueNum++;
+                                        }
+                                    }
+                                @endphp
+                                <td>{{ $todoNum + $doingNum + $reviewingNum + $ontimeNum + $lateNum + $overdueNum }}</td>
+                                <td class="text-info">{{ $todoNum }}</td>
+                                <td class="text-primary">{{ $doingNum }}</td>
+                                <td class="text-warning">{{ $reviewingNum }}</td>
+                                <td class="text-success">{{ $ontimeNum }}</td>
+                                <td class="text-secondary">{{ $lateNum }}</td>
+                                <td class="text-danger">{{ $overdueNum }}</td>
                             </tr>
                             @if ($supervisorAccount)
                                 <tr class="odd">
@@ -114,13 +152,52 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>120</td>
-                                    <td class="text-info">1</td>
-                                    <td class="text-primary">1</td>
-                                    <td class="text-warning">1</td>
-                                    <td class="text-success">1</td>
-                                    <td class="text-secondary">1</td>
-                                    <td class="text-danger">1</td>
+                                    @php
+                                        $todoNum = 0;
+                                        $doingNum = 0;
+                                        $reviewingNum = 0;
+                                        $ontimeNum = 0;
+                                        $lateNum = 0;
+                                        $overdueNum = 0;
+                                        foreach ($todoTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $todoNum++;
+                                            }
+                                        }
+                                        foreach ($doingTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $doingNum++;
+                                            }
+                                        }
+                                        foreach ($reviewingTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $reviewingNum++;
+                                            }
+                                        }
+                                        foreach ($ontimeTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $ontimeNum++;
+                                            }
+                                        }
+                                        foreach ($lateTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $lateNum++;
+                                            }
+                                        }
+                                        foreach ($overdueTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $overdueNum++;
+                                            }
+                                        }
+                                    @endphp
+                                    <td>{{ $todoNum + $doingNum + $reviewingNum + $ontimeNum + $lateNum + $overdueNum }}
+                                    </td>
+                                    <td class="text-info">{{ $todoNum }}</td>
+                                    <td class="text-primary">{{ $doingNum }}</td>
+                                    <td class="text-warning">{{ $reviewingNum }}</td>
+                                    <td class="text-success">{{ $ontimeNum }}</td>
+                                    <td class="text-secondary">{{ $lateNum }}</td>
+                                    <td class="text-danger">{{ $overdueNum }}</td>
                                 </tr>
                             @endif
                             @foreach ($memberAccount as $acc)
@@ -141,13 +218,52 @@
                                             </div>
                                         </div>
                                     </td>
-                                    <td>120</td>
-                                    <td class="text-info">1</td>
-                                    <td class="text-primary">1</td>
-                                    <td class="text-warning">1</td>
-                                    <td class="text-success">1</td>
-                                    <td class="text-secondary">1</td>
-                                    <td class="text-danger">1</td>
+                                    @php
+                                        $todoNum = 0;
+                                        $doingNum = 0;
+                                        $reviewingNum = 0;
+                                        $ontimeNum = 0;
+                                        $lateNum = 0;
+                                        $overdueNum = 0;
+                                        foreach ($todoTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $todoNum++;
+                                            }
+                                        }
+                                        foreach ($doingTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $doingNum++;
+                                            }
+                                        }
+                                        foreach ($reviewingTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $reviewingNum++;
+                                            }
+                                        }
+                                        foreach ($ontimeTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $ontimeNum++;
+                                            }
+                                        }
+                                        foreach ($lateTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $lateNum++;
+                                            }
+                                        }
+                                        foreach ($overdueTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $overdueNum++;
+                                            }
+                                        }
+                                    @endphp
+                                    <td>{{ $todoNum + $doingNum + $reviewingNum + $ontimeNum + $lateNum + $overdueNum }}
+                                    </td>
+                                    <td class="text-info">{{ $todoNum }}</td>
+                                    <td class="text-primary">{{ $doingNum }}</td>
+                                    <td class="text-warning">{{ $reviewingNum }}</td>
+                                    <td class="text-success">{{ $ontimeNum }}</td>
+                                    <td class="text-secondary">{{ $lateNum }}</td>
+                                    <td class="text-danger">{{ $overdueNum }}</td>
                                 </tr>
                             @endforeach
                         </tbody>
@@ -189,70 +305,71 @@
         while (current <= end) {
             var day = String(current.getDate()).padStart(2, '0');
             var month = String(current.getMonth() + 1).padStart(2, '0');
-			var dd = '', mm = '';
-			var task_number = 0;
+            var dd = '',
+                mm = '';
+            var task_number = 0;
             dates.push(`${day}/${month}`);
             current.setDate(current.getDate() + 1);
 
-			task_number = 0;
+            task_number = 0;
             todoTasks.forEach(task => {
-				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
-				if (dd == day && mm == month) {
-					task_number ++;
-				}
-			});
-			todoData.push(task_number);
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            todoData.push(task_number);
 
-			task_number = 0;
+            task_number = 0;
             doingTasks.forEach(task => {
-				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
-				if (dd == day && mm == month) {
-					task_number ++;
-				}
-			});
-			doingData.push(task_number);
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            doingData.push(task_number);
 
-			task_number = 0;
+            task_number = 0;
             reviewingTasks.forEach(task => {
-				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
-				if (dd == day && mm == month) {
-					task_number ++;
-				}
-			});
-			reviewingData.push(task_number);
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            reviewingData.push(task_number);
 
-			task_number = 0;
+            task_number = 0;
             ontimeTasks.forEach(task => {
-				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
-				if (dd == day && mm == month) {
-					task_number ++;
-				}
-			});
-			ontimeData.push(task_number);
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            ontimeData.push(task_number);
 
-			task_number = 0;
+            task_number = 0;
             lateTasks.forEach(task => {
-				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
-				if (dd == day && mm == month) {
-					task_number ++;
-				}
-			});
-			lateData.push(task_number);
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            lateData.push(task_number);
 
-			task_number = 0;
+            task_number = 0;
             overdueTasks.forEach(task => {
-				dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-				mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
-				if (dd == day && mm == month) {
-					task_number ++;
-				}
-			});
-			overdueData.push(task_number);
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            overdueData.push(task_number);
         }
         console.log(tasks);
         console.log(todoData);
@@ -261,7 +378,6 @@
         console.log(ontimeData);
         console.log(lateData);
         console.log(overdueData);
-
     </script>
 @endsection
 
