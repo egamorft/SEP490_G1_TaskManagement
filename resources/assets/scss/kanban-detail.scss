@@ -1,5 +1,7 @@
 .update-item-sidebar {
     .kanban-detail-header {
+		margin-right: 150px;
+
         .kanban-detail-title {
             font-size: 20px;
             font-weight: 500;
@@ -9,16 +11,13 @@
                 margin-left: 10px;
             }
         }
-
-        .kanban-detail-status {
-            margin-left: 35px;
-        }
     }
 
     .kanban-detail-progress {
         margin-left: 40px;
 
         .kanban-detail-user {
+			width: 25%;
             margin-right: 20px;
             min-width: 7em;
             max-width: 8em;
@@ -41,6 +40,7 @@
         }
 
         .kanban-detail-date {
+			width: 300px;
             margin-left: auto;
             margin-right: 10px;
 
@@ -50,14 +50,13 @@
             }
 
             .flex-box > input {
-                min-width: 230px;
-                max-width: 250px;
+                min-width: 270px;
+                max-width: 300px;
             }
         }
 
         .kanban-detail-prevtask {
-            min-width: 12em;
-            max-width: 13em;
+			width: 98.5%;
 
             .edit-prevtask-wrapper {
                 border: 1px solid #aaa;
@@ -264,7 +263,7 @@
 .dropdown-menu-reviewer {
     position: absolute;
     top: 40px;
-    width: 330px;
+    width: 270px;
     border: 1px solid #eee;
     padding-left: 0px;
     z-index: 10000;
@@ -355,4 +354,50 @@
     top: 40px;
     right: 0px;
     width: 250px;
+}
+
+.kanban-detail-status {
+	width: 250px;
+}
+
+#modalSelectStatus + .select2-container {
+	width: 250px !important;
+}
+
+.kanban-detail-approve {
+	position: absolute;
+	top: 20px;
+	right: 80px;
+	display: flex;
+
+	
+	.kanban-detail-stat {
+		text-align: center;
+		margin-left: 40px;
+		cursor: pointer;
+	}
+
+	.kanban-detail-stat.status-done {
+		cursor: default;
+	}
+	
+	.kanban-detail-status-title {
+		margin-bottom: 5px;
+	}
+}
+
+.icon-done {
+	color: #00cfe8;
+}
+
+.icon-reviewing {
+	color: #ff9f43;
+}
+
+.icon-reject {
+	color: #ea5455;
+}
+
+.icon-fully-done {
+	color: #28c76f;
 }

@@ -80,8 +80,10 @@
                                         'class' => 'badge-light-danger',
                                     ];
                                 }
-                                
-                                $taskList = $taskLists[$task->taskList_id];
+
+                                $taskList = $taskLists[$task->taskList_id] ?? (object)[
+									"title" => ""
+								];
                                 $account = null;
                                 foreach ($accounts as $acc) {
                                     $acc = (object) $acc;
