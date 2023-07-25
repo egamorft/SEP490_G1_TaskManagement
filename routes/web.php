@@ -87,6 +87,9 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('comment-task', [TaskController::class, 'commentTask'])->name('comment.task');
+    Route::post('upload-files', [TaskController::class, 'uploadFiles'])->name('file.upload');
+
     Route::post('move-task-calendar', [TaskController::class, 'moveTaskCalendar'])->name('move.task.calendar');
     Route::post('add-task-kanban', [TaskController::class, 'addTaskKanban'])->name('add.task.kanban');
     Route::post('edit-title-taskList', [TaskController::class, 'editTitleTaskList'])->name('edit.taskList');

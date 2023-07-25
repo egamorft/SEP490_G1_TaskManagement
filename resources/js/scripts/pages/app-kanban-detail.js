@@ -57,40 +57,6 @@ $(document).ready(function () {
 		});
 	});
 
-	// Action submit form sau khi upload files
-	$("#formFileMultiple").on("change", function (e) {
-		e.preventDefault();
-		var input = this;
-		var canvas = "#formImageUpload";
-		if (input.files && input.files[0]) {
-			var reader = new FileReader();
-			reader.onload = function (e) {
-				$(canvas).submit();
-			};
-			// reader.readAsDataURL(input.files[0]);
-
-			var files = input.files;
-			var html = ``;
-
-			for (let i = 0; i < files.length; i++) {
-				var file = files[i];
-				var fileName = file.name;
-				html += `
-                <div class='file-name'>
-                    <i data-feather="file" class='custom-mini-icon'></i>
-                    <span class='file-item -txt'>${fileName}</span>
-                    <div class="remove-file-icon">
-						<i class="rm-icon" data-feather="x"></i>
-					</div>
-                </div>
-              	`;
-			}
-			$(".custom-file-content").append(html);
-			autoRender();
-			feather.replace();
-		}
-	});
-
 	//Xử lý comment input khi enter
 	$("#comment-input").keypress(function (e) {
 		var canvas = "#formUploadComment";

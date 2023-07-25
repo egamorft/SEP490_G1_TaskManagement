@@ -803,7 +803,7 @@ class ProjectController extends Controller {
 			$taskItems = [];
 
             foreach ($tasks as $task) {
-                $attachmentsCount = $task->attachments ? count($task->attachments) : 0;
+                $attachmentsCount = $task->attachments ? count(json_decode($task->attachments, true)) : 0;
                 $flags = $this->checkDueDate($task->due_date);
                 // dd($task);
                 $taskItem = [

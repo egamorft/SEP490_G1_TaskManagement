@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Requests\AddTaskRequest;
+use App\Models\Comment;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskList;
@@ -10,6 +11,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -77,26 +79,30 @@ class TaskController extends Controller
         $memberAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
-		$taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
+
+        $comments = Comment::with('createdBy')->where('task_id', $taskDetails->id)->get();
+
         return view('content._partials._modals.modal-task-detail')
             ->with(compact(
                 "taskDetails",
                 "slug",
                 "board_id",
                 "memberAccount",
-                "project"
+                "project",
+                "comments"
             ));
     }
 
-	public function view_task($slug, $task_id)
+    public function view_task($slug, $task_id)
     {
-		$project = Project::where('slug', $slug)->first();
-		
+        $project = Project::where('slug', $slug)->first();
+
         $memberAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
-		$taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail(1);
-		$board_id = 1;
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail(1);
+        $board_id = 1;
         return view('content._partials._modals.modal-task-detail')
             ->with(compact(
                 "taskDetails",
@@ -138,21 +144,20 @@ class TaskController extends Controller
         $duration = $request->input('modalAddTaskDuration');
         if (preg_match('/^\d{4}-\d{2}-\d{2}\s+to\s+\d{4}-\d{2}-\d{2}$/', $duration)) {
             $dates = $this->extractDatesFromDuration($duration);
-        } 
+        }
         // Check if the input matches the pattern "YYYY-MM-DD"
         else if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $duration)) {
             $dates = [
                 'start_date' => $duration,
                 'end_date' => $duration,
             ];
-        }
-        else {
+        } else {
             return response()->json(['error' => true, 'message' => 'Something went wrong']);
         }
 
         $start_date = $dates['start_date'];
         $end_date = $dates['end_date'];
-        
+
         $endDateCarbon = Carbon::createFromFormat('Y-m-d', $end_date)->startOfDay();
         // Get the current date as a Carbon instance
         $now = Carbon::now()->startOfDay()->format('Y-m-d');
@@ -190,7 +195,7 @@ class TaskController extends Controller
         // Return a response indicating the success of the operation
         return response()->json(['success' => true]);
     }
-    
+
     public function extractDatesFromDuration($duration)
     {
         $startDate = '';
@@ -207,26 +212,26 @@ class TaskController extends Controller
         ];
     }
 
-    public function add_task_in_list_modal(Request $request, $slug, $board_id) {
+    public function add_task_in_list_modal(Request $request, $slug, $board_id)
+    {
         $dates = [];
         $duration = $request->input('modalAddTaskDuration');
         if (preg_match('/^\d{4}-\d{2}-\d{2}\s+to\s+\d{4}-\d{2}-\d{2}$/', $duration)) {
             $dates = $this->extractDatesFromDuration($duration);
-        } 
+        }
         // Check if the input matches the pattern "YYYY-MM-DD"
         else if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $duration)) {
             $dates = [
                 'start_date' => $duration,
                 'end_date' => $duration,
             ];
-        }
-        else {
+        } else {
             return response()->json(['error' => true, 'message' => 'Something went wrong']);
         }
 
         $start_date = $dates['start_date'];
         $end_date = $dates['end_date'];
-        
+
         $endDateCarbon = Carbon::createFromFormat('Y-m-d', $end_date)->startOfDay();
         // Get the current date as a Carbon instance
         $now = Carbon::now()->startOfDay()->format('Y-m-d');
@@ -262,5 +267,53 @@ class TaskController extends Controller
         Session::flash('success', 'Create successfully task ' . $task->title);
         // Return a response indicating the success of the operation
         return response()->json(['success' => true]);
+    }
+
+    public function commentTask(Request $request)
+    {
+        $comment = Comment::create([
+            'task_id' => $request->input("id"),
+            'content' => $request->input("content"),
+            'created_by' => Auth::id(),
+        ]);
+
+        if ($comment) {
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
+    }
+
+    public function uploadFiles(Request $request)
+    {
+        // Get the uploaded file(s)
+        $files = $request->file('files');
+
+        // Store each file in the storage
+        $newUrls = [];
+        foreach ($files as $file) {
+            $filename = $file->getClientOriginalName();
+            $customFilename = 'attachment_' . time() . '_' . $filename;
+            $path = $file->storeAs('public/tasks/attachments', $customFilename);
+            $url = Storage::url($path);
+            $newUrls[] = $url;
+        }
+        // Get the task record to update
+        $task = Task::find($request->input('id'));
+
+        // Retrieve the existing array of attachments
+        $existingUrls = json_decode($task->attachments, true);
+
+        if (!$existingUrls) {
+            $existingUrls = [];
+        }
+
+        // Add the new URLs to the existing array
+        $updatedUrls = array_merge($existingUrls, $newUrls);
+
+        // Update the attachments column of the task record with the updated array
+        $task->update(['attachments' => json_encode($updatedUrls)]);
+
+        // Return the file URLs as a JSON response
+        return response()->json(['status' => 'success']);
     }
 }
