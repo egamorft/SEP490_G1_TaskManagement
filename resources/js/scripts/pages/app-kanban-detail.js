@@ -215,6 +215,7 @@ $(document).mouseup(function (e) {
 
 function click_container(canvas, e) {
     var container_reviewer = $(canvas);
+    console.log(!container_reviewer.next(".select2-container"))
     if (
         !container_reviewer.is(e.target) &&
         container_reviewer.has(e.target).length === 0 &&

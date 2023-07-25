@@ -76,7 +76,7 @@
                     ];
                 @endphp
                 <div class="select-dropdown-task hidden">
-                    <select class="select2 form-select" id="modalAddPreviousTask" name="modalAddPreviousTask[]" multiple>
+                    <select class="select2 form-select" id="modalAddPreviousTask" name="modalAddPreviousTask">
                         @foreach ($tasks as $task)
                             <option value="{{ $task }}">{{ $task }}</option>
                         @endforeach
