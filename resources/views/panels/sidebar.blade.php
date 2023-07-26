@@ -61,111 +61,71 @@
     <div class="shadow-bottom"></div>
     <div class="main-menu-content">
         <ul class="navigation navigation-main" id="main-menu-navigation" data-menu="menu-navigation">
-            {{-- Foreach menu item starts --}}
-            @if (isset($menuData[0]))
-                @foreach ($menuData[0]->menu as $menu)
-                    @if (Auth::user())
-                        {{-- User loggedin menu --}}
-                        @if (Auth::user()->is_admin == 1)
-                            @if (isset($menu->admin))
-                                {{-- ADMIN role --}}
-                                @if (isset($menu->navheader))
-                                    <li class="navigation-header">
-                                        <span>{{ __('locale.' . $menu->navheader) }}</span>
-                                        <i data-feather="more-horizontal"></i>
-                                    </li>
-                                @else
-                                    {{-- Add Custom Class with nav-item --}}
-                                    @php
-                                        $custom_classes = '';
-                                        if (isset($menu->classlist)) {
-                                            $custom_classes = $menu->classlist;
-                                        }
-                                    @endphp
-                                    <li
-                                        class="nav-item {{ $custom_classes }} {{ Route::currentRouteName() === $menu->slug ? 'active' : '' }}">
-                                        <a href="{{ isset($menu->url) ? url($menu->url) : route('dashboard.admin') }}"
-                                            class="d-flex align-items-center"
-                                            target="{{ isset($menu->newTab) ? '_blank' : '_self' }}">
-                                            <i data-feather="{{ $menu->icon }}"></i>
-                                            <span
-                                                class="menu-title text-truncate">{{ __('locale.' . $menu->name) }}</span>
-                                        </a>
-                                    </li>
-                                @endif
-                            @endif
-                        @else
-                            {{-- USER role -> Comp chung của user --}}
-                            @if (isset($menu->user))
-                                @if (isset($menu->navheader))
-                                    <li class="navigation-header">
-                                        <span>{{ __('locale.' . $menu->navheader) }}</span>
-                                        <i data-feather="more-horizontal"></i>
-                                    </li>
-                                @else
-                                    {{-- Add Custom Class with nav-item --}}
-                                    @php
-                                        $custom_classes = '';
-                                        if (isset($menu->classlist)) {
-                                            $custom_classes = $menu->classlist;
-                                        }
-                                    @endphp
-                                    <li class="mt-2 nav-item {{ $custom_classes }} {{ Route::currentRouteName() === 'dashboard' ? 'active' : '' }}">
-                                        <a href="{{ route('dashboard') }}" class="d-flex align-items-center">
-                                            <i data-feather="{{ $menu->icon }}"></i>
-                                            <span class="menu-title text-truncate">{{ __('locale.' . $menu->name) }}</span>
-                                        </a>
-                                    </li>
-                                @endif
-                            @endif
-                        @endif
+            @if (Auth::user())
+                {{-- USER role -> Comp chung của user --}}
+                <li class="mt-2 nav-item {{ Route::currentRouteName() === 'dashboard' ? 'active' : '' }}">
+                    <a href="{{ route('dashboard') }}" class="d-flex align-items-center">
+                        <i data-feather="home"></i>
+                        <span class="menu-title text-truncate">Dashboards</span>
+                    </a>
+                </li>
 
-                    @else
-                        {{-- Not loggedin menu --}}
-                    @endif
-                @endforeach
-                @if (Auth::user())
-                    @if (Auth::user()->is_admin == 0)
-                        {{-- USER role -> Comp riêng của từng user --}}
-                        {{-- Nav header --}}
-                        <li class="nav-item">
-                            <a data-bs-toggle="modal" data-bs-target="#addNewProject"
-                                href="{{ isset($p->slug) ? url($p->slug) : 'javascript:void(0)' }}"
-                                class="d-flex align-items-center" target="_self"
-                                style=" font-weight: bold">
-                                <i data-feather='plus-square'></i>
-                                <span class="menu-title text-truncate">Add new project</span>
+                @if (Auth::user()->is_admin == 1)
+                    <li class="navigation-header">
+                        <span>Settings</span>
+                        <i data-feather="more-horizontal"></i>
+                    </li>
+                    <li class="nav-item {{ Route::currentRouteName() === 'admin-access-roles' ? 'active' : '' }}">
+                        <a href="{{ route('admin-access-roles') }}" class="d-flex align-items-center">
+                            <i data-feather="shield"></i>
+                            <span class="menu-title text-truncate">Roles & Permission</span>
+                        </a>
+                    </li>
+                    <li class="nav-item {{ Route::currentRouteName() === 'user-list' ? 'active' : '' }}">
+                        <a href="{{ route('user-list') }}" class="d-flex align-items-center">
+                            <i data-feather="user"></i>
+                            <span class="menu-title text-truncate">User Management</span>
+                        </a>
+                    </li>
+                @endif
+                @if (Auth::user()->is_admin == 0)
+                    {{-- USER role -> Comp riêng của từng user --}}
+                    {{-- Nav header --}}
+                    <li class="nav-item mb-0">
+                        <a data-bs-toggle="modal" data-bs-target="#addNewProject"
+                            href="{{ isset($p->slug) ? url($p->slug) : 'javascript:void(0)' }}"
+                            class="d-flex align-items-center" target="_self" style=" font-weight: bold">
+                            <i data-feather='plus-square'></i>
+                            <span class="menu-title text-truncate">Add new project</span>
+                        </a>
+                    </li>
+                    <li class="navigation-header">
+                        <span>My project</span>
+                        <i data-feather="more-horizontal"></i>
+                    </li>
+                    {{-- Project List --}}
+                    @foreach ($projects as $p)
+                        @php
+                            $logo = Str::substr($p->name, 0, 1) . '.png';
+                            $currentUrl = request()->url();
+                            $slug = Str::after($currentUrl, 'project/');
+                            $slug = explode('/', $slug)[0];
+                        @endphp
+                        <li class="nav-item {{ $slug === $p->slug ? 'active' : '' }}">
+                            <a href="{{ isset($p->slug) ? url(route('view.project.board', ['slug' => $p->slug])) : 'javascript:void(0)' }}"
+                                class="d-flex align-items-center" target="_self">
+                                <img class="rounded me-1"
+                                    src="{{ Auth::user() ? asset('images/avatars/' . $logo) : '' }}" alt="avatar"
+                                    height="25" width="25">
+                                <span class="menu-title text-truncate">{{ $p->name }}</span>
                             </a>
                         </li>
-                        <li class="navigation-header">
-                            <span>My project</span>
-                            <i data-feather="more-horizontal"></i>
-                        </li>
-                        {{-- Project List --}}
-                        @foreach ($projects as $p)
-                            @php
-                                $logo = Str::substr($p->name, 0, 1) . '.png';
-                                $currentUrl = request()->url();
-                                $slug = Str::after($currentUrl, 'project/');
-								$slug = explode('/', $slug)[0];
-                            @endphp
-                            <li class="nav-item {{ $slug === $p->slug ? 'active' : '' }}">
-                                <a href="{{ isset($p->slug) ? url(route('view.project.board', ['slug'=>$p->slug])) : 'javascript:void(0)' }}"
-                                    class="d-flex align-items-center" target="_self">
-                                    <img class="rounded me-1"
-                                        src="{{ Auth::user() ? asset('images/avatars/' . $logo) : '' }}"
-                                        alt="avatar" height="25" width="25">
-                                    <span class="menu-title text-truncate">{{ $p->name }}</span>
-                                </a>
-                            </li>
-                        @endforeach
-                    @endif
+                    @endforeach
                 @endif
             @endif
-            {{-- Foreach menu item ends --}}
         </ul>
     </div>
-    
+
     @include('panels/reminderLayout')
 </div>
 

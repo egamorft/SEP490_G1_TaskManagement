@@ -44,7 +44,7 @@
                     </div>
                     <!-- Limit Selected Options -->
                     <div class="col-12 col-md-12">
-                        <label class="form-label" for="select2-limited">Project Member</label>
+                        <label class="form-label" for="select2-limited"></label>
                         <select name="modalAddMembers[]" class="max-length form-select" id="select2-limited" multiple>
                             @foreach ($students as $acc)
                                 <option value="{{ $acc->id }}">{{ $acc->name }} - {{ $acc->email }}</option>

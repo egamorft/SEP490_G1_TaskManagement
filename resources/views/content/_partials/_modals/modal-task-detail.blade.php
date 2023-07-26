@@ -12,6 +12,28 @@
     <div class="mb-1 kanban-detail-status">
         In task list: <span><u id="taskStatus">{{ $taskDetails->taskList->title ?? '' }}</u></span>
     </div>
+
+    <div class="mb-1 kanban-detail-approve">
+        <div class="kanban-detail-markdone kanban-detail-stat">
+            <div class="kanban-detail-status-title">Done</div>
+            <i data-feather="circle" class="icon-done custom-title-icon"></i>
+        </div>
+
+        <div class="kanban-detail-reviewing kanban-detail-stat">
+            <div class="kanban-detail-status-title">Reviewing</div>
+            <i data-feather="circle" class="icon-reviewing custom-title-icon"></i>
+        </div>
+
+        <div class="kanban-detail-reject kanban-detail-stat">
+            <div class="kanban-detail-status-title">Reject</div>
+            <i data-feather="x-circle" class="icon-reject custom-title-icon"></i>
+        </div>
+
+        <div class="kanban-detail-done kanban-detail-stat status-done">
+            <div class="kanban-detail-status-title">Finish</div>
+            <i data-feather="check-circle" class="icon-fully-done custom-title-icon"></i>
+        </div>
+    </div>
 </div>
 
 <div class="mb-2 kanban-detail-progress">
@@ -20,42 +42,19 @@
             <div class="user-title custom-sub-title">Assign to</div>
 
             <div class="assignTask">
-                <ul class="dropdown-menu-assignee hidden" style="width: 270px;">
-                    <li>
-                        <div class="select-header border-bottom">Assign To</div>
-                    </li>
-                    @foreach ($memberAccount as $acc)
-                        <li data-id='{{ $acc->id }}'>
-                            <a class='add-assignee dropdown-item text-primary {{ $acc->id == $taskDetails->assign_to ? 'hidden' : '' }}'
-                                id="0_assignee">
-                                <div class="avatar float-start bg-white rounded me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
-                                            width="33" height="33" />
-                                    </div>
-                                </div>
-                                <div class="more-info">
-                                    <small>{{ $acc->email }}</small>
-                                    <h6 class="mb-0">{{ $acc->name }}</h6>
-                                </div>
-                            </a>
-                        </li>
-                    @endforeach
-                    <li><a class="remove-assignee dropdown-item border-top" data-bs-toggle="modal"
-                            data-bs-target="#removeAssignee0" id="0_assignee">
-                            <div class="list-item d-flex align-items-start">
-                                <div class="me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="more-info">
-                                    <h6 class=" text-danger" style="margin-top: 7px;">Remove Assignee</h6>
-                                </div>
-                            </div>
-                        </a></li>
-                </ul>
+                <div class="dropdown-menu-assignee hidden">
+                    <select class="select2 form-select" id="modalAddAssignee" name="modalAddAssignee">
+                        @if (count($memberAccount) <= 0)
+                            <option value="0" selected>No Assignee Found</option>
+                        @else
+                            @foreach ($memberAccount as $acc)
+                                <option class="add-assignee" value="{{ $acc->id }}"
+                                    data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }} {{ $acc->id == $taskDetails->created_by ? 'selected' : '' }}">
+                                    {{ $acc->name }}</option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
             </div>
 
             @if ($taskDetails->assignTo)
@@ -72,58 +71,20 @@
             <div class="user-title custom-sub-title">Reviewed by</div>
 
             <div class="assignTask">
-                <ul class="dropdown-menu-reviewer hidden" style="width: 270px;">
-                    <li>
-                        <div class="select-header border-bottom">Reviewed By</div>
-                    </li>
-                    @foreach ($memberAccount as $acc)
-                        <li data-id='{{ $acc->id }}' class=''>
-                            <a class='add-reviewer dropdown-item text-primary {{ $acc->id == $taskDetails->created_by ? 'hidden' : '' }}'
-                                id="reviewer">
-                                <div class="avatar float-start bg-white rounded me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
-                                            width="33" height="33" />
-                                    </div>
-                                </div>
-                                <div class="more-info">
-                                    <small>{{ $acc->email }}</small>
-                                    <h6 class="mb-0">{{ $acc->name }}</h6>
-                                </div>
-                            </a>
-                        </li>
-                    @endforeach
-                    @if ($taskDetails->createdBy)
-                        <li data-id='{{ $taskDetails->createdBy }}' class='hidden'>
-                            <a class="add-reviewer dropdown-item text-primary" id="reviewer">
-                                <div class="avatar float-start bg-white rounded me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <img src="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" alt="Avatar"
-                                            width="33" height="33" />
-                                    </div>
-                                </div>
-                                <div class="more-info">
-                                    <small>Selected_user@gmail.com</small>
-                                    <h6 class="mb-0">Selected User</h6>
-                                </div>
-                            </a>
-                        </li>
-                    @endif
-                    <li><a class="remove-reviewer dropdown-item border-top" data-bs-toggle="modal"
-                            data-bs-target="#removeReviewer" id="reviewer">
-                            <div class="list-item d-flex align-items-start">
-                                <div class="me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="more-info">
-                                    <h6 class=" text-danger" style="margin-top: 7px;">Remove Reviewer</h6>
-                                </div>
-                            </div>
-                        </a></li>
-                </ul>
+                <div class="dropdown-menu-reviewer hidden">
+                    <select class="select2 form-select" id="modalAddReviewer" name="modalAddReviewer">
+                        @if (count($memberAccount) <= 0)
+                            <option value="0" selected>No Assignee Found</option>
+                        @else
+                            @foreach ($memberAccount as $acc)
+                                <option class="add-reviewer" value="{{ $acc->id }}"
+                                    data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }}"
+                                    {{ $acc->id == $taskDetails->created_by ? 'selected' : '' }}>{{ $acc->name }}
+                                </option>
+                            @endforeach
+                        @endif
+                    </select>
+                </div>
             </div>
 
             @if ($taskDetails->createdBy)
@@ -135,26 +96,6 @@
 
         </div>
 
-        <div class="kanban-detail-prevtask">
-            <div class="date-title custom-sub-title">Task To Finish</div>
-            <div class="flex-box prev-flex-item">
-                <div class="prevtask-item">Task 1, Task 2, ...</div>
-                <select class="select2 form-select hidden" id="addPrevTask" name="previousTask" multiple>
-                    <option value="task_1">Task 1</option>
-                    <option value="task_2">Task 2</option>
-                    <option value="task_3">Task 3</option>
-                    <option value="task_4">Task 4</option>
-                    <option value="task_5">Task 5</option>
-                    <option value="task_6">Task 6</option>
-                    <option value="no_task_required" selected>No Task Before</option>
-                    <option value="" disabled>No data available</option>
-                </select>
-                <div class="edit-prevtask-wrapper">
-                    <i class="custom-title-icon icon-edit-prevtask" data-feather="edit-2"></i>
-                </div>
-            </div>
-        </div>
-
         <div class="kanban-detail-date">
             <div class="date-title custom-sub-title">Task duration</div>
             <div class="flex-box">
@@ -162,6 +103,26 @@
                     class="form-control flatpickr-range-task flatpickr-input active"
                     placeholder="YYYY-MM-DD to YYYY-MM-DD"
                     value="{{ $taskDetails->start_date }} to {{ $taskDetails->due_date }}">
+            </div>
+        </div>
+    </div>
+
+    <div class="mb-1">
+        <div class="kanban-detail-prevtask">
+            <div class="date-title custom-sub-title">Task To Finish</div>
+            <div class="prev-flex-item">
+                <div class="addPrevTask">
+                    @php
+                        $tasks = [1, 2, 3, 4, 5, 6, 7];
+                    @endphp
+                    <select class="select2 form-select" id="modalAddPreviousTask" name="modalAddPreviousTask[]"
+                        multiple>
+                        @foreach ($tasks as $task)
+                            <option value="{{ $task }}">{{ $task }}</option>
+                        @endforeach
+                        <option value="no_task_required" selected>No Task Before</option>
+                    </select>
+                </div>
             </div>
         </div>
     </div>
@@ -299,6 +260,7 @@
 </script>
 <script>
     $(document).ready(function() {
+        var isRtl = $('html').attr('data-textdirection') === 'rtl';
         // Disable the button initially
         $('.commentButton').prop('disabled', true);
 
@@ -346,6 +308,10 @@
                         // Display the selected files
                         for (let i = 0; i < input.files.length; i++) {
                             var fileName = input.files[i].name;
+                            // Check if the file is already added
+                            if ($('.file-name:contains("' + fileName + '")').length > 0) {
+                                continue;
+                            }
                             html += `
                 <div class='file-name'>
                     <i data-feather="file" class='custom-mini-icon'></i>
@@ -360,10 +326,31 @@
                         $(".custom-file-content").append(html);
                         autoRender();
                         feather.replace();
+
+                        //Toast
+                        toastr['success'](
+                            "Success upload file! Wait for few minutes then you can click to download it",
+                            'Success!', {
+                                showMethod: 'slideDown',
+                                hideMethod: 'slideUp',
+                                progressBar: true,
+                                closeButton: true,
+                                tapToDismiss: false,
+                                rtl: isRtl
+                            });
                     },
                     error: function(xhr, status, error) {
-                        // Handle the error
-                        console.log(error);
+                        //Toast
+                        toastr['success'](
+                            "Opps! Something went wrong, pls try again later...",
+                            'Success!', {
+                                showMethod: 'slideDown',
+                                hideMethod: 'slideUp',
+                                progressBar: true,
+                                closeButton: true,
+                                tapToDismiss: false,
+                                rtl: isRtl
+                            });
                     }
                 });
             }
