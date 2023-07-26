@@ -164,7 +164,7 @@
 
         <div class="custom-css-content">
             @if ($taskDetails->attachments)
-                @foreach (json_decode($taskDetails->attachments) as $att)
+                @foreach (json_decode($taskDetails->attachments) as $key => $att)
                     @php
                         
                         // Get the file name from the URL
@@ -174,12 +174,13 @@
                         $filenameWithoutPrefixAndTimestamp = preg_replace('/^attachment_[0-9]+_/', '', $filename);
                     @endphp
                     <div class="custom-file-content">
-                        <div class='file-name'>
+                        <div class='file-name' id="file-name-{{ $taskDetails->id }}">
                             <i data-feather="file" class='custom-mini-icon'></i>
                             <a href='{{ $att }}' target='_blank'>
                                 <span class='file-item -txt'>{{ $filenameWithoutPrefixAndTimestamp }}</span>
                             </a>
-                            <div class="remove-file-icon">
+                            <div class="remove-file-icon" data-id="{{ $taskDetails->id }}"
+                                data-key="{{ $key }}" onclick="deleteFile(this)">
                                 <i class="rm-icon" data-feather="x"></i>
                             </div>
                         </div>
@@ -264,7 +265,7 @@
         // Disable the button initially
         $('.commentButton').prop('disabled', true);
 
-        // Listen for input events on the textarea
+        // Comment not null then button enabled
         $('.commentArea').on('input', function() {
             // If the textarea contains text, enable the button
             if ($(this).val().trim().length > 0) {
@@ -274,7 +275,6 @@
                 $('.commentButton').prop('disabled', true);
             }
         });
-
 
         // FILES
         $("#formFileMultiple").on("change", function(e) {
@@ -341,7 +341,7 @@
                     },
                     error: function(xhr, status, error) {
                         //Toast
-                        toastr['success'](
+                        toastr['error'](
                             "Opps! Something went wrong, pls try again later...",
                             'Success!', {
                                 showMethod: 'slideDown',
@@ -356,8 +356,48 @@
             }
         });
 
+
     });
-    //Comments
+
+    //DELETE FILES
+    function deleteFile(thisDiv) {
+        var isRtl = $('html').attr('data-textdirection') === 'rtl';
+        var key = $(thisDiv).data('key');
+        var id = $(thisDiv).data('id');
+        var csrfToken = $('[name="csrf-token"]').attr('content');
+
+        var data = {
+            _token: csrfToken,
+            key: key,
+            id: id
+        };
+
+        // Send the AJAX request
+        $.ajax({
+            url: '/delete-files',
+            method: 'POST',
+            data: data,
+            success: function(response) {
+                if (response.success) {
+                    $("#file-name-" + id).remove();
+                    $("input[type=file]").val("");
+                }
+            },
+            error: function(response) {
+                toastr['error'](response.responseJSON.message,
+                    'Error!', {
+                        showMethod: 'slideDown',
+                        hideMethod: 'slideUp',
+                        progressBar: true,
+                        closeButton: true,
+                        tapToDismiss: false,
+                        rtl: isRtl
+                    });
+            }
+        });
+    }
+
+    //COMMENTS
     function commentTask(id) {
         var csrfToken = $('[name="csrf-token"]').attr('content');
 

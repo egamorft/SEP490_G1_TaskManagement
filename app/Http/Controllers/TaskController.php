@@ -314,6 +314,32 @@ class TaskController extends Controller
         $task->update(['attachments' => json_encode($updatedUrls)]);
 
         // Return the file URLs as a JSON response
-        return response()->json(['status' => 'success']);
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteFiles(Request $request)
+    {
+        $id = $request->input('id');
+        $key_expect = $request->input('key');
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($id);
+
+        // Decode the attachments array
+        $attachments = json_decode($taskDetails->attachments, true);
+        // If the key exists, delete the attachment at that key
+        if (array_key_exists($key_expect, $attachments)) {
+            $path = $attachments[$key_expect];
+            unset($attachments[$key_expect]);
+            $fullpath = str_replace('/storage/', '', $path);
+            if (Storage::disk('public')->exists($fullpath)) {
+                Storage::disk('public')->delete($fullpath);
+            }
+            $attachments = array_values($attachments);
+            $taskDetails->attachments = json_encode($attachments);
+            $taskDetails->save();
+            return response()->json(['success' => true]);
+        } else {
+
+            return response()->json(['error' => true, 'message' => 'Something went wrong, try again later.'], 404);
+        }
     }
 }

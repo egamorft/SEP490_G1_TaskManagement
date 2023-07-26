@@ -169,10 +169,10 @@ $(document).ready(function () {
 });
 
 function autoRender() {
-    $(".remove-file-icon").on("click", function () {
-        $(this).closest(".file-name").remove();
-        $("input[type=file]").val("");
-    });
+    // $(".remove-file-icon").on("click", function () {
+    //     $(this).closest(".file-name").remove();
+    //     $("input[type=file]").val("");
+    // });
 }
 
 $(document).mouseup(function (e) {
