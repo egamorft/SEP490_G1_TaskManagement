@@ -623,8 +623,55 @@ class ProjectController extends Controller
 			->findAccountWithRoleNameAndStatus('member', 1)
 			->get();
 
-
+		//Check disabled and calculate project progress
 		$disabledProject = $this->checkDisableProject($project);
+		$result = $this->calculateProjectProgress($project);
+		$days_left = $result["days_left"];
+		$percent_completed = $result["percent_completed"];
+		if ($days_left < 0) {
+			if (!$disabledProject) {
+				$disabledProject = true;
+			}
+		}
+		//Check disabled and calculate project progress
+		$user = Account::where('id', $user_id)->first();
+
+		$boards = Board::where('project_id', $project->id)->with('tasks')->get();
+		$tasks = [];
+		$todoTasks = [];
+		$doingTasks = [];
+		$reviewingTasks = [];
+		$ontimeTasks = [];
+		$lateTasks = [];
+		$overdueTasks = [];
+		foreach ($boards as $board) {
+			foreach ($board->tasks as $task) {
+				if ($task->assign_to != $user->id) {
+					continue;
+				}
+				$tasks[] = $task;
+				$duedate = new DateTime($task->due_date);
+				if (($task->status == 0 || $task->status == 1) && (new DateTime() > $duedate->setTime(23, 59, 59)) && $task->due_date) {
+					$overdueTasks[] = $task;
+					continue;
+				}
+				if ($task->status == 0) {
+					$todoTasks[] = $task;
+				}
+				if ($task->status == 1) {
+					$doingTasks[] = $task;
+				}
+				if ($task->status == 2) {
+					$reviewingTasks[] = $task;
+				}
+				if ($task->status == 3) {
+					$ontimeTasks[] = $task;
+				}
+				if ($task->status == -1) {
+					$lateTasks[] = $task;
+				}
+			}
+		}
 
 		return view('project.member_report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
 			->with(compact(
@@ -632,7 +679,16 @@ class ProjectController extends Controller
 				'pmAccount',
 				'supervisorAccount',
 				'memberAccount',
-				'disabledProject'
+				'disabledProject',
+				'user',
+				'boards',
+				'tasks',
+				'todoTasks',
+				'doingTasks',
+				'reviewingTasks',
+				'ontimeTasks',
+				'lateTasks',
+				'overdueTasks'
 			));
 	}
 
