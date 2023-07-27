@@ -41,21 +41,23 @@
         <div class="kanban-detail-user">
             <div class="user-title custom-sub-title">Assign to</div>
 
-            <div class="assignTask">
-                <div class="dropdown-menu-assignee hidden">
-                    <select class="select2 form-select" id="modalAddAssignee" name="modalAddAssignee">
-                        @if (count($memberAccount) <= 0)
-                            <option value="0" selected>No Assignee Found</option>
-                        @else
-                            @foreach ($memberAccount as $acc)
-                                <option class="add-assignee" value="{{ $acc->id }}"
-                                    data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }} {{ $acc->id == $taskDetails->assign_to ? 'selected' : '' }}">
-                                    {{ $acc->name }}</option>
-                            @endforeach
-                        @endif
-                    </select>
+            @if ($current_role == 'pm' || $current_role == 'supervisor' || $taskDetails->created_by == Auth::id())
+                <div class="assignTask">
+                    <div class="dropdown-menu-assignee hidden">
+                        <select class="select2 form-select" id="modalAddAssignee" name="modalAddAssignee">
+                            @if (count($memberAccount) <= 0)
+                                <option value="0" selected>No Assignee Found</option>
+                            @else
+                                @foreach ($memberAccount as $acc)
+                                    <option class="add-assignee" value="{{ $acc->id }}"
+                                        data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }} {{ $acc->id == $taskDetails->assign_to ? 'selected' : '' }}">
+                                        {{ $acc->name }}</option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
                 </div>
-            </div>
+            @endif
 
             @if ($taskDetails->assignTo)
                 <img title="{{ $taskDetails->assignTo->name ?? '' }}" class="user-add-assignee"
@@ -70,22 +72,26 @@
         <div class="kanban-detail-user">
             <div class="user-title custom-sub-title">Reviewed by</div>
 
-            <div class="assignTask">
-                <div class="dropdown-menu-reviewer hidden">
-                    <select class="select2 form-select" id="modalAddReviewer" name="modalAddReviewer">
-                        @if (count($allAccInProject) <= 0)
-                            <option value="0" selected>No Reviewer Found</option>
-                        @else
-                            @foreach ($allAccInProject as $acc)
-                                <option class="add-reviewer" value="{{ $acc->id }}"
-                                    data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }}"
-                                    {{ $acc->id == $taskDetails->created_by ? 'selected' : '' }}>{{ $acc->name }}
-                                </option>
-                            @endforeach
-                        @endif
-                    </select>
+
+            @if ($current_role == 'pm' || $current_role == 'supervisor' || $taskDetails->created_by == Auth::id())
+                <div class="assignTask">
+                    <div class="dropdown-menu-reviewer hidden">
+                        <select class="select2 form-select" id="modalAddReviewer" name="modalAddReviewer">
+                            @if (count($allAccInProject) <= 0)
+                                <option value="0" selected>No Reviewer Found</option>
+                            @else
+                                @foreach ($allAccInProject as $acc)
+                                    <option class="add-reviewer" value="{{ $acc->id }}"
+                                        data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }}"
+                                        {{ $acc->id == $taskDetails->created_by ? 'selected' : '' }}>
+                                        {{ $acc->name }}
+                                    </option>
+                                @endforeach
+                            @endif
+                        </select>
+                    </div>
                 </div>
-            </div>
+            @endif
 
             @if ($taskDetails->createdBy)
                 <img title="{{ $taskDetails->createdBy->name ?? '' }}" class="user-add-reviewer"
@@ -119,7 +125,8 @@
                         $prev_tasks_array = json_decode($taskDetails->prev_tasks);
                     @endphp
                     @foreach ($tasksInBoard as $task)
-                        <option {{ !empty($prev_tasks_array) && in_array($task->id, $prev_tasks_array) ? 'selected' : '' }}
+                        <option
+                            {{ !empty($prev_tasks_array) && in_array($task->id, $prev_tasks_array) ? 'selected' : '' }}
                             value="{{ $task->id }}">
                             {{ $task->title }}</option>
                     @endforeach
@@ -128,29 +135,26 @@
         </div>
     </div>
 </div>
-<form method="POST" id="formEditTask"
-    action="{{ route('edit.task.modal', ['slug' => $slug, 'board_id' => $board_id, 'task_id' => $taskDetails->id]) }}">
-    <div class="mb-2 kanban-detail-description">
-        <div class="mb-1">
-            <div class="description-header flex-box">
-                <div class="description-title custom-title">
-                    <i data-feather="align-left" class="custom-title-icon"></i>
-                    <span class="custom-title-ml custom-title center">Mô tả</span>
-                </div>
-                <div class="description-side">
-                    <button type="button" class="btn btn-secondary description-button-edit custom-button">Chỉnh
-                        sửa</button>
-                </div>
+<div class="mb-2 kanban-detail-description">
+    <div class="mb-1">
+        <div class="description-header flex-box">
+            <div class="description-title custom-title">
+                <i data-feather="align-left" class="custom-title-icon"></i>
+                <span class="custom-title-ml custom-title center">Mô tả</span>
             </div>
+            <div class="description-side">
+                <button type="button" class="btn btn-secondary description-button-edit custom-button">Chỉnh
+                    sửa</button>
+            </div>
+        </div>
 
-            <div class="description-content custom-css-content">
-                <div class="description-content-editor">
-                    {!! $taskDetails->description !!}
-                </div>
+        <div class="description-content custom-css-content">
+            <div class="description-content-editor">
+                {!! $taskDetails->description !!}
             </div>
         </div>
     </div>
-</form>
+</div>
 
 
 <div class="mb-2 kanban-detail-attachment">

@@ -76,6 +76,8 @@ class TaskController extends Controller
     {
         $project = Project::where('slug', $slug)->first();
 
+        $current_role = $project->userCurrentRole();
+
         $memberAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
@@ -101,7 +103,8 @@ class TaskController extends Controller
                 "project",
                 "comments",
                 "allAccInProject",
-                "tasksInBoard"
+                "tasksInBoard",
+                "current_role"
             ));
     }
 
@@ -406,11 +409,26 @@ class TaskController extends Controller
             // dd($taskDetails->prev_tasks);
             $taskDetails->save();
             return response()->json(['success' => true]);
-        }elseif (count($prev_tasks_array) == 1) {
+        } elseif (count($prev_tasks_array) == 1) {
             $taskDetails->prev_tasks = null;
             $taskDetails->save();
             return response()->json(['success' => true]);
-        }else{
+        } else {
+            return response()->json(['error' => true]);
+        }
+    }
+
+    public function changeDesc(Request $request)
+    {
+        $description = $request->input('description');
+        $task_id = $request->input('id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        if ($taskDetails) {
+            $taskDetails->description = $description;
+            $taskDetails->save();
+            return response()->json(['success' => true]);
+        } else {
             return response()->json(['error' => true]);
         }
     }

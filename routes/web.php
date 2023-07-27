@@ -94,6 +94,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('delete-files', [TaskController::class, 'deleteFiles'])->name('file.delete');
     Route::post('select-prev-task', [TaskController::class, 'selectPrevTask'])->name('prev.task.select');
     Route::post('unselect-prev-task', [TaskController::class, 'unselectPrevTask'])->name('prev.task.unselect');
+    Route::post('change-desc', [TaskController::class, 'changeDesc'])->name('change.desc');
 
     Route::post('move-task-calendar', [TaskController::class, 'moveTaskCalendar'])->name('move.task.calendar');
     Route::post('add-task-kanban', [TaskController::class, 'addTaskKanban'])->name('add.task.kanban');
