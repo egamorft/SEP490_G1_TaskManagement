@@ -27,6 +27,11 @@ class Project extends Model
     //     return $this->belongsToMany(User::class, 'account_project')
     //         ->withPivot('status');
     // }
+    public function findAccountInProjectWithStatus($status)
+    {
+        return $this->belongsToMany(User::class, 'account_project', 'project_id', 'account_id')
+                    ->wherePivot('status', $status);
+    }
 
     public function roles()
     {

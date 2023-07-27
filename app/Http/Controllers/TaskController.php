@@ -79,6 +79,15 @@ class TaskController extends Controller
         $memberAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
+
+        $allAccInProject = Project::findOrFail($project->id)
+            ->findAccountInProjectWithStatus(1)
+            ->get();
+
+        $taskLists = TaskList::where('board_id', $board_id)->get();
+        $taskListIds = $taskLists->pluck('id')->toArray();
+        $tasksInBoard = Task::whereIn('taskList_id', $taskListIds)->get();
+
         $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
 
         $comments = Comment::with('createdBy')->where('task_id', $taskDetails->id)->get();
@@ -90,7 +99,9 @@ class TaskController extends Controller
                 "board_id",
                 "memberAccount",
                 "project",
-                "comments"
+                "comments",
+                "allAccInProject",
+                "tasksInBoard"
             ));
     }
 
@@ -340,6 +351,67 @@ class TaskController extends Controller
         } else {
 
             return response()->json(['error' => true, 'message' => 'Something went wrong, try again later.'], 404);
+        }
+    }
+
+    public function selectPrevTask(Request $request)
+    {
+        $prev_task_id = $request->input('prev_task_id');
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
+
+        // Convert the prev_tasks string to an array
+        $prev_tasks_array = json_decode($taskDetails->prev_tasks);
+
+        if (is_null($prev_tasks_array) || empty($prev_tasks_array)) {
+            // Create a new array with the new task ID
+            $prev_tasks_array = array($prev_task_id);
+        } else {
+            // Add the new task ID to the array
+            array_push($prev_tasks_array, $prev_task_id);
+        }
+        // Encode the array back to a JSON string
+        $prev_tasks_json = json_encode($prev_tasks_array);
+
+        // Update the task's prev_tasks attribute in the database
+        $taskDetails->prev_tasks = $prev_tasks_json;
+        $taskDetails->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function unselectPrevTask(Request $request)
+    {
+        $prev_task_id = $request->input('prev_task_id');
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
+
+        // Convert the prev_tasks string to an array
+        $prev_tasks_array = json_decode($taskDetails->prev_tasks);
+        // Check if the array is null or empty
+        if (count($prev_tasks_array) > 1) {
+            // Remove the task ID from the array
+            $prev_tasks_array = array_diff($prev_tasks_array, [$prev_task_id]);
+
+            // Convert the associative array to an indexed array
+            $prev_tasks_array = array_values($prev_tasks_array);
+
+            // Encode the array back to a JSON string
+            $prev_tasks_json = json_encode($prev_tasks_array);
+
+            // Update the task's prev_tasks attribute in the database
+            $taskDetails->prev_tasks = $prev_tasks_json;
+            // dd($taskDetails->prev_tasks);
+            $taskDetails->save();
+            return response()->json(['success' => true]);
+        }elseif (count($prev_tasks_array) == 1) {
+            $taskDetails->prev_tasks = null;
+            $taskDetails->save();
+            return response()->json(['success' => true]);
+        }else{
+            return response()->json(['error' => true]);
         }
     }
 }

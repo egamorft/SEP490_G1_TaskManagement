@@ -49,7 +49,7 @@
                         @else
                             @foreach ($memberAccount as $acc)
                                 <option class="add-assignee" value="{{ $acc->id }}"
-                                    data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }} {{ $acc->id == $taskDetails->created_by ? 'selected' : '' }}">
+                                    data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }} {{ $acc->id == $taskDetails->assign_to ? 'selected' : '' }}">
                                     {{ $acc->name }}</option>
                             @endforeach
                         @endif
@@ -73,10 +73,10 @@
             <div class="assignTask">
                 <div class="dropdown-menu-reviewer hidden">
                     <select class="select2 form-select" id="modalAddReviewer" name="modalAddReviewer">
-                        @if (count($memberAccount) <= 0)
-                            <option value="0" selected>No Assignee Found</option>
+                        @if (count($allAccInProject) <= 0)
+                            <option value="0" selected>No Reviewer Found</option>
                         @else
-                            @foreach ($memberAccount as $acc)
+                            @foreach ($allAccInProject as $acc)
                                 <option class="add-reviewer" value="{{ $acc->id }}"
                                     data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }}"
                                     {{ $acc->id == $taskDetails->created_by ? 'selected' : '' }}>{{ $acc->name }}
@@ -107,27 +107,27 @@
         </div>
     </div>
 
-    <div class="mb-1">
-        <div class="kanban-detail-prevtask">
-            <div class="date-title custom-sub-title">Task To Finish</div>
-            <div class="prev-flex-item">
-                <div class="addPrevTask">
+</div>
+
+<div class="mb-1">
+    <div class="kanban-detail-prevtask">
+        <div class="date-title custom-sub-title">Task To Finish</div>
+        <div class="prev-flex-item">
+            <div class="addPrevTask">
+                <select class="select2 form-select" id="selectPrevTasks" name="modalAddPreviousTask[]" multiple>
                     @php
-                        $tasks = [1, 2, 3, 4, 5, 6, 7];
+                        $prev_tasks_array = json_decode($taskDetails->prev_tasks);
                     @endphp
-                    <select class="select2 form-select" id="modalAddPreviousTask" name="modalAddPreviousTask[]"
-                        multiple>
-                        @foreach ($tasks as $task)
-                            <option value="{{ $task }}">{{ $task }}</option>
-                        @endforeach
-                        <option value="no_task_required" selected>No Task Before</option>
-                    </select>
-                </div>
+                    @foreach ($tasksInBoard as $task)
+                        <option {{ !empty($prev_tasks_array) && in_array($task->id, $prev_tasks_array) ? 'selected' : '' }}
+                            value="{{ $task->id }}">
+                            {{ $task->title }}</option>
+                    @endforeach
+                </select>
             </div>
         </div>
     </div>
 </div>
-
 <form method="POST" id="formEditTask"
     action="{{ route('edit.task.modal', ['slug' => $slug, 'board_id' => $board_id, 'task_id' => $taskDetails->id]) }}">
     <div class="mb-2 kanban-detail-description">
@@ -356,6 +356,80 @@
             }
         });
 
+        //PREV TASK - SELECTED
+        $('#selectPrevTasks').on('select2:select', function(e) {
+            // Get the selected option
+            var csrfToken = $('[name="csrf-token"]').attr('content');
+            var task_id = $('[name="task_id"]').val();
+            var valueSelected = e.params.data.id;
+
+            var data = {
+                _token: csrfToken,
+                prev_task_id: valueSelected, // Use valueSelected instead of optionSelected
+                task_id: task_id
+            };
+
+            // Send the AJAX request
+            $.ajax({
+                url: '/select-prev-task',
+                method: 'POST',
+                data: data,
+                success: function(response) {
+                    //Toast
+                    toastr['success'](
+                        "Success add more previous task!!",
+                        'Success!', {
+                            showMethod: 'slideDown',
+                            hideMethod: 'slideUp',
+                            progressBar: true,
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl
+                        });
+                },
+                error: function(xhr, status, error) {
+                    console.log("something went wrong");
+                }
+            });
+        });
+
+        //PREV TASK - UNSELECT
+        $('#selectPrevTasks').on('select2:unselect', function(e) {
+            // Get the unselected option
+            var csrfToken = $('[name="csrf-token"]').attr('content');
+            var task_id = $('[name="task_id"]').val();
+            var valueUnselected = e.params.data.id;
+
+            var data = {
+                _token: csrfToken,
+                prev_task_id: valueUnselected, // Use valueSelected instead of optionSelected
+                task_id: task_id
+            };
+
+            // Send the AJAX request
+            $.ajax({
+                url: '/unselect-prev-task',
+                method: 'POST',
+                data: data,
+                success: function(response) {
+                    //Toast
+                    toastr['success'](
+                        "Success unselect previous task!!",
+                        'Success!', {
+                            showMethod: 'slideDown',
+                            hideMethod: 'slideUp',
+                            progressBar: true,
+                            closeButton: true,
+                            tapToDismiss: false,
+                            rtl: isRtl
+                        });
+                },
+                error: function(xhr, status, error) {
+                    console.log("something went wrong");
+                }
+            });
+
+        });
 
     });
 
