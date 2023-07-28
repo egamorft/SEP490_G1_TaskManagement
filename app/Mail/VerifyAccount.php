@@ -13,7 +13,7 @@ class VerifyAccount extends Mailable
 {
     use Queueable, SerializesModels;
     public $token;
-    public $fullname;
+    public $name;
     public $email_to;
 
     /**
@@ -21,10 +21,10 @@ class VerifyAccount extends Mailable
      *
      * @return void
      */
-    public function __construct($token, $fullname, $email_to)
+    public function __construct($token, $name, $email_to)
     {
         $this->token = $token;
-        $this->fullname = $fullname;
+        $this->name = $name;
         $this->email_to = $email_to;
     }
 
@@ -36,7 +36,7 @@ class VerifyAccount extends Mailable
     public function envelope()
     {
         return new Envelope(
-            subject: 'Verify Account',
+            subject: 'Verify User',
         );
     }
 

@@ -136,7 +136,7 @@
                                                                 <h1
                                                                     style="margin: 0; color: #01caa6; direction: ltr; font-family: Arial, Helvetica Neue, Helvetica, sans-serif; font-size: 27px; font-weight: 700; letter-spacing: normal; line-height: 120%; text-align: center; margin-top: 0; margin-bottom: 0;">
                                                                     <span class="tinyMce-placeholder">Hey <span
-                                                                            style="color: #515151;">{{ $fullname }}</span>!<br>We're
+                                                                            style="color: #515151;">{{ $name }}</span>!<br>We're
                                                                         thrilled to have you on the team.<br></span>
                                                                 </h1>
                                                             </td>

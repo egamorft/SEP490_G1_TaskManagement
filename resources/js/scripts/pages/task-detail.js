@@ -2,7 +2,7 @@
 
 var TASK = new function () {
 
-	var sidebar = $(".update-item-sidebar");
+    var sidebar = $(".update-item-sidebar");
     var targetTaskModal = $('#targetTaskModal');
 
 

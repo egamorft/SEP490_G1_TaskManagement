@@ -122,7 +122,7 @@
                         </a>
                     </div>
                     <div class="more-info pt-05">
-                        <h6 class="mt-0">{{ $manager->fullname ?? '' }}</h6>
+                        <h6 class="mt-0">{{ $manager->name ?? '' }}</h6>
                     </div>
                 </td>
                 <td>
@@ -135,7 +135,7 @@
                     </div>
                     <div class="more-info pt-05">
                         <h6 class="mt-0">
-                            {{ $supervisor->fullname ?? 'Waiting ...' }}
+                            {{ $supervisor->name ?? 'Waiting ...' }}
                         </h6>
                     </div>
                 </td>
@@ -144,7 +144,7 @@
                         @forelse ($members as $acc)
                             <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
                                 data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-                                title="{{ $acc->fullname }}" class="avatar pull-up">
+                                title="{{ $acc->name }}" class="avatar pull-up">
                                 <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar" width="33"
                                     height="33" />
                             </a>

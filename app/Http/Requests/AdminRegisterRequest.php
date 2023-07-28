@@ -26,7 +26,7 @@ class AdminRegisterRequest extends FormRequest
         return [
             'user-fullname' => 'required|max:50',
             'user-password' => 'required|min:8|max:50|regex:/^(?=.*[A-Z])(?=.*[\W])/',
-            'user-email' => 'required|email|max:100|unique:accounts,email',
+            'user-email' => 'required|email|max:100|unique:users,email',
         ];
     }
 }

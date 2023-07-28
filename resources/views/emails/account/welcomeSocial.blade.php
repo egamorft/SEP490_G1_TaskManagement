@@ -225,7 +225,7 @@
                                                                         <p
                                                                             style="margin: 0; font-size: 16px; text-align: center; mso-line-height-alt: 24px;">
                                                                             <strong><span style="font-size:38px;">Hi
-                                                                                    {{ $fullname }}, </span></strong></p>
+                                                                                    {{ $name }}, </span></strong></p>
                                                                         <p
                                                                             style="margin: 0; font-size: 16px; text-align: center; mso-line-height-alt: 24px;">
                                                                             <strong><span

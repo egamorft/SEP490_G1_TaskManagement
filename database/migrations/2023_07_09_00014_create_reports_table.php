@@ -24,8 +24,8 @@ return new class extends Migration
             $table->timestamp('created_at')->useCurrent();
             // $table->timestamps();
 
-            $table->foreign('created_by')->references('id')->on('accounts')->onDelete('cascade');
-            $table->foreign('reported')->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('reported')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

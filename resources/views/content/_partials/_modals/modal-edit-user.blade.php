@@ -16,7 +16,7 @@
                     <div class="col-12 col-md-6">
                         <label class="form-label" for="modalEditUserFullname">Full Name</label>
                         <input type="text" id="modalEditUserFullname" name="modalEditUserFullname"
-                            class="form-control" placeholder="Enter your fullname" value="{{ Auth::user()->fullname }}"
+                            class="form-control" placeholder="Enter your fullname" value="{{ Auth::user()->name }}"
                             data-msg="Please enter your full name" />
                         <span id="error-modalEditUserFullname" style="color: red; display: none"></span>
                     </div>

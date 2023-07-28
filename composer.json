@@ -18,6 +18,8 @@
     "laravel/sanctum": "^2.14",
     "laravel/socialite": "^5.6",
     "laravel/tinker": "^2.7",
+    "munafio/chatify": "^1.6",
+    "pusher/pusher-php-server": "^7.2",
     "simplesoftwareio/simple-qrcode": "~4"
   },
   "require-dev": {

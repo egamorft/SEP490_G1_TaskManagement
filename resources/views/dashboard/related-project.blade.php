@@ -209,7 +209,7 @@
                             <div class="avatar-group">
 								<a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $manager->id]) }}"
 									data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-									title="{{ $manager->fullname }}" class="avatar pull-up">
+									title="{{ $manager->name }}" class="avatar pull-up">
 									<img src="{{ asset('images/avatars/' . $manager->avatar) }}" alt="Avatar"
 										width="33" height="33" />
 								</a>
@@ -220,7 +220,7 @@
                                 @if ($supervisor)
                                     <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisor->id]) }}"
                                         data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-                                        title="{{ $supervisor->fullname }}" class="avatar pull-up">
+                                        title="{{ $supervisor->name }}" class="avatar pull-up">
                                         <img src="{{ asset('images/avatars/' . $supervisor->avatar) }}" alt="Avatar"
                                             width="33" height="33" />
                                     </a>
@@ -236,7 +236,7 @@
                                 @forelse ($members as $acc)
                                     <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
                                         data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-                                        title="{{ $acc->fullname }}" class="avatar pull-up">
+                                        title="{{ $acc->name }}" class="avatar pull-up">
                                         <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar"
                                             width="33" height="33" />
                                     </a>

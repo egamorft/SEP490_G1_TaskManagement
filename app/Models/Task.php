@@ -43,11 +43,11 @@ class Task extends Model
 
     public function assignTo()
     {
-        return $this->belongsTo(Account::class, 'assign_to', 'id');
+        return $this->belongsTo(User::class, 'assign_to', 'id');
     }
 
     public function createdBy()
     {
-        return $this->belongsTo(Account::class, 'created_by', 'id');
+        return $this->belongsTo(User::class, 'created_by', 'id');
     }
 }
