@@ -21,16 +21,21 @@
 @endsection
 
 @section('content')
-    <!-- Dashboard Ecommerce Starts -->
-    <section>
-        <div class="row match-height">
-            @include('dashboard.related-project')
+    <!-- Not authorized-->
+    <div class="misc-wrapper">
+        <div class="misc-inner p-2 p-sm-3">
+            <div class="w-100 text-center">
+                <h2 class="mb-1">You are not authorized! 🔐</h2>
+                <p class="mb-2">FTask - Task Management System uses the FPT Education account credentials to access the
+                    serves.</p>
+                <a class="btn btn-primary mb-1 btn-sm-block" href="{{ url('auth/login-cover') }}">Back to login</a>
+            </div>
+            <div class="w-100 text-center">
+                <img class="img-fluid" src="{{ asset('images/pages/not-authorized.svg') }}" alt="Not authorized page" />
+            </div>
         </div>
-        <div class="row match-height">
-            @include('dashboard.related-task')
-        </div>
-    </section>
-    <!-- Dashboard Ecommerce ends -->
+    </div>
+    <!-- / Not authorized-->
 @endsection
 
 @section('vendor-script')
