@@ -299,12 +299,20 @@ class TaskController extends Controller
 
     public function uploadFiles(Request $request)
     {
+        $allowedFormats = ['xlsx', 'docx', 'png', 'jpg', 'pptx', 'pdf'];
+        $maxFileSize = 2 * 1024 * 1024; // 5 MB in bytes
         // Get the uploaded file(s)
         $files = $request->file('files');
 
         // Store each file in the storage
         $newUrls = [];
         foreach ($files as $file) {
+            if (!in_array($file->getClientOriginalExtension(), $allowedFormats)) {
+                return response()->json(['error' => true, 'message' => 'Wrong format'], 404);
+            }
+            if($file->getSize() > $maxFileSize){
+                return response()->json(['error' => true, 'message' => 'Your file is over 2MB. Choose another ones'], 404);
+            }
             $filename = $file->getClientOriginalName();
             $customFilename = 'attachment_' . time() . '_' . $filename;
             $path = $file->storeAs('public/tasks/attachments', $customFilename);
@@ -428,6 +436,40 @@ class TaskController extends Controller
             $taskDetails->description = $description;
             $taskDetails->save();
             return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => true]);
+        }
+    }
+
+    public function changeAssignee(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        if ($taskDetails) {
+            $taskDetails->assign_to = $user_id;
+            $taskDetails->save();
+
+            $getNewTask = Task::with('assignTo')->findOrFail($task_id);
+            return response()->json(['success' => true, 'name' => $getNewTask->assignTo->name, 'avatar' => $getNewTask->assignTo->avatar]);
+        } else {
+            return response()->json(['error' => true]);
+        }
+    }
+
+    public function changeReviewer(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        if ($taskDetails) {
+            $taskDetails->created_by = $user_id;
+            $taskDetails->save();
+
+            $getNewTask = Task::with('createdBy')->findOrFail($task_id);
+            return response()->json(['success' => true, 'name' => $getNewTask->createdBy->name, 'avatar' => $getNewTask->createdBy->avatar]);
         } else {
             return response()->json(['error' => true]);
         }

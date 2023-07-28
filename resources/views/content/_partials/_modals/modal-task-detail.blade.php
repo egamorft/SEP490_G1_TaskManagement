@@ -44,14 +44,15 @@
             @if ($current_role == 'pm' || $current_role == 'supervisor' || $taskDetails->created_by == Auth::id())
                 <div class="assignTask">
                     <div class="dropdown-menu-assignee hidden">
-                        <select class="select2 form-select" id="modalAddAssignee" name="modalAddAssignee">
+                        <select class="select2 form-select" id="modalAssignTo" name="modalAddAssignee">
                             @if (count($memberAccount) <= 0)
                                 <option value="0" selected>No Assignee Found</option>
                             @else
                                 @foreach ($memberAccount as $acc)
                                     <option class="add-assignee" value="{{ $acc->id }}"
-                                        data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }} {{ $acc->id == $taskDetails->assign_to ? 'selected' : '' }}">
-                                        {{ $acc->name }}</option>
+                                        data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }}"
+                                        {{ $acc->id == $taskDetails->assign_to ? 'selected' : '' }}>
+                                        {{ $acc->name }} {{ $acc->id == Auth::id() ? '(YOU)' : '' }}</option>
                                 @endforeach
                             @endif
                         </select>
@@ -60,7 +61,7 @@
             @endif
 
             @if ($taskDetails->assignTo)
-                <img title="{{ $taskDetails->assignTo->name ?? '' }}" class="user-add-assignee"
+                <img id="imgAssignTo" title="{{ $taskDetails->assignTo->name ?? '' }}" class="user-add-assignee"
                     src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG"
                     data-id="{{ $taskDetails->assign_to }}" />
             @else
@@ -76,7 +77,7 @@
             @if ($current_role == 'pm' || $current_role == 'supervisor' || $taskDetails->created_by == Auth::id())
                 <div class="assignTask">
                     <div class="dropdown-menu-reviewer hidden">
-                        <select class="select2 form-select" id="modalAddReviewer" name="modalAddReviewer">
+                        <select class="select2 form-select" id="modalReviewer" name="modalAddReviewer">
                             @if (count($allAccInProject) <= 0)
                                 <option value="0" selected>No Reviewer Found</option>
                             @else
@@ -84,7 +85,7 @@
                                     <option class="add-reviewer" value="{{ $acc->id }}"
                                         data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }}"
                                         {{ $acc->id == $taskDetails->created_by ? 'selected' : '' }}>
-                                        {{ $acc->name }}
+                                        {{ $acc->name }} {{ $acc->id == Auth::id() ? '(YOU)' : '' }}
                                     </option>
                                 @endforeach
                             @endif
@@ -94,7 +95,7 @@
             @endif
 
             @if ($taskDetails->createdBy)
-                <img title="{{ $taskDetails->createdBy->name ?? '' }}" class="user-add-reviewer"
+                <img id="imgReviewer" title="{{ $taskDetails->createdBy->name ?? '' }}" class="user-add-reviewer"
                     src="{{ asset('images/avatars/' . $taskDetails->createdBy->avatar ?? '') }}" alt="IMG" />
             @else
                 <i data-feather="plus" class="user-add-reviewer user-icon-plus"></i>
@@ -162,7 +163,8 @@
         <div class="attachment-header flex-box">
             <div class="attachment-title custom-title">
                 <i data-feather="paperclip" class="custom-title-icon"></i>
-                <span class="custom-title-ml custom-title center">Attachments</span>
+                <span class="custom-title-ml custom-title center">Attachments <small class="text-danger">(Your file
+                        must < 2MB && format type as xlsx, docx, png, jpg, pptx, pdf)</small></span>
             </div>
         </div>
 
@@ -194,7 +196,8 @@
 
             <div class="upload-files mt-1">
                 <form action="" id="formImageUpload" method="GET" enctype="multipart/form-data">
-                    <input class="form-control" type="file" id="formFileMultiple" multiple />
+                    <input class="form-control" type="file" id="formFileMultiple" multiple
+                        accept=".xlsx,.docx,image/png,image/jpeg,.pptx,.pdf" />
                 </form>
             </div>
         </div>
@@ -343,18 +346,32 @@
                                 rtl: isRtl
                             });
                     },
-                    error: function(xhr, status, error) {
-                        //Toast
-                        toastr['error'](
-                            "Opps! Something went wrong, pls try again later...",
-                            'Success!', {
-                                showMethod: 'slideDown',
-                                hideMethod: 'slideUp',
-                                progressBar: true,
-                                closeButton: true,
-                                tapToDismiss: false,
-                                rtl: isRtl
-                            });
+                    error: function(response) {
+                        if (response.status == 404) {
+                            //Toast
+                            toastr['error'](
+                                response.responseJSON.message,
+                                'Error!', {
+                                    showMethod: 'slideDown',
+                                    hideMethod: 'slideUp',
+                                    progressBar: true,
+                                    closeButton: true,
+                                    tapToDismiss: false,
+                                    rtl: isRtl
+                                });
+                        } else {
+                            //Toast
+                            toastr['error'](
+                                "Opps! Something went wrong, pls try again later...",
+                                'Error!', {
+                                    showMethod: 'slideDown',
+                                    hideMethod: 'slideUp',
+                                    progressBar: true,
+                                    closeButton: true,
+                                    tapToDismiss: false,
+                                    rtl: isRtl
+                                });
+                        }
                     }
                 });
             }
@@ -427,6 +444,96 @@
                             tapToDismiss: false,
                             rtl: isRtl
                         });
+                },
+                error: function(xhr, status, error) {
+                    console.log("something went wrong");
+                }
+            });
+
+        });
+
+        //CHANGE ASSIGNEE
+        $('#modalAssignTo').change(function() {
+            var selectedUser = $(this).val();
+            var csrfToken = $('[name="csrf-token"]').attr('content');
+            var task_id = $('[name="task_id"]').val();
+
+            var srcImg = "{{ asset('images/avatars/') }}";
+
+            var data = {
+                _token: csrfToken,
+                user_id: selectedUser,
+                task_id: task_id
+            };
+
+            // Send the AJAX request
+            $.ajax({
+                url: '/change-assignee',
+                method: 'POST',
+                data: data,
+                success: function(response) {
+                    var newAvt = srcImg + '/' + response.avatar;
+                    var name = response.name;
+                    if (response.success) {
+                        //Toast
+                        $('#imgAssignTo').attr('src', newAvt);
+
+                        toastr['success'](
+                            "Success change assignee to " + name + "!!",
+                            'Success!', {
+                                showMethod: 'slideDown',
+                                hideMethod: 'slideUp',
+                                progressBar: true,
+                                closeButton: true,
+                                tapToDismiss: false,
+                                rtl: isRtl
+                            });
+                    }
+                },
+                error: function(xhr, status, error) {
+                    console.log("something went wrong");
+                }
+            });
+
+        });
+
+        //CHANGE REVIEWER
+        $('#modalReviewer').change(function() {
+            var selectedUser = $(this).val();
+            var csrfToken = $('[name="csrf-token"]').attr('content');
+            var task_id = $('[name="task_id"]').val();
+
+            var srcImg = "{{ asset('images/avatars/') }}";
+
+            var data = {
+                _token: csrfToken,
+                user_id: selectedUser,
+                task_id: task_id
+            };
+
+            // Send the AJAX request
+            $.ajax({
+                url: '/change-reviewer',
+                method: 'POST',
+                data: data,
+                success: function(response) {
+                    var newAvt = srcImg + '/' + response.avatar;
+                    var name = response.name;
+                    if (response.success) {
+                        //Toast
+                        $('#imgReviewer').attr('src', newAvt);
+
+                        toastr['success'](
+                            "Success change reviewer to " + name + "!!",
+                            'Success!', {
+                                showMethod: 'slideDown',
+                                hideMethod: 'slideUp',
+                                progressBar: true,
+                                closeButton: true,
+                                tapToDismiss: false,
+                                rtl: isRtl
+                            });
+                    }
                 },
                 error: function(xhr, status, error) {
                     console.log("something went wrong");
