@@ -1,4 +1,4 @@
-<table class="table datatable-project">
+<table class="table datatable-project project-list-table">
     <thead>
         <tr>
             <th></th>
@@ -48,68 +48,33 @@
                 <td>
                     @switch($project->project_status)
                         @case(-1)
-                            <div class="col mt-0">
-                                <div class="avatar float-start bg-light-danger rounded me-1">
-                                    <div class="avatar-content">
-                                        <i data-feather="alert-triangle" class="avatar-icon font-medium-3"></i>
-                                    </div>
-                                </div>
-                                <div class="more-info pt-05">
-                                    <h6 class="mt-0 text-danger" style="min-width: 100px;">Fail</h6>
-                                </div>
-                            </div>
+                            <span class="badge rounded-pill badge-light-danger">
+								Fail
+                            </span>
                         @break
 
                         @case(0)
-                            <div class="col mt-0">
-                                <div class="avatar float-start bg-light-warning rounded me-1">
-                                    <div class="avatar-content">
-                                        <i data-feather="pause-circle" class="avatar-icon font-medium-3"></i>
-                                    </div>
-                                </div>
-                                <div class="more-info pt-05">
-                                    <h6 class="mt-0 text-warning">Todo</h6>
-                                </div>
-                            </div>
+                            <span class="badge rounded-pill badge-light-danger">
+								Todo
+                            </span>
                         @break
 
                         @case(1)
-                            <div class="col mt-0">
-                                <div class="avatar float-start bg-light-primary rounded me-1">
-                                    <div class="avatar-content">
-                                        <i data-feather="fast-forward" class="avatar-icon font-medium-3"></i>
-                                    </div>
-                                </div>
-                                <div class="more-info pt-05">
-                                    <h6 class="mt-0 text-primary">Doing</h6>
-                                </div>
-                            </div>
+                            <span class="badge rounded-pill badge-light-danger">
+								Doing
+                            </span>
                         @break
 
                         @case(2)
-                            <div class="col mt-0">
-                                <div class="avatar float-start bg-light-success rounded me-1">
-                                    <div class="avatar-content">
-                                        <i data-feather="check" class="avatar-icon font-medium-3"></i>
-                                    </div>
-                                </div>
-                                <div class="more-info pt-05">
-                                    <h6 class="mt-0 text-success">Done</h6>
-                                </div>
-                            </div>
+                            <span class="badge rounded-pill badge-light-danger">
+								Done
+                            </span>
                         @break
 
                         @default
-                            <div class="col mt-0">
-                                <div class="avatar float-start bg-light-warning rounded me-1">
-                                    <div class="avatar-content">
-                                        <i data-feather="help-circle" class="avatar-icon font-medium-3"></i>
-                                    </div>
-                                </div>
-                                <div class="more-info">
-                                    <h6 class="mb-0 text-warning">Done</h6>
-                                </div>
-                            </div>
+                            <span class="badge rounded-pill badge-light-danger">
+								Done
+                            </span>
                     @endswitch
                 </td>
 
