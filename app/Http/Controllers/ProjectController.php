@@ -1104,6 +1104,13 @@ class ProjectController extends Controller
 		$taskLists = TaskList::where('board_id', $board_id)->get();
 		$disabledProject = $this->checkDisableProject($project);
 
+		$taskListIds = [];
+		foreach($taskLists as $taskList) {
+			$taskListIds[] = $taskList->id;
+		}
+
+		$tasksInProject = Task::whereIn("taskList_id", $taskListIds);
+
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
 			->with(compact(
 				'project',
@@ -1112,7 +1119,8 @@ class ProjectController extends Controller
 				'memberAccount',
 				'disabledProject',
 				'board',
-				'taskLists'
+				'taskLists',
+				'tasksInProject'
 			));
 	}
 
