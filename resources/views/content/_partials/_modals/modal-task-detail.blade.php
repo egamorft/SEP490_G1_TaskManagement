@@ -10,6 +10,28 @@
     <div class="mb-1 kanban-detail-status">
         In task list: <span><u id="taskStatus">{{ $taskDetails->taskList->title ?? '' }}</u></span>
     </div>
+
+	<div class="mb-1 kanban-detail-approve">
+		<div class="kanban-detail-markdone kanban-detail-stat">
+			<div class="kanban-detail-status-title">Done</div>
+			<i data-feather="circle" class="icon-done custom-title-icon"></i>
+		</div>
+
+		<div class="kanban-detail-reviewing kanban-detail-stat">
+			<div class="kanban-detail-status-title">Reviewing</div>
+			<i data-feather="circle" class="icon-reviewing custom-title-icon"></i>
+		</div>
+
+		<div class="kanban-detail-reject kanban-detail-stat">
+			<div class="kanban-detail-status-title">Reject</div>
+			<i data-feather="x-circle" class="icon-reject custom-title-icon"></i>
+		</div>
+
+		<div class="kanban-detail-done kanban-detail-stat status-done">
+			<div class="kanban-detail-status-title">Finish</div>
+			<i data-feather="check-circle" class="icon-fully-done custom-title-icon"></i>
+		</div>
+	</div>
 </div>
 
 <div class="mb-2 kanban-detail-progress">
@@ -24,19 +46,22 @@
                             <option value="0" selected>No Assignee Found</option>
                         @else
                             @foreach ($memberAccount as $acc)
-                                <option class="add-assignee" value="{{ $acc->id }}" data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }} {{ $acc->id == $taskDetails->created_by ? "selected" : "" }}">{{ $acc->fullname }}</option>
-                            @endforeach                          
+                                <option class="add-assignee" value="{{ $acc->id }}"
+                                    data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }} {{ $acc->id == $taskDetails->created_by ? 'selected' : '' }}">
+                                    {{ $acc->fullname }}</option>
+                            @endforeach
                         @endif
                     </select>
                 </div>
             </div>
 
-			@if ($taskDetails->assignTo)
-				<img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
-					src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG" data-id="{{ $taskDetails->assign_to }}" />
-			@else
-				<i data-feather="plus" class="user-add-assignee user-icon-plus"></i>
-			@endif
+            @if ($taskDetails->assignTo)
+                <img title="{{ $taskDetails->assignTo->fullname ?? '' }}" class="user-add-assignee"
+                    src="{{ asset('images/avatars/' . $taskDetails->assignTo->avatar ?? '') }}" alt="IMG"
+                    data-id="{{ $taskDetails->assign_to }}" />
+            @else
+                <i data-feather="plus" class="user-add-assignee user-icon-plus"></i>
+            @endif
 
         </div>
 
@@ -50,51 +75,52 @@
                             <option value="0" selected>No Assignee Found</option>
                         @else
                             @foreach ($memberAccount as $acc)
-                                <option class="add-reviewer" value="{{ $acc->id }}" data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }}" {{ $acc->id == $taskDetails->created_by ? "selected" : "" }}>{{ $acc->fullname }}</option>
-                            @endforeach                          
+                                <option class="add-reviewer" value="{{ $acc->id }}"
+                                    data-img="{{ asset('images/avatars/' . $acc->avatar ?? '') }}"
+                                    {{ $acc->id == $taskDetails->created_by ? 'selected' : '' }}>{{ $acc->fullname }}
+                                </option>
+                            @endforeach
                         @endif
                     </select>
                 </div>
             </div>
 
-			@if ($taskDetails->createdBy)
-				<img title="{{ $taskDetails->createdBy->fullname ?? '' }}" class="user-add-reviewer"
-					src="{{ asset('images/avatars/' . $taskDetails->createdBy->avatar ?? '') }}" alt="IMG" />
-			@else
-				<i data-feather="plus" class="user-add-reviewer user-icon-plus"></i>
-			@endif
+            @if ($taskDetails->createdBy)
+                <img title="{{ $taskDetails->createdBy->fullname ?? '' }}" class="user-add-reviewer"
+                    src="{{ asset('images/avatars/' . $taskDetails->createdBy->avatar ?? '') }}" alt="IMG" />
+            @else
+                <i data-feather="plus" class="user-add-reviewer user-icon-plus"></i>
+            @endif
 
-        </div>
-
-        <div class="kanban-detail-prevtask">
-            <div class="date-title custom-sub-title">Task To Finish</div>
-            <div class="flex-box prev-flex-item">
-                <div class="prevtask-item">Task 1, Task 2, ...</div>
-                @php
-                    $tasks = [
-                        1,2,3,4,5,6,7
-                    ];
-                @endphp
-                <div class="select-dropdown-task hidden">
-                    <select class="select2 form-select" id="modalAddPreviousTask" name="modalAddPreviousTask">
-                        @foreach ($tasks as $task)
-                            <option value="{{ $task }}">{{ $task }}</option>
-                        @endforeach
-                        <option value="no_task_required" selected>No Task Before</option>
-                    </select>
-                </div>
-                <div class="edit-prevtask-wrapper">
-                    <i class="custom-title-icon icon-edit-prevtask" data-feather="edit-2"></i>
-                </div>
-            </div>
         </div>
 
         <div class="kanban-detail-date">
             <div class="date-title custom-sub-title">Task duration</div>
             <div class="flex-box">
                 <input name="duration" type="text" id="fp-range"
-                    class="form-control flatpickr-range-task flatpickr-input active" placeholder="YYYY-MM-DD to YYYY-MM-DD"
+                    class="form-control flatpickr-range-task flatpickr-input active"
+                    placeholder="YYYY-MM-DD to YYYY-MM-DD"
                     value="{{ $taskDetails->start_date }} to {{ $taskDetails->due_date }}">
+            </div>
+        </div>
+    </div>
+
+	<div class="mb-1">
+        <div class="kanban-detail-prevtask">
+            <div class="date-title custom-sub-title">Task To Finish</div>
+            <div class="prev-flex-item">
+				<div class="addPrevTask">
+					@php
+						$tasks = [1, 2, 3, 4, 5, 6, 7];
+					@endphp
+					<select class="select2 form-select" id="modalAddPreviousTask" name="modalAddPreviousTask[]"
+						multiple>
+						@foreach ($tasks as $task)
+							<option value="{{ $task }}">{{ $task }}</option>
+						@endforeach
+						<option value="no_task_required" selected>No Task Before</option>
+					</select>
+				</div>
             </div>
         </div>
     </div>
@@ -146,9 +172,9 @@
                 <div class='file-name'>
                     <i data-feather="file" class='custom-mini-icon'></i>
                     <span class='file-item -txt'>File name</span>
-					<div class="remove-file-icon">
-						<i class="rm-icon" data-feather="x"></i>
-					</div>
+                    <div class="remove-file-icon">
+                        <i class="rm-icon" data-feather="x"></i>
+                    </div>
                 </div>
             </div>
 
@@ -214,7 +240,8 @@
                         <fieldset class="mb-75">
                             <textarea class="form-control" id="label-textarea" rows="3" placeholder="Add Comment"></textarea>
                         </fieldset>
-                        <button class="btn btn-sm btn-primary waves-effect waves-float waves-light" type="submit">Post
+                        <button class="btn btn-sm btn-primary waves-effect waves-float waves-light"
+                            type="submit">Post
                             comment</button>
                     </div>
                 </div>
@@ -223,7 +250,8 @@
     </div>
 </div>
 <script>
-    var projectStartDate = new Date("{{ date('Y-m-d', strtotime($project->start_date)) }}").toISOString().substr(0, 10);
+    var projectStartDate = new Date("{{ date('Y-m-d', strtotime($project->start_date)) }}").toISOString().substr(0,
+        10);
     var projectEndDate = new Date("{{ date('Y-m-d', strtotime($project->end_date)) }}").toISOString().substr(0, 10);
 </script>
 
