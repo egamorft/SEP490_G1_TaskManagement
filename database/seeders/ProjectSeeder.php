@@ -2,7 +2,6 @@
 
 namespace Database\Seeders;
 
-use App\Models\Account;
 use App\Models\Project;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
@@ -28,7 +27,7 @@ class ProjectSeeder extends Seeder
             Project::create([
                 'name' => $name,
                 'project_status' => $faker->randomElement([-1, 0, 1]),
-                'slug' => $slug,
+                'slug' => $slug . $i,
                 'start_date' => $start_date,
                 'end_date' => $end_date,
                 'description' => $faker->randomElement([$faker->paragraph, null]),

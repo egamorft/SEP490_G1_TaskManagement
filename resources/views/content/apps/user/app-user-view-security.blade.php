@@ -29,7 +29,7 @@
                                     src="{{ asset('images/avatars/' . Auth::user()->avatar) }}" height="110"
                                     width="110" alt="User avatar" />
                                 <div class="user-info text-center">
-                                    <h4>{{ Auth::user()->fullname }}</h4>
+                                    <h4>{{ Auth::user()->name }}</h4>
                                     <span
                                         class="badge bg-light-secondary">{{ Auth::user()->is_admin == 1 ? 'Admin' : 'User' }}</span>
                                 </div>

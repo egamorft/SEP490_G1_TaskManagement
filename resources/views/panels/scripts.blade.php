@@ -1,4 +1,37 @@
 <!-- BEGIN: Vendor JS-->
+<script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
+<script>
+    // Enable pusher logging - don't include this in production
+    Pusher.logToConsole = true;
+
+    var pusher = new Pusher('{{ env('PUSHER_APP_KEY') }}', {
+        cluster: '{{ env('PUSHER_APP_CLUSTER') }}'
+    });
+
+    var channel = pusher.subscribe('my-channel');
+    channel.bind('my-event', function(data) {
+        console.log(JSON.stringify(data));
+        $.ajax({
+            type: 'GET',
+            url: '/updateUnseenMsg',
+            data: {
+
+            },
+            success: function(data) {
+                console.log(data.unseenCounter);
+                $('.pending-div').empty();
+                html = ``;
+                if (data.unseenCounter > 0) {
+                    html +=
+                        `<span class="badge rounded-pill bg-danger badge-up">${data.unseenCounter}</span>`
+                }
+                $('.pending-div').html(html);
+            }
+        });
+    });
+</script>
+
+
 <script src="{{ asset(mix('vendors/js/vendors.min.js')) }}"></script>
 <!-- BEGIN Vendor JS-->
 <!-- BEGIN: Page Vendor JS-->

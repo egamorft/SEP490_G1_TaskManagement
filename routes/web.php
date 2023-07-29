@@ -21,6 +21,7 @@ use App\Http\Controllers\ChartsController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\TaskController;
+use App\Http\Controllers\vendor\Chatify\MessagesController;
 use App\Http\Middleware\CheckProjectAccess;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Node\Stmt\Return_;
@@ -40,10 +41,13 @@ use PhpParser\Node\Stmt\Return_;
 
 // Main Page Route
 
-Route::get('/', [DashboardController::class, 'dashboard_member'])->name('dashboard');
+
+// Route::get('/', [DashboardController::class, 'dashboard_member'])->name('dashboard');
+Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('dashboard', [DashboardController::class, 'dashboard_member'])->name('dashboard.member');
 Route::get('admin/dashboard', [DashboardController::class, 'dashboard_admin'])->name('dashboard.admin');
 
+Route::get('/updateUnseenMsg', [MessagesController::class, 'updateUnseenMsg']);
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -79,12 +83,22 @@ Route::middleware(['guest'])->group(function () {
 
 Route::get('/api/check-auth', function () {
     $authenticated = Auth::check();
-    $fullname = Auth::user()->fullname;
-    return response()->json(['authenticated' => $authenticated, 'fullname' => $fullname]);
+    $name = Auth::user()->name;
+    return response()->json(['authenticated' => $authenticated, 'name' => $name]);
 });
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('comment-task', [TaskController::class, 'commentTask'])->name('comment.task');
+    Route::post('upload-files', [TaskController::class, 'uploadFiles'])->name('file.upload');
+    Route::post('delete-files', [TaskController::class, 'deleteFiles'])->name('file.delete');
+    Route::post('select-prev-task', [TaskController::class, 'selectPrevTask'])->name('prev.task.select');
+    Route::post('unselect-prev-task', [TaskController::class, 'unselectPrevTask'])->name('prev.task.unselect');
+    Route::post('change-desc', [TaskController::class, 'changeDesc'])->name('change.desc');
+    Route::post('change-assignee', [TaskController::class, 'changeAssignee'])->name('change.assignee');
+    Route::post('change-reviewer', [TaskController::class, 'changeReviewer'])->name('change.reviewer');
+
+
     Route::post('move-task-calendar', [TaskController::class, 'moveTaskCalendar'])->name('move.task.calendar');
     Route::post('add-task-kanban', [TaskController::class, 'addTaskKanban'])->name('add.task.kanban');
     Route::post('edit-title-taskList', [TaskController::class, 'editTitleTaskList'])->name('edit.taskList');

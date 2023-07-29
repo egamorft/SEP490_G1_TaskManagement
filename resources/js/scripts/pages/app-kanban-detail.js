@@ -1,4 +1,7 @@
 $(document).ready(function () {
+    var oldValue = $(".description-content-editor").html();
+    var csrfToken = $('[name="csrf-token"]').attr('content');
+    var task_id = $('[name="task_id"]').val();
     // Action sau khi click button edit trong description
     $(".description-button-edit").on("click", function () {
         $(".description-button-edit").hide();
@@ -32,64 +35,54 @@ $(document).ready(function () {
 
         var htmlButton = `
             <div class="description-button">
-                <button type="submit" class="btn btn-primary save-description">Save</button>
+                <button type="button" class="btn btn-primary save-description">Save</button>
                 <button type="button" class="btn btn-secondary cancel-description">Cancel</button>
             </div>
         `;
 
         $(".kanban-detail-description > div").append(htmlButton);
-
         // Action để return dữ liệu ban đầu khi click button cancel
         $(".cancel-description").on("click", function () {
             $(".kanban-detail-description .ql-toolbar").remove();
             $(".description-content-editor")
                 .removeClass("ql-container")
                 .removeClass("ql-snow")
-                .html(
-                    `Đường dẫn : Login → Dashboard → Chọn Project trong side bar mục ‘My Projects’ → Chọn mục
-                Calendar → Hiển thị màn chức năng Calendar View để xem danh sách các task trong project
-                (ảnh mô tả ‘Calendar View.png’)
-                <br>Khi di chuyển Task sang 1 ngày khác trong Calendar thì tiến độ của dự án cũng phải
-                cập nhật theo ngày đó`
-                );
+                .html(oldValue.trim());
             $(".description-button-edit").show();
             $(".description-button").remove();
         });
-    });
 
-    // Action submit form sau khi upload files
-    $("#formFileMultiple").on("change", function (e) {
-        e.preventDefault();
-        var input = this;
-        var canvas = "#formImageUpload";
-        if (input.files && input.files[0]) {
-            var reader = new FileReader();
-            reader.onload = function (e) {
-                $(canvas).submit();
+        $(".save-description").on("click", function () {
+            var description = $(".ql-editor > p").html();
+            var data = {
+                _token: csrfToken,
+                description: description,
+                id: task_id
             };
-            // reader.readAsDataURL(input.files[0]);
 
-            var files = input.files;
-            var html = ``;
-
-            for (let i = 0; i < files.length; i++) {
-                var file = files[i];
-                var fileName = file.name;
-                html += `
-                <div class='file-name'>
-                    <i data-feather="file" class='custom-mini-icon'></i>
-                    <span class='file-item -txt'>${fileName}</span>
-                    <div class="remove-file-icon">
-						<i class="rm-icon" data-feather="x"></i>
-					</div>
-                </div>
-              	`;
-            }
-            $(".custom-file-content").append(html);
-            autoRender();
-            feather.replace();
-        }
+            // Send the AJAX request
+            $.ajax({
+                url: '/change-desc',
+                method: 'POST',
+                data: data,
+                success: function (response) {
+                    if (response.success) {
+                        $(".kanban-detail-description .ql-toolbar").remove();
+                        $(".description-content-editor")
+                            .removeClass("ql-container")
+                            .removeClass("ql-snow")
+                            .html(description);
+                        $(".description-button-edit").show();
+                        $(".description-button").remove();
+                    }
+                },
+                error: function (response) {
+                    console.log('something went wrong, try again!');
+                }
+            });
+        });
     });
+
 
     //Xử lý comment input khi enter
     $("#comment-input").keypress(function (e) {
@@ -201,10 +194,10 @@ $(document).ready(function () {
 });
 
 function autoRender() {
-    $(".remove-file-icon").on("click", function () {
-        $(this).closest(".file-name").remove();
-        $("input[type=file]").val("");
-    });
+    // $(".remove-file-icon").on("click", function () {
+    //     $(this).closest(".file-name").remove();
+    //     $("input[type=file]").val("");
+    // });
 }
 
 $(document).mouseup(function (e) {
@@ -447,8 +440,8 @@ function renderAddUser() {
                     hours < 0
                         ? " !hours to now"
                         : hours > 0
-                        ? " !hours from now"
-                        : "now";
+                            ? " !hours from now"
+                            : "now";
             return (
                 "h:i a <sm!all>" +
                 (hours ? Math.abs(hours) : "") +

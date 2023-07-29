@@ -80,8 +80,10 @@
                                         'class' => 'badge-light-danger',
                                     ];
                                 }
-                                
-                                $taskList = $taskLists[$task->taskList_id];
+
+                                $taskList = $taskLists[$task->taskList_id] ?? (object)[
+									"title" => ""
+								];
                                 $account = null;
                                 foreach ($accounts as $acc) {
                                     $acc = (object) $acc;
@@ -109,7 +111,7 @@
                                     @if ($account)
                                         <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}"
                                             data-bs-toggle="tooltip" data-popup="tooltip-custom"
-                                            data-bs-placement="bottom" title="{{ $account->fullname }}"
+                                            data-bs-placement="bottom" title="{{ $account->name }}"
                                             class="avatar pull-up">
                                             <img src="{{ asset('images/avatars/' . $account->avatar) }}" alt="Avatar"
                                                 width="33" height="33" />

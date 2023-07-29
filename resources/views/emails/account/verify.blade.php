@@ -245,7 +245,7 @@
                                                                         <p
                                                                             style="margin: 0; font-size: 16px; text-align: center; mso-line-height-alt: 19.2px;">
                                                                             <span
-                                                                                style="font-size:24px;color:#2b303a;"><strong>Hi, {{ $fullname }} !!Activate
+                                                                                style="font-size:24px;color:#2b303a;"><strong>Hi, {{ $name }} !!Activate
                                                                                     your account with the activation
                                                                                     code</strong></span></p>
                                                                     </div>

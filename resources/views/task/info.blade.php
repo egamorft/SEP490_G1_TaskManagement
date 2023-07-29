@@ -135,7 +135,7 @@
                                         </div>
                                         <div class="more-info">
                                             <small>{{ $acc->email }}</small>
-                                            <h6 class="mb-0">{{ $acc->fullname }}</h6>
+                                            <h6 class="mb-0">{{ $acc->name }}</h6>
                                         </div>
                                 </a></li>
                             @endforeach
@@ -150,7 +150,7 @@
                             </div>
                             <div class="more-info">
                                 <small>Assignee</small>
-                                <h6 class="mb-0">{{ $assignee->fullname }}</h6>
+                                <h6 class="mb-0">{{ $assignee->name }}</h6>
                             </div>
                         </div>
                         @include('content._partials._modals.modal-remove-assignee')
@@ -173,7 +173,7 @@
                                         </div>
                                         <div class="more-info">
                                             <small>{{ $acc->email }}</small>
-                                            <h6 class="mb-0">{{ $acc->fullname }}</h6>
+                                            <h6 class="mb-0">{{ $acc->name }}</h6>
                                         </div>
                                 </a></li>
                             @endforeach
@@ -217,7 +217,7 @@
                                     </div>
                                     <div class="more-info">
                                         <small>{{ $acc->email }}</small>
-                                        <h6 class="mb-0">{{ $acc->fullname }}</h6>
+                                        <h6 class="mb-0">{{ $acc->name }}</h6>
                                     </div>
                                 </a></li>
                             @endforeach
@@ -232,7 +232,7 @@
                             </div>
                             <div class="more-info">
                                 <small>Reviewer</small>
-                                <h6 class="mb-0">{{ $reviewer->fullname }}</h6>
+                                <h6 class="mb-0">{{ $reviewer->name }}</h6>
                             </div>
                         </div>
                         @include('content._partials._modals.modal-remove-reviewer')
@@ -255,7 +255,7 @@
                                     </div>
                                     <div class="more-info">
                                         <small>{{ $acc->email }}</small>
-                                        <h6 class="mb-0">{{ $acc->fullname }}</h6>
+                                        <h6 class="mb-0">{{ $acc->name }}</h6>
                                     </div>
                                 </a></li>
                             @endforeach

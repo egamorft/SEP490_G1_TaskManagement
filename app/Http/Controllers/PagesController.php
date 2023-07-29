@@ -7,38 +7,38 @@ use Illuminate\Http\Request;
 class PagesController extends Controller
 {
 
-    // Account Settings account
+    // User Settings account
     public function account_settings_account()
     {
-        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Account Settings"], ['name' => "Account"]];
+        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "User Settings"], ['name' => "User"]];
         return view('/content/pages/page-account-settings-account', ['breadcrumbs' => $breadcrumbs]);
     }
 
-    // Account Settings security
+    // User Settings security
     public function account_settings_security()
     {
-        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Account Settings"], ['name' => "Security"]];
+        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "User Settings"], ['name' => "Security"]];
         return view('/content/pages/page-account-settings-security', ['breadcrumbs' => $breadcrumbs]);
     }
 
-    // Account Settings billing
+    // User Settings billing
     public function account_settings_billing()
     {
-        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Account Settings"], ['name' => "Billing & Plans"]];
+        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "User Settings"], ['name' => "Billing & Plans"]];
         return view('/content/pages/page-account-settings-billing', ['breadcrumbs' => $breadcrumbs]);
     }
 
-    // Account Settings notifications
+    // User Settings notifications
     public function account_settings_notifications()
     {
-        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Account Settings"], ['name' => "Notifications"]];
+        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "User Settings"], ['name' => "Notifications"]];
         return view('/content/pages/page-account-settings-notifications', ['breadcrumbs' => $breadcrumbs]);
     }
 
-    // Account Settings connections
+    // User Settings connections
     public function account_settings_connections()
     {
-        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "Account Settings"], ['name' => "Connections"]];
+        $breadcrumbs = [['link' => "/", 'name' => "Home"], ['link' => "javascript:void(0)", 'name' => "User Settings"], ['name' => "Connections"]];
         return view('/content/pages/page-account-settings-connections', ['breadcrumbs' => $breadcrumbs]);
     }
 

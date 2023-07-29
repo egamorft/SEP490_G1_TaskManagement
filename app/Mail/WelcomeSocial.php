@@ -13,17 +13,17 @@ class WelcomeSocial extends Mailable
 {
     use Queueable, SerializesModels;
     public $provider;
-    public $fullname;
+    public $name;
     public $email_to;
     /**
      * Create a new message instance.
      *
      * @return void
      */
-    public function __construct($provider, $fullname, $email_to)
+    public function __construct($provider, $name, $email_to)
     {
         $this->provider = $provider;
-        $this->fullname = $fullname;
+        $this->name = $name;
         $this->email_to = $email_to;
     }
 

@@ -24,7 +24,7 @@ class LoginRequest extends FormRequest
     public function rules()
     {
         $rules = [
-            'login-email' => 'required|email|max:50|exists:accounts,email',
+            'login-email' => 'required|email|max:50|exists:users,email',
             'login-password' => 'required|min:8',
         ];
         return $rules;

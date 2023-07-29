@@ -181,9 +181,9 @@ return [
         App\Providers\MenuServiceProvider::class,
         //Menu sidebar
         App\Providers\ProjectsComposerServiceProvider::class,
-        //Account provider
+        //User provider
         App\Providers\AccountServiceProvider::class,
-        //Projet permisison
+        //Project permisison
         App\Providers\PermissionProjectProvider::class,
         //QR code
         // SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,

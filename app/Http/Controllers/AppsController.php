@@ -53,7 +53,7 @@ class AppsController extends Controller
         return view('/content/apps/user/app-user-list', ['pageConfigs' => $pageConfigs]);
     }
 
-    // User Account Page
+    // User User Page
     public function user_view_account()
     {
         $pageConfigs = ['pageHeader' => false];

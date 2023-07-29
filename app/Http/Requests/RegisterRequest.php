@@ -28,7 +28,7 @@ class RegisterRequest extends FormRequest
             'register-fullname' => 'required|max:50',
             'register-password' => 'required|min:8|max:50|regex:/^(?=.*[A-Z])(?=.*[\W])/',
             'register-confirm-password' => 'required|same:register-password',
-            'register-email' => 'required|email|max:100|unique:accounts,email',
+            'register-email' => 'required|email|max:100|unique:users,email',
             'g-recaptcha-response' => new Captcha(),
         ];
         return $rules;

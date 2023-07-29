@@ -24,7 +24,7 @@ class AccountProject extends Model
 
     public function account()
     {
-        return $this->belongsTo(Account::class, 'account_id');
+        return $this->belongsTo(User::class, 'account_id');
     }
 
     public function role()
