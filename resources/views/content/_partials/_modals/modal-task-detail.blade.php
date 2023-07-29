@@ -1,3 +1,6 @@
+@php
+    use App\Enums\TaskStatus;
+@endphp
 <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
 <input type="hidden" name="task_id" value="{{ $taskDetails->id }}">
 <div class="mb-2 kanban-detail-header">
@@ -8,31 +11,72 @@
                 {{ $taskDetails->title ?? '' }}
             </strong>
         </span>
+        @php
+            $task_badge = '';
+        @endphp
+        @switch($taskDetails->status)
+            @case(-1)
+                @php
+                    $task_badge = 'danger';
+                @endphp
+            @break
+
+            @case(0)
+                @php
+                    $task_badge = 'secondary';
+                @endphp
+            @break
+
+            @case(1)
+                @php
+                    $task_badge = 'primary';
+                @endphp
+            @break
+
+            @case(2)
+                @php
+                    $task_badge = 'warning';
+                @endphp
+            @break
+
+            @case(3)
+                @php
+                    $task_badge = 'success';
+                @endphp
+            @break
+        @endswitch
+        <span class="badge bg-{{$task_badge}}">
+            <span>{{ TaskStatus::getKey($taskDetails->status) }}</span>
+        </span>
     </div>
     <div class="mb-1 kanban-detail-status">
         In task list: <span><u id="taskStatus">{{ $taskDetails->taskList->title ?? '' }}</u></span>
     </div>
 
     <div class="mb-1 kanban-detail-approve">
-        <div class="kanban-detail-markdone kanban-detail-stat">
-            <div class="kanban-detail-status-title">Done</div>
-            <i data-feather="circle" class="icon-done custom-title-icon"></i>
-        </div>
+        @if ($taskDetails->status == TaskStatus::DOING)
+            @if ($taskDetails->assign_to == Auth::id() || $current_role == 'pm')
+                <div class="kanban-detail-markdone kanban-detail-stat">
+                    <div class="kanban-detail-status-title">Done</div>
+                    <i data-feather="circle" class="icon-done custom-title-icon"></i>
+                </div>
+            @endif
+        @endif
 
-        <div class="kanban-detail-reviewing kanban-detail-stat">
-            <div class="kanban-detail-status-title">Reviewing</div>
-            <i data-feather="circle" class="icon-reviewing custom-title-icon"></i>
-        </div>
 
-        <div class="kanban-detail-reject kanban-detail-stat">
-            <div class="kanban-detail-status-title">Reject</div>
-            <i data-feather="x-circle" class="icon-reject custom-title-icon"></i>
-        </div>
+        @if ($taskDetails->status == TaskStatus::REVIEWING)
+            @if ($taskDetails->created_by == Auth::id() || $current_role == 'pm')
+                <div class="kanban-detail-reject kanban-detail-stat">
+                    <div class="kanban-detail-status-title">Reject</div>
+                    <i data-feather="x-circle" class="icon-reject custom-title-icon"></i>
+                </div>
 
-        <div class="kanban-detail-done kanban-detail-stat status-done">
-            <div class="kanban-detail-status-title">Finish</div>
-            <i data-feather="check-circle" class="icon-fully-done custom-title-icon"></i>
-        </div>
+                <div class="kanban-detail-done kanban-detail-stat status-done">
+                    <div class="kanban-detail-status-title">Finish</div>
+                    <i data-feather="check-circle" class="icon-fully-done custom-title-icon"></i>
+                </div>
+            @endif
+        @endif
     </div>
 </div>
 
@@ -106,8 +150,9 @@
         <div class="kanban-detail-date">
             <div class="date-title custom-sub-title">Task duration</div>
             <div class="flex-box">
-                <input name="duration" type="text" id="fp-range"
-                    class="form-control flatpickr-range-task flatpickr-input active"
+                <input {{ $taskDetails->created_by == Auth::id() || $current_role == 'pm' ? '' : 'disabled' }}
+                    {{ $taskDetails->status != TaskStatus::DONE ? '' : 'disabled' }} name="duration" type="text"
+                    id="fp-range-task" class="form-control flatpickr-range-task flatpickr-input active"
                     placeholder="YYYY-MM-DD to YYYY-MM-DD"
                     value="{{ $taskDetails->start_date }} to {{ $taskDetails->due_date }}">
             </div>
@@ -265,6 +310,8 @@
 </script>
 
 <script src="{{ URL::asset('js/scripts/pages/app-kanban-detail.js') }}"></script>
+<!-- include the Moment.js library from a CDN -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
 <script>
     feather.replace()
 </script>
@@ -544,6 +591,54 @@
 
         });
 
+        var rangePicker = flatpickr("#fp-range-task", {
+            mode: "range",
+            enable: [{
+                from: projectStartDate,
+                to: projectEndDate,
+            }, ],
+            onChange: ([start, end]) => {
+                if (start && end) {
+                    var momentStart = moment(start);
+                    var momentEnd = moment(end);
+                    var formattedStart = momentStart.format("YYYY-MM-DD");
+                    var formattedEnd = momentEnd.format("YYYY-MM-DD");
+
+                    var csrfToken = $('[name="csrf-token"]').attr('content');
+                    var task_id = $('[name="task_id"]').val();
+
+                    var data = {
+                        _token: csrfToken,
+                        start_date: formattedStart,
+                        end_date: formattedEnd,
+                        task_id: task_id
+                    };
+                    // Send the AJAX request
+                    $.ajax({
+                        url: '/change-duration',
+                        method: 'POST',
+                        data: data,
+                        success: function(response) {
+                            if (response.success) {
+                                toastr['success'](
+                                    "Success change your task duration",
+                                    'Success!', {
+                                        showMethod: 'slideDown',
+                                        hideMethod: 'slideUp',
+                                        progressBar: true,
+                                        closeButton: true,
+                                        tapToDismiss: false,
+                                        rtl: isRtl
+                                    });
+                            }
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("something went wrong");
+                        }
+                    });
+                }
+            }
+        });
     });
 
     //DELETE FILES

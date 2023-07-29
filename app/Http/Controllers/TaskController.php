@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TaskStatus;
 use App\Http\Requests\AddTaskRequest;
 use App\Models\Comment;
 use App\Models\Project;
@@ -245,7 +246,7 @@ class TaskController extends Controller
             'due_date' => $end_date,
             'created_by' => Auth::id(),
             'assign_to' => $taskAssignee,
-            'status' => 1,
+            'status' => TaskStatus::DOING,
             'prev_tasks' => json_encode($previousTask),
             'description' => $description,
         ]);
@@ -318,7 +319,7 @@ class TaskController extends Controller
             'due_date' => $end_date,
             'created_by' => Auth::id(),
             'assign_to' => $taskAssignee,
-            'status' => 1,
+            'status' => TaskStatus::DOING,
             'prev_tasks' => json_encode($previousTask),
             'description' => $description,
         ]);
@@ -492,6 +493,10 @@ class TaskController extends Controller
 
         $taskDetails = Task::findOrFail($task_id);
         if ($taskDetails) {
+            if($taskDetails->due_date && $taskDetails->assign_to)
+            {
+                $taskDetails->status = TaskStatus::DOING;
+            }
             $taskDetails->assign_to = $user_id;
             $taskDetails->save();
 
@@ -514,6 +519,28 @@ class TaskController extends Controller
 
             $getNewTask = Task::with('createdBy')->findOrFail($task_id);
             return response()->json(['success' => true, 'name' => $getNewTask->createdBy->name, 'avatar' => $getNewTask->createdBy->avatar]);
+        } else {
+            return response()->json(['error' => true]);
+        }
+    }
+
+    public function changeDuration(Request $request)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        if ($taskDetails) {
+            if($taskDetails->due_date && $taskDetails->assign_to)
+            {
+                $taskDetails->status = TaskStatus::DOING;
+            }
+            $taskDetails->start_date = $start_date;
+            $taskDetails->due_date = $end_date;
+            $taskDetails->save();
+
+            return response()->json(['success' => true]);
         } else {
             return response()->json(['error' => true]);
         }
