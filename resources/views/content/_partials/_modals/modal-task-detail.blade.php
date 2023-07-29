@@ -126,10 +126,12 @@
                         $prev_tasks_array = json_decode($taskDetails->prev_tasks);
                     @endphp
                     @foreach ($tasksInBoard as $task)
-                        <option
-                            {{ !empty($prev_tasks_array) && in_array($task->id, $prev_tasks_array) ? 'selected' : '' }}
-                            value="{{ $task->id }}">
-                            {{ $task->title }}</option>
+                        @if ($task->start_date && strtotime($task->due_date) <= strtotime($taskDetails->start_date))
+                            <option
+                                {{ !empty($prev_tasks_array) && in_array($task->id, $prev_tasks_array) ? 'selected' : '' }}
+                                value="{{ $task->id }}">
+                                {{ $task->title }}</option>
+                        @endif
                     @endforeach
                 </select>
             </div>
@@ -257,9 +259,9 @@
     </div>
 </div>
 <script>
-    var projectStartDate = new Date("{{ date('Y-m-d', strtotime($project->start_date)) }}").toISOString().substr(0,
+    var projectStartDate = new Date("{{ date('Y-m-d', strtotime($avaiableStart)) }}").toISOString().substr(0,
         10);
-    var projectEndDate = new Date("{{ date('Y-m-d', strtotime($project->end_date)) }}").toISOString().substr(0, 10);
+    var projectEndDate = new Date("{{ date('Y-m-d', strtotime($avaiableEnd)) }}").toISOString().substr(0, 10);
 </script>
 
 <script src="{{ URL::asset('js/scripts/pages/app-kanban-detail.js') }}"></script>

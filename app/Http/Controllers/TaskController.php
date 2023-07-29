@@ -94,6 +94,48 @@ class TaskController extends Controller
 
         $comments = Comment::with('createdBy')->where('task_id', $taskDetails->id)->get();
 
+        //Pending check all Task xem có task nào mà prev_task là $details->id không
+        if ($taskDetails->start_date && $taskDetails->due_date) {
+            $afterTasksDate = [];
+            $allTasksAfter = Task::all();
+            foreach ($allTasksAfter as $allTask) {
+                if ($allTask->prev_tasks) {
+                    if (in_array($taskDetails->id, json_decode($allTask->prev_tasks))) {
+                        //Current task have after task
+                        $afterTasksDate[] = $allTask->start_date;
+                    }
+                }
+            }
+
+            $prev_task = $taskDetails->prev_tasks;
+
+            if (empty($afterTasksDate)) {
+                if ($prev_task) {
+                    $tasksInPrev = Task::find(json_decode($prev_task));
+                    $prev_end = $tasksInPrev->pluck('due_date')->toArray();
+                    $avaiableStart = date('Y-m-d', strtotime(max($prev_end) . ' +1 day'));
+                    $avaiableEnd = $project->end_date;
+                } else {
+                    $avaiableStart = $project->start_date;
+                    $avaiableEnd = $project->end_date;
+                }
+            } else {
+                if ($prev_task) {
+                    $tasksInPrev = Task::find(json_decode($prev_task));
+                    $prev_end = $tasksInPrev->pluck('due_date')->toArray();
+                    $avaiableStart = date('Y-m-d', strtotime(max($prev_end) . ' +1 day'));
+                    $avaiableEnd = min($afterTasksDate);
+                } else {
+                    $avaiableStart = $project->start_date;
+                    $avaiableEnd = min($afterTasksDate);
+                }
+            }
+
+        } else {
+            $avaiableStart = $project->start_date;
+            $avaiableEnd = $project->end_date;
+        }
+
         return view('content._partials._modals.modal-task-detail')
             ->with(compact(
                 "taskDetails",
@@ -104,7 +146,9 @@ class TaskController extends Controller
                 "comments",
                 "allAccInProject",
                 "tasksInBoard",
-                "current_role"
+                "current_role",
+                "avaiableStart",
+                "avaiableEnd"
             ));
     }
 
@@ -310,7 +354,7 @@ class TaskController extends Controller
             if (!in_array($file->getClientOriginalExtension(), $allowedFormats)) {
                 return response()->json(['error' => true, 'message' => 'Wrong format'], 404);
             }
-            if($file->getSize() > $maxFileSize){
+            if ($file->getSize() > $maxFileSize) {
                 return response()->json(['error' => true, 'message' => 'Your file is over 2MB. Choose another ones'], 404);
             }
             $filename = $file->getClientOriginalName();
