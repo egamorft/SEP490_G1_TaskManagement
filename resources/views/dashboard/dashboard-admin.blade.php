@@ -84,11 +84,8 @@
         </div>
         <!-- list and filter start -->
         <div class="card">
-            <div class="card-body border-bottom">
-                <h4 class="card-title">Search & Filter</h4>
-                <div class="row">
-                    <div class="col-md-4 project_status"></div>
-                </div>
+            <div class="card-body border-bottom mb-0">
+                <h4 class="card-title mb-0">List All Project</h4>
             </div>
             <div class="card-datatable table-responsive pt-0">
                 @include('dashboard.all-project')

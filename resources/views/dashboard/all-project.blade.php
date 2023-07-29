@@ -45,38 +45,36 @@
                         </div>
                     </div>
                 </td>
-                <td>
                     @switch($project->project_status)
                         @case(-1)
-                            <span class="badge rounded-pill badge-light-danger">
-								Fail
-                            </span>
+						<td>
+                            <span class="badge rounded-pill badge-light-danger">Fail</span>
+						</td>
                         @break
 
                         @case(0)
-                            <span class="badge rounded-pill badge-light-danger">
-								Todo
-                            </span>
+						<td>
+                            <span class="badge rounded-pill badge-light-info">Todo</span>
+						</td>
                         @break
 
                         @case(1)
-                            <span class="badge rounded-pill badge-light-danger">
-								Doing
-                            </span>
+						<td>
+                            <span class="badge rounded-pill badge-light-primary">Doing</span>
+						</td>
                         @break
 
                         @case(2)
-                            <span class="badge rounded-pill badge-light-danger">
-								Done
-                            </span>
+						<td>
+                            <span class="badge rounded-pill badge-light-success">Done</span>
+						</td>
                         @break
 
                         @default
-                            <span class="badge rounded-pill badge-light-danger">
-								Done
-                            </span>
+						<td>
+                            <span class="badge rounded-pill badge-light-success">Done</span>
+						</td>
                     @endswitch
-                </td>
 
                 <td>
                     <div class="avatar float-start bg-white rounded">

@@ -151,19 +151,15 @@ $(function () {
                     .columns(2)
                     .every(function () {
                         var column = this;
-
-                        var label = $(
-                            '<label class="form-label" for="FilterTransaction">Status</label>'
-                        ).appendTo(".project_status");
                         var select = $(
-                            '<select id="FilterTransaction" class="form-select text-capitalize mb-md-0 mb-2xx"><option value=""> Select Status </option></select>'
+                            '<select id="FilterTransaction" class="form-select text-capitalize mb-md-0 mb-2xx" style="margin-right: 10px;margin-top: 8px;width: 150px;"><option value=""> Select Status </option></select>'
                         )
-                            .appendTo(".project_status")
+                            .insertAfter(".dt-action-buttons.d-flex.align-items-center.justify-content-center.justify-content-lg-end.flex-lg-nowrap.flex-wrap .me-1")
                             .on("change", function () {
                                 var val = $.fn.dataTable.util.escapeRegex(
                                     $(this).val()
                                 );
-                                column.search(val ? '^' + val + '$' : '', true, false).draw();
+                                column.search(val, true, false).draw();
                             });
 
                         column
