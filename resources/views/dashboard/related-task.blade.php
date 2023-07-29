@@ -1,15 +1,17 @@
 <!-- Task table -->
 <div class="card col-12">
-    <h4 class="card-header">
-		Your Tasks In this Week
+    <h4 class="card-header task-list">
+		<span class="title">Tasks In this Week</span>
 		<div class="content-header-right text-md-end col-md-2 col-12 d-md-block d-none">
 			<div class="mb-0 breadcrumb-right">
-				<div class="d-inline">
-					<a class="btn-icon btn show-task-by-week" type="button">
+					<a class="d-inline btn-icon btn show-task-by-week" type="button">
 						<i data-feather="skip-back"></i>
-						This Week
+						<span> This Week </span>
 					</a>
-				</div>
+					<a class="d-inline btn-icon btn show-task-by-week" type="button">
+						<i data-feather="skip-back"></i>
+						<span> Next Week </span>
+					</a>
 			</div>
 		</div>
 	</h4>
