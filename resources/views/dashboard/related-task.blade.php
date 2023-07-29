@@ -1,6 +1,18 @@
 <!-- Task table -->
 <div class="card col-12">
-    <h4 class="card-header">Your Tasks In this Week</h4>
+    <h4 class="card-header">
+		Your Tasks In this Week
+		<div class="content-header-right text-md-end col-md-2 col-12 d-md-block d-none">
+			<div class="mb-0 breadcrumb-right">
+				<div class="d-inline">
+					<a class="btn-icon btn show-task-by-week" type="button">
+						<i data-feather="skip-back"></i>
+						This Week
+					</a>
+				</div>
+			</div>
+		</div>
+	</h4>
     <div class="table-responsive">
         <table class="datatables-permissions table">
             <thead class="table-light">
@@ -27,8 +39,8 @@
                         <td>
                             <div class="d-flex justify-content-left align-items-center">
                                 <div class="more-info">
-                                    <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;"><a
-                                            href="{{ "#" }}">{{ $task->name }}</a>
+                                    <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;">
+									<a href="">{{ $task->title }}</a>
                                     </h6>
                                     <small class="text-truncate"
                                         style="max-width: 300px; display: block;">{{ $task->description ? $task->description : 'No Description' }}</small>

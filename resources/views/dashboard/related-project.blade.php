@@ -141,7 +141,7 @@
                                 @break
 
                                 @case(1)
-                                    <div class="col mt-0">
+                                    <div class="col mt-0" style="width: 100px;">
                                         <div class="avatar float-start bg-light-primary rounded me-1">
                                             <div class="avatar-content">
                                                 <i data-feather="fast-forward" class="avatar-icon font-medium-3"></i>
