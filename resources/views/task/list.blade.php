@@ -148,8 +148,9 @@
 </section>
 <!-- Full calendar end -->
 
-<script src="{{ asset(mix('js/scripts/pages/task-in-list.js')) }}"></script>
+{{-- <script src="{{ asset(mix('js/scripts/pages/task-in-list.js')) }}"></script> --}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 
 <script>
-    // $("#addTaskFormCalendar").attr("action", {{ route("add.task.in.list.modal", ["slug" => $project->slug, "board_id" => $board->id]) }});
+    $("#addTaskFormCalendar").attr("action", "{{ route("add.task.in.list.modal", ["slug" => $project->slug, "board_id" => $board->id]) }}");
 </script>

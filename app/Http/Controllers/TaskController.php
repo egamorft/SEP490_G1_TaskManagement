@@ -315,6 +315,7 @@ class TaskController extends Controller
         $endDateCarbon = Carbon::createFromFormat('Y-m-d', $end_date)->startOfDay();
         // Get the current date as a Carbon instance
         $now = Carbon::now()->startOfDay()->format('Y-m-d');
+        // dd($endDateCarbon, $now);
         // Check if the end date is smaller than or equal to the current date
         if ($endDateCarbon->lt($now)) {
             // Return an error response with a 422 Unprocessable Entity status code
