@@ -97,6 +97,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('change-desc', [TaskController::class, 'changeDesc'])->name('change.desc');
     Route::post('change-assignee', [TaskController::class, 'changeAssignee'])->name('change.assignee');
     Route::post('change-reviewer', [TaskController::class, 'changeReviewer'])->name('change.reviewer');
+    Route::post('change-duration', [TaskController::class, 'changeDuration'])->name('change.duration');
 
 
     Route::post('move-task-calendar', [TaskController::class, 'moveTaskCalendar'])->name('move.task.calendar');

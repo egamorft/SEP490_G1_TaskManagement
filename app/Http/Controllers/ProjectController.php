@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TaskStatus;
 use App\Http\Requests\BoardRequest;
 use App\Http\Requests\ProjectRequest;
 use App\Mail\ProjectInvitation;
@@ -790,10 +791,10 @@ class ProjectController extends Controller {
 				$tasks = $tasks->whereDate('due_date', '=', now()->addWeek()->format('Y-m-d'));
 			}
 			if ($doneTask) {
-				$tasks = $tasks->where('status', 3);
+				$tasks = $tasks->where('status', TaskStatus::DONE);
 			}
 			if ($doingTask) {
-				$tasks = $tasks->where('status', 1);
+				$tasks = $tasks->where('status', TaskStatus::DOING);
 			}
 
 			$tasks = $tasks
