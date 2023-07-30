@@ -150,3 +150,6 @@
 
 <script src="{{ asset(mix('js/scripts/pages/task-in-list.js')) }}"></script>
 
+<script>
+    // $("#addTaskFormCalendar").attr("action", {{ route("add.task.in.list.modal", ["slug" => $project->slug, "board_id" => $board->id]) }});
+</script>
