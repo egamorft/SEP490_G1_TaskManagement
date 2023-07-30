@@ -21,18 +21,35 @@
             </div>
             <!-- Donut Chart Ends-->
 
-			 <!-- Column Charts Starts-->
-			 <div class="col-xl-8 col-12">
-				<div class="card">
-                    <div class="card-header flex-column align-items-start">
-                        <h4 class="card-title mb-75">Weekly progression</h4>
+            <!-- Area Chart starts -->
+            <div class="col-xl-8 col-12">
+                <div class="card">
+                    <div
+                        class="
+					  card-header
+					  d-flex
+					  flex-sm-row flex-column
+					  justify-content-md-between
+					  align-items-start
+					  justify-content-start
+					">
+                        <div>
+                            <h4 class="card-title">All Task</h4>
+                            <span class="card-subtitle text-muted">Group task by day</span>
+                        </div>
+                        <div class="d-flex align-items-center">
+                            <i class="font-medium-2" data-feather="calendar"></i>
+                            <input type="text" class="form-control flat-picker bg-transparent border-0 shadow-none"
+                                placeholder="YYYY-MM-DD" />
+                        </div>
                     </div>
                     <div class="card-body">
-						<div id="chartContainer" style="height: 327px; width: 100%;"></div>
+                        <div id="line-area-chart"></div>
                     </div>
                 </div>
             </div>
-            <!-- Column Charts Ends-->
+            <!-- Area Chart ends -->
+
         </div>
 
         <div class="row">
@@ -59,141 +76,196 @@
                                 <td>
                                     <div class="d-flex justify-content-left align-items-center">
                                         <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/1.png"
+                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $pmAccount->id]) }}"
+                                                class="avatar me-1"><img
+                                                    src="{{ asset('images/avatars/' . $pmAccount->avatar) }}"
                                                     alt="Project Image" width="32" class="rounded-circle"></a>
                                         </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">Tran Ngoc
-                                                Hieu</a><small class="text-muted">Project Manager</small></div>
-                                    </div>
-                                </td>
-                                <td>120</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
-                            </tr>
-                            <tr class="even">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/2.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
+                                        <div class="d-flex flex-column"><a
+                                                href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $pmAccount->id]) }}"
+                                                class="text-truncate fw-bolder">{{ $pmAccount->fullname ?? '' }}</a>
+                                            <small class="text-muted">Project Manager</small>
                                         </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">Tran Ngoc
-                                                Hieu</a><small class="text-muted">Project Supervisor</small></div>
                                     </div>
                                 </td>
-                                <td>90</td>
-                                <td class="text-info">12</td>
-                                <td class="text-primary">11</td>
-                                <td class="text-warning">12</td>
-                                <td class="text-success">4</td>
-                                <td class="text-secondary">21</td>
-                                <td class="text-danger">13</td>
+                                @php
+                                    $todoNum = 0;
+                                    $doingNum = 0;
+                                    $reviewingNum = 0;
+                                    $ontimeNum = 0;
+                                    $lateNum = 0;
+                                    $overdueNum = 0;
+                                    foreach ($todoTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $todoNum++;
+                                        }
+                                    }
+                                    foreach ($doingTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $doingNum++;
+                                        }
+                                    }
+                                    foreach ($reviewingTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $reviewingNum++;
+                                        }
+                                    }
+                                    foreach ($ontimeTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $ontimeNum++;
+                                        }
+                                    }
+                                    foreach ($lateTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $lateNum++;
+                                        }
+                                    }
+                                    foreach ($overdueTasks as $task) {
+                                        if ($task->created_by == $pmAccount->id) {
+                                            $overdueNum++;
+                                        }
+                                    }
+                                @endphp
+                                <td>{{ $todoNum + $doingNum + $reviewingNum + $ontimeNum + $lateNum + $overdueNum }}</td>
+                                <td class="text-info">{{ $todoNum }}</td>
+                                <td class="text-primary">{{ $doingNum }}</td>
+                                <td class="text-warning">{{ $reviewingNum }}</td>
+                                <td class="text-success">{{ $ontimeNum }}</td>
+                                <td class="text-secondary">{{ $lateNum }}</td>
+                                <td class="text-danger">{{ $overdueNum }}</td>
                             </tr>
-                            <tr class="odd">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/3.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
+                            @if ($supervisorAccount)
+                                <tr class="odd">
+                                    <td class=" control" tabindex="0" style="display: none;"></td>
+                                    <td>
+                                        <div class="d-flex justify-content-left align-items-center">
+                                            <div class="avatar-wrapper">
+                                                <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisorAccount->id]) }}"
+                                                    class="avatar me-1"><img
+                                                        src="{{ asset('images/avatars/' . $supervisorAccount->avatar) }}"
+                                                        alt="Project Image" width="32" class="rounded-circle"></a>
+                                            </div>
+                                            <div class="d-flex flex-column"><a
+                                                    href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisorAccount->id]) }}"
+                                                    class="text-truncate fw-bolder">{{ $supervisorAccount->fullname ?? '' }}</a>
+                                                <small class="text-muted">Project Supervisor</small>
+                                            </div>
                                         </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">Tran Ngoc
-                                                Hieu</a><small class="text-muted">Project Member</small></div>
-                                    </div>
-                                </td>
-                                <td>90</td>
-                                <td class="text-info">51</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">14</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">51</td>
-                                <td class="text-danger">6</td>
-                            </tr>
-                            <tr class="even">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/4.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
+                                    </td>
+                                    @php
+                                        $todoNum = 0;
+                                        $doingNum = 0;
+                                        $reviewingNum = 0;
+                                        $ontimeNum = 0;
+                                        $lateNum = 0;
+                                        $overdueNum = 0;
+                                        foreach ($todoTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $todoNum++;
+                                            }
+                                        }
+                                        foreach ($doingTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $doingNum++;
+                                            }
+                                        }
+                                        foreach ($reviewingTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $reviewingNum++;
+                                            }
+                                        }
+                                        foreach ($ontimeTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $ontimeNum++;
+                                            }
+                                        }
+                                        foreach ($lateTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $lateNum++;
+                                            }
+                                        }
+                                        foreach ($overdueTasks as $task) {
+                                            if ($task->created_by == $supervisorAccount->id) {
+                                                $overdueNum++;
+                                            }
+                                        }
+                                    @endphp
+                                    <td>{{ $todoNum + $doingNum + $reviewingNum + $ontimeNum + $lateNum + $overdueNum }}
+                                    </td>
+                                    <td class="text-info">{{ $todoNum }}</td>
+                                    <td class="text-primary">{{ $doingNum }}</td>
+                                    <td class="text-warning">{{ $reviewingNum }}</td>
+                                    <td class="text-success">{{ $ontimeNum }}</td>
+                                    <td class="text-secondary">{{ $lateNum }}</td>
+                                    <td class="text-danger">{{ $overdueNum }}</td>
+                                </tr>
+                            @endif
+                            @foreach ($memberAccount as $acc)
+                                <tr class="odd">
+                                    <td class=" control" tabindex="0" style="display: none;"></td>
+                                    <td>
+                                        <div class="d-flex justify-content-left align-items-center">
+                                            <div class="avatar-wrapper">
+                                                <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
+                                                    class="avatar me-1"><img
+                                                        src="{{ asset('images/avatars/' . $acc->avatar) }}"
+                                                        alt="Project Image" width="32" class="rounded-circle"></a>
+                                            </div>
+                                            <div class="d-flex flex-column"><a
+                                                    href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
+                                                    class="text-truncate fw-bolder">{{ $acc->fullname ?? '' }}</a>
+                                                <small class="text-muted">Project Member</small>
+                                            </div>
                                         </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">Tran Ngoc
-                                                Hiep</a><small class="text-muted">Project Member</small></div>
-                                    </div>
-                                </td>
-                                <td>16</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">61</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">91</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
-                            </tr>
-                            <tr class="odd">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/4.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
-                                        </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">DTran Ngoc
-                                                Hieu</a><small class="text-muted">Project Member</small></div>
-                                    </div>
-                                </td>
-                                <td>278</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
-                            </tr>
-                            <tr class="even">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/6.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
-                                        </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">Tran Ngoc
-                                                Hieue</a><small class="text-muted">Project Member</small></div>
-                                    </div>
-                                </td>
-                                <td>27</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
-                            </tr>
-                            <tr class="odd">
-                                <td class=" control" tabindex="0" style="display: none;"></td>
-                                <td>
-                                    <div class="d-flex justify-content-left align-items-center">
-                                        <div class="avatar-wrapper">
-                                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="avatar me-1"><img src="//localhost:3000/images/avatars/H.png"
-                                                    alt="Project Image" width="32" class="rounded-circle"></a>
-                                        </div>
-                                        <div class="d-flex flex-column"><a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}" class="text-truncate fw-bolder">VTran Ngoc
-                                                Hieute</a><small class="text-muted">Project Member</small></div>
-                                    </div>
-                                </td>
-                                <td>217</td>
-                                <td class="text-info">1</td>
-                                <td class="text-primary">1</td>
-                                <td class="text-warning">1</td>
-                                <td class="text-success">1</td>
-                                <td class="text-secondary">1</td>
-                                <td class="text-danger">1</td>
-                            </tr>
+                                    </td>
+                                    @php
+                                        $todoNum = 0;
+                                        $doingNum = 0;
+                                        $reviewingNum = 0;
+                                        $ontimeNum = 0;
+                                        $lateNum = 0;
+                                        $overdueNum = 0;
+                                        foreach ($todoTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $todoNum++;
+                                            }
+                                        }
+                                        foreach ($doingTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $doingNum++;
+                                            }
+                                        }
+                                        foreach ($reviewingTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $reviewingNum++;
+                                            }
+                                        }
+                                        foreach ($ontimeTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $ontimeNum++;
+                                            }
+                                        }
+                                        foreach ($lateTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $lateNum++;
+                                            }
+                                        }
+                                        foreach ($overdueTasks as $task) {
+                                            if ($task->created_by == $acc->id) {
+                                                $overdueNum++;
+                                            }
+                                        }
+                                    @endphp
+                                    <td>{{ $todoNum + $doingNum + $reviewingNum + $ontimeNum + $lateNum + $overdueNum }}
+                                    </td>
+                                    <td class="text-info">{{ $todoNum }}</td>
+                                    <td class="text-primary">{{ $doingNum }}</td>
+                                    <td class="text-warning">{{ $reviewingNum }}</td>
+                                    <td class="text-success">{{ $ontimeNum }}</td>
+                                    <td class="text-secondary">{{ $lateNum }}</td>
+                                    <td class="text-danger">{{ $overdueNum }}</td>
+                                </tr>
+                            @endforeach
                         </tbody>
                     </table>
                 </div>
@@ -206,260 +278,106 @@
     <!-- ChartJS section end -->
 
     <script>
-        window.onload = function() {
+        var boards = @json($boards),
+            tasks = @json($tasks),
+            todoTasks = @json($todoTasks),
+            doingTasks = @json($doingTasks),
+            reviewingTasks = @json($reviewingTasks),
+            ontimeTasks = @json($ontimeTasks),
+            lateTasks = @json($lateTasks),
+            overdueTasks = @json($overdueTasks);
 
-            var chart = new CanvasJS.Chart("chartContainer", {
-                animationEnabled: true,
-                title: {
-                    text: "",
-                    fontFamily: "Helvetica, Arial, sans-serif",
-                    fontColor: "#6e6b7b !important"
-                },
-                axisX: {
-                    interval: 1,
-                    intervalType: "week"
-                },
-                axisY: {
-                    valueFormatString: "# Tasks",
-                    gridColor: "#6e6b7b",
-                    tickColor: "#6e6b7b"
-                },
-                toolTip: {
-                    shared: true,
-                    content: toolTipContent
-                },
-                data: [{
-                        type: "stackedColumn",
-                        showInLegend: true,
-                        color: "#00cfe8",
-                        name: "Todo",
-						dataPoints: [{
-                                y: 65,
-                                x: new Date('07/01/2023')
-                            },
-                            {
-                                y: 87,
-                                x: new Date('07/08/2023')
-                            },
-                            {
-                                y:  04,
-                                x: new Date('07/15/2023')
-                            },
-                            {
-                                y:  37,
-                                x: new Date('07/22/2023')
-                            },
-                            {
-                                y:  52,
-                                x: new Date('07/29/2023')
-                            },
-                            {
-                                y:  76,
-                                x: new Date('08/05/2023')
-                            },
-                            {
-                                y:  06,
-                                x: new Date('08/12/2023')
-                            }
-                        ]
-                    },
-                    {
-                        type: "stackedColumn",
-                        showInLegend: true,
-                        name: "Doing",
-                        color: "#7367f0",
-                        dataPoints: [{
-                                y: 65,
-                                x: new Date('07/01/2023')
-                            },
-                            {
-                                y: 87,
-                                x: new Date('07/08/2023')
-                            },
-                            {
-                                y:  04,
-                                x: new Date('07/15/2023')
-                            },
-                            {
-                                y:  37,
-                                x: new Date('07/22/2023')
-                            },
-                            {
-                                y:  52,
-                                x: new Date('07/29/2023')
-                            },
-                            {
-                                y:  76,
-                                x: new Date('08/05/2023')
-                            },
-                            {
-                                y:  06,
-                                x: new Date('08/12/2023')
-                            }
-                        ]
-                    },
-                    {
-                        type: "stackedColumn",
-                        showInLegend: true,
-                        name: "Reviewing",
-                        color: "#ff9f43",
-                        dataPoints: [{
-                                y: 65,
-                                x: new Date('07/01/2023')
-                            },
-                            {
-                                y: 87,
-                                x: new Date('07/08/2023')
-                            },
-                            {
-                                y:  04,
-                                x: new Date('07/15/2023')
-                            },
-                            {
-                                y:  37,
-                                x: new Date('07/22/2023')
-                            },
-                            {
-                                y:  52,
-                                x: new Date('07/29/2023')
-                            },
-                            {
-                                y:  76,
-                                x: new Date('08/05/2023')
-                            },
-                            {
-                                y:  06,
-                                x: new Date('08/12/2023')
-                            }
-                        ]
-                    },
-                    {
-                        type: "stackedColumn",
-                        showInLegend: true,
-                        name: "Ontime",
-                        color: "#28c76f",
-                        dataPoints: [{
-                                y: 65,
-                                x: new Date('07/01/2023')
-                            },
-                            {
-                                y: 87,
-                                x: new Date('07/08/2023')
-                            },
-                            {
-                                y:  04,
-                                x: new Date('07/15/2023')
-                            },
-                            {
-                                y:  37,
-                                x: new Date('07/22/2023')
-                            },
-                            {
-                                y:  52,
-                                x: new Date('07/29/2023')
-                            },
-                            {
-                                y:  76,
-                                x: new Date('08/05/2023')
-                            },
-                            {
-                                y:  06,
-                                x: new Date('08/12/2023')
-                            }
-                        ]
-                    },
-                    {
-                        type: "stackedColumn",
-                        showInLegend: true,
-                        name: "Late",
-                        color: "#82868b",
-                        dataPoints: [{
-                                y: 65,
-                                x: new Date('07/01/2023')
-                            },
-                            {
-                                y: 87,
-                                x: new Date('07/08/2023')
-                            },
-                            {
-                                y:  04,
-                                x: new Date('07/15/2023')
-                            },
-                            {
-                                y:  37,
-                                x: new Date('07/22/2023')
-                            },
-                            {
-                                y:  52,
-                                x: new Date('07/29/2023')
-                            },
-                            {
-                                y:  76,
-                                x: new Date('08/05/2023')
-                            },
-                            {
-                                y:  06,
-                                x: new Date('08/12/2023')
-                            }
-                        ]
-                    },
-                    {
-                        type: "stackedColumn",
-                        showInLegend: true,
-                        name: "Overdue",
-                        color: "#ea5455",
-                        dataPoints: [{
-                                y: 65,
-                                x: new Date('07/01/2023')
-                            },
-                            {
-                                y: 87,
-                                x: new Date('07/08/2023')
-                            },
-                            {
-                                y:  04,
-                                x: new Date('07/15/2023')
-                            },
-                            {
-                                y:  37,
-                                x: new Date('07/22/2023')
-                            },
-                            {
-                                y:  52,
-                                x: new Date('07/29/2023')
-                            },
-                            {
-                                y:  76,
-                                x: new Date('08/05/2023')
-                            },
-                            {
-                                y:  06,
-                                x: new Date('08/12/2023')
-                            }
-                        ]
-                    }
-                ]
-            });
-            chart.render();
+        var dayByWeek = [];
+        // Project Info
+        var project = @json($project);
+        var today = new Date();
+        var start = new Date(project.start_date);
+        var end = new Date(project.end_date);
 
-            function toolTipContent(e) {
-                var str = "";
-                var total = 0;
-                var str2, str3;
-                for (var i = 0; i < e.entries.length; i++) {
-                    var str1 = "<span style= \"color:" + e.entries[i].dataSeries.color + "\"> " + e.entries[i]
-                        .dataSeries.name + "</span>: <strong>" + e.entries[i].dataPoint.y + "</strong> Tasks<br/>";
-                    total = e.entries[i].dataPoint.y + total;
-                    str = str.concat(str1);
+        var todoData = [],
+            doingData = [],
+            reviewingData = [],
+            ontimeData = [],
+            lateData = [],
+            overdueData = [];
+        var dates = [];
+        var current = start;
+        while (current <= end) {
+            var day = String(current.getDate()).padStart(2, '0');
+            var month = String(current.getMonth() + 1).padStart(2, '0');
+            var dd = '',
+                mm = '';
+            var task_number = 0;
+            dates.push(`${day}/${month}`);
+            current.setDate(current.getDate() + 1);
+
+            task_number = 0;
+            todoTasks.forEach(task => {
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
                 }
-                str2 = "<span style = \"color:DodgerBlue;\"><strong>" + (e.entries[0].dataPoint.x).getFullYear() +
-                    "</strong></span><br/>";
-                total = Math.round(total * 100) / 100;
-                str3 = "<hr/><span style = \"color:green\">Total:</span><strong> " + total + "</strong> Tasks<br/>";
-                return (str2.concat(str)).concat(str3);
-            }
+            });
+            todoData.push(task_number);
 
+            task_number = 0;
+            doingTasks.forEach(task => {
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            doingData.push(task_number);
+
+            task_number = 0;
+            reviewingTasks.forEach(task => {
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            reviewingData.push(task_number);
+
+            task_number = 0;
+            ontimeTasks.forEach(task => {
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            ontimeData.push(task_number);
+
+            task_number = 0;
+            lateTasks.forEach(task => {
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            lateData.push(task_number);
+
+            task_number = 0;
+            overdueTasks.forEach(task => {
+                dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
+                mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                if (dd == day && mm == month) {
+                    task_number++;
+                }
+            });
+            overdueData.push(task_number);
         }
+        console.log(tasks);
+        console.log(todoData);
+        console.log(doingData);
+        console.log(reviewingData);
+        console.log(ontimeData);
+        console.log(lateData);
+        console.log(overdueData);
     </script>
 @endsection
 
@@ -478,14 +396,8 @@
     <!-- vendor files -->
     <script src="{{ asset(mix('vendors/js/charts/apexcharts.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/pickers/flatpickr/flatpickr.min.js')) }}"></script>
-
-    {{-- <script src="{{ asset(mix('vendors/js/tables/datatable/jquery.dataTables.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.bootstrap5.min.js')) }}"></script>
-    <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.responsive.min.js')) }}"></script> --}}
 @endsection
 @section('page-script')
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
-	<script src="https://cdn.canvasjs.com/canvasjs.min.js"></script>
-    {{-- <script src="{{ asset(mix('js/scripts/pages/task-overview-by-member.js')) }}"></script> --}}
 @endsection
