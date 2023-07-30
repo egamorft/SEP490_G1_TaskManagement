@@ -309,6 +309,7 @@ class TaskController extends Controller
             return response()->json(['error' => true, 'message' => 'Something went wrong']);
         }
 
+
         $start_date = $dates['start_date'];
         $end_date = $dates['end_date'];
 

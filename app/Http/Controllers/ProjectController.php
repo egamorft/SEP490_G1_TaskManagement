@@ -1080,12 +1080,14 @@ class ProjectController extends Controller
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function view_board_list($slug, $board_id)
+	public function view_board_list(Request $request, $slug, $board_id)
 	{
 		$pageConfigs = [
 			'pageHeader' => false,
 			'pageClass' => 'kanban-application',
 		];
+
+		$role = $request->get("role");
 
 		//Project info & members
 		$project = Project::where('slug', $slug)->first();
@@ -1114,7 +1116,19 @@ class ProjectController extends Controller
 			$taskListIds[] = $taskList->id;
 		}
 
-		$tasksInProject = Task::whereIn("taskList_id", $taskListIds)->get();
+		$user = Auth::user();
+
+		$tasksInProject = [];
+		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListIds);
+		if ($role == 'creator') {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
+		}
+
+		if ($role == 'assignee') {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
+		}
+
+		$tasksInProject = $tasksInProjectBuilder->get();
 
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
 			->with(compact(
