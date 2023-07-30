@@ -98,6 +98,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('change-assignee', [TaskController::class, 'changeAssignee'])->name('change.assignee');
     Route::post('change-reviewer', [TaskController::class, 'changeReviewer'])->name('change.reviewer');
     Route::post('change-duration', [TaskController::class, 'changeDuration'])->name('change.duration');
+    Route::post('delete-task', [TaskController::class, 'deleteTask'])->name('delete.task');
 
 
     Route::post('move-task-calendar', [TaskController::class, 'moveTaskCalendar'])->name('move.task.calendar');
@@ -129,6 +130,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('add-board', [ProjectController::class, 'add_board'])->name('add.board');
         Route::post('edit-board', [ProjectController::class, 'edit_board'])->name('edit.board');
         Route::post('remove-board', [ProjectController::class, 'remove_board'])->name('remove.board');
+        Route::post('remove-taskList', [ProjectController::class, 'remove_taskList'])->name('remove.taskList');
         //TODO: Edit with {slug} url
         // Request Action on Board
         Route::post('board/{board_id}/add-task', [TaskController::class, 'add_task_calendar_modal'])->name('add.task.modal');
@@ -141,6 +143,8 @@ Route::middleware(['auth'])->group(function () {
 		// Save Gantt
         Route::post('gantt/save-gantt', [ProjectController::class, 'save_gantt'])->name('save.project.gantt');
         Route::get('task/{task_id}', [TaskController::class, 'view_task'])->name('view.task');
+        
+        Route::get('task_list/{taskList_id}', [TaskController::class, 'view_task_list'])->name('view.taskList');
 
     });
 

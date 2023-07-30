@@ -13,6 +13,7 @@
         </span>
         @php
             $task_badge = '';
+            $isDone = false;
         @endphp
         @switch($taskDetails->status)
             @case(-1)
@@ -42,10 +43,11 @@
             @case(3)
                 @php
                     $task_badge = 'success';
+                    $isDone = true;
                 @endphp
             @break
         @endswitch
-        <span class="badge bg-{{$task_badge}}">
+        <span class="badge bg-{{ $task_badge }}">
             <span>{{ TaskStatus::getKey($taskDetails->status) }}</span>
         </span>
     </div>
@@ -54,6 +56,16 @@
     </div>
 
     <div class="mb-1 kanban-detail-approve">
+        @if ($taskDetails->status == TaskStatus::TODO)
+            @if ($taskDetails->created_by == Auth::id() || $current_role == 'pm')
+                <div class="kanban-detail-markdone kanban-detail-stat deleteTask"
+                    data-assignee="{{ $taskDetails->assignTo->name ?? 'NULL' }}" data-title="{{ $taskDetails->title }}">
+                    <div class="kanban-detail-status-title">Delete</div>
+                    <i data-feather="trash-2" class="icon-reject custom-title-icon"></i>
+                </div>
+            @endif
+        @endif
+
         @if ($taskDetails->status == TaskStatus::DOING)
             @if ($taskDetails->assign_to == Auth::id() || $current_role == 'pm')
                 <div class="kanban-detail-markdone kanban-detail-stat">
@@ -62,7 +74,6 @@
                 </div>
             @endif
         @endif
-
 
         @if ($taskDetails->status == TaskStatus::REVIEWING)
             @if ($taskDetails->created_by == Auth::id() || $current_role == 'pm')
@@ -88,7 +99,8 @@
             @if ($current_role == 'pm' || $current_role == 'supervisor' || $taskDetails->created_by == Auth::id())
                 <div class="assignTask">
                     <div class="dropdown-menu-assignee hidden">
-                        <select class="select2 form-select" id="modalAssignTo" name="modalAddAssignee">
+                        <select {{ $isDone ? 'disabled' : '' }} class="select2 form-select" id="modalAssignTo"
+                            name="modalAddAssignee">
                             @if (count($memberAccount) <= 0)
                                 <option value="0" selected>No Assignee Found</option>
                             @else
@@ -121,7 +133,8 @@
             @if ($current_role == 'pm' || $current_role == 'supervisor' || $taskDetails->created_by == Auth::id())
                 <div class="assignTask">
                     <div class="dropdown-menu-reviewer hidden">
-                        <select class="select2 form-select" id="modalReviewer" name="modalAddReviewer">
+                        <select {{ $isDone ? 'disabled' : '' }} class="select2 form-select" id="modalReviewer"
+                            name="modalAddReviewer">
                             @if (count($allAccInProject) <= 0)
                                 <option value="0" selected>No Reviewer Found</option>
                             @else
@@ -151,8 +164,8 @@
             <div class="date-title custom-sub-title">Task duration</div>
             <div class="flex-box">
                 <input {{ $taskDetails->created_by == Auth::id() || $current_role == 'pm' ? '' : 'disabled' }}
-                    {{ $taskDetails->status != TaskStatus::DONE ? '' : 'disabled' }} name="duration" type="text"
-                    id="fp-range-task" class="form-control flatpickr-range-task flatpickr-input active"
+                    {{ $isDone ? 'disabled' : '' }} name="duration" type="text" id="fp-range-task"
+                    class="form-control flatpickr-range-task flatpickr-input active"
                     placeholder="YYYY-MM-DD to YYYY-MM-DD"
                     value="{{ $taskDetails->start_date }} to {{ $taskDetails->due_date }}">
             </div>
@@ -166,7 +179,8 @@
         <div class="date-title custom-sub-title">Task To Finish</div>
         <div class="prev-flex-item">
             <div class="addPrevTask">
-                <select class="select2 form-select" id="selectPrevTasks" name="modalAddPreviousTask[]" multiple>
+                <select {{ $isDone ? 'disabled' : '' }} class="select2 form-select" id="selectPrevTasks"
+                    name="modalAddPreviousTask[]" multiple>
                     @php
                         $prev_tasks_array = json_decode($taskDetails->prev_tasks);
                     @endphp
@@ -312,6 +326,7 @@
 <script src="{{ URL::asset('js/scripts/pages/app-kanban-detail.js') }}"></script>
 <!-- include the Moment.js library from a CDN -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.4/moment.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     feather.replace()
 </script>
@@ -456,6 +471,10 @@
                             tapToDismiss: false,
                             rtl: isRtl
                         });
+
+                    setTimeout(function() {
+                        location.reload();
+                    }, 3000);
                 },
                 error: function(xhr, status, error) {
                     console.log("something went wrong");
@@ -493,6 +512,10 @@
                             tapToDismiss: false,
                             rtl: isRtl
                         });
+
+                    setTimeout(function() {
+                        location.reload();
+                    }, 3000);
                 },
                 error: function(xhr, status, error) {
                     console.log("something went wrong");
@@ -537,6 +560,9 @@
                                 tapToDismiss: false,
                                 rtl: isRtl
                             });
+                        setTimeout(function() {
+                            location.reload();
+                        }, 3000);
                     }
                 },
                 error: function(xhr, status, error) {
@@ -591,6 +617,7 @@
 
         });
 
+        //CHANGE DURATION
         var rangePicker = flatpickr("#fp-range-task", {
             mode: "range",
             enable: [{
@@ -630,6 +657,9 @@
                                         tapToDismiss: false,
                                         rtl: isRtl
                                     });
+                                setTimeout(function() {
+                                    location.reload();
+                                }, 3000);
                             }
                         },
                         error: function(xhr, status, error) {
@@ -638,6 +668,55 @@
                     });
                 }
             }
+        });
+
+        //DELETE TASK
+        $('.deleteTask').click(function() {
+            var csrfToken = $('[name="csrf-token"]').attr('content');
+
+            var title = $(this).attr('data-title');
+            var assignTo = $(this).attr('data-assignee');
+            var task_id = $('[name="task_id"]').val();
+            var slug = "{{ $slug }}";
+            var board_id = "{{ $board_id }}";   
+
+            var data = {
+                _token: csrfToken,
+                task_id: task_id,
+                slug: slug,
+                board_id: board_id
+            };
+            Swal.fire({
+                title: 'Delete task ' + title + '?',
+                text: "This task was in charge by " + assignTo + "!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/delete-task',
+                        method: 'POST',
+                        data: data,
+                        success: function(response) {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Task ' + title + ' has been remove',
+                                showConfirmButton: false,
+                                timer: 1500
+                            });
+                            setTimeout(function() {
+                                window.location.replace(response.newRoute);
+                            }, 1600);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("something went wrong");
+                        }
+                    });
+                }
+            })
         });
     });
 

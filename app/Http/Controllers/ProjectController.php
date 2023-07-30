@@ -908,8 +908,8 @@ class ProjectController extends Controller
 			}
 
 			$tasks = $tasks
-				->with('assignTo', 'comments', 'createdBy')
-				->orderByRaw("FIELD(status, 2, 3, 1, 4, 5, 6)")
+				->orderByRaw("FIELD(status, 1, 2, 0, 3, -1)")
+				->whereNull('deleted_at')
 				->get();
 
 			$taskItems = [];
@@ -947,6 +947,8 @@ class ProjectController extends Controller
 				'dragTo' => $dragTo,
 				'item' => $taskItems
 			];
+			
+			$current_role = $project->userCurrentRole();
 		}
 		// dd($kanbanData);
 
@@ -955,7 +957,8 @@ class ProjectController extends Controller
 				'project',
 				'board',
 				'disabledProject',
-				'kanbanData'
+				'kanbanData',
+				'current_role'
 			));
 	}
 
@@ -1042,6 +1045,7 @@ class ProjectController extends Controller
 		}
 		$tasks = $tasks
 			->with('assignTo', 'comments', 'createdBy')
+			->whereNull('deleted_at')
 			->get();
 		$tasksCalendar = [];
 
@@ -1338,5 +1342,15 @@ class ProjectController extends Controller
 	{
 		Session::flash('error', 'Something went wrong');
 		return redirect()->back();
+	}
+
+	public function remove_taskList(Request $request)
+	{
+		$taskList = TaskList::findOrFail($request->input('id'));
+		$taskList->delete();
+
+		Session::flash('success', 'Deleted taskList ' . $taskList->title);
+		// Redirect or return a response
+		return back();
 	}
 }

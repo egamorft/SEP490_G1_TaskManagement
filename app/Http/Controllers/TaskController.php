@@ -172,6 +172,27 @@ class TaskController extends Controller
             ));
     }
 
+    public function view_task_list($slug, $taskList_id)
+    {
+        $project = Project::where('slug', $slug)->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+        
+        $tasks= Task::with('assignTo', 'createdBy', 'taskList')->where('taskList_id', $taskList_id)->get();
+
+        $taskLists = TaskList::findOrFail($taskList_id);
+        
+        return view('content._partials._modals.modal-taskList-confirmation')
+            ->with(compact(
+                "tasks",
+                "memberAccount",
+                "project",
+                "taskLists"
+            ));
+    }
+
     public function moveTaskCalendar(Request $request)
     {
         $task_id = $request->input('task_id');
@@ -294,6 +315,7 @@ class TaskController extends Controller
         $endDateCarbon = Carbon::createFromFormat('Y-m-d', $end_date)->startOfDay();
         // Get the current date as a Carbon instance
         $now = Carbon::now()->startOfDay()->format('Y-m-d');
+        // dd($endDateCarbon, $now);
         // Check if the end date is smaller than or equal to the current date
         if ($endDateCarbon->lt($now)) {
             // Return an error response with a 422 Unprocessable Entity status code
@@ -544,5 +566,18 @@ class TaskController extends Controller
         } else {
             return response()->json(['error' => true]);
         }
+    }
+
+    public function deleteTask(Request $request)
+    {
+        $task_id = $request->input('task_id');
+        $slug = $request->input('slug');
+        $board_id = $request->input('board_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        $taskDetails->deleted_at = now();
+        $taskDetails->save();
+
+        return response()->json(['success' => true, 'newRoute' => route('view.board.kanban', ["slug" => $slug, "board_id" => $board_id])]);
     }
 }
