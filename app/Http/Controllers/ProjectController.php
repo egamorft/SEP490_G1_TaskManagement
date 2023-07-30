@@ -1114,10 +1114,11 @@ class ProjectController extends Controller
 			$taskListIds[] = $taskList->id;
 		}
 
-		$tasksInProject = Task::whereIn("taskList_id", $taskListIds);
+		$tasksInProject = Task::whereIn("taskList_id", $taskListIds)->get();
 
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
 			->with(compact(
+				'accounts',
 				'project',
 				'pmAccount',
 				'supervisorAccount',
