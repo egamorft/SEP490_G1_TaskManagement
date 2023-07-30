@@ -172,6 +172,27 @@ class TaskController extends Controller
             ));
     }
 
+    public function view_task_list($slug, $taskList_id)
+    {
+        $project = Project::where('slug', $slug)->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+        
+        $tasks= Task::with('assignTo', 'createdBy', 'taskList')->where('taskList_id', $taskList_id)->get();
+
+        $taskLists = TaskList::findOrFail($taskList_id);
+        
+        return view('content._partials._modals.modal-taskList-confirmation')
+            ->with(compact(
+                "tasks",
+                "memberAccount",
+                "project",
+                "taskLists"
+            ));
+    }
+
     public function moveTaskCalendar(Request $request)
     {
         $task_id = $request->input('task_id');
@@ -544,5 +565,18 @@ class TaskController extends Controller
         } else {
             return response()->json(['error' => true]);
         }
+    }
+
+    public function deleteTask(Request $request)
+    {
+        $task_id = $request->input('task_id');
+        $slug = $request->input('slug');
+        $board_id = $request->input('board_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        $taskDetails->deleted_at = now();
+        $taskDetails->save();
+
+        return response()->json(['success' => true, 'newRoute' => route('view.board.kanban', ["slug" => $slug, "board_id" => $board_id])]);
     }
 }

@@ -26,7 +26,6 @@
 @endsection
 
 @section('vendor-script')
-
     <!-- Vendor js files -->
     <script src="{{ asset(mix('vendors/js/jkanban/jkanban.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/forms/select/select2.full.min.js')) }}"></script>
@@ -39,12 +38,17 @@
 @section('page-script')
     <script>
         var kanbanBoard = @json($kanbanData);
-        var taskRoutes = "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id , 'task_id' => ':taskId']) }}";
+
+        var taskListRoutes = "{{ route('view.taskList', ['slug' => $project->slug, 'taskList_id' => ':taskListId']) }}";
+
+        var taskRoutes =
+            "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => ':taskId']) }}";
+
+        var currentRole = "{{ $current_role }}";
     </script>
 
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/pages/app-kanban.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/project/board.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/app-kanban-detail.js')) }}"></script>
-
 @endsection

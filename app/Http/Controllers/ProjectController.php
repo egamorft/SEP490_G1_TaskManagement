@@ -799,6 +799,7 @@ class ProjectController extends Controller {
 
 			$tasks = $tasks
 				->orderByRaw("FIELD(status, 1, 2, 0, 3, -1)")
+				->whereNull('deleted_at')
 				->get();
 
 			$taskItems = [];
@@ -836,6 +837,8 @@ class ProjectController extends Controller {
 				'dragTo' => $dragTo,
 				'item' => $taskItems
 			];
+			
+			$current_role = $project->userCurrentRole();
 		}
 
 		return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
@@ -843,7 +846,8 @@ class ProjectController extends Controller {
 				'project',
 				'board',
 				'disabledProject',
-				'kanbanData'
+				'kanbanData',
+				'current_role'
 			));
 	}
 
@@ -944,6 +948,7 @@ class ProjectController extends Controller {
 		}
 		$tasks = $tasks
 			->with('assignTo', 'comments', 'createdBy')
+			->whereNull('deleted_at')
 			->get();
 
 		$tasksCalendar = [];
@@ -1260,5 +1265,15 @@ class ProjectController extends Controller {
 	public function save_gantt(Request $request) {
 		Session::flash('error', 'Something went wrong');
 		return redirect()->back();
+	}
+
+	public function remove_taskList(Request $request)
+	{
+		$taskList = TaskList::findOrFail($request->input('id'));
+		$taskList->delete();
+
+		Session::flash('success', 'Deleted taskList ' . $taskList->title);
+		// Redirect or return a response
+		return back();
 	}
 }
