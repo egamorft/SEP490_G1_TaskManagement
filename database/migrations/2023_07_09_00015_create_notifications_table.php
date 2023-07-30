@@ -25,7 +25,7 @@ return new class extends Migration
             $table->timestamp('created_at')->useCurrent();
             // $table->timestamps();
             
-            $table->foreign('sender_id')->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

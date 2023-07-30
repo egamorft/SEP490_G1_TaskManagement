@@ -18,6 +18,7 @@ $(function () {
     var boardId = $('input[name="board_id"]').val();
     var section = $('#section-block');
     const targetTaskModal = $('#targetTaskModal');
+    const targetTaskListModal = $('#targetTaskListModal');
     if ($("body").attr("data-framework") === "laravel") {
         assetPath = $("body").attr("data-asset-path");
     }
@@ -78,24 +79,29 @@ $(function () {
 
     // Render board dropdown
     function renderBoardDropdown() {
-        return (
-            "<div class='dropdown'>" +
-            feather.icons["more-vertical"].toSvg({
-                class: "dropdown-toggle cursor-pointer font-medium-3 me-0",
-                id: "board-dropdown",
-                "data-bs-toggle": "dropdown",
-                "aria-haspopup": "true",
-                "aria-expanded": "false",
-            }) +
-            "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='board-dropdown'>" +
-            "<a class='dropdown-item delete-board' href='#'> " +
-            feather.icons["trash"].toSvg({
-                class: "font-medium-1 align-middle",
-            }) +
-            "<span class='align-middle ms-25'>Delete</span></a>" +
-            "</div>" +
-            "</div>"
-        );
+
+        if (currentRole == "pm")
+            return (
+                "<div class='dropdown'>" +
+                feather.icons["more-vertical"].toSvg({
+                    class: "dropdown-toggle cursor-pointer font-medium-3 me-0",
+                    id: "board-dropdown",
+                    "data-bs-toggle": "dropdown",
+                    "aria-haspopup": "true",
+                    "aria-expanded": "false",
+                }) +
+                "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='board-dropdown'>" +
+                "<a class='dropdown-item delete-board' href='#'> " +
+                feather.icons["trash"].toSvg({
+                    class: "font-medium-1 align-middle",
+                }) +
+                "<span class='align-middle ms-25'>Delete</span></a>" +
+                "</div>" +
+                "</div>"
+            );
+        else {
+            return null;
+        }
     }
 
     // Render item dropdown
@@ -111,9 +117,7 @@ $(function () {
                 onclick: "event.stopPropagation();",
             }) +
             "<div class='dropdown-menu dropdown-menu-end' aria-labelledby='item-dropdown'>" +
-            "<a class='dropdown-item' href='#'>Copy task link</a>" +
-            "<a class='dropdown-item' href='#'>Duplicate task</a>" +
-            "<a class='dropdown-item delete-task' href='#'>Delete</a>" +
+            "<a class='dropdown-item btn-copy-task'>Copy task link</a>" +
             "</div>" +
             "</div>"
         );
@@ -582,10 +586,25 @@ $(function () {
     });
 
     // Deletes Board
-    // $(document).on("click", ".delete-board", function () {
-    //     var id = $(this).closest(".kanban-board").data("id");
-    //     kanban.removeBoard(id);
-    // });
+    $(document).on("click", ".delete-board", function () {
+        var taskList_data_id = $(this).closest(".kanban-board").data("id");
+        var id = parseInt(taskList_data_id.split('_').pop());
+
+        var taskListRoute = taskListRoutes.replace(':taskListId', id);
+        targetTaskListModal.modal("show");
+        const response = fetch(taskListRoute);
+        response.then(res => {
+            if (res.ok) {
+                return res.text();
+            } else {
+                throw new Error('Network response was not ok');
+            }
+        }).then(html => {
+            targetTaskListModal.find('.task-wrapper').html(html);
+        }).catch(error => {
+            targetTaskListModal.find('.task-wrapper').html(error);
+        });
+    });
 
     // Delete task
     $(document).on("click", ".dropdown-item.delete-task", function () {
@@ -790,4 +809,28 @@ $(function () {
             sidebar.modal("show");
         }
     })
+    var btnCopy = $('.btn-copy-task');
+
+    // copy text on click
+    btnCopy.on('click', function () {
+        var parentDiv = $(this).parent('.dropdown-menu').parent('.item-dropdown').parent('.flex-wrap').parent('.kanban-item');
+        var task_id = parentDiv.attr('data-eid');
+        var currentUrl = window.location.href;
+        var textToCopy = currentUrl + "?show=task&task_id=" + task_id;
+
+        var tempTextarea = document.createElement("textarea");
+        tempTextarea.value = textToCopy;
+
+        // Append the textarea to the document
+        document.body.appendChild(tempTextarea);
+        tempTextarea.select();
+        document.execCommand('copy');
+        // Remove the textarea from the document
+        document.body.removeChild(tempTextarea);
+
+        toastr['success']('', 'Copied to clipboard!', {
+            rtl: isRtl
+        });
+    });
+
 });

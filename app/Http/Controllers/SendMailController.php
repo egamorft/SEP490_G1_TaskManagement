@@ -14,7 +14,7 @@ class SendMailController extends Controller
         $data = $request->all();
         if (!empty($request->all())) {
             $email_to = $data['email'];
-            $fullname = $data['fullname'];
+            $name = $data['fullname'];
             $token = $data['token'];
             $parts = explode('@', $email_to);
             $username = $parts[0];
@@ -32,7 +32,7 @@ class SendMailController extends Controller
             // Concatenate the extracted part with the '@' symbol and the domain
             $result = $extracted . '@' . $domain;
 
-            Mail::to($email_to)->send(new VerifyAccount($token, $fullname, $email_to));
+            Mail::to($email_to)->send(new VerifyAccount($token, $name, $email_to));
             Session::flash('success', 'Email verification has sent to you, check your email to login');
             Session::flash('status', $request->status);
             Session::put('email', $email_to);

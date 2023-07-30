@@ -104,7 +104,7 @@
 								</a>
 							</div>
 							<div class="more-info pt-05">
-								<h6 class="mt-0">{{ $creator->fullname ?? '' }}</h6>
+								<h6 class="mt-0">{{ $creator->name ?? '' }}</h6>
 							</div>
 						</td>
                     </tr>

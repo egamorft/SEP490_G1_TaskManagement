@@ -4,6 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Auth;
 
 class Project extends Model
 {
@@ -24,9 +25,35 @@ class Project extends Model
 
     // public function accountProject()
     // {
-    //     return $this->belongsToMany(Account::class, 'account_project')
+    //     return $this->belongsToMany(User::class, 'account_project')
     //         ->withPivot('status');
     // }
+
+    public function userCurrentRole() {
+        // Get the current user.
+
+        // Get the account project record for the current user and the project.
+        $account_project = AccountProject::where('project_id', $this->id)
+            ->where('account_id', Auth::id())
+            ->first();
+
+        // If the account project record exists, get the role ID from it.
+        if ($account_project) {
+            $role_id = $account_project->role_id;
+        } else {
+            // If the account project record does not exist, the user does not have a role in the project.
+            $role_id = null;
+        }
+
+        // Get the role name from the role ID.
+        return Role::find($role_id)->name;
+    }
+
+    public function findAccountInProjectWithStatus($status)
+    {
+        return $this->belongsToMany(User::class, 'account_project', 'project_id', 'account_id')
+                    ->wherePivot('status', $status);
+    }
 
     public function roles()
     {
@@ -36,7 +63,7 @@ class Project extends Model
 
     public function findAccountWithRoleNameAndStatus($roleName, $status)
     {
-        return $this->belongsToMany(Account::class, 'account_project')
+        return $this->belongsToMany(User::class, 'account_project', 'project_id', 'account_id')
             ->wherePivot('role_id', function ($query) use ($roleName) {
                 $query->from('roles')
                     ->where('name', $roleName)
@@ -49,7 +76,7 @@ class Project extends Model
 
     public function accounts()
     {
-        return $this->belongsToMany(Account::class, 'account_project')
+        return $this->belongsToMany(User::class, 'account_project', 'project_id', 'account_id')
             ->withPivot('role_id');
     }
 

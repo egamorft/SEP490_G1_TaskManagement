@@ -19,6 +19,7 @@
     </div>
     <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
     <input type="hidden" name="board_id" value="{{ $board->id }}">
+    <input type="hidden" id="taskClipboard" value="">
     <!-- Kanban content starts -->
     <div id="section-block" class="kanban-wrapper"></div>
     <!-- Kanban content ends -->
@@ -32,7 +33,23 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body pb-5 px-sm-3 pt-50 task-wrapper">
-                    Loading ... 
+                    Loading ...
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Kanban Popup ends -->
+
+    <!-- Kanban Popup starts (Doing) -->
+    <div class="modal update-taskList-modal fade" id="targetTaskListModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+            <div class="modal-content">
+                <div class="modal-header bg-transparent">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-5 px-sm-3 pt-50 task-wrapper">
+                    Loading ...
                 </div>
             </div>
         </div>

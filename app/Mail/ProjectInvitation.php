@@ -15,7 +15,7 @@ class ProjectInvitation extends Mailable
     public $project_slug;
     public $project_token;
     public $project_name;
-    public $fullname;
+    public $name;
     public $role;
 
     /**
@@ -23,12 +23,12 @@ class ProjectInvitation extends Mailable
      *
      * @return void
      */
-    public function __construct($project_slug, $project_token, $project_name, $fullname, $role)
+    public function __construct($project_slug, $project_token, $project_name, $name, $role)
     {
         $this->project_slug = $project_slug;
         $this->project_token = $project_token;
         $this->project_name = $project_name;
-        $this->fullname = $fullname;
+        $this->name = $name;
         $this->role = $role;
     }
 

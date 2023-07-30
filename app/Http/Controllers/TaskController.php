@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Enums\TaskStatus;
 use App\Http\Requests\AddTaskRequest;
+use App\Models\Comment;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskList;
@@ -10,6 +12,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
@@ -74,10 +77,91 @@ class TaskController extends Controller
     {
         $project = Project::where('slug', $slug)->first();
 
+        $current_role = $project->userCurrentRole();
+
         $memberAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
-		$taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
+
+        $allAccInProject = Project::findOrFail($project->id)
+            ->findAccountInProjectWithStatus(1)
+            ->get();
+
+        $taskLists = TaskList::where('board_id', $board_id)->get();
+        $taskListIds = $taskLists->pluck('id')->toArray();
+        $tasksInBoard = Task::whereIn('taskList_id', $taskListIds)->get();
+
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
+
+        $comments = Comment::with('createdBy')->where('task_id', $taskDetails->id)->get();
+
+        //Pending check all Task xem có task nào mà prev_task là $details->id không
+        if ($taskDetails->start_date && $taskDetails->due_date) {
+            $afterTasksDate = [];
+            $allTasksAfter = Task::all();
+            foreach ($allTasksAfter as $allTask) {
+                if ($allTask->prev_tasks) {
+                    if (in_array($taskDetails->id, json_decode($allTask->prev_tasks))) {
+                        //Current task have after task
+                        $afterTasksDate[] = $allTask->start_date;
+                    }
+                }
+            }
+
+            $prev_task = $taskDetails->prev_tasks;
+
+            if (empty($afterTasksDate)) {
+                if ($prev_task) {
+                    $tasksInPrev = Task::find(json_decode($prev_task));
+                    $prev_end = $tasksInPrev->pluck('due_date')->toArray();
+                    $avaiableStart = date('Y-m-d', strtotime(max($prev_end) . ' +1 day'));
+                    $avaiableEnd = $project->end_date;
+                } else {
+                    $avaiableStart = $project->start_date;
+                    $avaiableEnd = $project->end_date;
+                }
+            } else {
+                if ($prev_task) {
+                    $tasksInPrev = Task::find(json_decode($prev_task));
+                    $prev_end = $tasksInPrev->pluck('due_date')->toArray();
+                    $avaiableStart = date('Y-m-d', strtotime(max($prev_end) . ' +1 day'));
+                    $avaiableEnd = min($afterTasksDate);
+                } else {
+                    $avaiableStart = $project->start_date;
+                    $avaiableEnd = min($afterTasksDate);
+                }
+            }
+
+        } else {
+            $avaiableStart = $project->start_date;
+            $avaiableEnd = $project->end_date;
+        }
+
+        return view('content._partials._modals.modal-task-detail')
+            ->with(compact(
+                "taskDetails",
+                "slug",
+                "board_id",
+                "memberAccount",
+                "project",
+                "comments",
+                "allAccInProject",
+                "tasksInBoard",
+                "current_role",
+                "avaiableStart",
+                "avaiableEnd"
+            ));
+    }
+
+    public function view_task($slug, $task_id)
+    {
+        $project = Project::where('slug', $slug)->first();
+
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail(1);
+        $board_id = 1;
         return view('content._partials._modals.modal-task-detail')
             ->with(compact(
                 "taskDetails",
@@ -88,22 +172,24 @@ class TaskController extends Controller
             ));
     }
 
-	public function view_task($slug, $task_id)
+    public function view_task_list($slug, $taskList_id)
     {
-		$project = Project::where('slug', $slug)->first();
-		
+        $project = Project::where('slug', $slug)->first();
+
         $memberAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
-		$taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail(1);
-		$board_id = 1;
-        return view('content._partials._modals.modal-task-detail')
+        
+        $tasks= Task::with('assignTo', 'createdBy', 'taskList')->where('taskList_id', $taskList_id)->get();
+
+        $taskLists = TaskList::findOrFail($taskList_id);
+        
+        return view('content._partials._modals.modal-taskList-confirmation')
             ->with(compact(
-                "taskDetails",
-                "slug",
-                "board_id",
+                "tasks",
                 "memberAccount",
-                "project"
+                "project",
+                "taskLists"
             ));
     }
 
@@ -138,21 +224,20 @@ class TaskController extends Controller
         $duration = $request->input('modalAddTaskDuration');
         if (preg_match('/^\d{4}-\d{2}-\d{2}\s+to\s+\d{4}-\d{2}-\d{2}$/', $duration)) {
             $dates = $this->extractDatesFromDuration($duration);
-        } 
+        }
         // Check if the input matches the pattern "YYYY-MM-DD"
         else if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $duration)) {
             $dates = [
                 'start_date' => $duration,
                 'end_date' => $duration,
             ];
-        }
-        else {
+        } else {
             return response()->json(['error' => true, 'message' => 'Something went wrong']);
         }
 
         $start_date = $dates['start_date'];
         $end_date = $dates['end_date'];
-        
+
         $endDateCarbon = Carbon::createFromFormat('Y-m-d', $end_date)->startOfDay();
         // Get the current date as a Carbon instance
         $now = Carbon::now()->startOfDay()->format('Y-m-d');
@@ -182,7 +267,7 @@ class TaskController extends Controller
             'due_date' => $end_date,
             'created_by' => Auth::id(),
             'assign_to' => $taskAssignee,
-            'status' => 1,
+            'status' => TaskStatus::DOING,
             'prev_tasks' => json_encode($previousTask),
             'description' => $description,
         ]);
@@ -190,7 +275,7 @@ class TaskController extends Controller
         // Return a response indicating the success of the operation
         return response()->json(['success' => true]);
     }
-    
+
     public function extractDatesFromDuration($duration)
     {
         $startDate = '';
@@ -207,26 +292,26 @@ class TaskController extends Controller
         ];
     }
 
-    public function add_task_in_list_modal(Request $request, $slug, $board_id) {
+    public function add_task_in_list_modal(Request $request, $slug, $board_id)
+    {
         $dates = [];
         $duration = $request->input('modalAddTaskDuration');
         if (preg_match('/^\d{4}-\d{2}-\d{2}\s+to\s+\d{4}-\d{2}-\d{2}$/', $duration)) {
             $dates = $this->extractDatesFromDuration($duration);
-        } 
+        }
         // Check if the input matches the pattern "YYYY-MM-DD"
         else if (preg_match('/^\d{4}-\d{2}-\d{2}$/', $duration)) {
             $dates = [
                 'start_date' => $duration,
                 'end_date' => $duration,
             ];
-        }
-        else {
+        } else {
             return response()->json(['error' => true, 'message' => 'Something went wrong']);
         }
 
         $start_date = $dates['start_date'];
         $end_date = $dates['end_date'];
-        
+
         $endDateCarbon = Carbon::createFromFormat('Y-m-d', $end_date)->startOfDay();
         // Get the current date as a Carbon instance
         $now = Carbon::now()->startOfDay()->format('Y-m-d');
@@ -255,12 +340,243 @@ class TaskController extends Controller
             'due_date' => $end_date,
             'created_by' => Auth::id(),
             'assign_to' => $taskAssignee,
-            'status' => 1,
+            'status' => TaskStatus::DOING,
             'prev_tasks' => json_encode($previousTask),
             'description' => $description,
         ]);
         Session::flash('success', 'Create successfully task ' . $task->title);
         // Return a response indicating the success of the operation
         return response()->json(['success' => true]);
+    }
+
+    public function commentTask(Request $request)
+    {
+        $comment = Comment::create([
+            'task_id' => $request->input("id"),
+            'content' => $request->input("content"),
+            'created_by' => Auth::id(),
+        ]);
+
+        if ($comment) {
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
+    }
+
+    public function uploadFiles(Request $request)
+    {
+        $allowedFormats = ['xlsx', 'docx', 'png', 'jpg', 'pptx', 'pdf'];
+        $maxFileSize = 2 * 1024 * 1024; // 5 MB in bytes
+        // Get the uploaded file(s)
+        $files = $request->file('files');
+
+        // Store each file in the storage
+        $newUrls = [];
+        foreach ($files as $file) {
+            if (!in_array($file->getClientOriginalExtension(), $allowedFormats)) {
+                return response()->json(['error' => true, 'message' => 'Wrong format'], 404);
+            }
+            if ($file->getSize() > $maxFileSize) {
+                return response()->json(['error' => true, 'message' => 'Your file is over 2MB. Choose another ones'], 404);
+            }
+            $filename = $file->getClientOriginalName();
+            $customFilename = 'attachment_' . time() . '_' . $filename;
+            $path = $file->storeAs('public/tasks/attachments', $customFilename);
+            $url = Storage::url($path);
+            $newUrls[] = $url;
+        }
+        // Get the task record to update
+        $task = Task::find($request->input('id'));
+
+        // Retrieve the existing array of attachments
+        $existingUrls = json_decode($task->attachments, true);
+
+        if (!$existingUrls) {
+            $existingUrls = [];
+        }
+
+        // Add the new URLs to the existing array
+        $updatedUrls = array_merge($existingUrls, $newUrls);
+
+        // Update the attachments column of the task record with the updated array
+        $task->update(['attachments' => json_encode($updatedUrls)]);
+
+        // Return the file URLs as a JSON response
+        return response()->json(['success' => true]);
+    }
+
+    public function deleteFiles(Request $request)
+    {
+        $id = $request->input('id');
+        $key_expect = $request->input('key');
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($id);
+
+        // Decode the attachments array
+        $attachments = json_decode($taskDetails->attachments, true);
+        // If the key exists, delete the attachment at that key
+        if (array_key_exists($key_expect, $attachments)) {
+            $path = $attachments[$key_expect];
+            unset($attachments[$key_expect]);
+            $fullpath = str_replace('/storage/', '', $path);
+            if (Storage::disk('public')->exists($fullpath)) {
+                Storage::disk('public')->delete($fullpath);
+            }
+            $attachments = array_values($attachments);
+            $taskDetails->attachments = json_encode($attachments);
+            $taskDetails->save();
+            return response()->json(['success' => true]);
+        } else {
+
+            return response()->json(['error' => true, 'message' => 'Something went wrong, try again later.'], 404);
+        }
+    }
+
+    public function selectPrevTask(Request $request)
+    {
+        $prev_task_id = $request->input('prev_task_id');
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
+
+        // Convert the prev_tasks string to an array
+        $prev_tasks_array = json_decode($taskDetails->prev_tasks);
+
+        if (is_null($prev_tasks_array) || empty($prev_tasks_array)) {
+            // Create a new array with the new task ID
+            $prev_tasks_array = array($prev_task_id);
+        } else {
+            // Add the new task ID to the array
+            array_push($prev_tasks_array, $prev_task_id);
+        }
+        // Encode the array back to a JSON string
+        $prev_tasks_json = json_encode($prev_tasks_array);
+
+        // Update the task's prev_tasks attribute in the database
+        $taskDetails->prev_tasks = $prev_tasks_json;
+        $taskDetails->save();
+
+        return response()->json(['success' => true]);
+    }
+
+    public function unselectPrevTask(Request $request)
+    {
+        $prev_task_id = $request->input('prev_task_id');
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::with('assignTo', 'createdBy', 'taskList')->findOrFail($task_id);
+
+        // Convert the prev_tasks string to an array
+        $prev_tasks_array = json_decode($taskDetails->prev_tasks);
+        // Check if the array is null or empty
+        if (count($prev_tasks_array) > 1) {
+            // Remove the task ID from the array
+            $prev_tasks_array = array_diff($prev_tasks_array, [$prev_task_id]);
+
+            // Convert the associative array to an indexed array
+            $prev_tasks_array = array_values($prev_tasks_array);
+
+            // Encode the array back to a JSON string
+            $prev_tasks_json = json_encode($prev_tasks_array);
+
+            // Update the task's prev_tasks attribute in the database
+            $taskDetails->prev_tasks = $prev_tasks_json;
+            // dd($taskDetails->prev_tasks);
+            $taskDetails->save();
+            return response()->json(['success' => true]);
+        } elseif (count($prev_tasks_array) == 1) {
+            $taskDetails->prev_tasks = null;
+            $taskDetails->save();
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => true]);
+        }
+    }
+
+    public function changeDesc(Request $request)
+    {
+        $description = $request->input('description');
+        $task_id = $request->input('id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        if ($taskDetails) {
+            $taskDetails->description = $description;
+            $taskDetails->save();
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => true]);
+        }
+    }
+
+    public function changeAssignee(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        if ($taskDetails) {
+            if($taskDetails->due_date && $taskDetails->assign_to)
+            {
+                $taskDetails->status = TaskStatus::DOING;
+            }
+            $taskDetails->assign_to = $user_id;
+            $taskDetails->save();
+
+            $getNewTask = Task::with('assignTo')->findOrFail($task_id);
+            return response()->json(['success' => true, 'name' => $getNewTask->assignTo->name, 'avatar' => $getNewTask->assignTo->avatar]);
+        } else {
+            return response()->json(['error' => true]);
+        }
+    }
+
+    public function changeReviewer(Request $request)
+    {
+        $user_id = $request->input('user_id');
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        if ($taskDetails) {
+            $taskDetails->created_by = $user_id;
+            $taskDetails->save();
+
+            $getNewTask = Task::with('createdBy')->findOrFail($task_id);
+            return response()->json(['success' => true, 'name' => $getNewTask->createdBy->name, 'avatar' => $getNewTask->createdBy->avatar]);
+        } else {
+            return response()->json(['error' => true]);
+        }
+    }
+
+    public function changeDuration(Request $request)
+    {
+        $start_date = $request->input('start_date');
+        $end_date = $request->input('end_date');
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        if ($taskDetails) {
+            if($taskDetails->due_date && $taskDetails->assign_to)
+            {
+                $taskDetails->status = TaskStatus::DOING;
+            }
+            $taskDetails->start_date = $start_date;
+            $taskDetails->due_date = $end_date;
+            $taskDetails->save();
+
+            return response()->json(['success' => true]);
+        } else {
+            return response()->json(['error' => true]);
+        }
+    }
+
+    public function deleteTask(Request $request)
+    {
+        $task_id = $request->input('task_id');
+        $slug = $request->input('slug');
+        $board_id = $request->input('board_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        $taskDetails->deleted_at = now();
+        $taskDetails->save();
+
+        return response()->json(['success' => true, 'newRoute' => route('view.board.kanban', ["slug" => $slug, "board_id" => $board_id])]);
     }
 }

@@ -2,12 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Account;
 use App\Models\AccountProject;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Project;
 use App\Models\Task;
+use App\Models\User;
 
 class DashboardController extends Controller
 {
@@ -47,7 +47,7 @@ class DashboardController extends Controller
 		$account = Auth::user();
 		$accountProjects = $account->projects()->wherePivot('status', 1)->get();
 
-		$allAccounts = Account::all();
+		$allAccounts = User::all();
 		$allAccountProjects = AccountProject::all();
 
 		$tasks = Task::all();
@@ -73,7 +73,7 @@ class DashboardController extends Controller
         $doingProjectNumber = count($allProjects->where('project_status', 1));
         $doneProjectNumber = count($allProjects->where('project_status', 2));
 
-        $allAccounts = Account::all();
+        $allAccounts = User::all();
 		$allAccountProjects = AccountProject::all();
 
 		return view('dashboard.dashboard-admin', ['pageConfigs' => $pageConfigs])

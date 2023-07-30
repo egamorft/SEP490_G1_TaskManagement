@@ -30,7 +30,7 @@ return new class extends Migration
             // $table->timestamps();
 
             $table->foreign('taskList_id')->references('id')->on('taskLists')->onDelete('cascade');
-            $table->foreign('created_by')->references('id')->on('accounts')->onDelete('cascade');
+            $table->foreign('created_by')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

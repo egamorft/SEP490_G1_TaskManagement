@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdminRegisterRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Mail\AdminRegister;
-use App\Models\Account;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
@@ -24,7 +24,7 @@ class AdminUserController extends Controller
     {
         $pageConfigs = ['pageHeader' => false];
 
-        $getAllAccount = Account::all();
+        $getAllAccount = User::all();
         $totalAccount = count($getAllAccount);
         $totalActiveAccount = count($getAllAccount->where('status', 1));
         $totalInactiveAccount = count($getAllAccount->where('status', 0));
@@ -47,10 +47,10 @@ class AdminUserController extends Controller
     public function create(AdminRegisterRequest $request)
     {
         $data = array();
-        $data['fullname'] = $request->input('user-fullname');
+        $data['name'] = $request->input('user-fullname');
         $data['email'] = $request->input('user-email');
         $data['password'] = Hash::make($request->input('user-password'));
-        $data['avatar'] = strtoupper(substr($data['fullname'], 0, 1)) . '.png';
+        $data['avatar'] = strtoupper(substr($data['name'], 0, 1)) . '.png';
         $data['status'] = 1;
         $data['is_admin'] = $request->input('user-role');
         $role = "";
@@ -59,7 +59,7 @@ class AdminUserController extends Controller
         } else {
             $role = "USER";
         }
-        $account = Account::insertGetId($data);
+        $account = User::insertGetId($data);
         if ($account) {
             Mail::to($data['email'])->send(new AdminRegister($data['email'], $role, $request->input('user-password')));
             Session::flash('success', 'Successfully create an account of ' . $data['email']);
@@ -90,12 +90,12 @@ class AdminUserController extends Controller
     {
         $id = $request->input('id');
         // Retrieve the record from the database
-        $account = Account::find($id);
+        $account = User::find($id);
 
         if ($account) {
             // Prepare the data to be sent back to the client
             $data = [
-                'fullname' => $account->fullname,
+                'name' => $account->name,
                 'email' => $account->email,
                 'is_admin' => $account->is_admin,
                 'address' => $account->address
@@ -123,7 +123,7 @@ class AdminUserController extends Controller
     {
         $pageConfigs = ['pageHeader' => false];
 
-        $account = Account::findOrFail($id);
+        $account = User::findOrFail($id);
         return view('content.apps.admin.app-admin-view-account', ['pageConfigs' => $pageConfigs])->with(compact('account'));
     }
 
@@ -141,8 +141,8 @@ class AdminUserController extends Controller
             'user-role' => 'required',
         ]);
         // validation passed
-        $account = Account::findOrFail($id);
-        $account->fullname = $request->input('user-fullname');
+        $account = User::findOrFail($id);
+        $account->name = $request->input('user-fullname');
         $account->is_admin = $request->input('user-role');
         $account->address = $request->input('user-address');
 

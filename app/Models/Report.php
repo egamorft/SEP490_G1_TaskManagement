@@ -21,11 +21,11 @@ class Report extends Model
 
     public function createdBy()
     {
-        return $this->belongsTo(Account::class, 'created_by');
+        return $this->belongsTo(User::class, 'created_by');
     }
 
     public function reportedAccount()
     {
-        return $this->belongsTo(Account::class, 'reported');
+        return $this->belongsTo(User::class, 'reported');
     }
 }
