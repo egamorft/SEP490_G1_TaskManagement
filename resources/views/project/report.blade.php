@@ -37,11 +37,6 @@
                             <h4 class="card-title">All Task</h4>
                             <span class="card-subtitle text-muted">Group task by day</span>
                         </div>
-                        <div class="d-flex align-items-center">
-                            <i class="font-medium-2" data-feather="calendar"></i>
-                            <input type="text" class="form-control flat-picker bg-transparent border-0 shadow-none"
-                                placeholder="YYYY-MM-DD" />
-                        </div>
                     </div>
                     <div class="card-body">
                         <div id="line-area-chart"></div>
