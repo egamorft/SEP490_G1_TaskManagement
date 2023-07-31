@@ -16,6 +16,7 @@ use App\Models\ProjectRolePermission;
 use App\Models\Role;
 use App\Models\Task;
 use App\Models\TaskList;
+use DateTime;
 use Illuminate\Http\Request;
 use Illuminate\Http\Response;
 use Illuminate\Support\Carbon;
@@ -26,13 +27,15 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-class ProjectController extends Controller {
+class ProjectController extends Controller
+{
 	/**
 	 * Display a listing of the resource.
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function index($slug) {
+	public function index($slug)
+	{
 		$pageConfigs = ['pageHeader' => false];
 
 		//Project info & members
@@ -107,7 +110,8 @@ class ProjectController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function create() {
+	public function create()
+	{
 		//
 	}
 
@@ -117,7 +121,8 @@ class ProjectController extends Controller {
 	 * @param  \Illuminate\Http\Request  $request
 	 * @return \Illuminate\Http\Response
 	 */
-	public function store(ProjectRequest $request) {
+	public function store(ProjectRequest $request)
+	{
 		$dates = $this->extractDatesFromDuration($request->input('duration'));
 		// Access the start date and end date
 		$startDate = $dates['start_date'];
@@ -230,7 +235,8 @@ class ProjectController extends Controller {
 	 * @param  string  $token
 	 * @return \Illuminate\Http\Response
 	 */
-	public function show($slug, $token) {
+	public function show($slug, $token)
+	{
 		//Invitation page
 		$project = Project::where('slug', $slug)->where('token', $token)->first();
 		$projectId = $project->id;
@@ -297,7 +303,8 @@ class ProjectController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function edit($id) {
+	public function edit($id)
+	{
 		//
 	}
 
@@ -308,7 +315,8 @@ class ProjectController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function update(Request $request, $slug, $id) {
+	public function update(Request $request, $slug, $id)
+	{
 		$validatedData = $request->validate([
 			'settingProjectName' => 'required|max:50',
 			'settingDuration' => 'required|regex:/\d{4}-\d{2}-\d{2} to \d{4}-\d{2}-\d{2}/',
@@ -361,11 +369,13 @@ class ProjectController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function destroy($id) {
+	public function destroy($id)
+	{
 		//
 	}
 
-	public function extractDatesFromDuration($duration) {
+	public function extractDatesFromDuration($duration)
+	{
 		$startDate = '';
 		$endDate = '';
 
@@ -387,7 +397,8 @@ class ProjectController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function invitation(Request $request, $slug, $token) {
+	public function invitation(Request $request, $slug, $token)
+	{
 		//Handle the invitation submit
 		$project = Project::where('slug', $slug)->where('token', $token)->first();
 		$account = Auth::user();
@@ -435,7 +446,8 @@ class ProjectController extends Controller {
 	 * @param  int  $id
 	 * @return \Illuminate\Http\Response
 	 */
-	public function invite_email(Request $request) {
+	public function invite_email(Request $request)
+	{
 		$get_project = Project::where('slug', $request->input('modalInviteSlug'))->first();
 		$removedMembers = Project::findOrFail($get_project->id)
 			->findAccountWithRoleNameAndStatus('member', -2)
@@ -590,7 +602,8 @@ class ProjectController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function view_report_member($slug, $user_id) {
+	public function view_report_member($slug, $user_id)
+	{
 		$pageConfigs = [
 			'pageHeader' => false,
 		];
@@ -611,8 +624,55 @@ class ProjectController extends Controller {
 			->findAccountWithRoleNameAndStatus('member', 1)
 			->get();
 
-
+		//Check disabled and calculate project progress
 		$disabledProject = $this->checkDisableProject($project);
+		$result = $this->calculateProjectProgress($project);
+		$days_left = $result["days_left"];
+		$percent_completed = $result["percent_completed"];
+		if ($days_left < 0) {
+			if (!$disabledProject) {
+				$disabledProject = true;
+			}
+		}
+		//Check disabled and calculate project progress
+		$user = Account::where('id', $user_id)->first();
+
+		$boards = Board::where('project_id', $project->id)->with('tasks')->get();
+		$tasks = [];
+		$todoTasks = [];
+		$doingTasks = [];
+		$reviewingTasks = [];
+		$ontimeTasks = [];
+		$lateTasks = [];
+		$overdueTasks = [];
+		foreach ($boards as $board) {
+			foreach ($board->tasks as $task) {
+				if ($task->assign_to != $user->id) {
+					continue;
+				}
+				$tasks[] = $task;
+				$duedate = new DateTime($task->due_date);
+				if (($task->status == 0 || $task->status == 1) && (new DateTime() > $duedate->setTime(23, 59, 59)) && $task->due_date) {
+					$overdueTasks[] = $task;
+					continue;
+				}
+				if ($task->status == 0) {
+					$todoTasks[] = $task;
+				}
+				if ($task->status == 1) {
+					$doingTasks[] = $task;
+				}
+				if ($task->status == 2) {
+					$reviewingTasks[] = $task;
+				}
+				if ($task->status == 3) {
+					$ontimeTasks[] = $task;
+				}
+				if ($task->status == -1) {
+					$lateTasks[] = $task;
+				}
+			}
+		}
 
 		return view('project.member_report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
 			->with(compact(
@@ -620,7 +680,16 @@ class ProjectController extends Controller {
 				'pmAccount',
 				'supervisorAccount',
 				'memberAccount',
-				'disabledProject'
+				'disabledProject',
+				'user',
+				'boards',
+				'tasks',
+				'todoTasks',
+				'doingTasks',
+				'reviewingTasks',
+				'ontimeTasks',
+				'lateTasks',
+				'overdueTasks'
 			));
 	}
 
@@ -629,7 +698,8 @@ class ProjectController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function view_report($slug) {
+	public function view_report($slug)
+	{
 		$pageConfigs = [
 			'pageHeader' => false,
 		];
@@ -662,13 +732,54 @@ class ProjectController extends Controller {
 		}
 		//Check disabled and calculate project progress
 
+		$boards = Board::where('project_id', $project->id)->with('tasks')->get();
+		$tasks = [];
+		$todoTasks = [];
+		$doingTasks = [];
+		$reviewingTasks = [];
+		$ontimeTasks = [];
+		$lateTasks = [];
+		$overdueTasks = [];
+		foreach ($boards as $board) {
+			foreach ($board->tasks as $task) {
+				$tasks[] = $task;
+				$duedate = new DateTime($task->due_date);
+				if (($task->status == 0 || $task->status == 1) && (new DateTime() > $duedate->setTime(23, 59, 59)) && $task->due_date) {
+					$overdueTasks[] = $task;
+					continue;
+				}
+				if ($task->status == 0) {
+					$todoTasks[] = $task;
+				}
+				if ($task->status == 1) {
+					$doingTasks[] = $task;
+				}
+				if ($task->status == 2) {
+					$reviewingTasks[] = $task;
+				}
+				if ($task->status == 3) {
+					$ontimeTasks[] = $task;
+				}
+				if ($task->status == -1) {
+					$lateTasks[] = $task;
+				}
+			}
+		}
 		return view('project.report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
 			->with(compact(
 				'project',
 				'pmAccount',
 				'supervisorAccount',
 				'memberAccount',
-				'disabledProject'
+				'disabledProject',
+				'boards',
+				'tasks',
+				'todoTasks',
+				'doingTasks',
+				'reviewingTasks',
+				'ontimeTasks',
+				'lateTasks',
+				'overdueTasks'
 			));
 	}
 
@@ -677,7 +788,8 @@ class ProjectController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function view_board($slug) {
+	public function view_board($slug)
+	{
 		$pageConfigs = ['pageHeader' => false];
 		//Project info & members
 		$project = Project::where('slug', $slug)->first();
@@ -728,7 +840,8 @@ class ProjectController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function view_board_kanban($slug, $board_id, Request $request) {
+	public function view_board_kanban($slug, $board_id, Request $request)
+	{
 		$pageConfigs = [
 			'pageHeader' => false,
 			'pageClass' => 'kanban-application',
@@ -761,18 +874,15 @@ class ProjectController extends Controller {
 
 		//Bind data for kanban
 		$taskLists = TaskList::where('board_id', $board_id)->get();
-
 		$kanbanData = [];
-
 		foreach ($taskLists as $taskList) {
 			//Check role to display task
 			$accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
-			$tasks = Task::query()->where('taskList_id', $taskList->id)->with('assignTo', 'comments', 'createdBy');
+			$tasks = Task::query()->where('taskList_id', $taskList->id);
 			if ($accountRoleName == "member") {
-				$tasks = $tasks->where(function ($query) {
-					$query->where('created_by', Auth::id())
-						->orWhere('assign_to', Auth::id());
-				});
+				$tasks = $tasks->where('taskList_id', $taskList->id)
+					->where('created_by', Auth::id())
+					->orWhere('assign_to', Auth::id());
 			}
 
 			if ($q) {
@@ -791,10 +901,10 @@ class ProjectController extends Controller {
 				$tasks = $tasks->whereDate('due_date', '=', now()->addWeek()->format('Y-m-d'));
 			}
 			if ($doneTask) {
-				$tasks = $tasks->where('status', TaskStatus::DONE);
+				$tasks = $tasks->where('status', 4);
 			}
 			if ($doingTask) {
-				$tasks = $tasks->where('status', TaskStatus::DOING);
+				$tasks = $tasks->where('status', 2);
 			}
 
 			$tasks = $tasks
@@ -840,6 +950,7 @@ class ProjectController extends Controller {
 			
 			$current_role = $project->userCurrentRole();
 		}
+		// dd($kanbanData);
 
 		return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
 			->with(compact(
@@ -856,7 +967,8 @@ class ProjectController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function view_gantt($slug) {
+	public function view_gantt($slug)
+	{
 		$pageConfigs = [
 			'pageHeader' => false,
 		];
@@ -894,7 +1006,8 @@ class ProjectController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function view_board_calendar($slug, $board_id, Request $request) {
+	public function view_board_calendar($slug, $board_id, Request $request)
+	{
 		$pageConfigs = [
 			'pageHeader' => false,
 		];
@@ -907,32 +1020,16 @@ class ProjectController extends Controller {
 		$accounts = $project->accounts()->get();
 
 		$board = Board::findOrFail($board_id);
-
 		$disabledProject = $this->checkDisableProject($project);
 
-		//Get all task in project
-		$tasksInProject = [];
-
-		$boards = $project->boards()->get();
-		foreach ($boards as $board) {
-			$taskLists = $board->taskLists()->get();
-
-			foreach ($taskLists as $taskList) {
-				$tasksInProject = array_merge($tasksInProject, $taskList->tasks()->get()->toArray());
-			}
-		}
-		//Get all task in project
-
 		$taskLists = TaskList::where('board_id', $board_id)->get();
-
-		$taskListIds = $taskLists->pluck('id')->toArray();
 
 		$memberAccount = Project::findOrFail($project->id)
 			->findAccountWithRoleNameAndStatus('member', 1)
 			->get();
 
 		$accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
-		$tasks = Task::query()->whereIn('taskList_id', $taskListIds);
+		$tasks = Task::query();
 		if ($accountRoleName == "member") {
 			$tasks = $tasks->where('created_by', Auth::id())
 				->orWhere('assign_to', Auth::id());
@@ -950,13 +1047,13 @@ class ProjectController extends Controller {
 			->with('assignTo', 'comments', 'createdBy')
 			->whereNull('deleted_at')
 			->get();
-
 		$tasksCalendar = [];
 
 		foreach ($tasks as $task) {
 			$task_status = $this->checkTaskStatus($task->status, $task);
 			$taskCalendar = [
 				"id" => $task->id,
+				"url" => 'aaa',
 				"title" => $task->title,
 				"start" => $task->start_date,
 				"end" => Carbon::parse($task->due_date)->endOfDay(),
@@ -967,8 +1064,6 @@ class ProjectController extends Controller {
 			$tasksCalendar[] = $taskCalendar;
 		}
 
-		$board = Board::findOrFail($board_id);
-
 		return view('project.calendar', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'calendar'])
 			->with(compact(
 				'project',
@@ -976,9 +1071,7 @@ class ProjectController extends Controller {
 				'board',
 				'tasksCalendar',
 				'taskLists',
-				'memberAccount',
-				'tasks',
-				'tasksInProject'
+				'memberAccount'
 			));
 	}
 
@@ -987,16 +1080,18 @@ class ProjectController extends Controller {
 	 *
 	 * @return \Illuminate\Http\Response
 	 */
-	public function view_board_list(Request $request, $slug, $board_id, $role = "") {
+	public function view_board_list(Request $request, $slug, $board_id)
+	{
 		$pageConfigs = [
 			'pageHeader' => false,
 			'pageClass' => 'kanban-application',
 		];
 
+		$role = $request->get("role");
+
 		//Project info & members
 		$project = Project::where('slug', $slug)->first();
 		$accounts = $project->accounts()->get();
-		$currentUser = Auth::user();
 
 		$pmAccount = Project::findOrFail($project->id)
 			->findAccountWithRoleNameAndStatus('pm', 1)
@@ -1012,48 +1107,28 @@ class ProjectController extends Controller {
 
 		$board = Board::findOrFail($board_id);
 
-		$disabledProject = $this->checkDisableProject($project);
-
-		//Get all task in project
-		$tasksInProject = [];
-
-		$boards = $project->boards()->get();
-		$role = $request->get("role");
-
-		foreach ($boards as $board) {
-			$taskLists = $board->taskLists()->get();
-
-			foreach ($taskLists as $taskList) {
-				if ($role == "") {
-					$tasksInProject = array_merge($tasksInProject, $taskList->tasks()
-						->get()->toArray());
-					continue;
-				}
-
-				if ($role == "creator") {
-					$tasksInProject = array_merge($tasksInProject, $taskList->tasks()
-						->where("created_by", $currentUser->id)
-						->orderBy("created_at", "desc")
-						->orderBy("id", "desc")
-						->get()->toArray());
-					continue;
-				}
-
-				if ($role == "assignee") {
-					$tasksInProject = array_merge($tasksInProject, $taskList->tasks()->where("assign_to", $currentUser->id)->get()->toArray());
-					continue;
-				}
-			}
-		}
-		//Get all task in project
-
 		//Bind data for kanban
 		$taskLists = TaskList::where('board_id', $board_id)->get();
-		$taskListsArray = [];
-		foreach ($taskLists as $taskList) {
-			$taskListsArray[$taskList->id] = $taskList;
+		$disabledProject = $this->checkDisableProject($project);
+
+		$taskListIds = [];
+		foreach($taskLists as $taskList) {
+			$taskListIds[] = $taskList->id;
 		}
-		$taskLists = $taskListsArray;
+
+		$user = Auth::user();
+
+		$tasksInProject = [];
+		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListIds);
+		if ($role == 'creator') {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
+		}
+
+		if ($role == 'assignee') {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
+		}
+
+		$tasksInProject = $tasksInProjectBuilder->get();
 
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
 			->with(compact(
@@ -1069,7 +1144,8 @@ class ProjectController extends Controller {
 			));
 	}
 
-	public function add_board(BoardRequest $request) {
+	public function add_board(BoardRequest $request)
+	{
 		Board::create([
 			'title' => $request->input('modalBoardName'),
 			'project_id' => $request->input('project_id'),
@@ -1079,7 +1155,8 @@ class ProjectController extends Controller {
 		// Redirect or return a response
 		return response()->json(['success' => true]);
 	}
-	public function edit_board(Request $request) {
+	public function edit_board(Request $request)
+	{
 		$board = Board::findOrFail($request->input('id'));
 		$request->validate([
 			'modalBoardTitleEdit' => [
@@ -1095,7 +1172,8 @@ class ProjectController extends Controller {
 		// Redirect or return a response
 		return response()->json(['success' => true]);
 	}
-	public function remove_board(Request $request) {
+	public function remove_board(Request $request)
+	{
 		$board = Board::findOrFail($request->input('id'));
 		$board->delete();
 
@@ -1104,7 +1182,8 @@ class ProjectController extends Controller {
 		return response()->json(['success' => true]);
 	}
 
-	public function checkDisableProject($project) {
+	public function checkDisableProject($project)
+	{
 		switch ($project->project_status) {
 			case -1:
 				Session::put('projectState', 'Your project is being rejected by your supervisor!!');
@@ -1132,19 +1211,28 @@ class ProjectController extends Controller {
 		}
 	}
 
-	public function edit_task_modal(Request $request, $slug, $board_id, $task_id) {
+	public function add_task_modal(Request $request)
+	{
+		Session::flash('error', 'Something went wrong');
+		return redirect()->back();
+	}
+
+	public function edit_task_modal(Request $request, $slug, $board_id, $task_id)
+	{
 
 		Session::flash('error', 'Something went wrong');
 		return redirect()->back();
 	}
 
-	public function add_task_list_modal(Request $request) {
+	public function add_task_list_modal(Request $request)
+	{
 
 		Session::flash('error', 'Something went wrong');
 		return redirect()->back();
 	}
 
-	public function calculateProjectProgress($project) {
+	public function calculateProjectProgress($project)
+	{
 
 		// Convert the project's start and end dates to Carbon objects
 		$start_date = Carbon::parse($project->start_date)->startOfDay();
@@ -1185,7 +1273,8 @@ class ProjectController extends Controller {
 	}
 
 	// **
-	public function checkDueDate($dueDate) {
+	public function checkDueDate($dueDate)
+	{
 		$now = Carbon::now()->format('Y-m-d');
 		$daysDifference = Carbon::parse($now)->diffInDays(Carbon::parse($dueDate), false);
 		$onGoingDue = false;
@@ -1211,7 +1300,8 @@ class ProjectController extends Controller {
 		return compact('onGoingDue', 'warningDue', 'overDue', 'badgeColor');
 	}
 
-	public function getProjectRoleNameWithProjectAndAccount($currentProjectSlug) {
+	public function getProjectRoleNameWithProjectAndAccount($currentProjectSlug)
+	{
 		$currentProjectId = Project::where('slug', $currentProjectSlug)->value('id');
 		$currentAccountId = Auth::id();
 		// $currentAccountSlug = Auth::user()->email;
@@ -1223,7 +1313,8 @@ class ProjectController extends Controller {
 		return $roleName;
 	}
 
-	public function checkTaskStatus($status, $task) {
+	public function checkTaskStatus($status, $task)
+	{
 		$props = "";
 		switch ($status) {
 			case -1:
@@ -1262,7 +1353,8 @@ class ProjectController extends Controller {
 	}
 
 
-	public function save_gantt(Request $request) {
+	public function save_gantt(Request $request)
+	{
 		Session::flash('error', 'Something went wrong');
 		return redirect()->back();
 	}
