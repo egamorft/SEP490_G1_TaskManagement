@@ -16,6 +16,9 @@ use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
+
+    public $maxTask = 20;
+
     public function moveTaskToTaskList(Request $request)
     {
         $task_id = $request->input('task_id');

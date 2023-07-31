@@ -27,6 +27,9 @@ use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller {
+
+	public $maxTask = 20;
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -1048,7 +1051,10 @@ class ProjectController extends Controller {
 		//Get all task in project
 
 		//Bind data for kanban
-		$taskLists = TaskList::where('board_id', $board_id)->get();
+		$taskLists = TaskList::where('board_id', $board_id)
+						->skip(0)
+						->take($this->maxTask)
+						->get();
 		$taskListsArray = [];
 		foreach ($taskLists as $taskList) {
 			$taskListsArray[$taskList->id] = $taskList;
