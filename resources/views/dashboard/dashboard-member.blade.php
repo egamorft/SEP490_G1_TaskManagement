@@ -32,5 +32,11 @@
 @endsection
 @section('page-script')
     {{-- Page js files --}}
+	<script>
+		var tasks = @json($tasks);
+		var taskRoutes = "{{ route('view.task', ['slug' => 'mine', 'task_id' => ':taskId']) }}";
+
+	</script>
     <script src="{{ asset(mix('js/scripts/pages/dashboard-calendar.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/task-detail.js')) }}"></script>
 @endsection

@@ -4,12 +4,12 @@
 		<span class="title">Tasks In this Week</span>
 		<div class="content-header-right text-md-end col-md-2 col-12 d-md-block d-none">
 			<div class="mb-0 breadcrumb-right">
-					<a class="d-inline btn-icon btn show-task-by-week" type="button">
+					<a class="d-inline btn-icon btn show-task-by-this-week d-none" type="button">
 						<i data-feather="skip-back"></i>
 						<span> This Week </span>
 					</a>
-					<a class="d-inline btn-icon btn show-task-by-week" type="button">
-						<i data-feather="skip-back"></i>
+					<a class="d-inline btn-icon btn show-task-by-next-week" type="button">
+						<i data-feather='skip-forward'></i>
 						<span> Next Week </span>
 					</a>
 			</div>
@@ -26,7 +26,7 @@
                     <th>Creator/Reviewer</th>
                 </tr>
             </thead>
-            <tbody>
+            <tbody id="related-tasks">
                 @forelse ($tasks as $key => $task)
 					@php
 						$creator = null;
@@ -36,13 +36,13 @@
                             }
                         }
 					@endphp
-                    <tr class="odd" id="row{{ $task->id }}">
+                    <tr class="odd d-none" id="task-row{{ $task->id }}">
                         <td>{{ $key + 1 }}</td>
                         <td>
                             <div class="d-flex justify-content-left align-items-center">
                                 <div class="more-info">
                                     <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;">
-									<a href="">{{ $task->title }}</a>
+									<a href="" onclick="TASK.showTaskDetail({{ $task->id }})">{{ $task->title }}</a>
                                     </h6>
                                     <small class="text-truncate"
                                         style="max-width: 300px; display: block;">{{ $task->description ? $task->description : 'No Description' }}</small>

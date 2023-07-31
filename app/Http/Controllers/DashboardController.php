@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Account;
 use App\Models\AccountProject;
+use App\Models\Board;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Project;
@@ -49,9 +50,19 @@ class DashboardController extends Controller
 
 		$allAccounts = Account::all();
 		$allAccountProjects = AccountProject::all();
-
-		$tasks = Task::all();
         $allProjects = Project::all();
+
+		$tasks = Task::where('assign_to', $account->id)->get();
+		$validTasks = [];
+		foreach($tasks as $task) {
+			$taskDate = $task->due_date;
+			$isTaskThisWeek = DashboardController::isTaskInWeek($taskDate, 0);
+			$isTaskNextWeek = DashboardController::isTaskInWeek($taskDate, 1);
+			if ($isTaskThisWeek || $isTaskNextWeek) {
+				$validTasks[] = $task;
+			}
+		}
+		$tasks = $validTasks;
 
 		return view('dashboard.dashboard-member', ['pageConfigs' => $pageConfigs])
 			->with(compact(
@@ -61,6 +72,15 @@ class DashboardController extends Controller
 				'allAccountProjects',
 				'tasks',
 			));
+	}
+
+	public function isTaskInWeek($taskDate, $weekNumber) {
+		// Get the current week number
+		$currentWeekNumber = (int)date('W');
+		// Get the week number of the given task date
+		$taskWeekNumber = (int)date('W', strtotime($taskDate));
+		// Compare the week numbers to see if the task is within the desired week
+		return $taskWeekNumber === $currentWeekNumber + $weekNumber;
 	}
 
 	public function dashboard_admin()
