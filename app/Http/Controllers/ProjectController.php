@@ -273,8 +273,8 @@ class ProjectController extends Controller {
                     ->where('account_project.status', 1)
                     ->where('account_project.project_id', $projectId);
             })
-                ->join('account_project', 'accounts.id', '=', 'account_project.account_id')
-                ->select('accounts.*')
+                ->join('account_project', 'users.id', '=', 'account_project.account_id')
+                ->select('users.*')
                 ->first();
 
 			return view('content.project.app-project-invitation')
@@ -449,7 +449,7 @@ class ProjectController extends Controller {
 		$validatedData = $request->validate([
 			'modalInviteEmail' => [
 				'required', 'email',
-				Rule::exists('accounts', 'email')
+				Rule::exists('users', 'email')
 					->whereNotIn('email', $exceptEmails)
 					->where(function ($query) {
 						$query->whereRaw("LOCATE('@fe.edu.vn', email) = 0");
