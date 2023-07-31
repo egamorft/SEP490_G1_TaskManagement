@@ -20,6 +20,7 @@
         </div>
         <div class="row match-height">
             @include('dashboard.related-task')
+			@include('task.modal')
         </div>
     </section>
     <!-- Dashboard Ecommerce ends -->

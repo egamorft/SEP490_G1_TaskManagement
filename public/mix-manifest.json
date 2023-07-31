@@ -158,6 +158,7 @@
     "/js/scripts/pages/task-detail.js": "/js/scripts/pages/task-detail.js",
     "/js/scripts/pages/task-filter.js": "/js/scripts/pages/task-filter.js",
     "/js/scripts/pages/task-gantt.js": "/js/scripts/pages/task-gantt.js",
+    "/js/scripts/pages/task-list.js": "/js/scripts/pages/task-list.js",
     "/js/scripts/pagination/components-pagination.js": "/js/scripts/pagination/components-pagination.js",
     "/js/scripts/project/board.js": "/js/scripts/project/board.js",
     "/js/scripts/tables/table-datatables-advanced.js": "/js/scripts/tables/table-datatables-advanced.js",

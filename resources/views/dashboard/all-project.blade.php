@@ -15,7 +15,6 @@
                 $supervisor = null;
                 $manager = $allAccounts[0];
                 $members = [];
-                
                 foreach ($allAccountProjects as $accPro) {
                     if ($accPro->project_id == $project->id) {
                         foreach ($allAccounts as $acc) {

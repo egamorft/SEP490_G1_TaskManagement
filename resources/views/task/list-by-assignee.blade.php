@@ -1,9 +1,11 @@
 <!-- Task table -->
-<div class="card col-12">
-    <h4 class="card-header">Your Tasks In this Week</h4>
-    <div class="table-responsive">
-        <table class="datatables-permissions table">
-            <thead class="table-light">
+<div class="card">
+	<div class="card-body border-bottom mb-0">
+		<h4 class="card-title mb-0">Your Tasks In this Project</h4>
+	</div>
+	<div class="card-datatable table-responsive pt-0">
+		<table class="table datatable-project project-list-table">
+            <thead>
                 <tr>
                     <th>STT</th>
                     <th>Task</th>
@@ -35,8 +37,8 @@
                         <td>
                             <div class="d-flex justify-content-left align-items-center">
                                 <div class="more-info">
-                                    <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;"><a
-                                            href="">{{ $task->title }}</a>
+                                    <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;">
+										<a onclick="TASK.showTaskDetail({{ $task->id }})">{{ $task->title }}</a>
                                     </h6>
                                     <small class="text-truncate"
                                         style="max-width: 300px; display: block;">{{ $task->description ? $task->description : 'No Description' }}</small>
@@ -125,6 +127,6 @@
                 @endforelse
             </tbody>
         </table>
-    </div>
+	</div>
 </div>
 <!-- /Task table -->
