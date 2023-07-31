@@ -136,6 +136,7 @@ class TaskController extends Controller
             $avaiableStart = $project->start_date;
             $avaiableEnd = $project->end_date;
         }
+        
 
         return view('content._partials._modals.modal-task-detail')
             ->with(compact(
@@ -580,5 +581,34 @@ class TaskController extends Controller
         $taskDetails->save();
 
         return response()->json(['success' => true, 'newRoute' => route('view.board.kanban', ["slug" => $slug, "board_id" => $board_id])]);
+    }
+
+    public function setTaskDone(Request $request)
+    {
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        $taskDetails->status = TaskStatus::REVIEWING;
+        $taskDetails->save();
+        return response()->json(['success' => true]);
+    }
+    
+    public function setTaskFinish(Request $request)
+    {
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        // Get the current date and time
+        $currentDate = Carbon::now();
+        // Create a Carbon instance from the given string
+        $dueDate = Carbon::createFromFormat('Y-m-d', $taskDetails->due_date);
+        if ($currentDate->lt($dueDate)) {
+            $taskDetails->status = TaskStatus::DONE;
+        }else{
+            $taskDetails->status = TaskStatus::DONELATE;
+        }
+
+        $taskDetails->save();
+        return response()->json(['success' => true]);
     }
 }

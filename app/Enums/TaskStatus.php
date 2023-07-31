@@ -2,7 +2,7 @@
 
 namespace App\Enums;
 
-use Illuminate\Validation\Rules\Enum as RulesEnum;
+use BenSampo\Enum\Enum;
 
 /**
  * @method static static DONELATE()
@@ -11,7 +11,7 @@ use Illuminate\Validation\Rules\Enum as RulesEnum;
  * @method static static REVIEWING()
  * @method static static DONE()
  */
-final class TaskStatus extends RulesEnum
+final class TaskStatus extends Enum
 {
     const DONELATE = -1;
     const TODO = 0;
