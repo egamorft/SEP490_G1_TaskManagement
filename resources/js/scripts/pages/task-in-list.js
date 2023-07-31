@@ -9,6 +9,9 @@
  **/
 
 "use-strict";
+
+const modalCalendarTask = $('#modalCalendarTask');
+
 document.addEventListener("DOMContentLoaded", function () {
     var calendarEl = document.getElementById("calendar"),
         calendarsColor = {
@@ -24,100 +27,58 @@ document.addEventListener("DOMContentLoaded", function () {
         filterInput = $(".input-filter");
 
     // --------------------------------------------
+	$("#select-all").on("change", function() {
+		var is_checked = $(this).attr("checked");
+		if (typeof is_checked !== 'undefined' && is_checked !== false) {
+			$('.input-filter:checked').each(function() {
+				$(this).prop("checked", false);
+			});
+			$(this).attr("checked", false);
+		} else {
+			$('.input-filter').each(function() {
+				$(this).prop("checked", true);
+			});
+			$(this).attr("checked", true);
+		}
+	});
+
+    if (filterInput.length) {
+        filterInput.on("change", function () {
+			if ($(".input-filter:checked").length < 6) {
+				$("#select-all").attr("checked", false);
+			}
+            $(".input-filter:checked").length <
+                calEventFilter.find("input").length
+                ? selectAll.prop("checked", false)
+                : selectAll.prop("checked", true);
+			fetchEvents();
+        });
+    }
+
 
     // Selected Checkboxes
-    function selectedCalendars() {
+    function selectedFilters() {
         var selected = [];
         $(".calendar-events-filter input:checked").each(function () {
             selected.push($(this).attr("data-value"));
         });
-        console.log(selected);
         return selected;
     }
 
     function fetchEvents(info, successCallback) {
-        var calendars = selectedCalendars();
-        // We are reading event object from app-calendar-events.js file directly by including that file above app-calendar file.
-        // You should make an API call, look into above commented API call for reference
-        selectedEvents = events.filter(function (event) {
-            // console.log(event.extendedProps.calendar.toLowerCase());
-            return calendars.includes(
-                event.extendedProps.calendar.toLowerCase()
-            );
-        });
-        // if (selectedEvents.length > 0) {
-        successCallback(selectedEvents);
-        // }
+        var filters = selectedFilters();
+        // // We are reading event object from app-calendar-events.js file directly by including that file above app-calendar file.
+        // // You should make an API call, look into above commented API call for reference
+        // selectedEvents = events.filter(function (event) {
+        //     // console.log(event.extendedProps.calendar.toLowerCase());
+        //     return calendars.includes(
+        //         event.extendedProps.calendar.toLowerCase()
+        //     );
+        // });
+        // // if (selectedEvents.length > 0) {
+        // successCallback(selectedEvents);
+        // // }
+		console.log(filters)
     }
-
-    // Event click function
-    function eventClick(info) {
-        const task_id = info.event.id;
-        var url = "?show=task&task_id=" + task_id;
-        var currentUrl = window.location.href.split("?", (window.location.href).length)[0];
-        history.replaceState(null, null, window.location.pathname + url);
-        currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
-        modalCalendarTask.modal("show");
-
-        const urlParams = new URLSearchParams(window.location.search);
-        const taskId = urlParams.get('task_id');
-
-        var taskRoute = taskRoutes.replace(':taskId', taskId);
-        const response = fetch(taskRoute);
-        response.then(res => {
-            if (res.ok) {
-                return res.text();
-            } else {
-                throw new Error('Something went wrong here');
-            }
-        }).then(html => {
-            modalCalendarTask.find('.task-wrapper').html(html);
-        }).catch(error => {
-            modalCalendarTask.find('.task-wrapper').html(error);
-        });
-    }
-
-    eventClick();
     fetchEvents();
-    $("#addTaskFormCalendar").submit(function (event) {
-        event.preventDefault();
-        var form = $(this);
-        var url = form.attr("action");
-        var method = form.attr("method");
-        var _token = $('meta[name="csrf-token"]').attr("content");
-        var description = taskDesc.querySelector(".ql-editor").innerHTML;
-        var data = form.serializeArray();
-        data.push({ name: "_token", value: _token });
-        data.push({ name: "description", value: description });
-        $.ajax({
-            url: url,
-            method: method,
-            data: data,
-            dataType: "json",
-            beforeSend: function () {
-                $("#spinnerBtnProjectModalCalendar").show();
-                $("#submitBtnProjectModalCalendar").hide();
-            },
-            success: function (response) {
-                // handle success
-                if (response.success) {
-                    location.reload();
-                }
-            },
-            error: function (response) {
-                setTimeout(function () {
-                    $("#spinnerBtnProjectModalCalendar").hide();
-                    $("#submitBtnProjectModalCalendar").show();
-                    if (response.status == 422) {
-                        var errors = response.responseJSON.errors;
-                        for (var key in errors) {
-                            $("#" + key).addClass(" is-invalid");
-                            $("#error-" + key).show();
-                            $("#error-" + key).text(errors[key][0]);
-                        }
-                    }
-                }, 500);
-            },
-        });
-    });
 });

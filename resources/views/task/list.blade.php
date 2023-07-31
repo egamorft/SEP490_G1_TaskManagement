@@ -5,7 +5,7 @@
             @include('task.filter')
 
             <!-- Task Table -->
-            <div class="col bg-white card-datatable table-responsive">
+            <div class="col bg-white card-datatable table-responsive" id="js-task-list-table">
                 <table class="datatables-permissions table">
                     <thead class="table-light">
                         <tr>
@@ -148,9 +148,10 @@
 </section>
 <!-- Full calendar end -->
 
-{{-- <script src="{{ asset(mix('js/scripts/pages/task-in-list.js')) }}"></script> --}}
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
-
 <script>
     $("#addTaskFormCalendar").attr("action", "{{ route("add.task.in.list.modal", ["slug" => $project->slug, "board_id" => $board->id]) }}");
+	var tasks = @json($tasksInProject);
 </script>
+
+<script src="{{ asset(mix('js/scripts/pages/task-in-list.js')) }}"></script>
