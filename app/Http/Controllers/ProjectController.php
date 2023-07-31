@@ -1091,9 +1091,11 @@ class ProjectController extends Controller {
 
 		$role = $request->get("role");
 
+		
 		//Project info & members
 		$project = Project::where('slug', $slug)->first();
 		$accounts = $project->accounts()->get();
+		$disabledProject = $this->checkDisableProject($project);
 
 		$pmAccount = Project::findOrFail($project->id)
 			->findAccountWithRoleNameAndStatus('pm', 1)
@@ -1110,19 +1112,18 @@ class ProjectController extends Controller {
 		$board = Board::findOrFail($board_id);
 
 		//Bind data for kanban
-		$taskLists = TaskList::where('board_id', $board_id)
-						->skip(0)
-						->take($this->maxTask)
-						->get();
+		$taskLists = TaskList::where('board_id', $board_id)->get();
+		$taskListsId = [];
 		$taskListsArray = [];
 		foreach ($taskLists as $taskList) {
+			$taskListsId[] = $taskList->id;
 			$taskListsArray[$taskList->id] = $taskList;
 		}
 
 		$user = Auth::user();
 
 		$tasksInProject = [];
-		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListIds);
+		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListsId);
 		if ($role == 'creator') {
 			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
 		}
@@ -1130,8 +1131,10 @@ class ProjectController extends Controller {
 		if ($role == 'assignee') {
 			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
 		}
-
-		$tasksInProject = $tasksInProjectBuilder->get();
+		$tasksInProject = $tasksInProjectBuilder
+							->skip(0)
+							->take($this->maxTask)
+							->get();
 
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
 			->with(compact(
