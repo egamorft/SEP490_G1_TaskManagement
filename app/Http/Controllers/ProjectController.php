@@ -29,7 +29,7 @@ use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller {
 
-	public $maxTask = 20;
+	public $rowPerPage = 20;
 
 	/**
 	 * Display a listing of the resource.
@@ -1131,10 +1131,13 @@ class ProjectController extends Controller {
 		if ($role == 'assignee') {
 			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
 		}
+
+		$totalRecords = $tasksInProjectBuilder->count();
 		$tasksInProject = $tasksInProjectBuilder
 							->skip(0)
-							->take($this->maxTask)
+							->take($this->rowPerPage)
 							->get();
+		$rowPerPage = $this->rowPerPage;
 
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
 			->with(compact(
@@ -1146,7 +1149,9 @@ class ProjectController extends Controller {
 				'disabledProject',
 				'board',
 				'taskLists',
-				'tasksInProject'
+				'tasksInProject',
+				'totalRecords',
+				'rowPerPage'
 			));
 	}
 

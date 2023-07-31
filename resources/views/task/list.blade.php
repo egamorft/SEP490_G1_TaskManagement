@@ -100,11 +100,11 @@
                                 </td>
                                 <td>
                                     <span
-                                        class="badge rounded-pill {{ $statusView['class'] }}">{{ $statusView['text'] }}</span>
+                                        class="badge rounded-pill {{ $statusView['class'] }}" data-status='{{ $task->status }}'>{{ $statusView['text'] }}</span>
                                 </td>
                                 <td>
                                     <span
-                                        class="badge rounded-pill {{ $statusView['class'] }}">{{ date('D, M d, Y', strtotime($task->due_date)) }}</span>
+                                        class="badge rounded-pill {{ $statusView['class'] }}" data-time='{{ strtotime($task->due_date) }}'>{{ date('D, M d, Y', strtotime($task->due_date)) }}</span>
                                 </td>
                                 <td>{{ $taskList->title }}</td>
                                 <td>
@@ -127,6 +127,9 @@
             </div>
             <!--/ Task Table -->
             <div class="body-content-overlay"></div>
+            <input type="hidden" id="start" value="0">
+            <input type="hidden" id="row-per-page" value="{{ $rowPerPage }}">
+            <input type="hidden" id="total-records" value="{{ $totalRecords }}">
         </div>
     </div>
 
@@ -152,6 +155,34 @@
 <script>
     $("#addTaskFormCalendar").attr("action", "{{ route("add.task.in.list.modal", ["slug" => $project->slug, "board_id" => $board->id]) }}");
 	var tasks = @json($tasksInProject);
+
+    checkWindowSize();
+
+    function checkWindowSize() {
+        if ($(window).height() >= $(document).height()) {
+            fetchData();
+        }
+    }
+
+    function fetchData() {
+        var start = Number($('#start').val());
+        var allCount = Number($('#total-records').val());
+        var rowPerPage = Number($('#row-per-page').val());
+        start = start + rowPerPage;
+
+        if (start <= allCount) {
+            $('#start').val(start);
+
+            $.ajax({
+                url: '{{ route('get.task.info', ["slug" => $project->slug, "board_id" => $board->id]) }}',
+                data: {start: start},
+                dataType: 'json',
+                success: function(res) {
+
+                }
+            });
+        }
+    }
 </script>
 
 <script src="{{ asset(mix('js/scripts/pages/task-in-list.js')) }}"></script>

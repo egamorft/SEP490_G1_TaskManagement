@@ -22,6 +22,14 @@ document.addEventListener("DOMContentLoaded", function () {
             Late: "secondary",
             Overdue: "danger",
         },
+        filterStatus = {
+            0: 'todo',
+            1: 'doing',
+            2: 'reviewing',
+            3: 'ontime',
+            100: 'late',
+            1000: 'overdue'
+        }
         selectAll = $(".select-all"),
         calEventFilter = $(".calendar-events-filter"),
         filterInput = $(".input-filter");
@@ -78,7 +86,25 @@ document.addEventListener("DOMContentLoaded", function () {
         // // if (selectedEvents.length > 0) {
         // successCallback(selectedEvents);
         // // }
-		console.log(filters)
+		$('#js-task-list-table tr[data-id]').each(function(e) {
+            var status = $(this).find("td > span[data-status]").attr("data-status");
+            if (status == -1) {
+                status = 100;
+            }
+
+            var date = $(this).find("td > span[data-date]").attr("data-date");
+            var today = new Date();
+            if (date < today.getTime() && (status == 1 || status == 0)) {
+                status = 1000;
+            }
+
+            var status_text = filterStatus[status] ?? '';
+            if (!filters.includes(status_text)) {
+                $(this).hide();
+            } else {
+                $(this).show();
+            }
+        })
     }
     fetchEvents();
 });

@@ -146,6 +146,7 @@ Route::middleware(['auth'])->group(function () {
         
         Route::get('task_list/{taskList_id}', [TaskController::class, 'view_task_list'])->name('view.taskList');
 
+        Route::get('board/{board_id}/get-task-info', [TaskController::class, 'get_task_info'])->name("get.task.info");
     });
 
     Route::group(['prefix' => 'project'], function () {
