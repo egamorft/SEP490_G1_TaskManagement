@@ -101,6 +101,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('delete-task', [TaskController::class, 'deleteTask'])->name('delete.task');
     Route::post('set-task-done', [TaskController::class, 'setTaskDone'])->name('set.taskDone');
     Route::post('set-task-finish', [TaskController::class, 'setTaskFinish'])->name('set.taskFinish');
+    Route::post('reject-task', [TaskController::class, 'rejectTask'])->name('reject.task');
 
 
     Route::post('move-task-calendar', [TaskController::class, 'moveTaskCalendar'])->name('move.task.calendar');
