@@ -37,11 +37,6 @@
                             <h4 class="card-title">All Task</h4>
                             <span class="card-subtitle text-muted">Group task by day</span>
                         </div>
-                        <div class="d-flex align-items-center">
-                            <i class="font-medium-2" data-feather="calendar"></i>
-                            <input type="text" class="form-control flat-picker bg-transparent border-0 shadow-none"
-                                placeholder="YYYY-MM-DD" />
-                        </div>
                     </div>
                     <div class="card-body">
                         <div id="line-area-chart"></div>
@@ -83,7 +78,7 @@
                                         </div>
                                         <div class="d-flex flex-column"><a
                                                 href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $pmAccount->id]) }}"
-                                                class="text-truncate fw-bolder">{{ $pmAccount->fullname ?? '' }}</a>
+                                                class="text-truncate fw-bolder">{{ $pmAccount->name ?? '' }}</a>
                                             <small class="text-muted">Project Manager</small>
                                         </div>
                                     </div>
@@ -96,32 +91,32 @@
                                     $lateNum = 0;
                                     $overdueNum = 0;
                                     foreach ($todoTasks as $task) {
-                                        if ($task->created_by == $pmAccount->id) {
+                                        if ($task->assign_to == $pmAccount->id) {
                                             $todoNum++;
                                         }
                                     }
                                     foreach ($doingTasks as $task) {
-                                        if ($task->created_by == $pmAccount->id) {
+                                        if ($task->assign_to == $pmAccount->id) {
                                             $doingNum++;
                                         }
                                     }
                                     foreach ($reviewingTasks as $task) {
-                                        if ($task->created_by == $pmAccount->id) {
+                                        if ($task->assign_to == $pmAccount->id) {
                                             $reviewingNum++;
                                         }
                                     }
                                     foreach ($ontimeTasks as $task) {
-                                        if ($task->created_by == $pmAccount->id) {
+                                        if ($task->assign_to == $pmAccount->id) {
                                             $ontimeNum++;
                                         }
                                     }
                                     foreach ($lateTasks as $task) {
-                                        if ($task->created_by == $pmAccount->id) {
+                                        if ($task->assign_to == $pmAccount->id) {
                                             $lateNum++;
                                         }
                                     }
                                     foreach ($overdueTasks as $task) {
-                                        if ($task->created_by == $pmAccount->id) {
+                                        if ($task->assign_to == $pmAccount->id) {
                                             $overdueNum++;
                                         }
                                     }
@@ -147,7 +142,7 @@
                                             </div>
                                             <div class="d-flex flex-column"><a
                                                     href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisorAccount->id]) }}"
-                                                    class="text-truncate fw-bolder">{{ $supervisorAccount->fullname ?? '' }}</a>
+                                                    class="text-truncate fw-bolder">{{ $supervisorAccount->name ?? '' }}</a>
                                                 <small class="text-muted">Project Supervisor</small>
                                             </div>
                                         </div>
@@ -160,32 +155,32 @@
                                         $lateNum = 0;
                                         $overdueNum = 0;
                                         foreach ($todoTasks as $task) {
-                                            if ($task->created_by == $supervisorAccount->id) {
+                                            if ($task->assign_to == $supervisorAccount->id) {
                                                 $todoNum++;
                                             }
                                         }
                                         foreach ($doingTasks as $task) {
-                                            if ($task->created_by == $supervisorAccount->id) {
+                                            if ($task->assign_to == $supervisorAccount->id) {
                                                 $doingNum++;
                                             }
                                         }
                                         foreach ($reviewingTasks as $task) {
-                                            if ($task->created_by == $supervisorAccount->id) {
+                                            if ($task->assign_to == $supervisorAccount->id) {
                                                 $reviewingNum++;
                                             }
                                         }
                                         foreach ($ontimeTasks as $task) {
-                                            if ($task->created_by == $supervisorAccount->id) {
+                                            if ($task->assign_to == $supervisorAccount->id) {
                                                 $ontimeNum++;
                                             }
                                         }
                                         foreach ($lateTasks as $task) {
-                                            if ($task->created_by == $supervisorAccount->id) {
+                                            if ($task->assign_to == $supervisorAccount->id) {
                                                 $lateNum++;
                                             }
                                         }
                                         foreach ($overdueTasks as $task) {
-                                            if ($task->created_by == $supervisorAccount->id) {
+                                            if ($task->assign_to == $supervisorAccount->id) {
                                                 $overdueNum++;
                                             }
                                         }
@@ -213,7 +208,7 @@
                                             </div>
                                             <div class="d-flex flex-column"><a
                                                     href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
-                                                    class="text-truncate fw-bolder">{{ $acc->fullname ?? '' }}</a>
+                                                    class="text-truncate fw-bolder">{{ $acc->name ?? '' }}</a>
                                                 <small class="text-muted">Project Member</small>
                                             </div>
                                         </div>
@@ -226,32 +221,32 @@
                                         $lateNum = 0;
                                         $overdueNum = 0;
                                         foreach ($todoTasks as $task) {
-                                            if ($task->created_by == $acc->id) {
+                                            if ($task->assign_to == $acc->id) {
                                                 $todoNum++;
                                             }
                                         }
                                         foreach ($doingTasks as $task) {
-                                            if ($task->created_by == $acc->id) {
+                                            if ($task->assign_to == $acc->id) {
                                                 $doingNum++;
                                             }
                                         }
                                         foreach ($reviewingTasks as $task) {
-                                            if ($task->created_by == $acc->id) {
+                                            if ($task->assign_to == $acc->id) {
                                                 $reviewingNum++;
                                             }
                                         }
                                         foreach ($ontimeTasks as $task) {
-                                            if ($task->created_by == $acc->id) {
+                                            if ($task->assign_to == $acc->id) {
                                                 $ontimeNum++;
                                             }
                                         }
                                         foreach ($lateTasks as $task) {
-                                            if ($task->created_by == $acc->id) {
+                                            if ($task->assign_to == $acc->id) {
                                                 $lateNum++;
                                             }
                                         }
                                         foreach ($overdueTasks as $task) {
-                                            if ($task->created_by == $acc->id) {
+                                            if ($task->assign_to == $acc->id) {
                                                 $overdueNum++;
                                             }
                                         }

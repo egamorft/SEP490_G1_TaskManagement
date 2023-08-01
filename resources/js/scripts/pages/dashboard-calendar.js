@@ -1,205 +1,68 @@
-/**
- * App Calendar
- */
+$(document).ready(function () {
 
-/**
- * ! If both start and end dates are same Full calendar will nullify the end date value.
- * ! Full calendar will end the event on a day before at 12:00:00AM thus, event won't extend to the end date.
- * ! We are getting events from a separate file named app-calendar-events.js. You can add or remove events from there.
- **/
+    // Add a getWeek() method to the Date prototype to calculate the week number
+    Date.prototype.getWeek = function () {
+        var firstDayOfYear = new Date(this.getFullYear(), 0, 1);
+        var daysOffset = firstDayOfYear.getDay();
+        var firstWeekDay = new Date(
+            this.getFullYear(),
+            0,
+            1 + (daysOffset > 0 ? 7 - daysOffset : 0)
+        );
+        var diff = this - firstWeekDay;
+        var daysSinceYearStart = diff / 86400000; // 86400000 ms in a day
+        var weekNumber = 1 + Math.floor(daysSinceYearStart / 7);
 
-"use-strict";
+        return weekNumber;
+    };
 
-// RTL Support
-var direction = "ltr",
-    assetPath = "../../../app-assets/",
-    csrfToken = $('input[name="csrf-token"]').val(),
-    section = $('#section-block'),
-    isRtl = $('html').attr('data-textdirection') === 'rtl';
-if ($("html").data("textdirection") == "rtl") {
-    direction = "rtl";
-}
+	function renderTaskList(week) {
+		var newTasks = [];
+		function isTaskInWeek(taskDate, weekNumber) {
+			var currentDate = new Date();
+			var taskDateObj = new Date(taskDate);
 
-if ($("body").attr("data-framework") === "laravel") {
-    assetPath = $("body").attr("data-asset-path");
-}
+			// Get the current week number
+			var currentWeekNumber =
+				currentDate.getFullYear() * 100 + currentDate.getWeek();
 
-document.addEventListener("DOMContentLoaded", function () {
-    var calendarEl = document.getElementById("calendar"),
-        calendarsColor = {
-            Todo: "info",
-            Doing: "primary",
-            Reviewing: "warning",
-            Done: "success",
-            Late: "secondary",
-            Overdue: "danger",
-        },
-        selectAll = $(".select-all"),
-        calEventFilter = $(".calendar-events-filter"),
-        filterInput = $(".input-filter");
+			// Get the week number of the given task date
+			var taskWeekNumber =
+				taskDateObj.getFullYear() * 100 + taskDateObj.getWeek();
 
-    // --------------------------------------------
+			// Compare the week numbers to see if the task is within the desired week
+			return taskWeekNumber === currentWeekNumber + weekNumber;
+		}
 
-    // Selected Checkboxes
-    function selectedCalendars() {
-        var selected = [];
-        $(".calendar-events-filter input:checked").each(function () {
-            selected.push($(this).attr("data-value"));
-        });
-        console.log(selected);
-        return selected;
-    }
+		var count = 0;
+		tasks.forEach(function(task, index) {
+			// Define the task dates
+			var taskDate = task.due_date;
+			// Check if tasks are in this week and next week
+			var isInWeek = isTaskInWeek(taskDate, week);
+			if (isInWeek) {
+				count++;
+				newTasks.push(task);
+				$('#task-row' + task.id).removeClass("d-none");
+				$('#task-row' + task.id).find('td:first-child').html(count);
+			} else {
+				$('#task-row' + task.id).addClass("d-none");
+			}
+		});
+	}
 
-    // --------------------------------------------------------------------------------------------------
-    // AXIOS: fetchEvents
-    // * This will be called by fullCalendar to fetch events. Also this can be used to refetch events.
-    // --------------------------------------------------------------------------------------------------
-    function fetchEvents(info, successCallback) {
-        var calendars = selectedCalendars();
-        // We are reading event object from app-calendar-events.js file directly by including that file above app-calendar file.
-        // You should make an API call, look into above commented API call for reference
-        selectedEvents = events.filter(function (event) {
-            // console.log(event.extendedProps.calendar.toLowerCase());
-            return calendars.includes(
-                event.extendedProps.calendar.toLowerCase()
-            );
-        });
-        // if (selectedEvents.length > 0) {
-        successCallback(selectedEvents);
-        // }
-    }
-
-    // Event click function
-    function eventClick(info) {
-        console.log(info);
-        alert("Show card detail");
-    }
-
-    // Calendar plugins
-    var calendar = new FullCalendar.Calendar(calendarEl, {
-        initialView: "timeGridWeek",
-        events: fetchEvents,
-        editable: true,
-        weekends: true,
-        dragScroll: true,
-        dayMaxEvents: 2,
-        eventResizableFromStart: true,
-        customButtons: {
-            sidebarToggle: {
-                text: "Sidebar",
-            },
-        },
-        headerToolbar: {
-            start: "sidebarToggle, prev,next, title",
-            end: "",
-        },
-        direction: direction,
-        initialDate: new Date(),
-        navLinks: true, // can click day/week names to navigate views
-        eventClassNames: function ({ event: calendarEvent }) {
-            const colorName =
-                calendarsColor[calendarEvent._def.extendedProps.calendar];
-
-            return [
-                // Background Color
-                "bg-light-" + colorName,
-            ];
-        },
-        dateClick: function (info) {
-            var date = moment(info.date).format("YYYY-MM-DD");
-            console.log(date);
-        },
-        eventClick: function (info) {
-            eventClick(info);
-        },
-        eventDrop: function(e) {
-          var id = e.event.id;
-          const days_diff = e.delta.days;
-          $.ajax({
-            url: '/move-task-calendar',
-            method: 'POST',
-            headers: {
-                'X-CSRF-TOKEN': csrfToken  // Include the CSRF token in the headers
-            },
-            data: {
-                task_id: id,
-                days_diff: days_diff
-            },
-            beforeSend: function () {
-                section.block({
-                    message:
-                        '<div class="d-flex justify-content-center align-items-center"><p class="me-50 mb-0">Please wait...</p><div class="spinner-grow spinner-grow-sm text-white" role="status"></div> </div>',
-                    timeout: 2000,
-                    css: {
-                        backgroundColor: 'transparent',
-                        color: '#fff',
-                        border: '0'
-                    },
-                    overlayCSS: {
-                        opacity: 0.5
-                    }
-                });
-            },
-            success: function (response) {
-                // Handle success response
-                if (response.success) {
-                    setTimeout(function () {
-                        toastr['success'](response.message, 'Error!', {
-                            showMethod: 'slideDown',
-                            hideMethod: 'slideUp',
-                            progressBar: true,
-                            closeButton: true,
-                            tapToDismiss: false,
-                            rtl: isRtl
-                        });
-                    }, 2000);
-                }
-            },
-            error: function (response) {
-                var errMsg = "Sorry, something went wrong here. Load the page and try again!!";
-                if (response.message) {
-                    errMsg = response.message;
-                }
-                // Handle error response
-                setTimeout(function () {
-                    toastr['error'](errMsg, 'Error!', {
-                        showMethod: 'slideDown',
-                        hideMethod: 'slideUp',
-                        progressBar: true,
-                        closeButton: true,
-                        tapToDismiss: false,
-                        rtl: isRtl
-                    });
-                }, 2000);
-            }
-        });
-        },
+    $(".show-task-by-this-week").on("click", function () {
+        $(this).addClass("d-none");
+        $(".show-task-by-next-week").removeClass("d-none");
+        $(".task-list .title").html("Your Task in this week");
+		renderTaskList(0);
     });
 
-    // Render calendar
-    calendar.render();
-
-    // Select all & filter functionality
-    if (selectAll.length) {
-        selectAll.on("change", function () {
-            var $this = $(this);
-
-            if ($this.prop("checked")) {
-                calEventFilter.find("input").prop("checked", true);
-            } else {
-                calEventFilter.find("input").prop("checked", false);
-            }
-            calendar.refetchEvents();
-        });
-    }
-
-    if (filterInput.length) {
-        filterInput.on("change", function () {
-            $(".input-filter:checked").length <
-            calEventFilter.find("input").length
-                ? selectAll.prop("checked", false)
-                : selectAll.prop("checked", true);
-            calendar.refetchEvents();
-        });
-    }
+    $(".show-task-by-next-week").on("click", function () {
+        $(this).addClass("d-none");
+        $(".show-task-by-this-week").removeClass("d-none");
+        $(".task-list .title").html("Your Task in next week");
+		renderTaskList(1);
+    });
+	renderTaskList(0);
 });
