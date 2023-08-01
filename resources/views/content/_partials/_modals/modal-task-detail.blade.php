@@ -329,50 +329,54 @@
 <!-- Reject Task Modal -->
 <div class="modal fade" id="rejectTaskModal" tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
-            <div class="modal-header bg-transparent">
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-            </div>
-            <div class="modal-body p-3 pt-0 row">
-                <div class="text-center mb-2">
-                    <h1 class="mb-1">Reject task {{ $taskDetails->title ?? '' }}</h1>
-                    <p>In charge by "{{ $taskDetails->assignTo->name ?? '' }}".</p>
+        <form id="rejectTaskForm" class="row" method="POST" action="{{ route('reject.task') }}">
+            @csrf
+            <input type="hidden" name="task-id" value="{{ $taskDetails->id }}">
+            <div class="modal-content">
+                <div class="modal-header bg-transparent">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
-
-                <div class="alert alert-warning" role="alert">
-                    <h6 class="alert-heading">Warning!</h6>
-                    <div class="alert-body">
-                        Give a reason to reject this task and choose another assignee if needed
+                <div class="modal-body p-3 pt-0 row">
+                    <div class="text-center mb-2">
+                        <h1 class="mb-1">Reject task <strong>{{ $taskDetails->title ?? '' }}</strong></h1>
+                        <p class="fs-4">In charge by "{{ $taskDetails->assignTo->name ?? '' }}".</p>
                     </div>
-                </div>
 
-                <div class="col-12 col-md-12">
-                    <label class="form-label" for="select2-modalAddPM">Project Manager</label>
-                    <select name="modalAddPM" class="select2 form-select" id="select2-modalAddPM">
-                        @foreach ($memberAccount as $acc)
-                            <option value="{{ $acc->id }}"
-                                {{ $acc->id == $taskDetails->assign_to ? 'selected' : '' }}>
-                                {{ $acc->name }} {{ $acc->id == Auth::id() ? '(YOU)' : '' }}</option>
-                        @endforeach
-                    </select>
-                    <span id="error-modalAddPM" style="color: red; display: none"></span>
-                </div>
+                    <div class="alert alert-warning" role="alert">
+                        <h6 class="alert-heading">Warning!</h6>
+                        <div class="alert-body">
+                            Give a reason to reject this task and choose another assignee if needed
+                        </div>
+                    </div>
 
-                <div class="col-12">
-                    <label class="form-label" for="modalAddDesc">Description</label>
-                    <textarea id="modalAddDesc" name="modalAddDesc" class="form-control" value=""
-                        placeholder="Enter project description"></textarea>
-                </div>
+                    <div class="col-12 col-md-12">
+                        <label class="form-label" for="select2-modalRejectAssignTo">Assign to</label>
+                        <select name="modalRejectAssignTo" class="select2 form-select"
+                            id="select2-modalRejectAssignTo">
+                            @foreach ($memberAccount as $acc)
+                                <option value="{{ $acc->id }}"
+                                    {{ $acc->id == $taskDetails->assign_to ? 'selected' : '' }}>
+                                    {{ $acc->name }} {{ $acc->id == $taskDetails->assign_to ? '(Current)' : '' }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <span id="error-modalRejectAssignTo" style="color: red; display: none"></span>
+                    </div>
 
-                <form id="deletePermissionForm" class="row" method="POST" action="#">
-                    @csrf
+                    <div class="col-12">
+                        <label class="form-label" for="modalRejectReason">Why you want to reject this task?</label>
+                        <textarea id="modalRejectReason" name="modalRejectReason" class="form-control" value=""
+                            placeholder="Enter your suggest/requirement for assigned ones"></textarea>
+                        <span id="error-modalRejectReason" style="color: red; display: none"></span>
+                    </div>
+
                     <div class="text-center mt-2">
                         <button type="submit" class="btn btn-primary">Reject</button>
                     </div>
-                </form>
 
+                </div>
             </div>
-        </div>
+        </form>
     </div>
 </div>
 <!--/ Reject Task Modal -->
@@ -876,6 +880,40 @@
                     });
                 }
             })
+        });
+
+        $('#rejectTaskForm').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var form = $(this);
+            var url = form.attr('action');
+            var method = form.attr('method');
+            var data = form.serialize();
+
+            $.ajax({
+                url: url,
+                method: method,
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    // Handle the success response
+                    if (response.success) {
+                        location.reload();
+                    }
+                },
+                error: function(response) {
+                    // Handle the error response
+                    if (response.status === 422) {
+                        var errors = response.responseJSON.errors;
+                        for (var field in errors) {
+                            var errorContainer = $('#error-' + field);
+                            errorContainer.addClass('text-danger');
+                            errorContainer.text(errors[field][0]);
+                            errorContainer.show();
+                        }
+                    }
+                }
+            });
         });
     });
 
