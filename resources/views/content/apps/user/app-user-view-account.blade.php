@@ -11,12 +11,15 @@
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/responsive.bootstrap5.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/buttons.bootstrap5.min.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/tables/datatable/rowGroup.bootstrap5.min.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('vendors/css/charts/apexcharts.css')) }}">
+
 @endsection
 
 @section('page-style')
     {{-- Page Css files --}}
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/extensions/ext-component-sweet-alerts.css')) }}">
+    <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/charts/chart-apex.css')) }}">
 @endsection
 
 @section('content')
@@ -45,7 +48,7 @@
                                     <i data-feather="check" class="font-medium-2"></i>
                                 </span>
                                 <div class="ms-75">
-                                    <h4 class="mb-0">1.23k</h4>
+                                    <h4 class="mb-0">{{ $taskDone }}</h4>
                                     <small>Tasks Done</small>
                                 </div>
                             </div>
@@ -54,7 +57,7 @@
                                     <i data-feather="briefcase" class="font-medium-2"></i>
                                 </span>
                                 <div class="ms-75">
-                                    <h4 class="mb-0">568</h4>
+                                    <h4 class="mb-0">{{ $projectDone }}</h4>
                                     <small>Projects Done</small>
                                 </div>
                             </div>
@@ -91,39 +94,19 @@
                     </div>
                 </div>
                 <!-- /User Card -->
-                <!-- Plan Card -->
-                <div class="card border-primary">
-                    <div class="card-body">
-                        <div class="d-flex justify-content-between align-items-start">
-                            <span class="badge bg-light-primary">Standard</span>
-                            <div class="d-flex justify-content-center">
-                                <sup class="h5 pricing-currency text-primary mt-1 mb-0">$</sup>
-                                <span class="fw-bolder display-5 mb-0 text-primary">99</span>
-                                <sub class="pricing-duration font-small-4 ms-25 mt-auto mb-2">/month</sub>
-                            </div>
-                        </div>
-                        <ul class="ps-1 mb-2">
-                            <li class="mb-50">10 Users</li>
-                            <li class="mb-50">Up to 10 GB storage</li>
-                            <li>Basic Support</li>
-                        </ul>
-                        <div class="d-flex justify-content-between align-items-center fw-bolder mb-50">
-                            <span>Days</span>
-                            <span>4 of 30 Days</span>
-                        </div>
-                        <div class="progress mb-50" style="height: 8px">
-                            <div class="progress-bar" role="progressbar" style="width: 80%" aria-valuenow="65"
-                                aria-valuemax="100" aria-valuemin="80"></div>
-                        </div>
-                        <span>4 days remaining</span>
-                        <div class="d-grid w-100 mt-2">
-                            <button class="btn btn-primary" data-bs-target="#upgradePlanModal" data-bs-toggle="modal">
-                                Upgrade Plan
-                            </button>
-                        </div>
-                    </div>
-                </div>
-                <!-- /Plan Card -->
+
+				<!-- Donut Chart Starts-->
+				<div class="card">
+					<div class="card-header flex-column align-items-start">
+						<h4 class="card-title mb-75">Task Overview</h4>
+						<span class="card-subtitle text-muted">Task breakdown by statuses </span>
+					</div>
+					<div class="card-body">
+						<div id="donut-chart"></div>
+					</div>
+				</div>
+				<!-- Donut Chart Ends-->
+
             </div>
             <!--/ User Sidebar -->
 
@@ -164,105 +147,10 @@
                 <!--/ User Pills -->
 
                 <!-- Project table -->
-                <div class="card">
-                    <h4 class="card-header">User's Projects List</h4>
-                    <div class="table-responsive">
-                        <table class="table datatable-project">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>Project</th>
-                                    <th class="text-nowrap">Total Task</th>
-                                    <th>Progress</th>
-                                    <th>Hours</th>
-                                </tr>
-                            </thead>
-                        </table>
-                    </div>
-                </div>
+				@include('content.apps.user.project')
+				@include('content.apps.user.task')
+				@include('task.modal')
                 <!-- /Project table -->
-
-                <!-- Activity Timeline -->
-                <div class="card">
-                    <h4 class="card-header">User Activity Timeline</h4>
-                    <div class="card-body pt-1">
-                        <ul class="timeline ms-50">
-                            <li class="timeline-item">
-                                <span class="timeline-point timeline-point-indicator"></span>
-                                <div class="timeline-event">
-                                    <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                                        <h6>User login</h6>
-                                        <span class="timeline-event-time me-1">12 min ago</span>
-                                    </div>
-                                    <p>User login at 2:12pm</p>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="timeline-point timeline-point-warning timeline-point-indicator"></span>
-                                <div class="timeline-event">
-                                    <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                                        <h6>Meeting with john</h6>
-                                        <span class="timeline-event-time me-1">45 min ago</span>
-                                    </div>
-                                    <p>React Project meeting with john @10:15am</p>
-                                    <div class="d-flex flex-row align-items-center mb-50">
-                                        <div class="avatar me-50">
-                                            <img src="{{ asset('images/portrait/small/avatar-s-7.jpg') }}" alt="Avatar"
-                                                width="38" height="38" />
-                                        </div>
-                                        <div class="user-info">
-                                            <h6 class="mb-0">Leona Watkins (Client)</h6>
-                                            <p class="mb-0">CEO of pixinvent</p>
-                                        </div>
-                                    </div>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="timeline-point timeline-point-info timeline-point-indicator"></span>
-                                <div class="timeline-event">
-                                    <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                                        <h6>Create a new react project for client</h6>
-                                        <span class="timeline-event-time me-1">2 day ago</span>
-                                    </div>
-                                    <p>Add files to new design folder</p>
-                                </div>
-                            </li>
-                            <li class="timeline-item">
-                                <span class="timeline-point timeline-point-danger timeline-point-indicator"></span>
-                                <div class="timeline-event">
-                                    <div class="d-flex justify-content-between flex-sm-row flex-column mb-sm-0 mb-1">
-                                        <h6>Create Invoices for client</h6>
-                                        <span class="timeline-event-time me-1">12 min ago</span>
-                                    </div>
-                                    <p class="mb-0">Create new Invoices and send to Leona Watkins</p>
-                                    <div class="d-flex flex-row align-items-center mt-50">
-                                        <img class="me-1" src="{{ asset('images/icons/pdf.png') }}" alt="data.json"
-                                            height="25" />
-                                        <h6 class="mb-0">Invoices.pdf</h6>
-                                    </div>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-                <!-- /Activity Timeline -->
-
-                <!-- Invoice table -->
-                <div class="card">
-                    <table class="invoice-table table text-nowrap">
-                        <thead>
-                            <tr>
-                                <th></th>
-                                <th>#ID</th>
-                                <th><i data-feather="trending-up"></i></th>
-                                <th>TOTAL Paid</th>
-                                <th class="text-truncate">Issued Date</th>
-                                <th class="cell-fit">Actions</th>
-                            </tr>
-                        </thead>
-                    </table>
-                </div>
-                <!-- /Invoice table -->
             </div>
             <!--/ User Content -->
         </div>
@@ -293,11 +181,26 @@
     <script src="{{ asset(mix('vendors/js/tables/datatable/dataTables.rowGroup.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/extensions/sweetalert2.all.min.js')) }}"></script>
     <script src="{{ asset(mix('vendors/js/extensions/polyfill.min.js')) }}"></script>
+    <script src="{{ asset(mix('vendors/js/charts/apexcharts.min.js')) }}"></script>
+
 @endsection
 
 @section('page-script')
     {{-- Page js files --}}
-    <script src="{{ asset(mix('js/scripts/pages/modal-edit-user.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/pages/app-user-view-account.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/pages/app-user-view.js')) }}"></script>
+	<script>
+		var taskRoutes = "{{ route('view.task', ['slug' => 'mine', 'task_id' => ':taskId']) }}";
+
+        var tasks = @json($tasks),
+            todoTasks = @json($todoTasks),
+            doingTasks = @json($doingTasks),
+            reviewingTasks = @json($reviewingTasks),
+            ontimeTasks = @json($ontimeTasks),
+            lateTasks = @json($lateTasks),
+            overdueTasks = @json($overdueTasks);
+	</script>
+	<script src="{{ asset(mix('js/scripts/pages/modal-edit-user.js')) }}"></script>
+	<script src="{{ asset(mix('js/scripts/pages/app-user-view.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/task-detail.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/task-list.js')) }}"></script>
 @endsection
