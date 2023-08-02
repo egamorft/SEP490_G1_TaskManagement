@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
 use App\Http\Requests\AddTaskRequest;
+use App\Models\Board;
 use App\Models\Comment;
 use App\Models\Project;
 use App\Models\Task;
@@ -16,6 +17,9 @@ use Illuminate\Support\Facades\Storage;
 
 class TaskController extends Controller
 {
+
+    public $rowPerPage = 20;
+
     public function moveTaskToTaskList(Request $request)
     {
         $task_id = $request->input('task_id');
@@ -257,7 +261,7 @@ class TaskController extends Controller
         $taskList_id = $request->input('modalAddTaskList');
         $taskTitle = $request->input('modalAddTaskTitle');
         $taskAssignee = $request->input('modalAddTaskAssignee');
-        $previousTask = $request->input('modalAddPreviousTask');
+        $previousTask = $request->input('modalAddPreviousTask') ?? [];
         $description = $request->input('description');
 
         $task = Task::create([
@@ -332,7 +336,7 @@ class TaskController extends Controller
         $taskList_id = $request->input('modalAddTaskList');
         $taskTitle = $request->input('modalAddTaskTitle');
         $taskAssignee = $request->input('modalAddTaskAssignee');
-        $previousTask = $request->input('modalAddPreviousTask');
+        $previousTask = $request->input('modalAddPreviousTask') ?? [];
         $description = $request->input('description');
 
         $task = Task::create([
@@ -580,6 +584,157 @@ class TaskController extends Controller
         return response()->json(['success' => true, 'newRoute' => route('view.board.kanban', ["slug" => $slug, "board_id" => $board_id])]);
     }
 
+    public function get_task_info(Request $request, $slug, $board_id) {
+        $start = $request->get("start");
+        $role = $request->get("role");
+
+        $project = Project::where('slug', $slug)->first();
+		$accounts = $project->accounts()->get();
+		$disabledProject = $this->checkDisableProject($project);
+
+		$pmAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('pm', 1)
+			->first();
+
+		$supervisorAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('supervisor', 1)
+			->first();
+
+		$memberAccount = Project::findOrFail($project->id)
+			->findAccountWithRoleNameAndStatus('member', 1)
+			->get();
+
+		$board = Board::findOrFail($board_id);
+
+		//Bind data for kanban
+		$taskLists = TaskList::where('board_id', $board_id)->get();
+		$taskListsId = [];
+		$taskListsArray = [];
+		foreach ($taskLists as $taskList) {
+			$taskListsId[] = $taskList->id;
+			$taskListsArray[$taskList->id] = $taskList;
+		}
+
+		$user = Auth::user();
+
+		$tasksInProject = [];
+		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListsId);
+		if ($role == 'creator') {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
+		}
+
+		if ($role == 'assignee') {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
+		}
+		$tasksInProject = $tasksInProjectBuilder
+							->skip($start)
+							->take($this->rowPerPage)
+							->get();
+
+        $html = "";
+
+        foreach($tasksInProject as $task) {
+            $status = $task->status;
+            $statusView = [
+                'text' => '',
+                'class' => '',
+            ];
+            switch ($status) {
+                case 1:
+                    $statusView = [
+                        'text' => 'Doing',
+                        'class' => 'badge-light-primary',
+                    ];
+                    break;
+            
+                case 2:
+                    $statusView = [
+                        'text' => 'Reviewing',
+                        'class' => 'badge-light-warning',
+                    ];
+                    break;
+            
+                case 3:
+                    $statusView = [
+                        'text' => 'Done Ontime',
+                        'class' => 'badge-light-success',
+                    ];
+                    break;
+            
+                case -1:
+                    $statusView = [
+                        'text' => 'Done Late',
+                        'class' => 'badge-light-secondary',
+                    ];
+                    break;
+            
+                case 0:
+                    $statusView = [
+                        'text' => 'Todo',
+                        'class' => 'badge-light-info',
+                    ];
+                    break;
+            
+                default:
+                    $statusView = [
+                        'text' => 'Todo',
+                        'class' => 'badge-light-info',
+                    ];
+                    break;
+            }
+            if (($status == 0 || $status == 1) && strtotime($task->due_date) < time()) {
+                $statusView = [
+                    'text' => 'Overdue',
+                    'class' => 'badge-light-danger',
+                ];
+            }
+    
+            $taskList = $taskLists[$task->taskList_id] ?? (object)[
+                "title" => ""
+            ];
+            $account = null;
+            foreach ($accounts as $acc) {
+                $acc = (object) $acc;
+                if ($acc->id == $task->assign_to) {
+                    $account = $acc;
+                }
+            }
+            $start++;
+            $date = date('D, M d, Y', strtotime($task->due_date));
+            $html .= `<tr data-id="{$task->id}">
+                <td>{$start}</td>
+                <td>
+                    <a
+                        href="{$_SERVER['REQUEST_URI']}?show=task&id={$task->id}">{$task->title}</a>
+                </td>
+                <td>
+                    <span
+                        class="badge rounded-pill {$statusView['class']}">{$statusView['text']}</span>
+                </td>
+                <td>
+                    <span
+                        class="badge rounded-pill {$statusView['class']}">{$date}</span>
+                </td>
+                <td>{$taskList->title}</td>
+                <td>
+                    {($account ?
+                        '<a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}"
+                            data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                            data-bs-placement="bottom" title="{{ $account->name }}"
+                            class="avatar pull-up">
+                            <img src="{{ asset('images/avatars/' . $account->avatar) }}" alt="Avatar"
+                                width="33" height="33" />
+                        </a>' : '<div>Not assign yet</div>')}
+                </td>
+            </tr>`;
+
+        }
+        $data['html'] = $html;
+
+        return response()->json($data);
+
+    }
+    
     public function setTaskDone(Request $request)
     {
         $task_id = $request->input('task_id');

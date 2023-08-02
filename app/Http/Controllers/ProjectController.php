@@ -27,8 +27,10 @@ use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
-class ProjectController extends Controller
-{
+class ProjectController extends Controller {
+
+	public $rowPerPage = 100;
+
 	/**
 	 * Display a listing of the resource.
 	 *
@@ -1110,10 +1112,12 @@ class ProjectController extends Controller
 		];
 
 		$role = $request->get("role");
-
+		$query = $request->get("q");
+		
 		//Project info & members
 		$project = Project::where('slug', $slug)->first();
 		$accounts = $project->accounts()->get();
+		$disabledProject = $this->checkDisableProject($project);
 
 		$pmAccount = Project::findOrFail($project->id)
 			->findAccountWithRoleNameAndStatus('pm', 1)
@@ -1131,17 +1135,17 @@ class ProjectController extends Controller
 
 		//Bind data for kanban
 		$taskLists = TaskList::where('board_id', $board_id)->get();
-		$disabledProject = $this->checkDisableProject($project);
-
-		$taskListIds = [];
-		foreach($taskLists as $taskList) {
-			$taskListIds[] = $taskList->id;
+		$taskListsId = [];
+		$taskListsArray = [];
+		foreach ($taskLists as $taskList) {
+			$taskListsId[] = $taskList->id;
+			$taskListsArray[$taskList->id] = $taskList;
 		}
 
 		$user = Auth::user();
 
 		$tasksInProject = [];
-		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListIds);
+		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListsId);
 		if ($role == 'creator') {
 			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
 		}
@@ -1150,7 +1154,16 @@ class ProjectController extends Controller
 			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
 		}
 
-		$tasksInProject = $tasksInProjectBuilder->get();
+		if ($query) {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where('title', 'like', '%' . $query . '%');
+		}
+
+		$totalRecords = $tasksInProjectBuilder->count();
+		$tasksInProject = $tasksInProjectBuilder
+							->skip(0)
+							->take($this->rowPerPage)
+							->get();
+		$rowPerPage = $this->rowPerPage;
 
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
 			->with(compact(
@@ -1162,7 +1175,9 @@ class ProjectController extends Controller
 				'disabledProject',
 				'board',
 				'taskLists',
-				'tasksInProject'
+				'tasksInProject',
+				'totalRecords',
+				'rowPerPage'
 			));
 	}
 
