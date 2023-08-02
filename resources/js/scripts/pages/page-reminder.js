@@ -1,5 +1,5 @@
 $(window).on("load", function() {
-        var reminderButton = $('.reminder-button-wrapper'),
+        var reminderButton = $('#reminder-canvas-wrapper'),
             reminderSection = $('#reminder-canvas'),
             removeReminderSection = $('.reminder-close');
 
@@ -18,7 +18,10 @@ $(window).on("load", function() {
 
             $(this).addClass("active");
             var dataTab = $(this).attr("data-tab");
-            console.log(dataTab)
             $(`.reminder-body .tab-${dataTab}`).addClass("active");
-        })
+        });
+
+        removeReminderSection.on("click", function() {
+            $(this).closest("#reminder-canvas").addClass("hidden");
+        });
 });
