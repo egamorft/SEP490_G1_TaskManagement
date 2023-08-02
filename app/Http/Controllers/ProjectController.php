@@ -635,7 +635,7 @@ class ProjectController extends Controller
 			}
 		}
 		//Check disabled and calculate project progress
-		$user = Account::where('id', $user_id)->first();
+		$user = User::where('id', $user_id)->first();
 
 		$boards = Board::where('project_id', $project->id)->with('tasks')->get();
 		$tasks = [];
@@ -742,6 +742,9 @@ class ProjectController extends Controller
 		$overdueTasks = [];
 		foreach ($boards as $board) {
 			foreach ($board->tasks as $task) {
+				if (!$task->assign_to) {
+					continue;
+				}
 				$tasks[] = $task;
 				$duedate = new DateTime($task->due_date);
 				if (($task->status == 0 || $task->status == 1) && (new DateTime() > $duedate->setTime(23, 59, 59)) && $task->due_date) {
@@ -948,8 +951,8 @@ class ProjectController extends Controller
 				'item' => $taskItems
 			];
 			
-			$current_role = $project->userCurrentRole();
 		}
+		$current_role = $project->userCurrentRole();
 		// dd($kanbanData);
 
 		return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
@@ -958,7 +961,7 @@ class ProjectController extends Controller
 				'board',
 				'disabledProject',
 				'kanbanData',
-				'current_role'
+				'current_role',
 			));
 	}
 

@@ -1,23 +1,11 @@
 <!-- Task table -->
-<div class="card col-12">
-    <h4 class="card-header task-list">
-		<span class="title">Tasks In this Week</span>
-		<div class="content-header-right text-md-end col-md-2 col-12 d-md-block d-none">
-			<div class="mb-0 breadcrumb-right">
-					<a class="d-inline btn-icon btn show-task-by-this-week d-none" type="button">
-						<i data-feather="skip-back"></i>
-						<span> This Week </span>
-					</a>
-					<a class="d-inline btn-icon btn show-task-by-next-week" type="button">
-						<i data-feather='skip-forward'></i>
-						<span> Next Week </span>
-					</a>
-			</div>
-		</div>
-	</h4>
-    <div class="table-responsive">
-        <table class="datatables-permissions table">
-            <thead class="table-light">
+<div class="card">
+	<div class="card-body border-bottom mb-0">
+		<h4 class="card-title mb-0">Your Tasks</h4>
+	</div>
+	<div class="card-datatable table-responsive pt-0">
+		<table class="table datatable-project project-list-table">
+            <thead>
                 <tr>
                     <th>STT</th>
                     <th>Task</th>
@@ -36,7 +24,7 @@
                             }
                         }
 					@endphp
-                    <tr class="odd d-none" id="task-row{{ $task->id }}">
+                    <tr class="odd" id="task-row{{ $task->id }}">
                         <td>{{ $key + 1 }}</td>
                         <td>
                             <div class="d-flex justify-content-left align-items-center">

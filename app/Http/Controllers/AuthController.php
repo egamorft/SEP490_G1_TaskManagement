@@ -9,8 +9,12 @@ use App\Http\Requests\RegisterRequest;
 use App\Http\Requests\ResetPasswordRequest;
 use App\Mail\ResetPassword;
 use App\Mail\WelcomeSocial;
+use App\Models\AccountProject;
+use App\Models\Project;
 use App\Models\User;
 use App\Models\Social;
+use App\Models\Task;
+use DateTime;
 use Socialite;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -49,7 +53,68 @@ class AuthController extends Controller
     public function user_view_account()
     {
         $pageConfigs = ['pageHeader' => true];
-        return view('content.apps.user.app-user-view-account', ['pageConfigs' => $pageConfigs]);
+		$account = Auth::user();
+		$accountProjects = $account->projects()->wherePivot('status', 1)->get();
+		$doneProjects = $account->projects()->wherePivot('status', 1)->where('project_status', '==', 2)->get();
+		$projectDone = count($doneProjects);
+
+		$allAccounts = User::all();
+		$allAccountProjects = AccountProject::all();
+        $allProjects = Project::all();
+
+		$tasks = [];
+		$todoTasks = [];
+		$doingTasks = [];
+		$reviewingTasks = [];
+		$ontimeTasks = [];
+		$lateTasks = [];
+		$overdueTasks = [];
+		$taskDone = 0;
+		$tasks = Task::where('assign_to', $account->id)->get();
+
+		foreach ($tasks as $task) {
+			if ($task->assign_to != $account->id) {
+				continue;
+			}
+			$duedate = new DateTime($task->due_date);
+			if (($task->status == 0 || $task->status == 1) && (new DateTime() > $duedate->setTime(23, 59, 59)) && $task->due_date) {
+				$overdueTasks[] = $task;
+				continue;
+			}
+			if ($task->status == 0) {
+				$todoTasks[] = $task;
+			}
+			if ($task->status == 1) {
+				$doingTasks[] = $task;
+			}
+			if ($task->status == 2) {
+				$reviewingTasks[] = $task;
+			}
+			if ($task->status == 3) {
+				$ontimeTasks[] = $task;
+				$taskDone ++;
+			}
+			if ($task->status == -1) {
+				$lateTasks[] = $task;
+				$taskDone ++;
+			}
+		}
+
+        return view('content.apps.user.app-user-view-account', ['pageConfigs' => $pageConfigs])->with(compact(
+			'account',
+			'accountProjects',
+			'allAccounts',
+			'allAccountProjects',
+			'tasks',
+			'todoTasks',
+			'doingTasks',
+			'reviewingTasks',
+			'ontimeTasks',
+			'lateTasks',
+			'overdueTasks',
+			'taskDone',
+			'projectDone'
+		));
     }
 
     // User Security Page
