@@ -95,8 +95,9 @@
                             <tr data-id="{{ $task->id }}">
                                 <td>{{ $count }}</td>
                                 <td>
-                                    <a
-                                        href="{{ $_SERVER['REQUEST_URI'] }}?show=task&id={{ $task->id }}">{{ $task->title }}</a>
+                                    {{-- <a
+                                        href="{{ $_SERVER['REQUEST_URI'] }}?show=task&id={{ $task->id }}">{{ $task->title }}</a> --}}
+                                    <a href="{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => $task->id]) }}">{{ $task->title }}</a>
                                 </td>
                                 <td>
                                     <span

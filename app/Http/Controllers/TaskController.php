@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Enums\TaskStatus;
 use App\Http\Requests\AddTaskRequest;
+use App\Models\Board;
 use App\Models\Comment;
 use App\Models\Project;
 use App\Models\Task;
@@ -260,7 +261,7 @@ class TaskController extends Controller
         $taskList_id = $request->input('modalAddTaskList');
         $taskTitle = $request->input('modalAddTaskTitle');
         $taskAssignee = $request->input('modalAddTaskAssignee');
-        $previousTask = $request->input('modalAddPreviousTask');
+        $previousTask = $request->input('modalAddPreviousTask') ?? [];
         $description = $request->input('description');
 
         $task = Task::create([
@@ -335,7 +336,7 @@ class TaskController extends Controller
         $taskList_id = $request->input('modalAddTaskList');
         $taskTitle = $request->input('modalAddTaskTitle');
         $taskAssignee = $request->input('modalAddTaskAssignee');
-        $previousTask = $request->input('modalAddPreviousTask');
+        $previousTask = $request->input('modalAddPreviousTask') ?? [];
         $description = $request->input('description');
 
         $task = Task::create([
