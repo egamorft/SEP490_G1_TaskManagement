@@ -19,6 +19,10 @@
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/pickers/form-flat-pickr.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/pages/app-calendar.css')) }}">
     <link rel="stylesheet" href="{{ asset(mix('css/base/plugins/forms/form-validation.css')) }}">
+    <!-- Page js files -->
+    {{-- <script src="{{ asset(mix('js/scripts/pages/task-gantt.js')) }}"></script> --}}
+    <script src="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.js"></script>
+    <link href="https://cdn.dhtmlx.com/gantt/edge/dhtmlxgantt.css" rel="stylesheet">
 @endsection
 
 @section('vendor-script')
@@ -32,8 +36,8 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.7.3/Chart.min.js?v=8.0.3"></script>
 @endsection
 
-@section('page-script')
+{{-- @section('page-script')
     <!-- Page js files -->
     <script src="{{ asset(mix('js/scripts/pages/task-detail.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/task-gantt.js')) }}"></script>
-@endsection
+@endsection --}}

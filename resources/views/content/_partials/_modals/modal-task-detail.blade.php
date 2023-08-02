@@ -19,6 +19,7 @@
             @case(-1)
                 @php
                     $task_badge = 'danger';
+                    $isDone = true;
                 @endphp
             @break
 
@@ -68,7 +69,8 @@
 
         @if ($taskDetails->status == TaskStatus::DOING)
             @if ($taskDetails->assign_to == Auth::id() || $current_role == 'pm')
-                <div class="kanban-detail-markdone kanban-detail-stat">
+                <div class="kanban-detail-markdone kanban-detail-stat setDoneTask"
+                    data-assignee="{{ $taskDetails->assignTo->name ?? 'NULL' }}" data-title="{{ $taskDetails->title }}">
                     <div class="kanban-detail-status-title">Done</div>
                     <i data-feather="circle" class="icon-done custom-title-icon"></i>
                 </div>
@@ -77,12 +79,17 @@
 
         @if ($taskDetails->status == TaskStatus::REVIEWING)
             @if ($taskDetails->created_by == Auth::id() || $current_role == 'pm')
-                <div class="kanban-detail-reject kanban-detail-stat">
+                <div data-bs-toggle="modal" data-bs-target="#rejectTaskModal"
+                    class="kanban-detail-markdone kanban-detail-stat setRejectTask"
+                    data-assignee="{{ $taskDetails->assignTo->name ?? 'NULL' }}"
+                    data-title="{{ $taskDetails->title }}">
                     <div class="kanban-detail-status-title">Reject</div>
                     <i data-feather="x-circle" class="icon-reject custom-title-icon"></i>
                 </div>
 
-                <div class="kanban-detail-done kanban-detail-stat status-done">
+                <div class="kanban-detail-markdone kanban-detail-stat setFinishTask"
+                    data-assignee="{{ $taskDetails->assignTo->name ?? 'NULL' }}"
+                    data-title="{{ $taskDetails->title }}">
                     <div class="kanban-detail-status-title">Finish</div>
                     <i data-feather="check-circle" class="icon-fully-done custom-title-icon"></i>
                 </div>
@@ -166,8 +173,8 @@
                 <input {{ $taskDetails->created_by == Auth::id() || $current_role == 'pm' ? '' : 'disabled' }}
                     {{ $isDone ? 'disabled' : '' }} name="duration" type="text" id="fp-range-task"
                     class="form-control flatpickr-range-task flatpickr-input active"
-                    placeholder="YYYY-MM-DD to YYYY-MM-DD"
-                    value="{{ $taskDetails->start_date }} to {{ $taskDetails->due_date }}">
+                    value="{{ $taskDetails->start_date }} to {{ $taskDetails->due_date }}"
+                    placeholder="YYYY-MM-DD to YYYY-MM-DD">
             </div>
         </div>
     </div>
@@ -205,7 +212,8 @@
                 <span class="custom-title-ml custom-title center">Mô tả</span>
             </div>
             <div class="description-side">
-                <button type="button" class="btn btn-secondary description-button-edit custom-button">Chỉnh
+                <button {{ $isDone ? 'disabled' : '' }} type="button"
+                    class="btn btn-secondary description-button-edit custom-button">Chỉnh
                     sửa</button>
             </div>
         </div>
@@ -257,8 +265,8 @@
 
             <div class="upload-files mt-1">
                 <form action="" id="formImageUpload" method="GET" enctype="multipart/form-data">
-                    <input class="form-control" type="file" id="formFileMultiple" multiple
-                        accept=".xlsx,.docx,image/png,image/jpeg,.pptx,.pdf" />
+                    <input {{ $isDone ? 'disabled' : '' }} class="form-control" type="file" id="formFileMultiple"
+                        multiple accept=".xlsx,.docx,image/png,image/jpeg,.pptx,.pdf" />
                 </form>
             </div>
         </div>
@@ -317,6 +325,63 @@
         </div>
     </div>
 </div>
+
+<!-- Reject Task Modal -->
+<div class="modal fade" id="rejectTaskModal" tabindex="-1" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+        <form id="rejectTaskForm" class="row" method="POST" action="{{ route('reject.task') }}">
+            @csrf
+            <input type="hidden" name="task-id" value="{{ $taskDetails->id }}">
+            <div class="modal-content">
+                <div class="modal-header bg-transparent">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body p-3 pt-0 row">
+                    <div class="text-center mb-2">
+                        <h1 class="mb-1">Reject task <strong>{{ $taskDetails->title ?? '' }}</strong></h1>
+                        <p class="fs-4">In charge by "{{ $taskDetails->assignTo->name ?? '' }}".</p>
+                    </div>
+
+                    <div class="alert alert-warning" role="alert">
+                        <h6 class="alert-heading">Warning!</h6>
+                        <div class="alert-body">
+                            Give a reason to reject this task and choose another assignee if needed
+                        </div>
+                    </div>
+
+                    <div class="col-12 col-md-12">
+                        <label class="form-label" for="select2-modalRejectAssignTo">Assign to</label>
+                        <select name="modalRejectAssignTo" class="select2 form-select"
+                            id="select2-modalRejectAssignTo">
+                            @foreach ($memberAccount as $acc)
+                                <option value="{{ $acc->id }}"
+                                    {{ $acc->id == $taskDetails->assign_to ? 'selected' : '' }}>
+                                    {{ $acc->name }} {{ $acc->id == $taskDetails->assign_to ? '(Current)' : '' }}
+                                </option>
+                            @endforeach
+                        </select>
+                        <span id="error-modalRejectAssignTo" style="color: red; display: none"></span>
+                    </div>
+
+                    <div class="col-12">
+                        <label class="form-label" for="modalRejectReason">Why you want to reject this task?</label>
+                        <textarea id="modalRejectReason" name="modalRejectReason" class="form-control" value=""
+                            placeholder="Enter your suggest/requirement for assigned ones"></textarea>
+                        <span id="error-modalRejectReason" style="color: red; display: none"></span>
+                    </div>
+
+                    <div class="text-center mt-2">
+                        <button type="submit" class="btn btn-primary">Reject</button>
+                    </div>
+
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/ Reject Task Modal -->
+
+
 <script>
     var projectStartDate = new Date("{{ date('Y-m-d', strtotime($avaiableStart)) }}").toISOString().substr(0,
         10);
@@ -678,7 +743,7 @@
             var assignTo = $(this).attr('data-assignee');
             var task_id = $('[name="task_id"]').val();
             var slug = "{{ $slug }}";
-            var board_id = "{{ $board_id }}";   
+            var board_id = "{{ $board_id }}";
 
             var data = {
                 _token: csrfToken,
@@ -717,6 +782,138 @@
                     });
                 }
             })
+        });
+
+        //SET DONE TASK
+        $('.setDoneTask').click(function() {
+            var csrfToken = $('[name="csrf-token"]').attr('content');
+
+            var title = $(this).attr('data-title');
+            var assignTo = $(this).attr('data-assignee');
+            var task_id = $('[name="task_id"]').val();
+
+            var data = {
+                _token: csrfToken,
+                task_id: task_id
+            };
+            Swal.fire({
+                title: 'Mark task "' + title + '" as done?',
+                text: "This task was in charge by " + assignTo + "!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, mark it done!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/set-task-done',
+                        method: 'POST',
+                        data: data,
+                        success: function(response) {
+                            toastr['success'](
+                                "Success mark your task as done, waiting for review now",
+                                'Success!', {
+                                    showMethod: 'slideDown',
+                                    hideMethod: 'slideUp',
+                                    progressBar: true,
+                                    closeButton: true,
+                                    tapToDismiss: false,
+                                    rtl: isRtl
+                                });
+                            setTimeout(function() {
+                                location.reload();
+                            }, 3000);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("something went wrong");
+                        }
+                    });
+                }
+            })
+        });
+
+        //SET FINISH TASK
+        $('.setFinishTask').click(function() {
+            var csrfToken = $('[name="csrf-token"]').attr('content');
+
+            var title = $(this).attr('data-title');
+            var assignTo = $(this).attr('data-assignee');
+            var task_id = $('[name="task_id"]').val();
+
+            var data = {
+                _token: csrfToken,
+                task_id: task_id
+            };
+            Swal.fire({
+                title: 'Finish task "' + title + '" ?',
+                text: "This task was in charge by " + assignTo + "!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, mark it done!'
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    $.ajax({
+                        url: '/set-task-finish',
+                        method: 'POST',
+                        data: data,
+                        success: function(response) {
+                            toastr['success'](
+                                "Success your task is finished",
+                                'Success!', {
+                                    showMethod: 'slideDown',
+                                    hideMethod: 'slideUp',
+                                    progressBar: true,
+                                    closeButton: true,
+                                    tapToDismiss: false,
+                                    rtl: isRtl
+                                });
+                            setTimeout(function() {
+                                location.reload();
+                            }, 3000);
+                        },
+                        error: function(xhr, status, error) {
+                            console.log("something went wrong");
+                        }
+                    });
+                }
+            })
+        });
+
+        $('#rejectTaskForm').submit(function(event) {
+            event.preventDefault(); // Prevent the default form submission
+
+            var form = $(this);
+            var url = form.attr('action');
+            var method = form.attr('method');
+            var data = form.serialize();
+
+            $.ajax({
+                url: url,
+                method: method,
+                data: data,
+                dataType: 'json',
+                success: function(response) {
+                    // Handle the success response
+                    if (response.success) {
+                        location.reload();
+                    }
+                },
+                error: function(response) {
+                    // Handle the error response
+                    if (response.status === 422) {
+                        var errors = response.responseJSON.errors;
+                        for (var field in errors) {
+                            var errorContainer = $('#error-' + field);
+                            errorContainer.addClass('text-danger');
+                            errorContainer.text(errors[field][0]);
+                            errorContainer.show();
+                        }
+                    }
+                }
+            });
         });
     });
 

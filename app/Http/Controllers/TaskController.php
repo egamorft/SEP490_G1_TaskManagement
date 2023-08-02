@@ -134,11 +134,11 @@ class TaskController extends Controller
                     $avaiableEnd = min($afterTasksDate);
                 }
             }
-
         } else {
             $avaiableStart = $project->start_date;
             $avaiableEnd = $project->end_date;
         }
+
 
         return view('content._partials._modals.modal-task-detail')
             ->with(compact(
@@ -182,11 +182,11 @@ class TaskController extends Controller
         $memberAccount = Project::findOrFail($project->id)
             ->findAccountWithRoleNameAndStatus('member', 1)
             ->get();
-        
-        $tasks= Task::with('assignTo', 'createdBy', 'taskList')->where('taskList_id', $taskList_id)->get();
+
+        $tasks = Task::with('assignTo', 'createdBy', 'taskList')->where('taskList_id', $taskList_id)->get();
 
         $taskLists = TaskList::findOrFail($taskList_id);
-        
+
         return view('content._partials._modals.modal-taskList-confirmation')
             ->with(compact(
                 "tasks",
@@ -519,8 +519,7 @@ class TaskController extends Controller
 
         $taskDetails = Task::findOrFail($task_id);
         if ($taskDetails) {
-            if($taskDetails->due_date && $taskDetails->assign_to)
-            {
+            if ($taskDetails->due_date && $taskDetails->assign_to) {
                 $taskDetails->status = TaskStatus::DOING;
             }
             $taskDetails->assign_to = $user_id;
@@ -558,8 +557,7 @@ class TaskController extends Controller
 
         $taskDetails = Task::findOrFail($task_id);
         if ($taskDetails) {
-            if($taskDetails->due_date && $taskDetails->assign_to)
-            {
+            if ($taskDetails->due_date && $taskDetails->assign_to) {
                 $taskDetails->status = TaskStatus::DOING;
             }
             $taskDetails->start_date = $start_date;
@@ -733,5 +731,61 @@ class TaskController extends Controller
         $data['html'] = $html;
 
         return response()->json($data);
+
+    }
+    
+    public function setTaskDone(Request $request)
+    {
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        $taskDetails->status = TaskStatus::REVIEWING;
+        $taskDetails->save();
+        return response()->json(['success' => true]);
+    }
+
+    public function setTaskFinish(Request $request)
+    {
+        $task_id = $request->input('task_id');
+
+        $taskDetails = Task::findOrFail($task_id);
+        // Get the current date and time
+        $currentDate = Carbon::now();
+        // Create a Carbon instance from the given string
+        $dueDate = Carbon::createFromFormat('Y-m-d', $taskDetails->due_date);
+        if ($currentDate->lt($dueDate)) {
+            $taskDetails->status = TaskStatus::DONE;
+        } else {
+            $taskDetails->status = TaskStatus::DONELATE;
+        }
+
+        $taskDetails->save();
+        return response()->json(['success' => true]);
+    }
+
+    public function rejectTask(Request $request)
+    {
+        $validatedData = $request->validate([
+            'modalRejectAssignTo' => 'required',
+            'modalRejectReason' => 'required',
+            'task-id' => 'required'
+        ]);
+
+        $taskDetails = Task::findOrFail($validatedData['task-id']);
+        if($taskDetails)
+        {
+            Comment::create([
+                'task_id' => $validatedData['task-id'],
+                'content' => $validatedData['modalRejectReason'],
+                'created_by' => Auth::id()
+            ]);
+            $taskDetails->assign_to = $validatedData['modalRejectAssignTo'];
+            $taskDetails->status = TaskStatus::DOING;
+            $taskDetails->save();
+
+            Session::flash('success', 'You have reject the task');
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['error' => true], 500);
     }
 }
