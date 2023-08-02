@@ -1024,6 +1024,25 @@ class ProjectController extends Controller
 
 		$taskLists = TaskList::where('board_id', $board_id)->get();
 
+		$taskListIds = [];
+		foreach($taskLists as $taskList) {
+			$taskListIds[] = $taskList->id;
+		}
+
+		$user = Auth::user();
+
+		$tasksInProject = [];
+		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListIds);
+		if ($role == 'creator') {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
+		}
+
+		if ($role == 'assignee') {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
+		}
+
+		$tasksInProject = $tasksInProjectBuilder->get();
+
 		$memberAccount = Project::findOrFail($project->id)
 			->findAccountWithRoleNameAndStatus('member', 1)
 			->get();
@@ -1053,7 +1072,6 @@ class ProjectController extends Controller
 			$task_status = $this->checkTaskStatus($task->status, $task);
 			$taskCalendar = [
 				"id" => $task->id,
-				"url" => 'aaa',
 				"title" => $task->title,
 				"start" => $task->start_date,
 				"end" => Carbon::parse($task->due_date)->endOfDay(),
@@ -1071,7 +1089,8 @@ class ProjectController extends Controller
 				'board',
 				'tasksCalendar',
 				'taskLists',
-				'memberAccount'
+				'memberAccount',
+				'tasksInProject'
 			));
 	}
 
@@ -1155,6 +1174,7 @@ class ProjectController extends Controller
 		// Redirect or return a response
 		return response()->json(['success' => true]);
 	}
+
 	public function edit_board(Request $request)
 	{
 		$board = Board::findOrFail($request->input('id'));

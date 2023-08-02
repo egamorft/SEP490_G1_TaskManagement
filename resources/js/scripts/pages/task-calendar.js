@@ -275,6 +275,27 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     });
 
+    $(window).on("load", function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        const taskId = urlParams.get('task_id');
+        if (taskId !== undefined && taskId !== null) {
+            var taskRoute = taskRoutes.replace(':taskId', taskId);
+            const response = fetch(taskRoute);
+            response.then(res => {
+                if (res.ok) {
+                    return res.text();
+                } else {
+                    throw new Error('Network response was not ok');
+                }
+            }).then(html => {
+                modalCalendarTask.find('.task-wrapper').html(html);
+            }).catch(error => {
+                modalCalendarTask.find('.task-wrapper').html(error);
+            });
+            modalCalendarTask.modal("show");
+        }
+    })
+
     $('.btn-close').on("click", function () {
         var url = window.location.href.split("?", window.location.href.toString().length)[0];
         history.replaceState(null, null, url);

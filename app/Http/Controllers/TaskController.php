@@ -516,7 +516,7 @@ class TaskController extends Controller
 
         $taskDetails = Task::findOrFail($task_id);
         if ($taskDetails) {
-            if ($taskDetails->due_date && $taskDetails->assign_to) {
+            if ($taskDetails->due_date) {
                 $taskDetails->status = TaskStatus::DOING;
             }
             $taskDetails->assign_to = $user_id;
@@ -554,7 +554,7 @@ class TaskController extends Controller
 
         $taskDetails = Task::findOrFail($task_id);
         if ($taskDetails) {
-            if ($taskDetails->due_date && $taskDetails->assign_to) {
+            if ($taskDetails->assign_to) {
                 $taskDetails->status = TaskStatus::DOING;
             }
             $taskDetails->start_date = $start_date;
