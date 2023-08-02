@@ -36,7 +36,6 @@ class Project extends Model
         $account_project = AccountProject::where('project_id', $this->id)
             ->where('account_id', Auth::id())
             ->first();
-
         // If the account project record exists, get the role ID from it.
         if ($account_project) {
             $role_id = $account_project->role_id;

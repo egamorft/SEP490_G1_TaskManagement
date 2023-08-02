@@ -637,7 +637,7 @@ class ProjectController extends Controller {
 			}
 		}
 		//Check disabled and calculate project progress
-		$user = Account::where('id', $user_id)->first();
+		$user = User::where('id', $user_id)->first();
 
 		$boards = Board::where('project_id', $project->id)->with('tasks')->get();
 		$tasks = [];
@@ -744,6 +744,9 @@ class ProjectController extends Controller {
 		$overdueTasks = [];
 		foreach ($boards as $board) {
 			foreach ($board->tasks as $task) {
+				if (!$task->assign_to) {
+					continue;
+				}
 				$tasks[] = $task;
 				$duedate = new DateTime($task->due_date);
 				if (($task->status == 0 || $task->status == 1) && (new DateTime() > $duedate->setTime(23, 59, 59)) && $task->due_date) {
@@ -950,8 +953,8 @@ class ProjectController extends Controller {
 				'item' => $taskItems
 			];
 			
-			$current_role = $project->userCurrentRole();
 		}
+		$current_role = $project->userCurrentRole();
 		// dd($kanbanData);
 
 		return view('project.kanban', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'kanban'])
@@ -960,7 +963,7 @@ class ProjectController extends Controller {
 				'board',
 				'disabledProject',
 				'kanbanData',
-				'current_role'
+				'current_role',
 			));
 	}
 
@@ -1026,6 +1029,25 @@ class ProjectController extends Controller {
 
 		$taskLists = TaskList::where('board_id', $board_id)->get();
 
+		$taskListIds = [];
+		foreach($taskLists as $taskList) {
+			$taskListIds[] = $taskList->id;
+		}
+
+		$user = Auth::user();
+
+		$tasksInProject = [];
+		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListIds);
+		if ($role == 'creator') {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
+		}
+
+		if ($role == 'assignee') {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
+		}
+
+		$tasksInProject = $tasksInProjectBuilder->get();
+
 		$memberAccount = Project::findOrFail($project->id)
 			->findAccountWithRoleNameAndStatus('member', 1)
 			->get();
@@ -1055,7 +1077,6 @@ class ProjectController extends Controller {
 			$task_status = $this->checkTaskStatus($task->status, $task);
 			$taskCalendar = [
 				"id" => $task->id,
-				"url" => 'aaa',
 				"title" => $task->title,
 				"start" => $task->start_date,
 				"end" => Carbon::parse($task->due_date)->endOfDay(),
@@ -1073,7 +1094,8 @@ class ProjectController extends Controller {
 				'board',
 				'tasksCalendar',
 				'taskLists',
-				'memberAccount'
+				'memberAccount',
+				'tasksInProject'
 			));
 	}
 
@@ -1170,6 +1192,7 @@ class ProjectController extends Controller {
 		// Redirect or return a response
 		return response()->json(['success' => true]);
 	}
+
 	public function edit_board(Request $request)
 	{
 		$board = Board::findOrFail($request->input('id'));

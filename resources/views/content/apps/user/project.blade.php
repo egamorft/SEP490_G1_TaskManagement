@@ -3,7 +3,7 @@
 @endphp
 <!-- Project table -->
 <div class="card col-12">
-    <h4 class="card-header">Your Related Projects</h4>
+    <h4 class="card-header">Your Projects</h4>
     <div class="table-responsive">
         <table class="table datatable-project">
             <thead>
@@ -11,11 +11,8 @@
                     <th></th>
                     <th>Project</th>
                     <th>Status</th>
-                    <th>Progress</th>
                     <th>Your Role</th>
-                    <th>Manager</th>
-                    <th>Supervisor</th>
-                    <th>Members</th>
+                    <th>Progress</th>
                 </tr>
             </thead>
             <tbody>
@@ -180,6 +177,8 @@
                             @endswitch
                         </td>
 
+						<td>{{ $role }}</td>
+
                         <td>
                             <div class="avatar float-start bg-light-primary rounded me-1">
                                 <div class="avatar-content">
@@ -202,49 +201,6 @@
                                         style="width: {{ $percent_completed }}%; ; background-color: {{ $colorProgressState }}!important">
                                     </div>
                                 </div>
-                            </div>
-                        </td>
-						<td>{{ $role }}</td>
-                        <td>
-                            <div class="avatar-group">
-								<a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $manager->id]) }}"
-									data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-									title="{{ $manager->name }}" class="avatar pull-up">
-									<img src="{{ asset('images/avatars/' . $manager->avatar) }}" alt="Avatar"
-										width="33" height="33" />
-								</a>
-                            </div>
-                        </td>
-                        <td>
-							<div class="avatar-group">
-                                @if ($supervisor)
-                                    <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisor->id]) }}"
-                                        data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-                                        title="{{ $supervisor->name }}" class="avatar pull-up">
-                                        <img src="{{ asset('images/avatars/' . $supervisor->avatar) }}" alt="Avatar"
-                                            width="33" height="33" />
-                                    </a>
-                                @else
-                                    <div class="d-flex align-items-center me-2">
-                                        <strong>Waiting ...</strong>
-                                    </div>
-                                @endif
-                            </div>
-                        </td>
-                        <td>
-                            <div class="avatar-group">
-                                @forelse ($members as $acc)
-                                    <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
-                                        data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-                                        title="{{ $acc->name }}" class="avatar pull-up">
-                                        <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar"
-                                            width="33" height="33" />
-                                    </a>
-                                @empty
-                                    <div class="d-flex align-items-center me-2">
-                                        <strong>Waiting ...</strong>
-                                    </div>
-                                @endforelse
                             </div>
                         </td>
                     </tr>
