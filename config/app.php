@@ -187,6 +187,8 @@ return [
         App\Providers\PermissionProjectProvider::class,
         //QR code
         // SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
+        
+        App\Providers\ReminderProvider::class,
     ],
 
     /*

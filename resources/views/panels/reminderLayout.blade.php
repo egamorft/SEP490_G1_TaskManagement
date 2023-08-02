@@ -25,78 +25,76 @@
         </div>
         <div class="reminder-body">
             <div class="tab tab-important active">
-                <div class="reminder-content">
-                    <div class="reminder-title">
-                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
+                @foreach ($tasksReminder as $taskRemind)
+                    @php
+                        $task = (object) $taskRemind;
+                        $status = $task->status;
+                        $statusView = [
+                            'text' => '',
+                            'class' => '',
+                        ];
+                        switch ($status) {
+                            case 1:
+                                $statusView = [
+                                    'text' => 'Doing',
+                                    'class' => 'badge-light-primary',
+                                ];
+                                break;
+                        
+                            case 2:
+                                $statusView = [
+                                    'text' => 'Reviewing',
+                                    'class' => 'badge-light-warning',
+                                ];
+                                break;
+                        
+                            case 3:
+                                $statusView = [
+                                    'text' => 'Done Ontime',
+                                    'class' => 'badge-light-success',
+                                ];
+                                break;
+                        
+                            case -1:
+                                $statusView = [
+                                    'text' => 'Done Late',
+                                    'class' => 'badge-light-secondary',
+                                ];
+                                break;
+                        
+                            case 0:
+                                $statusView = [
+                                    'text' => 'Todo',
+                                    'class' => 'badge-light-info',
+                                ];
+                                break;
+                        
+                            default:
+                                $statusView = [
+                                    'text' => 'Todo',
+                                    'class' => 'badge-light-info',
+                                ];
+                                break;
+                        }
+                        if (($status == 0 || $status == 1) && strtotime($task->due_date) < time()) {
+                            $statusView = [
+                                'text' => 'Overdue',
+                                'class' => 'badge-light-danger',
+                            ];
+                        }
+                    @endphp
+
+                    <div class="reminder-content">
+                        <div class="reminder-title">
+                            <a href="{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => $taskRemind->id]) }}">{{ $taskRemind->title }}</a>
+                        </div>
+                        <div class="reminder-sub-title {{ $statusView["class"] }}">
+                            <div class="reminder-date-input">{{ date("d/m/Y", strtotime($taskRemind->due_date)) }}</div>
+                            <div class="reminder-status">· {{ $statusView["text"] }}</div>
+                        </div>
                     </div>
-                    <div class="reminder-sub-title">
-                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
-                        <div class="reminder-status">· Done On Time</div>
-                    </div>
-                </div>
-                <div class="reminder-content">
-                    <div class="reminder-title">
-                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
-                    </div>
-                    <div class="reminder-sub-title">
-                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
-                        <div class="reminder-status">· Done On Time</div>
-                    </div>
-                </div>
-                <div class="reminder-content">
-                    <div class="reminder-title">
-                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
-                    </div>
-                    <div class="reminder-sub-title">
-                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
-                        <div class="reminder-status">· Done On Time</div>
-                    </div>
-                </div>
-                <div class="reminder-content">
-                    <div class="reminder-title">
-                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
-                    </div>
-                    <div class="reminder-sub-title">
-                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
-                        <div class="reminder-status">· Done On Time</div>
-                    </div>
-                </div>
-                <div class="reminder-content">
-                    <div class="reminder-title">
-                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
-                    </div>
-                    <div class="reminder-sub-title">
-                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
-                        <div class="reminder-status">· Done On Time</div>
-                    </div>
-                </div>
-                <div class="reminder-content">
-                    <div class="reminder-title">
-                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
-                    </div>
-                    <div class="reminder-sub-title">
-                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
-                        <div class="reminder-status">· Done On Time</div>
-                    </div>
-                </div>
-                <div class="reminder-content">
-                    <div class="reminder-title">
-                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
-                    </div>
-                    <div class="reminder-sub-title">
-                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
-                        <div class="reminder-status">· Done On Time</div>
-                    </div>
-                </div>
-                <div class="reminder-content">
-                    <div class="reminder-title">
-                        <a href="http://localhost:8000/project/impedit/board/3/kanban/&show=task&id=in-review-1">Job 3 - Check authorization</a>
-                    </div>
-                    <div class="reminder-sub-title">
-                        <div class="reminder-date-input date-success">19:00:00 15/7/2023</div>
-                        <div class="reminder-status">· Done On Time</div>
-                    </div>
-                </div>
+                @endforeach
+                
             </div>
 
             <div class="tab tab-today">

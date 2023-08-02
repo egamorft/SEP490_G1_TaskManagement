@@ -66,6 +66,31 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 .fc .fc-daygrid-day-bottom {
     margin-top: 60px !important;
 }
+
+.badge-light-primary {
+	color:#7367f0;
+}
+
+.badge-light-warning {
+	color: #ff9f43;
+}
+
+.badge-light-success {
+	color: #28c76f;
+}
+
+.badge-light-secondary {
+	color: #82868b;
+}
+
+.badge-light-info {
+	color: #00cfe8;
+}
+
+.badge-light-danger {
+	color: #ea5455;
+}
+
 @import 'project-layout';
 @import 'kanban-detail';
 @import 'gantt-detail';

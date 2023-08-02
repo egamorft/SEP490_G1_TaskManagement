@@ -2,12 +2,13 @@
 
 namespace App\Providers;
 
-use App\Models\Project;
+use App\Models\Board;
+use App\Models\Task;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
-class ProjectsComposerServiceProvider extends ServiceProvider
+class ReminderProvider extends ServiceProvider
 {
     /**
      * Register services.
@@ -26,14 +27,17 @@ class ProjectsComposerServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        View::composer('panels.sidebar', function ($view) {
+        //
+        View::composer('panels.reminderLayout', function ($view) {
             $account = Auth::user();
+            $tasksReminder = [];
             if($account){
-                $projects = $account->projects()->wherePivot('status', 1)->where('project_status', '!=', -1)->get();
-                $view->with('projects', $projects);
+                $tasksReminder = Task::where("assign_to", $account->id)->get();           
+                $view->with('tasksReminder', $tasksReminder);
             }else{
-                $view->with('projects', []);
+                $view->with('tasksReminder', $tasksReminder);
             }
+            
         });
     }
 }

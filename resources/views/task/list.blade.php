@@ -179,10 +179,27 @@
                 data: {start: start},
                 dataType: 'json',
                 success: function(res) {
-
+                    console.log(res)
                 }
             });
         }
+    }
+
+    $('#js-task-list-table').on("touchmove", onScroll);
+
+    function onScroll() {
+        if ($(window).scrollTop() > $(document).height() - $(window).height()-100) {
+            fetchData();
+        }
+
+        $(window).scroll(function() {
+            var position = $(window).scrollTop();
+            var bottom = $(document).height() - $(window).height();
+
+            if (position == bottom) {
+                fetchData();
+            }
+        })
     }
 </script>
 

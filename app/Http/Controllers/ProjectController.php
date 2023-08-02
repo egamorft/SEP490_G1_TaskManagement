@@ -29,7 +29,7 @@ use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller {
 
-	public $rowPerPage = 20;
+	public $rowPerPage = 100;
 
 	/**
 	 * Display a listing of the resource.
@@ -1090,7 +1090,7 @@ class ProjectController extends Controller {
 		];
 
 		$role = $request->get("role");
-
+		$query = $request->get("q");
 		
 		//Project info & members
 		$project = Project::where('slug', $slug)->first();
@@ -1130,6 +1130,10 @@ class ProjectController extends Controller {
 
 		if ($role == 'assignee') {
 			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
+		}
+
+		if ($query) {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where('title', 'like', '%' . $query . '%');
 		}
 
 		$totalRecords = $tasksInProjectBuilder->count();
