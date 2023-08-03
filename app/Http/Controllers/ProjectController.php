@@ -924,6 +924,7 @@ class ProjectController extends Controller
 				$flags = $this->checkDueDate($task->due_date);
 				// dd($task);
 				$taskItem = [
+					'taskList_id' => $task->taskList_id,
 					'id' => $task->id,
 					'title' => $task->title,
 					'comments' => $task->comments()->count(), // replace with actual comments count
@@ -946,6 +947,9 @@ class ProjectController extends Controller
 				}
 			}
 
+			if(!in_array($taskList->id, collect($taskItems)->pluck('taskList_id')->toArray())){
+				$taskItems = [];
+			}
 			$kanbanData[] = [
 				'id' => 'taskList_' . $taskList->id,
 				'title' => $taskList->title,
