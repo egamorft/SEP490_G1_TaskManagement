@@ -20,8 +20,8 @@
                     <div class="card-body invoice-padding pb-0">
                         <!-- Header starts -->
                         <div class="d-flex justify-content-between flex-md-row flex-column invoice-spacing mt-0">
-                            <div class="row">
-                                <div class="col-md-5">
+                            <div class="row w-100">
+                                <div class="col-md-5 col-5">
                                     <div class="logo-wrapper">
                                         <svg width="100" height="100" viewBox="0 0 45 23" fill="none"
                                             xmlns="http://www.w3.org/2000/svg">
@@ -92,12 +92,12 @@
                                         <br /><strong>{{ $supervisorAccounts->email ?? "" }}</strong>
                                     </p>
                                 </div>
-                                <div class="mt-md-0 mt-2 col-md-5">
+                                <div class="mt-md-0 mt-2 col-md-5 col-5">
                                     <h4 class="fw-bold text-uppercase mt-5 me-5 fs-2">
                                         {{ $project->name }}
                                     </h4>
                                 </div>
-                                <div class="mt-md-0 mt-2 col-md-2">
+                                <div class="mt-md-0 mt-2 col-md-2 col-2">
                                     <h4 class="invoice-title">
                                         <span class="invoice-number">#{{ $project->slug }}</span>
                                     </h4>
