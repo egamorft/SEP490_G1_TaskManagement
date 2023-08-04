@@ -6,6 +6,7 @@
 	@include('project.board_header')
     @include('project.board_nav')
 	@include('task.list')
+	@include('panels.popup_dialog')
 @endsection
 
 

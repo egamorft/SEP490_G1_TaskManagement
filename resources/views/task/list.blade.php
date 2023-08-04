@@ -97,7 +97,8 @@
                                 <td>
                                     {{-- <a
                                         href="{{ $_SERVER['REQUEST_URI'] }}?show=task&id={{ $task->id }}">{{ $task->title }}</a> --}}
-                                    <a href="{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => $task->id]) }}">{{ $task->title }}</a>
+                                    <a>{{ $task->title }}</a>
+									{{-- href="{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => $task->id]) }}" --}}
                                 </td>
                                 <td>
                                     <span
@@ -131,21 +132,6 @@
             <input type="hidden" id="start" value="0">
             <input type="hidden" id="row-per-page" value="{{ $rowPerPage }}">
             <input type="hidden" id="total-records" value="{{ $totalRecords }}">
-        </div>
-    </div>
-
-	<!-- Calendar task details Popup starts -->
-    <div class="modal update-item-sidebar fade" id="modalCalendarTask" data-bs-backdrop="static" data-bs-keyboard="false"
-        tabindex="-1" aria-hidden="true">
-        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
-            <div class="modal-content">
-                <div class="modal-header bg-transparent">
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body pb-5 px-sm-3 pt-50 task-wrapper">
-                    Loading ... 
-                </div>
-            </div>
         </div>
     </div>
 
@@ -201,6 +187,8 @@
             }
         })
     }
+
+	var taskRoutes = "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => ':taskId']) }}";
 </script>
 
 <script src="{{ asset(mix('js/scripts/pages/task-in-list.js')) }}"></script>
