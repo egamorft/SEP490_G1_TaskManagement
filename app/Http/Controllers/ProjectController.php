@@ -1158,7 +1158,10 @@ class ProjectController extends Controller
 		}
 
 		if ($query) {
-			$tasksInProjectBuilder = $tasksInProjectBuilder->where('title', 'like', '%' . $query . '%');
+			$query = explode(" ", $query);
+			foreach ($query as $str) {
+				$tasksInProjectBuilder = $tasksInProjectBuilder->where('title', 'like', '%' . $str . '%');
+			}
 		}
 
 		$totalRecords = $tasksInProjectBuilder->count();
