@@ -80,10 +80,12 @@
                                         'class' => 'badge-light-danger',
                                     ];
                                 }
-
-                                $taskList = $taskLists[$task->taskList_id] ?? (object)[
-									"title" => ""
-								];
+                                
+                                $taskList =
+                                    $taskLists[$task->taskList_id] ??
+                                    (object) [
+                                        'title' => '',
+                                    ];
                                 $account = null;
                                 foreach ($accounts as $acc) {
                                     $acc = (object) $acc;
@@ -98,15 +100,15 @@
                                     {{-- <a
                                         href="{{ $_SERVER['REQUEST_URI'] }}?show=task&id={{ $task->id }}">{{ $task->title }}</a> --}}
                                     <a>{{ $task->title }}</a>
-									{{-- href="{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => $task->id]) }}" --}}
+                                    {{-- href="{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => $task->id]) }}" --}}
                                 </td>
                                 <td>
-                                    <span
-                                        class="badge rounded-pill {{ $statusView['class'] }}" data-status='{{ $task->status }}'>{{ $statusView['text'] }}</span>
+                                    <span class="badge rounded-pill {{ $statusView['class'] }}"
+                                        data-status='{{ $task->status }}'>{{ $statusView['text'] }}</span>
                                 </td>
                                 <td>
-                                    <span
-                                        class="badge rounded-pill {{ $statusView['class'] }}" data-time='{{ strtotime($task->due_date) }}'>{{ date('D, M d, Y', strtotime($task->due_date)) }}</span>
+                                    <span class="badge rounded-pill {{ $statusView['class'] }}"
+                                        data-time='{{ strtotime($task->due_date) }}'>{{ date('D, M d, Y', strtotime($task->due_date)) }}</span>
                                 </td>
                                 <td>{{ $taskList->title }}</td>
                                 <td>
@@ -135,13 +137,28 @@
         </div>
     </div>
 
+    <div class="modal update-item-sidebar fade" id="targetTaskModal" data-bs-backdrop="static" data-bs-keyboard="false"
+        tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
+            <div class="modal-content">
+                <div class="modal-header bg-transparent">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body pb-5 px-sm-3 pt-50 task-wrapper">
+                    Loading ...
+                </div>
+            </div>
+        </div>
+    </div>
+
 </section>
 <!-- Full calendar end -->
 
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.4/jquery.min.js"></script>
 <script>
-    $("#addTaskFormCalendar").attr("action", "{{ route("add.task.in.list.modal", ["slug" => $project->slug, "board_id" => $board->id]) }}");
-	var tasks = @json($tasksInProject);
+    $("#addTaskFormCalendar").attr("action",
+        "{{ route('add.task.in.list.modal', ['slug' => $project->slug, 'board_id' => $board->id]) }}");
+    var tasks = @json($tasksInProject);
 
     checkWindowSize();
 
@@ -161,8 +178,10 @@
             $('#start').val(start);
 
             $.ajax({
-                url: '{{ route('get.task.info', ["slug" => $project->slug, "board_id" => $board->id]) }}',
-                data: {start: start},
+                url: '{{ route('get.task.info', ['slug' => $project->slug, 'board_id' => $board->id]) }}',
+                data: {
+                    start: start
+                },
                 dataType: 'json',
                 success: function(res) {
                     console.log(res)
@@ -174,7 +193,7 @@
     $('#js-task-list-table').on("touchmove", onScroll);
 
     function onScroll() {
-        if ($(window).scrollTop() > $(document).height() - $(window).height()-100) {
+        if ($(window).scrollTop() > $(document).height() - $(window).height() - 100) {
             fetchData();
         }
 
@@ -188,7 +207,8 @@
         })
     }
 
-	var taskRoutes = "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => ':taskId']) }}";
+    var taskRoutes =
+        "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => ':taskId']) }}";
 </script>
 
 <script src="{{ asset(mix('js/scripts/pages/task-in-list.js')) }}"></script>

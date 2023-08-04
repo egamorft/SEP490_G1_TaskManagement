@@ -130,6 +130,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     throw new Error('Something went wrong here');
                 }
             }).then(html => {
+				console.log(targetTaskModal.find('.task-wrapper').html())
                 targetTaskModal.find('.task-wrapper').html(html);
             }).catch(error => {
                 targetTaskModal.find('.task-wrapper').html(error);
