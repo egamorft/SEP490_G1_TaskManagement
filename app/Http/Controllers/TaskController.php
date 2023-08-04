@@ -261,7 +261,7 @@ class TaskController extends Controller
         $taskList_id = $request->input('modalAddTaskList');
         $taskTitle = $request->input('modalAddTaskTitle');
         $taskAssignee = $request->input('modalAddTaskAssignee');
-        $previousTask = $request->input('modalAddPreviousTask') ?? [];
+        $previousTask = $request->input('modalAddPreviousTask');
         $description = $request->input('description');
 
         $task = Task::create([
@@ -336,7 +336,7 @@ class TaskController extends Controller
         $taskList_id = $request->input('modalAddTaskList');
         $taskTitle = $request->input('modalAddTaskTitle');
         $taskAssignee = $request->input('modalAddTaskAssignee');
-        $previousTask = $request->input('modalAddPreviousTask') ?? [];
+        $previousTask = $request->input('modalAddPreviousTask');
         $description = $request->input('description');
 
         $task = Task::create([
