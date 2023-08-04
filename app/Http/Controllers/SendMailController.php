@@ -14,7 +14,7 @@ class SendMailController extends Controller
         $data = $request->all();
         if (!empty($request->all())) {
             $email_to = $data['email'];
-            $name = $data['fullname'];
+            $name = $data['name'];
             $token = $data['token'];
             $parts = explode('@', $email_to);
             $username = $parts[0];

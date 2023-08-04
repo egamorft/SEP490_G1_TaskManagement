@@ -28,7 +28,7 @@ class User extends Model implements Authenticatable
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'account_project')
-            ->withPivot('project_id', 'status');;
+            ->withPivot('project_id', 'status','account_id');
     }
 
     public function accProject()

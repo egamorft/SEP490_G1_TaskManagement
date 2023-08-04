@@ -31,6 +31,6 @@ class Role extends Model
 
     public function accountProjects()
     {
-        return $this->hasMany(AccountProject::class);
+        return $this->hasMany(AccountProject::class, 'account_id');
     }
 }
