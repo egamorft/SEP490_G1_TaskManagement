@@ -31,7 +31,8 @@ class GanttController extends Controller
             'readonly' => true,
             'start_date' => \Carbon\Carbon::parse($project->start_date)->format('Y-m-d H:i:s'),
             'duration' => 0,
-            'open' => true
+            'open' => true,
+            'type' => 'project'
         ];
         $tasksData[] = $projectData;
         // dd($tasksData);

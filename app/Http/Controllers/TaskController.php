@@ -113,7 +113,7 @@ class TaskController extends Controller
             }
 
             $prev_task = $taskDetails->prev_tasks;
-            
+
             if (empty($afterTasksDate)) {
                 if ($prev_task && !empty(json_decode($prev_task))) {
                     $tasksInPrev = Task::find(json_decode($prev_task));
@@ -808,8 +808,7 @@ class TaskController extends Controller
             'description' => null,
         ]);
 
-        if(!$task)
-        {
+        if (!$task) {
             return response()->json([
                 "action" => "error",
                 'msg' => "Something went wrong here"
@@ -820,6 +819,33 @@ class TaskController extends Controller
             "action" => "inserted",
             'msg' => "Success create new task",
             "tid" => $task->id
+        ]);
+    }
+
+    public function ganttUpdate($id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        $duration_add = $request->duration > 1 ? ' +' . $request->duration . ' days' : ' +' . $request->duration . ' day';
+        $task->title = $request->text;
+        $task->start_date = date('Y-m-d', strtotime($request->start_date));
+        $task->due_date = date('Y-m-d', strtotime($request->start_date . $duration_add));
+        $task->save();
+
+        return response()->json([
+            "action" => "updated",
+            'msg' => "Success edit task"
+        ]);
+    }
+
+    public function ganttDelete($id)
+    {
+        $task = Task::findOrFail($id);
+        $task->deleted_at = now();
+        $task->save();
+
+        return response()->json([
+            "action" => "deleted",
+            'msg' => "Success delete task"
         ]);
     }
 }

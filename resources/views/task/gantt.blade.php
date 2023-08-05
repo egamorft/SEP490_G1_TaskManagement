@@ -1,8 +1,8 @@
 <div class="gantt_control">
-    <button class="show-critical">Show Critical Path</button>
-    <button class="show-progress">Toggle Progress Line</button>
-    <button onclick="gantt.ext.zoom.zoomIn();">+ Zoom In</button>
-    <button onclick="gantt.ext.zoom.zoomOut();">- Zoom Out</button>
+	<button onclick="updateCriticalPath(this)">Show Critical Path</button>
+    <input type='button' onclick="toggleOverlay()" value="Toggle Progress Line">
+    <input type=button value="Zoom In" onclick="gantt.ext.zoom.zoomIn();">
+    <input type=button value="Zoom Out" onclick="gantt.ext.zoom.zoomOut();">
     <input type='button' value='Create task' onclick="gantt.createTask()">
 </div>
 
@@ -31,8 +31,23 @@
 
     gantt.plugins({
         auto_scheduling: true,
-        marker: true
+        marker: true,
+		critical_path: true
     });
+
+    function updateCriticalPath(toggle) {
+        console.log(toggle);
+		toggle.enabled = !toggle.enabled;
+		if (toggle.enabled) {
+			toggle.innerHTML = "Hide Critical Path";
+			gantt.config.highlight_critical_path = true;
+		} else {
+			toggle.innerHTML = "Show Critical Path";
+			gantt.config.highlight_critical_path = false;
+		}
+		gantt.render();
+	}
+
     var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
     var today = new Date('{{ $today }}');
     gantt.addMarker({
@@ -117,12 +132,6 @@
         {
             name: "duration",
             align: "center"
-        },
-        {
-            name: "buttons",
-            label: colHeader,
-            width: 75,
-            template: colContent
         }
     ];
 
@@ -153,9 +162,32 @@
                     data: JSON.stringify(data)
                 });
                 break;
+
+            case "update":
+                return gantt.ajax.put({
+                    headers: {
+                        "Content-Type": "application/json",
+                        'X-CSRF-TOKEN': _token
+                    },
+                    url: "/task-update/" + id,
+                    data: JSON.stringify(data)
+                });
+                break;
+
+            case "delete":
+                return gantt.ajax.del({
+                    headers: {
+                        "Content-Type": "application/json",
+                        'X-CSRF-TOKEN': _token
+                    },
+                    url: "/task-delete/" + id,
+                    data: JSON.stringify(data)
+                });
+                break;
         }
     });
     dp.attachEvent("onAfterUpdate", function(id, action, tid, response) {
+        console.log(action);
         switch (action) {
             case "inserted":
                 var parsedResponse = JSON.parse(response.responseText);
@@ -166,6 +198,42 @@
                         expire: -1
                     });
                 } else if (parsedResponse.action == "inserted") {
+                    gantt.message({
+                        text: msg,
+                        expire: -1
+                    });
+                }
+                gantt.clearAll();
+                gantt.load("/api/data/{{ $project->id }}");
+                break;
+
+            case "updated":
+                var parsedResponse = JSON.parse(response.responseText);
+                var msg = parsedResponse.msg;
+                if (parsedResponse.action == "error") {
+                    gantt.message({
+                        text: msg,
+                        expire: -1
+                    });
+                } else if (parsedResponse.action == "updated") {
+                    gantt.message({
+                        text: msg,
+                        expire: -1
+                    });
+                }
+                gantt.clearAll();
+                gantt.load("/api/data/{{ $project->id }}");
+                break;
+
+            case "deleted":
+                var parsedResponse = JSON.parse(response.responseText);
+                var msg = parsedResponse.msg;
+                if (parsedResponse.action == "error") {
+                    gantt.message({
+                        text: msg,
+                        expire: -1
+                    });
+                } else if (parsedResponse.action == "deleted") {
                     gantt.message({
                         text: msg,
                         expire: -1
