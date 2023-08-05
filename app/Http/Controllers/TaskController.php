@@ -848,4 +848,80 @@ class TaskController extends Controller
             'msg' => "Success delete task"
         ]);
     }
+
+    public function linkStore(Request $request)
+    {
+        $source_id = $request->source;
+        $target_id = $request->target;
+        $source = Task::findOrFail($source_id);
+        $target = Task::findOrFail($target_id);
+
+        if ($source && $target) {
+            $prev_tasks_array = json_decode($target->prev_tasks);
+
+            if (is_null($prev_tasks_array) || empty($prev_tasks_array)) {
+                // Create a new array with the new task ID
+                $prev_tasks_array = array($source_id);
+            } else {
+                // Add the new task ID to the array
+                array_push($prev_tasks_array, $source_id);
+            }
+            // Encode the array back to a JSON string
+            $prev_tasks_json = json_encode($prev_tasks_array);
+
+            // Update the task's prev_tasks attribute in the database
+            $target->prev_tasks = $prev_tasks_json;
+            $target->save();
+
+            return response()->json([
+                "action" => "inserted",
+                'msg' => "Success create link between " . $source->title . " and " . $target->title
+            ]);
+        }
+        return response()->json([
+            "action" => "error",
+            'msg' => "Something went wrong here"
+        ]);
+    }
+
+    public function linkDelete($source_id, $target_id)
+    {
+        $source = Task::findOrFail($source_id);
+        $target = Task::findOrFail($target_id);
+
+        // Convert the prev_tasks string to an array
+        $prev_tasks_array = json_decode($target->prev_tasks);
+        // Check if the array is null or empty
+        if (count($prev_tasks_array) > 1) {
+            // Remove the task ID from the array
+            $prev_tasks_array = array_diff($prev_tasks_array, [$source_id]);
+
+            // Convert the associative array to an indexed array
+            $prev_tasks_array = array_values($prev_tasks_array);
+
+            // Encode the array back to a JSON string
+            $prev_tasks_json = json_encode($prev_tasks_array);
+
+            // Update the task's prev_tasks attribute in the database
+            $target->prev_tasks = $prev_tasks_json;
+            $target->save();
+
+            return response()->json([
+                "action" => "deleted",
+                'msg' => "Success delete link from " . $source->title . " to " . $target->title
+            ]);
+        } elseif (count($prev_tasks_array) == 1) {
+            $target->prev_tasks = null;
+            $target->save();
+
+            return response()->json([
+                "action" => "deleted",
+                'msg' => "Success delete link from " . $source->title . " to " . $target->title
+            ]);
+        }
+        return response()->json([
+            "action" => "error",
+            'msg' => "Something went wrong here"
+        ]);
+    }
 }

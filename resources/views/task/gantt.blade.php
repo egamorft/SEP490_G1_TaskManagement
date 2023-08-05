@@ -1,9 +1,15 @@
-<div class="gantt_control">
-	<button onclick="updateCriticalPath(this)">Show Critical Path</button>
-    <input type='button' onclick="toggleOverlay()" value="Toggle Progress Line">
-    <input type=button value="Zoom In" onclick="gantt.ext.zoom.zoomIn();">
-    <input type=button value="Zoom Out" onclick="gantt.ext.zoom.zoomOut();">
-    <input type='button' value='Create task' onclick="gantt.createTask()">
+<div class="gantt_control d-flex justify-content-between">
+    <div class="">
+        <button onclick="updateCriticalPath(this)">Show Critical Path</button>
+        <input type=button value="Zoom In" onclick="gantt.ext.zoom.zoomIn();">
+        <input type=button value="Zoom Out" onclick="gantt.ext.zoom.zoomOut();">
+        <input type='button' value='Create task' onclick="gantt.createTask()">
+    </div>
+    <div class="me-3">
+        <h4 class="text-danger fw-bold"><strong><u>Your tasks & project below just give an overview of project real
+                    work</u></strong>
+        </h4>
+    </div>
 </div>
 
 <div id="gantt_here" style='width:100%; height:calc(100vh - 282px);'></div>
@@ -29,24 +35,172 @@
     // gantt.config.order_branch = true; /*!*/
     // gantt.config.order_branch_free = true; /*!*/
 
+    //Config zoom
+    var zoomConfig = {
+        levels: [{
+                name: "hour",
+                scale_height: 27,
+                min_column_width: 15,
+                scales: [{
+                        unit: "day",
+                        format: "%d"
+                    },
+                    {
+                        unit: "hour",
+                        format: "%H"
+                    },
+                ]
+            },
+            {
+                name: "day",
+                scale_height: 27,
+                min_column_width: 80,
+                scales: [{
+                    unit: "day",
+                    step: 1,
+                    format: "%d %M"
+                }]
+            },
+            {
+                name: "week",
+                scale_height: 50,
+                min_column_width: 50,
+                scales: [{
+                        unit: "week",
+                        step: 1,
+                        format: function(date) {
+                            var dateToStr = gantt.date.date_to_str("%d %M");
+                            var endDate = gantt.date.add(date, -6, "day");
+                            var weekNum = gantt.date.date_to_str("%W")(date);
+                            return "#" + weekNum + ", " + dateToStr(date) + " - " + dateToStr(endDate);
+                        }
+                    },
+                    {
+                        unit: "day",
+                        step: 1,
+                        format: "%j %D"
+                    }
+                ]
+            },
+            {
+                name: "month",
+                scale_height: 50,
+                min_column_width: 120,
+                scales: [{
+                        unit: "month",
+                        format: "%F, %Y"
+                    },
+                    {
+                        unit: "week",
+                        format: "Week #%W"
+                    }
+                ]
+            },
+            {
+                name: "quarter",
+                height: 50,
+                min_column_width: 90,
+                scales: [{
+                        unit: "quarter",
+                        step: 1,
+                        format: function(date) {
+                            var dateToStr = gantt.date.date_to_str("%M");
+                            var endDate = gantt.date.add(gantt.date.add(date, 3, "month"), -1, "day");
+                            return dateToStr(date) + " - " + dateToStr(endDate);
+                        }
+                    },
+                    {
+                        unit: "month",
+                        step: 1,
+                        format: "%M"
+                    },
+                ]
+            },
+            {
+                name: "year",
+                scale_height: 50,
+                min_column_width: 30,
+                scales: [{
+                    unit: "year",
+                    step: 1,
+                    format: "%Y"
+                }]
+            }
+        ],
+        useKey: "ctrlKey",
+        trigger: "wheel",
+        element: function() {
+            return gantt.$root.querySelector(".gantt_task");
+        }
+    };
+
+    gantt.ext.zoom.init(zoomConfig);
+    gantt.ext.zoom.setLevel("week");
+    //Config zoom
+
     gantt.plugins({
+        overlay: true,
         auto_scheduling: true,
         marker: true,
-		critical_path: true
+        critical_path: true
     });
 
+    //Zoom overlay & scale
+    var overlayControl = gantt.ext.overlay;
+
+    function toggleOverlay() {
+        if (overlayControl.isOverlayVisible(lineOverlay)) {
+            gantt.config.readonly = false;
+            overlayControl.hideOverlay(lineOverlay);
+            gantt.$root.classList.remove("overlay_visible");
+        } else {
+            gantt.config.readonly = true;
+            overlayControl.showOverlay(lineOverlay);
+            gantt.$root.classList.add("overlay_visible");
+        }
+    }
+
+    function getChartScaleRange() {
+        var tasksRange = gantt.getSubtaskDates();
+        var cells = [];
+        var scale = gantt.getScale();
+        if (!tasksRange.start_date) {
+            return scale.trace_x;
+        }
+
+        scale.trace_x.forEach(function(date, index) {
+            var within = +tasksRange.start_date <= +date && +date <= +tasksRange.end_date;
+            var left = false,
+                right = false;
+            if (index != scale.trace_x.length - 1) {
+                left = +date < +tasksRange.start_date && +tasksRange.start_date < +scale.trace_x[index + 1];
+            }
+            if (index > 0) {
+                right = +scale.trace_x[index - 1] < +tasksRange.end_date && +tasksRange.end_date < +date;
+            }
+
+            if (within || left || right) {
+                cells.push(date);
+            }
+        });
+        return cells;
+    }
+    //Zoom overlay & scale
+
+    //Critical path
     function updateCriticalPath(toggle) {
         console.log(toggle);
-		toggle.enabled = !toggle.enabled;
-		if (toggle.enabled) {
-			toggle.innerHTML = "Hide Critical Path";
-			gantt.config.highlight_critical_path = true;
-		} else {
-			toggle.innerHTML = "Show Critical Path";
-			gantt.config.highlight_critical_path = false;
-		}
-		gantt.render();
-	}
+        toggle.enabled = !toggle.enabled;
+        if (toggle.enabled) {
+            toggle.innerHTML = "Hide Critical Path";
+            gantt.config.highlight_critical_path = true;
+        } else {
+            toggle.innerHTML = "Show Critical Path";
+            gantt.config.highlight_critical_path = false;
+        }
+        gantt.render();
+    }
+    //Critical path
 
     var dateToStr = gantt.date.date_to_str(gantt.config.task_date);
     var today = new Date('{{ $today }}');
@@ -116,8 +270,7 @@
 
     })();
 
-    var colHeader;
-    var colContent = function(task) {};
+    //Header columns config
     gantt.config.columns = [{
             name: "text",
             tree: true,
@@ -134,56 +287,88 @@
             align: "center"
         }
     ];
+    //Header columns config
 
+    //Msg on first run
     gantt.message({
         text: "Click any task to highlight the connected group",
         expire: -1
     });
+    //Msg on first run
 
     gantt.init("gantt_here");
     gantt.load("/api/data/{{ $project->id }}");
+
+    //Handle with api restful
 
     // var dp = new gantt.dataProcessor("/api");
     // dp.init(gantt);
     // dp.setTransactionMode("REST");
     // dp.deleteAfterConfirmation = true;
 
+    //Handle with ajax (customizable data value)
     var dp = gantt.createDataProcessor(function(entity, action, data, id) {
         var _token = $('meta[name="csrf-token"]').attr('content');
         data.parent = "{{ $project->id }}";
-        switch (action) {
-            case "create":
-                return gantt.ajax.post({
-                    headers: {
-                        "Content-Type": "application/json",
-                        'X-CSRF-TOKEN': _token
-                    },
-                    url: "/task-store",
-                    data: JSON.stringify(data)
-                });
-                break;
+        if (entity == "task") {
+            switch (action) {
+                case "create":
+                    return gantt.ajax.post({
+                        headers: {
+                            "Content-Type": "application/json",
+                            'X-CSRF-TOKEN': _token
+                        },
+                        url: "/task-store",
+                        data: JSON.stringify(data)
+                    });
+                    break;
 
-            case "update":
-                return gantt.ajax.put({
-                    headers: {
-                        "Content-Type": "application/json",
-                        'X-CSRF-TOKEN': _token
-                    },
-                    url: "/task-update/" + id,
-                    data: JSON.stringify(data)
-                });
-                break;
+                case "update":
+                    return gantt.ajax.put({
+                        headers: {
+                            "Content-Type": "application/json",
+                            'X-CSRF-TOKEN': _token
+                        },
+                        url: "/task-update/" + id,
+                        data: JSON.stringify(data)
+                    });
+                    break;
 
-            case "delete":
-                return gantt.ajax.del({
-                    headers: {
-                        "Content-Type": "application/json",
-                        'X-CSRF-TOKEN': _token
-                    },
-                    url: "/task-delete/" + id,
-                    data: JSON.stringify(data)
-                });
-                break;
+                case "delete":
+                    return gantt.ajax.del({
+                        headers: {
+                            "Content-Type": "application/json",
+                            'X-CSRF-TOKEN': _token
+                        },
+                        url: "/task-delete/" + id,
+                        data: JSON.stringify(data)
+                    });
+                    break;
+            }
+        }else if(entity == "link"){
+            switch (action) {
+                case "create":
+                    return gantt.ajax.post({
+                        headers: {
+                            "Content-Type": "application/json",
+                            'X-CSRF-TOKEN': _token
+                        },
+                        url: "/link-store",
+                        data: JSON.stringify(data)
+                    });
+                    break;
+
+                case "delete":
+                    return gantt.ajax.del({
+                        headers: {
+                            "Content-Type": "application/json",
+                            'X-CSRF-TOKEN': _token
+                        },
+                        url: "/link-delete/" + data.source + "/" + data.target,
+                        data: JSON.stringify(data)
+                    });
+                    break;
+            }
         }
     });
     dp.attachEvent("onAfterUpdate", function(id, action, tid, response) {
@@ -264,6 +449,8 @@
     function limitResizeRight(task, limit) {
         task.start_date = new Date(limit.start_date)
     }
+
+    //Set drag with has parent tasks
     gantt.attachEvent("onTaskDrag", function(id, mode, task, original, e) {
         var parent = task.parent ? gantt.getTask(task.parent) : null,
             children = gantt.getChildren(id),
@@ -302,7 +489,9 @@
 
 
     });
-    // // Gantt Size
+
+
+    // Gantt Size customizing
     // var start_gantt = "{{ $ganttStartDate }}";
     // var end_gantt = "{{ $ganttEndDate }}";
 
