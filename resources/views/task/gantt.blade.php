@@ -3,10 +3,7 @@
     <button class="show-progress">Toggle Progress Line</button>
     <button onclick="gantt.ext.zoom.zoomIn();">+ Zoom In</button>
     <button onclick="gantt.ext.zoom.zoomOut();">- Zoom Out</button>
-    <button class="undo-btn" onclick='gantt.undo()'>Undo</button>
-    <button class="redo-btn" onclick='gantt.redo()'>Redo</button>
-    <button class="btn btn-primary save-btn">Save All Change</button>
-    <input type="hidden" name="csrf-token" value="{{ csrf_token() }}">
+    <input type='button' value='Create task' onclick="gantt.createTask()">
 </div>
 
 <div id="gantt_here" style='width:100%; height:calc(100vh - 282px);'></div>
@@ -44,9 +41,10 @@
         text: "Today",
         title: "Today: " + dateToStr(today)
     });
-    
-	gantt.config.auto_scheduling = true;
-	gantt.config.auto_scheduling_strict = true;
+
+    gantt.config.sort = true;
+    gantt.config.auto_scheduling = true;
+    gantt.config.auto_scheduling_strict = true;
 
     (function() {
         var highlightTasks = [],
@@ -103,10 +101,81 @@
 
     })();
 
-	gantt.message({text:"Click any task to highlight the connected group", expire:-1});
+    var colHeader;
+    var colContent = function(task) {};
+    gantt.config.columns = [{
+            name: "text",
+            tree: true,
+            width: '*',
+            resize: true
+        },
+        {
+            name: "start_date",
+            align: "center",
+            resize: true
+        },
+        {
+            name: "duration",
+            align: "center"
+        },
+        {
+            name: "buttons",
+            label: colHeader,
+            width: 75,
+            template: colContent
+        }
+    ];
+
+    gantt.message({
+        text: "Click any task to highlight the connected group",
+        expire: -1
+    });
 
     gantt.init("gantt_here");
     gantt.load("/api/data/{{ $project->id }}");
+
+    // var dp = new gantt.dataProcessor("/api");
+    // dp.init(gantt);
+    // dp.setTransactionMode("REST");
+    // dp.deleteAfterConfirmation = true;
+
+    var dp = gantt.createDataProcessor(function(entity, action, data, id) {
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        data.parent = "{{ $project->id }}";
+        switch (action) {
+            case "create":
+                return gantt.ajax.post({
+                    headers: {
+                        "Content-Type": "application/json",
+                        'X-CSRF-TOKEN': _token
+                    },
+                    url: "/task-store",
+                    data: JSON.stringify(data)
+                });
+                break;
+        }
+    });
+    dp.attachEvent("onAfterUpdate", function(id, action, tid, response) {
+        switch (action) {
+            case "inserted":
+                var parsedResponse = JSON.parse(response.responseText);
+                var msg = parsedResponse.msg;
+                if (parsedResponse.action == "error") {
+                    gantt.message({
+                        text: msg,
+                        expire: -1
+                    });
+                } else if (parsedResponse.action == "inserted") {
+                    gantt.message({
+                        text: msg,
+                        expire: -1
+                    });
+                }
+                gantt.clearAll();
+                gantt.load("/api/data/{{ $project->id }}");
+                break;
+        }
+    });
 
     function limitMoveLeft(task, limit) {
         var dur = task.end_date - task.start_date;

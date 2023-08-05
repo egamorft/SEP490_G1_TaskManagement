@@ -23,13 +23,19 @@ class Project extends Model
         'deleted_at',
     ];
 
+    public function taskLists()
+    {
+        return $this->hasManyThrough(TaskList::class, Board::class, 'project_id', 'board_id');
+    }
+    
     // public function accountProject()
     // {
     //     return $this->belongsToMany(User::class, 'account_project')
     //         ->withPivot('status');
     // }
 
-    public function userCurrentRole() {
+    public function userCurrentRole()
+    {
         // Get the current user.
 
         // Get the account project record for the current user and the project.
@@ -51,7 +57,7 @@ class Project extends Model
     public function findAccountInProjectWithStatus($status)
     {
         return $this->belongsToMany(User::class, 'account_project', 'project_id', 'account_id')
-                    ->wherePivot('status', $status);
+            ->wherePivot('status', $status);
     }
 
     public function roles()
@@ -91,6 +97,6 @@ class Project extends Model
 
     public function boards()
     {
-        return $this->hasMany(Board::class);
+        return $this->hasMany(Board::class, 'project_id', 'id');
     }
 }

@@ -26,11 +26,12 @@ class GanttController extends Controller
         $startProject = new DateTime($project->start_date);
         $endProject = new DateTime($project->end_date);
         $projectData = [
-            'id' => 9999,
+            'id' => $project->id + 9999,
             'text' => $project->name,
             'readonly' => true,
             'start_date' => \Carbon\Carbon::parse($project->start_date)->format('Y-m-d H:i:s'),
             'duration' => 0,
+            'open' => true
         ];
         $tasksData[] = $projectData;
         // dd($tasksData);
@@ -43,7 +44,7 @@ class GanttController extends Controller
                 'text' => $task->title,
                 'start_date' => \Carbon\Carbon::parse($task->start_date)->format('Y-m-d H:i:s'),
                 'duration' => $startTask->diff($endTask)->days + 1,
-                'parent' => 9999,
+                'parent' => $project->id + 9999,
                 'progress' => 1,
                 'status' => $task->status
             ];
