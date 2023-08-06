@@ -75,12 +75,24 @@
 </div>
 <!--/ Project Header -->
 <hr />
-
+@php
+    use App\Models\Task;
+    use App\Enums\TaskStatus;
+    $project_id = $project->id;
+    $taskStatusCounts = Task::whereHas('taskList.board.project', function ($query) use ($project_id) {
+        $query->where('id', $project_id);
+    })
+        ->select('status', \DB::raw('COUNT(*) as count'))
+        ->groupBy('status')
+        ->get();
+@endphp
 <!-- Left Sidebar reject project starts -->
 <div class="modal modal-slide-in sidebar-todo-modal fade" id="modalRejectProject">
     <div class="modal-dialog sidebar-lg" style="left: 0">
         <div class="modal-content p-0">
-            <form id="formRejectProject" class="todo-modal">
+            <form id="formRejectProject" class="todo-modal" method="POST" action="{{ route('reject.project') }}">
+                @csrf
+                <input type="hidden" name="id" value="{{ $project->id }}">
                 <div class="modal-header align-items-center mb-1">
                     <h5 class="modal-title">Reject "{{ $project->name }}"</h5>
                     <div class="todo-item-action d-flex align-items-center justify-content-between ms-auto">
@@ -96,21 +108,24 @@
                             <div class="alert-body fw-normal">Your action will stop all of activities in project
                             </div>
                         </div>
+                        <div class="alert alert-warning" role="alert">
+                            <div class="alert-body">
+                                @foreach ($taskStatusCounts as $taskStatus)
+                                    <li>{{ $taskStatus->count }} tasks are waiting for
+                                        {{ TaskStatus::getKey($taskStatus->status) }}</li>
+                                @endforeach
+                            </div>
+                        </div>
                         <div class="mb-1">
                             <label class="form-label">Reason</label>
-                            <div id="reject-project" class="border-bottom-0"
-                                data-placeholder="Why you want reject this project?"></div>
-                            <div class="d-flex justify-content-end desc-toolbar-2 border-top-0">
-                                <span class="ql-formats me-0">
-                                    <button class="ql-bold"></button>
-                                    <button class="ql-italic"></button>
-                                    <button class="ql-underline"></button>
-                                </span>
-                            </div>
+                            <fieldset class="mb-75">
+                                <textarea name="reason" class="form-control reasonSupervisor" rows="3"
+                                    placeholder="Why you want reject this project?"></textarea>
+                            </fieldset>
                         </div>
                     </div>
                     <div class="my-1">
-                        <button type="submit" class="btn btn-danger add-todo-item me-1">Reject</button>
+                        <button type="submit" class="btn btn-danger add-todo-item me-1 reasonButton">Reject</button>
                         <button type="button" class="btn btn-outline-secondary add-todo-item"
                             data-bs-dismiss="modal">
                             Cancel
@@ -127,7 +142,9 @@
 <div class="modal modal-slide-in sidebar-todo-modal fade" id="modalApproveProject">
     <div class="modal-dialog sidebar-lg">
         <div class="modal-content p-0">
-            <form id="formApproveProject" class="todo-modal">
+            <form id="formApproveProject" class="todo-modal" method="POST" action="{{ route('approve.project') }}">
+                @csrf
+                <input type="hidden" name="id" value="{{ $project->id }}">
                 <div class="modal-header align-items-center mb-1">
                     <h5 class="modal-title">Approve "{{ $project->name }}"</h5>
                     <div class="todo-item-action d-flex align-items-center justify-content-between ms-auto">
@@ -143,17 +160,20 @@
                             <div class="alert-body fw-normal">Congratulation for your project succeed
                             </div>
                         </div>
+                        <div class="alert alert-warning" role="alert">
+                            <div class="alert-body">
+                                @foreach ($taskStatusCounts as $taskStatus)
+                                    <li>{{ $taskStatus->count }} tasks are waiting for
+                                        {{ TaskStatus::getKey($taskStatus->status) }}</li>
+                                @endforeach
+                            </div>
+                        </div>
                         <div class="mb-1">
                             <label class="form-label">Reason</label>
-                            <div id="approve-project" class="border-bottom-0"
-                                data-placeholder="Why you want reject this project?"></div>
-                            <div class="d-flex justify-content-end desc-toolbar-1 border-top-0">
-                                <span class="ql-formats me-0">
-                                    <button class="ql-bold"></button>
-                                    <button class="ql-italic"></button>
-                                    <button class="ql-underline"></button>
-                                </span>
-                            </div>
+                            <fieldset class="mb-75">
+                                <textarea name="reason" class="form-control reasonSupervisor" rows="3"
+                                    placeholder="Comment something on this success?"></textarea>
+                            </fieldset>
                         </div>
                     </div>
                     <div class="my-1">

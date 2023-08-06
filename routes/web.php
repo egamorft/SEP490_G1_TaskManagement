@@ -89,6 +89,9 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('reject-project', [ProjectController::class, 'rejectProject'])->name('reject.project');
+    Route::post('approve-project', [ProjectController::class, 'approveProject'])->name('approve.project');
+
     Route::post('task-store', [TaskController::class, 'ganttStore'])->name('store.task.gantt');
     Route::put('task-update/{id}', [TaskController::class, 'ganttUpdate'])->name('update.task.gantt');
     Route::delete('task-delete/{id}', [TaskController::class, 'ganttDelete'])->name('delete.task.gantt');

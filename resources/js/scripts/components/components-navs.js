@@ -24,6 +24,19 @@
 
 $(document).ready(function () {
   var isRtl = $('html').attr('data-textdirection') === 'rtl';
+
+  $('.reasonButton').prop('disabled', true);
+
+  // Comment not null then button enabled
+  $('.reasonSupervisor').on('input', function () {
+    // If the textarea contains text, enable the button
+    if ($(this).val().trim().length > 0) {
+      $('.reasonButton').prop('disabled', false);
+    } else {
+      // Otherwise, disable the button
+      $('.reasonButton').prop('disabled', true);
+    }
+  });
   //Handle invitation through email
   $('#modalInviteForm').submit(function (event) {
     event.preventDefault();
@@ -127,6 +140,52 @@ $(document).ready(function () {
             rtl: isRtl
           });
         }, 2000);
+      }
+    });
+  });
+
+  $('#formRejectProject').submit(function (event) {
+    event.preventDefault();
+    var form = $(this);
+    var url = form.attr('action');
+    var method = form.attr('method');
+    var _token = form.serialize();
+    $.ajax({
+      url: url,
+      method: method,
+      data: _token,
+      dataType: 'json',
+      success: function (response) {
+        // handle success
+        if (response.success) {
+          location.reload();
+        }
+      },
+      error: function (response) {
+        alert('something went wrong');
+      }
+    });
+  });
+  
+  $('#formApproveProject').submit(function (event) {
+    event.preventDefault();
+    var form = $(this);
+    var url = form.attr('action');
+    var method = form.attr('method');
+    var _token = form.serialize();
+    $.ajax({
+      url: url,
+      method: method,
+      data: _token,
+      dataType: 'json',
+      success: function (response) {
+        // handle success
+        if (response.success) {
+          location.reload();
+        }
+      },
+      error: function (response) {
+        alert('something went wrong');
       }
     });
   });
