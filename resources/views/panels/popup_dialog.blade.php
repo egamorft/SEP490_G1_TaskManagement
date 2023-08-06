@@ -1,4 +1,4 @@
-<div class="modal update-item-sidebar fade" id="targetTaskModal" data-bs-backdrop="static" data-bs-keyboard="false"
+<div class="modal reminder-update-item-sidebar fade" id="reminderTaskModal" data-bs-backdrop="static" data-bs-keyboard="false"
     tabindex="-1" aria-hidden="true">
     <div class="modal-dialog modal-lg modal-dialog-centered modal-edit-user">
         <div class="modal-content">

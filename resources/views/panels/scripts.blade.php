@@ -29,6 +29,10 @@
             }
         });
     });
+
+    var taskRoutes =
+        "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => ':taskId']) }}";
+
 </script>
 
 

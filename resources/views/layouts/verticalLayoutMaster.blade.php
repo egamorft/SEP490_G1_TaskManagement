@@ -47,6 +47,7 @@ data-asset-path="{{ asset('/')}}">
       <div class="content-body">
         {{-- Include Page Content --}}
         @yield('content')
+        @include('panels.popup_dialog')
       </div>
     </div>
     @endif

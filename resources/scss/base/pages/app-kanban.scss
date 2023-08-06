@@ -122,7 +122,8 @@ $avatar-add-new-color: rgba(108, 117, 125, 0.12);
   }
 
   // Update sidebar styles
-  .update-item-sidebar {
+  .update-item-sidebar,
+  .reminder-update-item-sidebar {
     text-align: left;
 
     .avatar-add-member {
