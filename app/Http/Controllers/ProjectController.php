@@ -1412,4 +1412,24 @@ class ProjectController extends Controller
 		// Redirect or return a response
 		return back();
 	}
+
+	public function rejectProject(Request $request)
+	{
+		$project = Project::findOrFail($request->id);
+		$project->description = $request->reason;
+		$project->project_status = -1;
+		$project->save();
+		
+        return response()->json(['success' => true]);
+	}
+
+	public function approveProject(Request $request)
+	{
+		$project = Project::findOrFail($request->id);
+		$project->description = $request->reason;
+		$project->project_status = 2;
+		$project->save();
+		
+        return response()->json(['success' => true]);
+	}
 }
