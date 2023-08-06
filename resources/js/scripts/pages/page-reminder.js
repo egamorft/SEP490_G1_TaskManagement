@@ -37,15 +37,22 @@ $(window).on("load", function () {
             }
 
             var elementId = el.attr("data-id");
+			var projectSlug = el.attr("data-project");
+			var boardId = el.attr("data-board");
             var url = "?show=task&task_id=" + elementId;
             var currentUrl = window.location.href.split("?", (window.location.href).length)[0];
-            history.replaceState(null, null, window.location.pathname + url);
+			if (currentUrl === window.location.origin || currentUrl === window.location.origin + '/') {
+				window.location.href = window.location.origin + `/project/${projectSlug}/board/${boardId}/kanban` + url;
+				return;
+			} else {
+				history.replaceState(null, null, window.location.pathname + url);
+			}
             currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
             sidebar.modal("show");
 
             const urlParams = new URLSearchParams(window.location.search);
             const taskId = urlParams.get('task_id');
-
+			
             var taskRoute = taskRoutes.replace(':taskId', taskId);
             const response = fetch(taskRoute);
             response.then(res => {
