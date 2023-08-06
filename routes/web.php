@@ -89,6 +89,13 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('task-store', [TaskController::class, 'ganttStore'])->name('store.task.gantt');
+    Route::put('task-update/{id}', [TaskController::class, 'ganttUpdate'])->name('update.task.gantt');
+    Route::delete('task-delete/{id}', [TaskController::class, 'ganttDelete'])->name('delete.task.gantt');
+    
+    Route::post('link-store', [TaskController::class, 'linkStore'])->name('store.link.gantt');
+    Route::delete('link-delete/{source}/{target}', [TaskController::class, 'linkDelete'])->name('delete.link.gantt');
+
     Route::post('comment-task', [TaskController::class, 'commentTask'])->name('comment.task');
     Route::post('upload-files', [TaskController::class, 'uploadFiles'])->name('file.upload');
     Route::post('delete-files', [TaskController::class, 'deleteFiles'])->name('file.delete');
