@@ -1166,8 +1166,8 @@ class ProjectController extends Controller
 
 		$totalRecords = $tasksInProjectBuilder->count();
 		$tasksInProject = $tasksInProjectBuilder
-			->skip(0)
-			->take($this->rowPerPage)
+			// ->skip(0)
+			// ->take($this->rowPerPage)
 			->get();
 		$rowPerPage = $this->rowPerPage;
 

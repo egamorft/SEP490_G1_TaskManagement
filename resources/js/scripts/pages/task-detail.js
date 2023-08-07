@@ -7,12 +7,15 @@ var TASK = new function () {
 
 
     //On click task
-    this.showTaskDetail = function (task_id) {
+    this.showTaskDetail = function (task_id, slug, boardId) {
         var url = "?show=task&task_id=" + task_id;
         var currentUrl = window.location.href.split(
             "?",
             window.location.href.length
         )[0];
+        if (currentUrl === window.location.origin || currentUrl === window.location.origin + '/') {
+            window.location.href = window.location.origin + `/project/${slug}/board/${boardId}/kanban/` + url;
+        }
         history.replaceState(null, null, window.location.pathname + url);
         currentUrl = window.location.href.substring(
             currentUrl.toString().length,

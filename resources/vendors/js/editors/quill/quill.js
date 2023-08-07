@@ -1605,7 +1605,7 @@
             var contents = this.clipboard.convert(
               "<div class='ql-editor' style=\"white-space: normal;\">" +
                 html +
-                "<p><br></p></div>"
+                "</div>"
             );
             this.setContents(contents);
             this.history.clear();

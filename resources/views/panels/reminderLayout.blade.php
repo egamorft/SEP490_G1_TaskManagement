@@ -88,7 +88,7 @@
 
                     <div class="reminder-content">
                         <div class="reminder-title">
-                            <a href="{{ route('task.modalsDetail', ['slug' => $taskRemind->project->slug, 'board_id' => $taskRemind->board->id, 'task_id' => $taskRemind->id]) }}">{{ $taskRemind->title }}</a>
+                            <a data-id='{{ $taskRemind->id }}' data-project='{{ $taskRemind->project->slug }}' data-board='{{ $taskRemind->board->id }}'>{{ $taskRemind->title }}</a>
                         </div>
                         <div class="reminder-sub-title {{ $statusView["class"] }}">
                             <div class="reminder-date-input">{{ date("d/m/Y", strtotime($taskRemind->due_date)) }}</div>
@@ -161,7 +161,7 @@
 
                     <div class="reminder-content">
                         <div class="reminder-title">
-                            <a href="{{ route('task.modalsDetail', ['slug' => $taskRemind->project->slug, 'board_id' => $taskRemind->board->id, 'task_id' => $taskRemind->id]) }}">{{ $taskRemind->title }}</a>
+                            <a data-id='{{ $taskRemind->id }}' data-project='{{ $taskRemind->project->slug }}' data-board='{{ $taskRemind->board->id }}'>{{ $taskRemind->title }}</a>
                         </div>
                         <div class="reminder-sub-title {{ $statusView["class"] }}">
                             <div class="reminder-date-input">{{ date("d/m/Y", strtotime($taskRemind->due_date)) }}</div>
@@ -233,7 +233,7 @@
 
                     <div class="reminder-content">
                         <div class="reminder-title">
-                            <a href="{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id, 'task_id' => $taskRemind->id]) }}">{{ $taskRemind->title }}</a>
+                            <a data-id='{{ $taskRemind->id }}' data-project='{{ $taskRemind->project->slug }}' data-board='{{ $taskRemind->board->id }}'>{{ $taskRemind->title }}</a>
                         </div>
                         <div class="reminder-sub-title {{ $statusView["class"] }}">
                             <div class="reminder-date-input">{{ date("d/m/Y", strtotime($taskRemind->due_date)) }}</div>
