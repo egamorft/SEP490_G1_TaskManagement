@@ -115,7 +115,7 @@ class TaskController extends Controller
             $prev_task = $taskDetails->prev_tasks;
 
             if (empty($afterTasksDate)) {
-                if ($prev_task) {
+                if ($prev_task && !empty(json_decode($prev_task))) {
                     $tasksInPrev = Task::find(json_decode($prev_task));
                     $prev_end = $tasksInPrev->pluck('due_date')->toArray();
                     $avaiableStart = date('Y-m-d', strtotime(max($prev_end) . ' +1 day'));
@@ -584,56 +584,57 @@ class TaskController extends Controller
         return response()->json(['success' => true, 'newRoute' => route('view.board.kanban', ["slug" => $slug, "board_id" => $board_id])]);
     }
 
-    public function get_task_info(Request $request, $slug, $board_id) {
+    public function get_task_info(Request $request, $slug, $board_id)
+    {
         $start = $request->get("start");
         $role = $request->get("role");
 
         $project = Project::where('slug', $slug)->first();
-		$accounts = $project->accounts()->get();
-		$disabledProject = $this->checkDisableProject($project);
+        $accounts = $project->accounts()->get();
+        $disabledProject = $this->checkDisableProject($project);
 
-		$pmAccount = Project::findOrFail($project->id)
-			->findAccountWithRoleNameAndStatus('pm', 1)
-			->first();
+        $pmAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('pm', 1)
+            ->first();
 
-		$supervisorAccount = Project::findOrFail($project->id)
-			->findAccountWithRoleNameAndStatus('supervisor', 1)
-			->first();
+        $supervisorAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('supervisor', 1)
+            ->first();
 
-		$memberAccount = Project::findOrFail($project->id)
-			->findAccountWithRoleNameAndStatus('member', 1)
-			->get();
+        $memberAccount = Project::findOrFail($project->id)
+            ->findAccountWithRoleNameAndStatus('member', 1)
+            ->get();
 
-		$board = Board::findOrFail($board_id);
+        $board = Board::findOrFail($board_id);
 
-		//Bind data for kanban
-		$taskLists = TaskList::where('board_id', $board_id)->get();
-		$taskListsId = [];
-		$taskListsArray = [];
-		foreach ($taskLists as $taskList) {
-			$taskListsId[] = $taskList->id;
-			$taskListsArray[$taskList->id] = $taskList;
-		}
+        //Bind data for kanban
+        $taskLists = TaskList::where('board_id', $board_id)->get();
+        $taskListsId = [];
+        $taskListsArray = [];
+        foreach ($taskLists as $taskList) {
+            $taskListsId[] = $taskList->id;
+            $taskListsArray[$taskList->id] = $taskList;
+        }
 
-		$user = Auth::user();
+        $user = Auth::user();
 
-		$tasksInProject = [];
-		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListsId);
-		if ($role == 'creator') {
-			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
-		}
+        $tasksInProject = [];
+        $tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListsId);
+        if ($role == 'creator') {
+            $tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
+        }
 
-		if ($role == 'assignee') {
-			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
-		}
-		$tasksInProject = $tasksInProjectBuilder
-							->skip($start)
-							->take($this->rowPerPage)
-							->get();
+        if ($role == 'assignee') {
+            $tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
+        }
+        $tasksInProject = $tasksInProjectBuilder
+            ->skip($start)
+            ->take($this->rowPerPage)
+            ->get();
 
         $html = "";
 
-        foreach($tasksInProject as $task) {
+        foreach ($tasksInProject as $task) {
             $status = $task->status;
             $statusView = [
                 'text' => '',
@@ -646,35 +647,35 @@ class TaskController extends Controller
                         'class' => 'badge-light-primary',
                     ];
                     break;
-            
+
                 case 2:
                     $statusView = [
                         'text' => 'Reviewing',
                         'class' => 'badge-light-warning',
                     ];
                     break;
-            
+
                 case 3:
                     $statusView = [
                         'text' => 'Done Ontime',
                         'class' => 'badge-light-success',
                     ];
                     break;
-            
+
                 case -1:
                     $statusView = [
                         'text' => 'Done Late',
                         'class' => 'badge-light-secondary',
                     ];
                     break;
-            
+
                 case 0:
                     $statusView = [
                         'text' => 'Todo',
                         'class' => 'badge-light-info',
                     ];
                     break;
-            
+
                 default:
                     $statusView = [
                         'text' => 'Todo',
@@ -688,7 +689,7 @@ class TaskController extends Controller
                     'class' => 'badge-light-danger',
                 ];
             }
-    
+
             $taskList = $taskLists[$task->taskList_id] ?? (object)[
                 "title" => ""
             ];
@@ -727,14 +728,12 @@ class TaskController extends Controller
                         </a>' : '<div>Not assign yet</div>')}
                 </td>
             </tr>`;
-
         }
         $data['html'] = $html;
 
         return response()->json($data);
-
     }
-    
+
     public function setTaskDone(Request $request)
     {
         $task_id = $request->input('task_id');
@@ -773,8 +772,7 @@ class TaskController extends Controller
         ]);
 
         $taskDetails = Task::findOrFail($validatedData['task-id']);
-        if($taskDetails)
-        {
+        if ($taskDetails) {
             Comment::create([
                 'task_id' => $validatedData['task-id'],
                 'content' => $validatedData['modalRejectReason'],
@@ -788,5 +786,142 @@ class TaskController extends Controller
             return response()->json(['success' => true]);
         }
         return response()->json(['error' => true], 500);
+    }
+
+    public function ganttStore(Request $request)
+    {
+        $project_id = $request->parent;
+        $project = Project::findOrFail($project_id);
+        // $taskListIds = $project->taskLists()->pluck('id')->toArray();
+        $projectTaskList_ids = $project->taskLists->pluck('id')->toArray();
+
+        $task = Task::create([
+            'taskList_id' => max($projectTaskList_ids),
+            'title' => $request->text,
+            'start_date' => date('Y-m-d', strtotime($request->start_date)),
+            'due_date' => date('Y-m-d', strtotime($request->end_date . ' -1 day')),
+            'created_by' => Auth::id(),
+            'assign_to' => Auth::id(),
+            'status' => TaskStatus::DOING,
+            'attachments' => null,
+            'prev_tasks' => null,
+            'description' => null,
+        ]);
+
+        if (!$task) {
+            return response()->json([
+                "action" => "error",
+                'msg' => "Something went wrong here"
+            ]);
+        }
+
+        return response()->json([
+            "action" => "inserted",
+            'msg' => "Success create new task",
+            "tid" => $task->id
+        ]);
+    }
+
+    public function ganttUpdate($id, Request $request)
+    {
+        $task = Task::findOrFail($id);
+        $duration_add = $request->duration > 1 ? ' +' . $request->duration . ' days' : ' +' . $request->duration . ' day';
+        $task->title = $request->text;
+        $task->start_date = date('Y-m-d', strtotime($request->start_date));
+        $task->due_date = date('Y-m-d', strtotime($request->start_date . $duration_add));
+        $task->save();
+
+        return response()->json([
+            "action" => "updated",
+            'msg' => "Success edit task"
+        ]);
+    }
+
+    public function ganttDelete($id)
+    {
+        $task = Task::findOrFail($id);
+        $task->deleted_at = now();
+        $task->save();
+
+        return response()->json([
+            "action" => "deleted",
+            'msg' => "Success delete task"
+        ]);
+    }
+
+    public function linkStore(Request $request)
+    {
+        $source_id = $request->source;
+        $target_id = $request->target;
+        $source = Task::findOrFail($source_id);
+        $target = Task::findOrFail($target_id);
+
+        if ($source && $target) {
+            $prev_tasks_array = json_decode($target->prev_tasks);
+
+            if (is_null($prev_tasks_array) || empty($prev_tasks_array)) {
+                // Create a new array with the new task ID
+                $prev_tasks_array = array($source_id);
+            } else {
+                // Add the new task ID to the array
+                array_push($prev_tasks_array, $source_id);
+            }
+            // Encode the array back to a JSON string
+            $prev_tasks_json = json_encode($prev_tasks_array);
+
+            // Update the task's prev_tasks attribute in the database
+            $target->prev_tasks = $prev_tasks_json;
+            $target->save();
+
+            return response()->json([
+                "action" => "inserted",
+                'msg' => "Success create link between " . $source->title . " and " . $target->title
+            ]);
+        }
+        return response()->json([
+            "action" => "error",
+            'msg' => "Something went wrong here"
+        ]);
+    }
+
+    public function linkDelete($source_id, $target_id)
+    {
+        $source = Task::findOrFail($source_id);
+        $target = Task::findOrFail($target_id);
+
+        // Convert the prev_tasks string to an array
+        $prev_tasks_array = json_decode($target->prev_tasks);
+        // Check if the array is null or empty
+        if (count($prev_tasks_array) > 1) {
+            // Remove the task ID from the array
+            $prev_tasks_array = array_diff($prev_tasks_array, [$source_id]);
+
+            // Convert the associative array to an indexed array
+            $prev_tasks_array = array_values($prev_tasks_array);
+
+            // Encode the array back to a JSON string
+            $prev_tasks_json = json_encode($prev_tasks_array);
+
+            // Update the task's prev_tasks attribute in the database
+            $target->prev_tasks = $prev_tasks_json;
+            $target->save();
+
+            return response()->json([
+                "action" => "deleted",
+                'msg' => "Success delete link from " . $source->title . " to " . $target->title
+            ]);
+        } elseif (count($prev_tasks_array) == 1) {
+            $target->prev_tasks = null;
+            $target->save();
+
+            return response()->json([
+                "action" => "deleted",
+                'msg' => "Success delete link from " . $source->title . " to " . $target->title
+            ]);
+        }
+        return response()->json([
+            "action" => "error",
+            'msg' => "Something went wrong here"
+        ]);
     }
 }

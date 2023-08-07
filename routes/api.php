@@ -1,6 +1,8 @@
 <?php
 
 use App\Http\Controllers\Api\GanttController;
+use App\Http\Controllers\Api\LinkController;
+use App\Http\Controllers\Api\TaskController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
