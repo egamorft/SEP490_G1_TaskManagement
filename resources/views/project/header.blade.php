@@ -177,7 +177,7 @@
                         </div>
                     </div>
                     <div class="my-1">
-                        <button type="submit" class="btn btn-success add-todo-item me-1">Approve</button>
+                        <button type="submit" class="btn btn-success add-todo-item me-1 reasonButton">Approve</button>
                         <button type="button" class="btn btn-outline-secondary add-todo-item"
                             data-bs-dismiss="modal">
                             Cancel

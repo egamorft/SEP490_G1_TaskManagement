@@ -12,11 +12,9 @@ class Notification extends Model
     protected $table = 'notifications';
     protected $fillable = [
         'title',
-        'object_type',
-        'status',
+        'seen',
         'sender_id',
         'follower',
-        'object_id',
         'description',
         'created_at',
     ];
