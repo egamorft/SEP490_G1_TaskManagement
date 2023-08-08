@@ -13,8 +13,9 @@ var TASK = new function () {
             "?",
             window.location.href.length
         )[0];
-        if (currentUrl === window.location.origin || currentUrl === window.location.origin + '/') {
+        if (currentUrl != window.location.origin + `/project/${slug}/board/${boardId}/kanban/` + url) {
             window.location.href = window.location.origin + `/project/${slug}/board/${boardId}/kanban/` + url;
+            return;
         }
         history.replaceState(null, null, window.location.pathname + url);
         currentUrl = window.location.href.substring(

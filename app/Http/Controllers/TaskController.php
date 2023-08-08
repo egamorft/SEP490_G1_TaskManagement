@@ -264,7 +264,7 @@ class TaskController extends Controller
         $previousTask = $request->input('modalAddPreviousTask');
         $description = $request->input('description');
 
-        $task = Task::create([
+        $dataTask = [
             'taskList_id' => $taskList_id,
             'title' => $taskTitle,
             'start_date' => $start_date,
@@ -272,9 +272,15 @@ class TaskController extends Controller
             'created_by' => Auth::id(),
             'assign_to' => $taskAssignee,
             'status' => TaskStatus::DOING,
-            'prev_tasks' => json_encode($previousTask),
             'description' => $description,
-        ]);
+        ];
+
+        if ($previousTask) {
+            $dataTask['prev_tasks'] = json_encode($previousTask);
+        }
+
+
+        $task = Task::create($dataTask);
         Session::flash('success', 'Create successfully task ' . $task->title);
         // Return a response indicating the success of the operation
         return response()->json(['success' => true]);
@@ -339,7 +345,7 @@ class TaskController extends Controller
         $previousTask = $request->input('modalAddPreviousTask');
         $description = $request->input('description');
 
-        $task = Task::create([
+        $dataTask = [
             'taskList_id' => $taskList_id,
             'title' => $taskTitle,
             'start_date' => $start_date,
@@ -347,9 +353,14 @@ class TaskController extends Controller
             'created_by' => Auth::id(),
             'assign_to' => $taskAssignee,
             'status' => TaskStatus::DOING,
-            'prev_tasks' => json_encode($previousTask),
             'description' => $description,
-        ]);
+        ];
+
+        if ($previousTask) {
+            $dataTask["prev_tasks"] = json_encode($previousTask);
+        }
+
+        $task = Task::create();
         Session::flash('success', 'Create successfully task ' . $task->title);
         // Return a response indicating the success of the operation
         return response()->json(['success' => true]);
