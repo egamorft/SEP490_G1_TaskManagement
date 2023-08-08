@@ -98,7 +98,8 @@ class AdminUserController extends Controller
                 'name' => $account->name,
                 'email' => $account->email,
                 'is_admin' => $account->is_admin,
-                'address' => $account->address
+                'address' => $account->address,
+                'avatar' => $account->avatar
             ];
 
             return response()->json([

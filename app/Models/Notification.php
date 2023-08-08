@@ -15,6 +15,7 @@ class Notification extends Model
         'seen',
         'sender_id',
         'follower',
+        'target_url',
         'description',
         'created_at',
     ];

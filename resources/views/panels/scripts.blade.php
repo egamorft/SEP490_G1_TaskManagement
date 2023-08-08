@@ -32,7 +32,6 @@
 
     var noti = pusher.subscribe('my-noti');
     noti.bind('my-noti-event', function(data) {
-        console.log(JSON.stringify(data));
         $.ajax({
             type: 'GET',
             url: '/updateUnseenNoti',
@@ -40,7 +39,6 @@
 
             },
             success: function(data) {
-                console.log(data.unseenCounter);
                 $('.pending-div-noti').empty();
                 html = ``;
                 if (data.unseenCounter > 0) {
@@ -48,16 +46,55 @@
                         `<span class="badge rounded-pill bg-danger badge-up">${data.unseenCounter}</span>`
                 }
                 $('.pending-div-noti').html(html);
-                
+
                 $('.pending-div-noti-badge').empty();
                 html = ``;
                 if (data.unseenCounter > 0) {
                     html +=
-                        `<span class="badge rounded-pill badge-light-primary">${data.unseenCounter}</span>`
+                        `<span class="badge rounded-pill badge-light-primary">${data.unseenCounter} new</span>`
                 }
                 $('.pending-div-noti-badge').html(html);
             }
         });
+
+        //Content noti
+        var sender_id = data.sender;
+        $.ajax({
+            url: '/user/get-specific-user', // Replace with your server route
+            method: 'GET',
+            data: {
+                id: sender_id
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    var dataUser = response.data;
+
+                    var newItem = `<li class="scrollable-container media-list">
+                        <a class="d-flex" href="${data.target_url}">
+                            <div class="list-item d-flex align-items-start">
+                                <div class="me-1">
+                                    <div class="avatar">
+                                        <img src="{{ asset('images/avatars/${dataUser.avatar}') }}"
+                                            alt="avatar" width="32" height="32">
+                                    </div>
+                                </div>
+                                <div class="list-item-body flex-grow-1">
+                                    <p class="media-heading"><span class="fw-bolder">${data.title}</span></p>
+                                    <small class="notification-text">${data.desc}.</small>
+                                </div>
+                            </div>
+                        </a>
+                    </li>`;
+
+                    $("#startNoti").append(newItem);
+                }
+            },
+            error: function() {
+                console.log("err get user");
+            }
+        });
+
     });
 </script>
 

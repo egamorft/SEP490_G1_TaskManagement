@@ -16,16 +16,16 @@ return new class extends Migration
         Schema::create('notifications', function (Blueprint $table) {
             $table->id();
             $table->text('title');
-            $table->integer('object_type');
-            $table->integer('status');
+            $table->tinyInteger('seen');
             $table->unsignedBigInteger('sender_id');
             $table->unsignedBigInteger('follower');
-            $table->unsignedBigInteger('object_id');
+            $table->text('target_url')->nullable();
             $table->text('description')->nullable();    
             $table->timestamp('created_at')->useCurrent();
             // $table->timestamps();
             
             $table->foreign('sender_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('follower')->references('id')->on('users')->onDelete('cascade');
         });
     }
 

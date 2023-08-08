@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Models\Notification;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\View;
 use Illuminate\Support\ServiceProvider;
 
 class NotificationProvider extends ServiceProvider
@@ -24,12 +27,13 @@ class NotificationProvider extends ServiceProvider
     public function boot()
     {
         View::composer('panels.navbar', function ($view) {
-            $account = Auth::user();
-            if($account){
-                $projects = $account->projects()->wherePivot('status', 1)->where('project_status', '!=', -1)->get();
-                $view->with('projects', $projects);
+            $notify = Notification::where('follower', Auth::id())->where('seen', 0)->get();
+            if($notify){
+                $view->with('notify', $notify);
+                $view->with('notiCount', count($notify));
             }else{
-                $view->with('projects', []);
+                $view->with('notiCount', 0);
+                $view->with('notify', []);
             }
         });
     }

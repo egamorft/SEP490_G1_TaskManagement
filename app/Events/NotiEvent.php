@@ -15,10 +15,18 @@ class NotiEvent implements ShouldBroadcast
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
     public $title;
+    public $sender;
+    public $follower;
+    public $desc;
+    public $target_url;
 
-    public function __construct($title)
+    public function __construct($title, $sender, $follower, $desc, $target_url)
     {
         $this->title = $title;
+        $this->sender = $sender;
+        $this->follower = $follower;
+        $this->desc = $desc;
+        $this->target_url = $target_url;
     }
 
     public function broadcastOn()
