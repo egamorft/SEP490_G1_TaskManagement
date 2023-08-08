@@ -1,9 +1,9 @@
 <!-- Member Header -->
 <div class="content-header row mb-0">
     <h4 class="mt-0 content-header-left col-md-10 col-12 mb-0">
-        <span class="menu-title text-truncate">User: {{ 'User Name' }}</span>
+        <span class="menu-title text-truncate">User: {{ $user->name }}</span>
 		<br/>
-		<span style="font-size: 14px;" class="menu-title text-truncate">Project Manager</span>
+		{{-- <span style="font-size: 14px;" class="menu-title text-truncate">Project Manager</span> --}}
     </h4>
     <div class="content-header-right text-md-end col-md-2 col-12 d-md-block d-none">
         <div class="mb-0 breadcrumb-right">

@@ -360,7 +360,7 @@ class TaskController extends Controller
             $dataTask["prev_tasks"] = json_encode($previousTask);
         }
 
-        $task = Task::create();
+        $task = Task::create($dataTask);
         Session::flash('success', 'Create successfully task ' . $task->title);
         // Return a response indicating the success of the operation
         return response()->json(['success' => true]);
