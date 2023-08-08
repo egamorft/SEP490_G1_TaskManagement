@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Rules\UniqueBoardTitle;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -31,5 +32,23 @@ class Board extends Model
     public function tasks()
     {
         return $this->hasManyThrough(Task::class, TaskList::class, 'board_id', 'taskList_id');
+    }
+    
+    public static function validationRules($projectId = null, $boardId = null)
+    {
+        $rules = [
+            'modalBoardName' => [
+                'required',
+                'max:100',
+                new UniqueBoardTitle($projectId)
+            ],
+            // Add other validation rules as needed
+        ];
+
+        if ($boardId) {
+            $rules['modalBoardName'][] = 'unique:boards,title,' . $boardId;
+        }
+
+        return $rules;
     }
 }
