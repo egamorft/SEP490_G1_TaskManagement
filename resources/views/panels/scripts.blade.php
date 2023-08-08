@@ -33,6 +33,35 @@
     var taskRoutes =
         "{{ route('task.modalsDetail', ['slug' => ':projectSlug', 'board_id' => ':boardId', 'task_id' => ':taskId']) }}";
 
+    var noti = pusher.subscribe('my-noti');
+    noti.bind('my-noti-event', function(data) {
+        console.log(JSON.stringify(data));
+        $.ajax({
+            type: 'GET',
+            url: '/updateUnseenNoti',
+            data: {
+
+            },
+            success: function(data) {
+                console.log(data.unseenCounter);
+                $('.pending-div-noti').empty();
+                html = ``;
+                if (data.unseenCounter > 0) {
+                    html +=
+                        `<span class="badge rounded-pill bg-danger badge-up">${data.unseenCounter}</span>`
+                }
+                $('.pending-div-noti').html(html);
+                
+                $('.pending-div-noti-badge').empty();
+                html = ``;
+                if (data.unseenCounter > 0) {
+                    html +=
+                        `<span class="badge rounded-pill badge-light-primary">${data.unseenCounter}</span>`
+                }
+                $('.pending-div-noti-badge').html(html);
+            }
+        });
+    });
 </script>
 
 
