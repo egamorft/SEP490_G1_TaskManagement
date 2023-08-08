@@ -41,7 +41,8 @@ $(window).on("load", function () {
 			var boardId = el.attr("data-board");
             var url = "?show=task&task_id=" + elementId;
             var currentUrl = window.location.href.split("?", (window.location.href).length)[0];
-			if (currentUrl === window.location.origin || currentUrl === window.location.origin + '/') {
+			if (currentUrl !== window.location.origin + `/project/${projectSlug}/board/${boardId}/kanban`) {
+			// if (currentUrl === window.location.origin || currentUrl === window.location.origin + '/') {
 				window.location.href = window.location.origin + `/project/${projectSlug}/board/${boardId}/kanban` + url;
 				return;
 			} else {

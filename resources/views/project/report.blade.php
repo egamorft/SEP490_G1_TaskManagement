@@ -366,13 +366,6 @@
             });
             overdueData.push(task_number);
         }
-        console.log(tasks);
-        console.log(todoData);
-        console.log(doingData);
-        console.log(reviewingData);
-        console.log(ontimeData);
-        console.log(lateData);
-        console.log(overdueData);
     </script>
 @endsection
 
