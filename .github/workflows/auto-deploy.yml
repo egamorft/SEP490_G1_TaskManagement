@@ -35,7 +35,7 @@ jobs:
         id: docker_build_server
         with:
           context: ./docker/8.1
-          file: ./Dockerfile
+          file: Dockerfile
           builder: ${{steps.buildx.outputs.name}}
           push: true
           tags: heaty566/huy-tung-server:latest
