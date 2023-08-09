@@ -40,19 +40,8 @@ jobs:
           ./vendor/bin/sail build
           ./vendor/bin/sail up -d
           docker tag sail-8.2/app:latest "heaty566/huy-tung-server:latest"
-      - name: Build and Push for Server
-        uses: docker/build-push-action@v2
-        id: docker_build_server
-        with:
-          context: ./vendor/laravel/sail/runtimes/8.2
-          file: Dockerfile
-          builder: ${{steps.buildx.outputs.name}}
-          push: true
-          tags: heaty566/huy-tung-server:latest
-      - name: Verify
-        run: |
-          echo ${{steps.docker_build_server.outputs.digest}}
-          echo 'Build done, ready to deploy'
+          docker login -u ${{ secrets.DOCKER_USERNAME  }} -p ${{ secrets.DOCKER_ACCESS_TOKEN  }}
+
   deploy:
     runs-on: ubuntu-latest
     needs: build-push
