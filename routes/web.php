@@ -42,14 +42,6 @@ use PhpParser\Node\Stmt\Return_;
 // 'middleware' => 'project.permission:$slug'
 
 // Main Page Route
-Route::get('/hehe', function(){
-    $title = "checker";
-
-    event(new NotiEvent($title));
-
-    return back();
-});
-
 
 // Route::get('/', [DashboardController::class, 'dashboard_member'])->name('dashboard');
 Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
@@ -97,6 +89,9 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('/seenNoti/{id}', [NotiController::class, 'seen'])->name('noti.seen');
+    Route::get('/user/get-specific-user', [AdminUserController::class, 'show'])->name('user.get');
+
     Route::get('/updateUnseenNoti', [NotiController::class, 'updateUnseenNoti']);
 
     Route::get('/updateUnseenMsg', [MessagesController::class, 'updateUnseenMsg']);

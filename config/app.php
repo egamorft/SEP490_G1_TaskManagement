@@ -185,6 +185,8 @@ return [
         App\Providers\AccountServiceProvider::class,
         //Project permisison
         App\Providers\PermissionProjectProvider::class,
+        //Notify provider
+        App\Providers\NotificationProvider::class,
         //QR code
         // SimpleSoftwareIO\QrCode\QrCodeServiceProvider::class,
         
