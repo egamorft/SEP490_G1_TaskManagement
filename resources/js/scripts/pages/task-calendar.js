@@ -33,7 +33,7 @@ document.addEventListener("DOMContentLoaded", function () {
             Todo: "info",
             Doing: "primary",
             Reviewing: "warning",
-            Done: "success",
+            Ontime: "success",
             Late: "secondary",
             Overdue: "danger",
         },
@@ -62,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
         // We are reading event object from app-calendar-events.js file directly by including that file above app-calendar file.
         // You should make an API call, look into above commented API call for reference
         selectedEvents = events.filter(function (event) {
-            // console.log(event.extendedProps.calendar.toLowerCase());
+            console.log(event);
             return calendars.includes(
                 event.extendedProps.calendar.toLowerCase()
             );

@@ -1396,7 +1396,7 @@ class ProjectController extends Controller
 				break;
 
 			case 3:
-				$props = "Done";
+				$props = "Ontime";
 				break;
 
 			default:
