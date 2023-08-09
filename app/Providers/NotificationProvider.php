@@ -27,10 +27,11 @@ class NotificationProvider extends ServiceProvider
     public function boot()
     {
         View::composer('panels.navbar', function ($view) {
-            $notify = Notification::where('follower', Auth::id())->where('seen', 0)->get();
+            $unseen_notify = Notification::where('follower', Auth::id())->where('seen', 0)->orderBy('id', 'desc')->get();
+            $notify = Notification::where('follower', Auth::id())->orderBy('id', 'desc')->take(5)->get();
             if($notify){
                 $view->with('notify', $notify);
-                $view->with('notiCount', count($notify));
+                $view->with('notiCount', count($unseen_notify));
             }else{
                 $view->with('notiCount', 0);
                 $view->with('notify', []);

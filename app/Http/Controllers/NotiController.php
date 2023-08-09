@@ -29,4 +29,12 @@ class NotiController extends Controller
         
         event(new NotiEvent($title, $sender, $follower, $desc, $target_url));
     }
+
+    public function seen($id){
+        $noti = Notification::findOrFail($id);
+        $noti->seen = 1;
+        $noti->save();
+
+        return response()->json(['success' => true]);
+    }
 }

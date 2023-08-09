@@ -120,16 +120,17 @@
                         </div>
                     </li>
                     @foreach ($notify as $not)
-                    @php
-                        $senders = User::findOrFail($not->sender_id);
-                    @endphp
+                        @php
+                            $senders = User::findOrFail($not->sender_id);
+                        @endphp
                         <li class="scrollable-container media-list">
-                            <a class="d-flex" href="{{ $not->target_url ?? "#" }}">
+                            <a data-id="{{ $not->id }}" class="d-flex targetUrl" href="{{ $not->target_url ?? '#' }}">
                                 <div class="list-item d-flex align-items-start">
                                     <div class="me-1">
                                         <div class="avatar">
-                                            <img title="{{ $senders->name }}" src="{{ asset('images/avatars/'.$senders->avatar) }}"
-                                                alt="avatar" width="32" height="32">
+                                            <img title="{{ $senders->name }}"
+                                                src="{{ asset('images/avatars/' . $senders->avatar) }}" alt="avatar"
+                                                width="32" height="32">
                                         </div>
                                     </div>
                                     <div class="list-item-body flex-grow-1">

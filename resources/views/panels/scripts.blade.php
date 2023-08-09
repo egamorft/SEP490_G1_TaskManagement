@@ -126,6 +126,36 @@
     <script src="{{ asset(mix('js/scripts/customizer.js')) }}"></script>
 @endif
 <!-- END: Theme JS-->
+<script>
+    $(document).ready(function() {
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        $('.targetUrl').on('click', function(event) {
+            event.preventDefault(); // Prevent default navigation behavior
+            var dataId = $(this).data('id');
+            var url = $(this).attr('href');
+
+            // Perform your AJAX call here
+            $.ajax({
+                url: '/seenNoti/' + dataId,
+                type: 'POST',
+                data: {
+                    _token: _token
+                },
+                success: function(response) {
+                    if (response.success) {
+
+                        // Once the AJAX call is complete, open the link in a new tab
+                        window.location.href = url;
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the AJAX call
+
+                }
+            });
+        });
+    });
+</script>
 <!-- BEGIN: Page JS-->
 @yield('page-script')
 <!-- END: Page JS-->
