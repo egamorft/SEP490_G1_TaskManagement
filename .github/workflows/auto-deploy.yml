@@ -34,7 +34,7 @@ jobs:
         uses: docker/build-push-action@v2
         id: docker_build_server
         with:
-          context: ./docker/8.1
+          context: ./vendor/laravel/sail/runtimes/8.2
           file: Dockerfile
           builder: ${{steps.buildx.outputs.name}}
           push: true
