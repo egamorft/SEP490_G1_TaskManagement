@@ -653,6 +653,9 @@ class ProjectController extends Controller
 				if ($task->assign_to != $user->id) {
 					continue;
 				}
+				$task->taskList = $task->taskList()->first();
+				$task->board = $task->taskList()->first()->board()->first();
+				$task->project = $task->taskList()->first()->board()->first()->project()->first();
 				$tasks[] = $task;
 				$duedate = new DateTime($task->due_date);
 				if (($task->status == 0 || $task->status == 1) && (new DateTime() > $duedate->setTime(23, 59, 59)) && $task->due_date) {
@@ -1159,13 +1162,16 @@ class ProjectController extends Controller
 		}
 
 		if ($query) {
-			$tasksInProjectBuilder = $tasksInProjectBuilder->where('title', 'like', '%' . $query . '%');
+			$query = explode(" ", $query);
+			foreach ($query as $str) {
+				$tasksInProjectBuilder = $tasksInProjectBuilder->where('title', 'like', '%' . $str . '%');
+			}
 		}
 
 		$totalRecords = $tasksInProjectBuilder->count();
 		$tasksInProject = $tasksInProjectBuilder
-			->skip(0)
-			->take($this->rowPerPage)
+			// ->skip(0)
+			// ->take($this->rowPerPage)
 			->get();
 		$rowPerPage = $this->rowPerPage;
 

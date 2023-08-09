@@ -51,7 +51,7 @@
 @endsection
 @section('page-script')
     {{-- Page js files --}}
-    <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
+    {{-- <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script> --}}
+    {{-- <script src="{{ asset(mix('js/scripts/pages/dashboard-calendar.js')) }}"></script> --}}
     <script src="{{ asset(mix('js/scripts/pages/app-calendar-events.js')) }}"></script>
-    <script src="{{ asset(mix('js/scripts/pages/dashboard-calendar.js')) }}"></script>
 @endsection

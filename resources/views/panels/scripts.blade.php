@@ -30,6 +30,9 @@
         });
     });
 
+    var taskRoutes =
+        "{{ route('task.modalsDetail', ['slug' => ':projectSlug', 'board_id' => ':boardId', 'task_id' => ':taskId']) }}";
+
     var noti = pusher.subscribe('my-noti');
     noti.bind('my-noti-event', function(data) {
         $.ajax({

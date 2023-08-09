@@ -59,9 +59,13 @@ class DashboardController extends Controller
 			$isTaskThisWeek = DashboardController::isTaskInWeek($taskDate, 0);
 			$isTaskNextWeek = DashboardController::isTaskInWeek($taskDate, 1);
 			if ($isTaskThisWeek || $isTaskNextWeek) {
+				$task->taskList = $task->taskList()->first();
+				$task->board = $task->taskList()->first()->board()->first();
+				$task->project = $task->taskList()->first()->board()->first()->project()->first();
 				$validTasks[] = $task;
 			}
 		}
+
 		$tasks = $validTasks;
 
 		return view('dashboard.dashboard-member', ['pageConfigs' => $pageConfigs])

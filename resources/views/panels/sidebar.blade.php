@@ -126,7 +126,7 @@
         </ul>
     </div>
 
-    {{-- @include('panels/reminderLayout') --}}
+    @include('panels/reminderLayout')
 </div>
 
 <!-- END: Main Menu-->

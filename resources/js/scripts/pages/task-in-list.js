@@ -11,6 +11,7 @@
 "use-strict";
 
 const modalCalendarTask = $("#modalCalendarTask");
+const targetTaskModal = $('#targetTaskModal');
 
 document.addEventListener("DOMContentLoaded", function () {
     var calendarEl = document.getElementById("calendar"),
@@ -99,4 +100,41 @@ document.addEventListener("DOMContentLoaded", function () {
         });
     }
     fetchEvents();
+
+	var sidebar = $(".update-item-sidebar");
+	$("#js-task-list-table tbody tr").on("click", function () {
+        var el = $(this);
+
+            if (el.find(".kanban-item-avatar").length) {
+                el.find(".kanban-item-avatar").on("click", function (e) {
+                    e.stopPropagation();
+                });
+            }
+
+            var elementId = el.attr("data-id");
+            var url = "?show=task&task_id=" + elementId;
+            var currentUrl = window.location.href.split("?", (window.location.href).length)[0];
+            history.replaceState(null, null, window.location.pathname + url);
+            currentUrl = window.location.href.substring(currentUrl.toString().length, (window.location.href).toString().length);
+            sidebar.modal("show");
+
+            const urlParams = new URLSearchParams(window.location.search);
+            const taskId = urlParams.get('task_id');
+
+            var taskRoute = taskRoutes.replace(':taskId', taskId);
+            const response = fetch(taskRoute);
+            response.then(res => {
+                if (res.ok) {
+                    return res.text();
+                } else {
+                    throw new Error('Something went wrong here');
+                }
+            }).then(html => {
+				console.log(targetTaskModal.find('.task-wrapper').html())
+                targetTaskModal.find('.task-wrapper').html(html);
+            }).catch(error => {
+                targetTaskModal.find('.task-wrapper').html(error);
+            });
+
+    })
 });
