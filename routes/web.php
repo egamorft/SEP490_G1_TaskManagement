@@ -1,5 +1,6 @@
 <?php
 
+use App\Events\NotiEvent;
 use App\Http\Controllers\AdminAccessController;
 use App\Http\Controllers\AdminUserController;
 use Illuminate\Support\Facades\Route;
@@ -18,6 +19,7 @@ use App\Http\Controllers\PagesController;
 use App\Http\Controllers\MiscellaneousController;
 use App\Http\Controllers\AuthenticationController;
 use App\Http\Controllers\ChartsController;
+use App\Http\Controllers\NotiController;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\SendMailController;
 use App\Http\Controllers\TaskController;
@@ -41,13 +43,11 @@ use PhpParser\Node\Stmt\Return_;
 
 // Main Page Route
 
-
 // Route::get('/', [DashboardController::class, 'dashboard_member'])->name('dashboard');
 Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('dashboard', [DashboardController::class, 'dashboard_member'])->name('dashboard.member');
 Route::get('admin/dashboard', [DashboardController::class, 'dashboard_admin'])->name('dashboard.admin');
 
-Route::get('/updateUnseenMsg', [MessagesController::class, 'updateUnseenMsg']);
 
 Route::middleware(['guest'])->group(function () {
     Route::get('/login', [AuthController::class, 'login'])->name('login');
@@ -89,6 +89,13 @@ Route::get('/api/check-auth', function () {
 
 
 Route::middleware(['auth'])->group(function () {
+    Route::post('/seenNoti/{id}', [NotiController::class, 'seen'])->name('noti.seen');
+    Route::get('/user/get-specific-user', [AdminUserController::class, 'show'])->name('user.get');
+
+    Route::get('/updateUnseenNoti', [NotiController::class, 'updateUnseenNoti']);
+
+    Route::get('/updateUnseenMsg', [MessagesController::class, 'updateUnseenMsg']);
+
     Route::post('reject-project', [ProjectController::class, 'rejectProject'])->name('reject.project');
     Route::post('approve-project', [ProjectController::class, 'approveProject'])->name('approve.project');
 

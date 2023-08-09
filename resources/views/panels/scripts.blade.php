@@ -29,6 +29,73 @@
             }
         });
     });
+
+    var noti = pusher.subscribe('my-noti');
+    noti.bind('my-noti-event', function(data) {
+        $.ajax({
+            type: 'GET',
+            url: '/updateUnseenNoti',
+            data: {
+
+            },
+            success: function(data) {
+                $('.pending-div-noti').empty();
+                html = ``;
+                if (data.unseenCounter > 0) {
+                    html +=
+                        `<span class="badge rounded-pill bg-danger badge-up">${data.unseenCounter}</span>`
+                }
+                $('.pending-div-noti').html(html);
+
+                $('.pending-div-noti-badge').empty();
+                html = ``;
+                if (data.unseenCounter > 0) {
+                    html +=
+                        `<span class="badge rounded-pill badge-light-primary">${data.unseenCounter} new</span>`
+                }
+                $('.pending-div-noti-badge').html(html);
+            }
+        });
+
+        //Content noti
+        var sender_id = data.sender;
+        $.ajax({
+            url: '/user/get-specific-user', // Replace with your server route
+            method: 'GET',
+            data: {
+                id: sender_id
+            },
+            dataType: 'json',
+            success: function(response) {
+                if (response.success) {
+                    var dataUser = response.data;
+
+                    var newItem = `<li class="scrollable-container media-list">
+                        <a class="d-flex" href="${data.target_url}">
+                            <div class="list-item d-flex align-items-start">
+                                <div class="me-1">
+                                    <div class="avatar">
+                                        <img src="{{ asset('images/avatars/${dataUser.avatar}') }}"
+                                            alt="avatar" width="32" height="32">
+                                    </div>
+                                </div>
+                                <div class="list-item-body flex-grow-1">
+                                    <p class="media-heading"><span class="fw-bolder">${data.title}</span></p>
+                                    <small class="notification-text">${data.desc}.</small>
+                                </div>
+                            </div>
+                        </a>
+                    </li>`;
+
+                    $("#startNoti").append(newItem);
+                }
+            },
+            error: function() {
+                console.log("err get user");
+            }
+        });
+
+    });
 </script>
 
 
@@ -59,6 +126,36 @@
     <script src="{{ asset(mix('js/scripts/customizer.js')) }}"></script>
 @endif
 <!-- END: Theme JS-->
+<script>
+    $(document).ready(function() {
+        var _token = $('meta[name="csrf-token"]').attr('content');
+        $('.targetUrl').on('click', function(event) {
+            event.preventDefault(); // Prevent default navigation behavior
+            var dataId = $(this).data('id');
+            var url = $(this).attr('href');
+
+            // Perform your AJAX call here
+            $.ajax({
+                url: '/seenNoti/' + dataId,
+                type: 'POST',
+                data: {
+                    _token: _token
+                },
+                success: function(response) {
+                    if (response.success) {
+
+                        // Once the AJAX call is complete, open the link in a new tab
+                        window.location.href = url;
+                    }
+                },
+                error: function(xhr, status, error) {
+                    // Handle any errors that occur during the AJAX call
+
+                }
+            });
+        });
+    });
+</script>
 <!-- BEGIN: Page JS-->
 @yield('page-script')
 <!-- END: Page JS-->

@@ -1,3 +1,6 @@
+@php
+    use App\Models\User;
+@endphp
 @if ($configData['mainLayoutType'] === 'horizontal' && isset($configData['mainLayoutType']))
     <nav class="header-navbar navbar-expand-lg navbar navbar-fixed align-items-center navbar-shadow navbar-brand-center {{ $configData['navbarColor'] }}"
         data-nav="brand-center">
@@ -64,7 +67,7 @@
                     title="Chat">
                     <i class="ficon" data-feather="message-square"></i>
                     <div class="pending-div">
-                        
+
                     </div>
                 </a>
             </li>
@@ -98,113 +101,46 @@
             <li class="nav-item dropdown dropdown-notification me-25">
                 <a class="nav-link" href="javascript:void(0);" data-bs-toggle="dropdown">
                     <i class="ficon" data-feather="bell"></i>
-                    <span class="badge rounded-pill bg-danger badge-up">5</span>
+                    <div class="pending-div-noti">
+                        @if ($notiCount > 0)
+                            <span class="badge rounded-pill bg-danger badge-up">{{ $notiCount }}</span>
+                        @endif
+                    </div>
                 </a>
                 <ul class="dropdown-menu dropdown-menu-media dropdown-menu-end">
-                    <li class="dropdown-menu-header">
+                    <li class="dropdown-menu-header" id="startNoti">
                         <div class="dropdown-header d-flex">
                             <h4 class="notification-title mb-0 me-auto">Notifications</h4>
-                            <div class="badge rounded-pill badge-light-primary">6 New</div>
-                        </div>
-                    </li>
-                    <li class="scrollable-container media-list">
-                        <a class="d-flex" href="javascript:void(0)">
-                            <div class="list-item d-flex align-items-start">
-                                <div class="me-1">
-                                    <div class="avatar">
-                                        <img src="{{ asset('images/portrait/small/avatar-s-15.jpg') }}"
-                                            alt="avatar" width="32" height="32">
-                                    </div>
-                                </div>
-                                <div class="list-item-body flex-grow-1">
-                                    <p class="media-heading"><span class="fw-bolder">Congratulation Sam
-                                            🎉</span>winner!</p>
-                                    <small class="notification-text"> Won the monthly best seller badge.</small>
-                                </div>
-                            </div>
-                        </a>
-                        <a class="d-flex" href="javascript:void(0)">
-                            <div class="list-item d-flex align-items-start">
-                                <div class="me-1">
-                                    <div class="avatar">
-                                        <img src="{{ asset('images/portrait/small/avatar-s-3.jpg') }}" alt="avatar"
-                                            width="32" height="32">
-                                    </div>
-                                </div>
-                                <div class="list-item-body flex-grow-1">
-                                    <p class="media-heading"><span class="fw-bolder">New message</span>&nbsp;received
-                                    </p>
-                                    <small class="notification-text"> You have 10 unread messages</small>
-                                </div>
-                            </div>
-                        </a>
-                        <a class="d-flex" href="javascript:void(0)">
-                            <div class="list-item d-flex align-items-start">
-                                <div class="me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <div class="avatar-content">MD</div>
-                                    </div>
-                                </div>
-                                <div class="list-item-body flex-grow-1">
-                                    <p class="media-heading"><span class="fw-bolder">Revised Order
-                                            👋</span>&nbsp;checkout</p>
-                                    <small class="notification-text"> MD Inc. order updated</small>
-                                </div>
-                            </div>
-                        </a>
-                        <div class="list-item d-flex align-items-center">
-                            <h6 class="fw-bolder me-auto mb-0">System Notifications</h6>
-                            <div class="form-check form-check-primary form-switch">
-                                <input class="form-check-input" id="systemNotification" type="checkbox"
-                                    checked="">
-                                <label class="form-check-label" for="systemNotification"></label>
+                            <div class="pending-div-noti-badge">
+                                @if ($notiCount > 0)
+                                    <span class="badge rounded-pill badge-light-primary">{{ $notiCount }}
+                                        new</span>
+                                @endif
                             </div>
                         </div>
-                        <a class="d-flex" href="javascript:void(0)">
-                            <div class="list-item d-flex align-items-start">
-                                <div class="me-1">
-                                    <div class="avatar bg-light-danger">
-                                        <div class="avatar-content"><i class="avatar-icon" data-feather="x"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-item-body flex-grow-1">
-                                    <p class="media-heading"><span class="fw-bolder">Server
-                                            down</span>&nbsp;registered</p>
-                                    <small class="notification-text"> USA Server is down due to hight CPU usage</small>
-                                </div>
-                            </div>
-                        </a>
-                        <a class="d-flex" href="javascript:void(0)">
-                            <div class="list-item d-flex align-items-start">
-                                <div class="me-1">
-                                    <div class="avatar bg-light-success">
-                                        <div class="avatar-content"><i class="avatar-icon" data-feather="check"></i>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="list-item-body flex-grow-1">
-                                    <p class="media-heading"><span class="fw-bolder">Sales
-                                            report</span>&nbsp;generated</p><small class="notification-text"> Last
-                                        month sales report generated</small>
-                                </div>
-                            </div>
-                        </a>
-                        <a class="d-flex" href="javascript:void(0)">
-                            <div class="list-item d-flex align-items-start">
-                                <div class="me-1">
-                                    <div class="avatar bg-light-warning">
-                                        <div class="avatar-content"><i class="avatar-icon"
-                                                data-feather="alert-triangle"></i></div>
-                                    </div>
-                                </div>
-                                <div class="list-item-body flex-grow-1">
-                                    <p class="media-heading"><span class="fw-bolder">High memory</span>&nbsp;usage</p>
-                                    <small class="notification-text"> BLR Server using high memory</small>
-                                </div>
-                            </div>
-                        </a>
                     </li>
+                    @foreach ($notify as $not)
+                        @php
+                            $senders = User::findOrFail($not->sender_id);
+                        @endphp
+                        <li class="scrollable-container media-list">
+                            <a data-id="{{ $not->id }}" class="d-flex targetUrl" href="{{ $not->target_url ?? '#' }}">
+                                <div class="list-item d-flex align-items-start">
+                                    <div class="me-1">
+                                        <div class="avatar">
+                                            <img title="{{ $senders->name }}"
+                                                src="{{ asset('images/avatars/' . $senders->avatar) }}" alt="avatar"
+                                                width="32" height="32">
+                                        </div>
+                                    </div>
+                                    <div class="list-item-body flex-grow-1">
+                                        <p class="media-heading"><span class="fw-bolder">{{ $not->title }}</p>
+                                        <small class="notification-text">{{ $not->description }}</small>
+                                    </div>
+                                </div>
+                            </a>
+                        </li>
+                    @endforeach
                     <li class="dropdown-menu-footer">
                         <a class="btn btn-primary w-100" href="javascript:void(0)">Read all notifications</a>
                     </li>
@@ -218,7 +154,7 @@
                             @if (Auth::check())
                                 {{ Auth::user()->name }}
                             @else
-                                John Doe
+                                Who are you?
                             @endif
                         </span>
                         <span class="user-status">

@@ -24,6 +24,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\Session;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
 use Illuminate\Validation\Rule;
 
@@ -947,7 +948,7 @@ class ProjectController extends Controller
 				}
 			}
 
-			if(!in_array($taskList->id, collect($taskItems)->pluck('taskList_id')->toArray())){
+			if (!in_array($taskList->id, collect($taskItems)->pluck('taskList_id')->toArray())) {
 				$taskItems = [];
 			}
 			$kanbanData[] = [
@@ -1184,11 +1185,17 @@ class ProjectController extends Controller
 			));
 	}
 
-	public function add_board(BoardRequest $request)
+	public function add_board(Request $request)
 	{
+		$projectId = $request->input('project_id');
+
+		$validator = Validator::make($request->all(), Board::validationRules($projectId));
+		if ($validator->fails()) {
+			return response()->json(['errors' => $validator->errors()], 422);
+		}
 		Board::create([
 			'title' => $request->input('modalBoardName'),
-			'project_id' => $request->input('project_id'),
+			'project_id' => $projectId,
 		]);
 
 		Session::flash('success', 'Create successfully board');
@@ -1416,8 +1423,8 @@ class ProjectController extends Controller
 		$project->description = $request->reason;
 		$project->project_status = -1;
 		$project->save();
-		
-        return response()->json(['success' => true]);
+
+		return response()->json(['success' => true]);
 	}
 
 	public function approveProject(Request $request)
@@ -1426,7 +1433,7 @@ class ProjectController extends Controller
 		$project->description = $request->reason;
 		$project->project_status = 2;
 		$project->save();
-		
-        return response()->json(['success' => true]);
+
+		return response()->json(['success' => true]);
 	}
 }

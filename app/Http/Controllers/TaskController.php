@@ -14,9 +14,16 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Facades\URL;
 
 class TaskController extends Controller
 {
+    private $notiController;
+
+    public function __construct(NotiController $notiController)
+    {
+        $this->notiController = $notiController;
+    }
 
     public $rowPerPage = 20;
 
@@ -357,6 +364,7 @@ class TaskController extends Controller
 
     public function commentTask(Request $request)
     {
+        $task = Task::findOrFail($request->input("id"));
         $comment = Comment::create([
             'task_id' => $request->input("id"),
             'content' => $request->input("content"),
@@ -364,6 +372,7 @@ class TaskController extends Controller
         ]);
 
         if ($comment) {
+            $this->notiController->createNotiContent("New comment", Auth::id(), $task->assign_to, Auth::user()->name . " have comment to your task. Check it out!", URL::previous());
             return response()->json(['success' => true]);
         }
         return response()->json(['success' => false]);
