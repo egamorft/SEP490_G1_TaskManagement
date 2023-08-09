@@ -38,9 +38,9 @@ jobs:
         run: |
           composer install  # If you need to install Laravel dependencies
           ./vendor/bin/sail build
-          ./vendor/bin/sail up -d
           docker tag sail-8.2/app:latest "heaty566/huy-tung-server:latest"
           docker login -u ${{ secrets.DOCKER_USERNAME  }} -p ${{ secrets.DOCKER_ACCESS_TOKEN  }}
+          docker push heaty566/huy-tung-server:latest
 
   deploy:
     runs-on: ubuntu-latest
