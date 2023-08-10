@@ -109,12 +109,12 @@
 							<div class="avatar float-start bg-white rounded">
 								<a href="{{ "#" }}"
 									class="avatar float-start bg-white rounded me-1">
-									<img src="{{ asset('images/avatars/' . $creator->avatar) }}" alt="Avatar" width="33"
+									<img src="{{ asset('images/avatars/' . $task->reviewer->avatar) }}" alt="Avatar" width="33"
 										height="33" />
 								</a>
 							</div>
 							<div class="more-info pt-05">
-								<h6 class="mt-0">{{ $creator->name ?? '' }}</h6>
+								<h6 class="mt-0">{{ $task->reviewer->name ?? '' }}</h6>
 							</div>
 						</td>
                     </tr>

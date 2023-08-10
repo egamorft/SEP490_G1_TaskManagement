@@ -2,15 +2,15 @@ $(function () {
     "use strict";
 
     var chartColors = {
-        todo: "#00cfe8",
-        doing: "#7367f0",
-        reviewing: "#ff9f43",
-        ontime: "#28c76f",
-        late: "#82868b",
-        overdue: "#ea5455",
-    },
-	isRtl = $('html').attr('data-textdirection') === 'rtl',
-	flatPicker = $('.flat-picker');
+            todo: "#00cfe8",
+            doing: "#7367f0",
+            reviewing: "#ff9f43",
+            ontime: "#28c76f",
+            late: "#82868b",
+            overdue: "#ea5455",
+        },
+        isRtl = $("html").attr("data-textdirection") === "rtl",
+        flatPicker = $(".flat-picker");
 
     // Donut Chart
     // --------------------------------------------------------------------
@@ -19,6 +19,43 @@ $(function () {
             chart: {
                 height: 400,
                 type: "donut",
+                events: {
+                    click: function (event, chartContext, config) {
+                        var html_status = $(event.target)
+                            .parents("#donut-chart")
+                            .find(
+                                ".apexcharts-datalabels-group > text:first-child()"
+                            )
+                            .html();
+						var data = {
+							"todo": 0,
+							"doing": 1,
+							"reviewing": 2,
+							"ontime": 3,
+							"overdue": -1
+						};
+
+						html_status = html_status.toLowerCase();
+
+						if(html_status.includes("done")) {
+							html_status = html_status.substring(0, "done".length + 1);
+						}
+
+						var status = data[html_status] ?? 0;
+						var table_task = $(event.target).parents('#chartjs-chart').find(".table-data-task .table-task");
+
+						table_task.find("tbody tr").each(function(e) {
+							var canvas = $(this);
+							var data_id = canvas.attr("data-id");
+							
+							if (status == data_id) {
+								return;
+							}
+
+							canvas.addClass("hidden");
+						});
+                    },
+                },
             },
             legend: {
                 show: true,
@@ -124,16 +161,16 @@ $(function () {
         donutChart.render();
     }
 
-	// Init flatpicker
-	if (flatPicker.length) {
-		var date = new Date();
-		flatPicker.each(function () {
-		  $(this).flatpickr({
-			mode: 'range',
-			defaultDate: ['2019-05-01', '2019-05-10']
-		  });
-		});
-	  }
+    // Init flatpicker
+    if (flatPicker.length) {
+        var date = new Date();
+        flatPicker.each(function () {
+            $(this).flatpickr({
+                mode: "range",
+                defaultDate: ["2019-05-01", "2019-05-10"],
+            });
+        });
+    }
 
     // Area Chart
     // --------------------------------------------------------------------
