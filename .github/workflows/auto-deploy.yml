@@ -36,6 +36,11 @@ jobs:
         id: buildx
       - name: Build and Push Docker Image
         run: |
+          # install nodejs 
+          curl -sL https://deb.nodesource.com/setup_14.x | sudo -E bash -
+          sudo apt-get install -y nodejs
+          npm install
+          # install laravel
           composer install  # If you need to install Laravel dependencies
           ./vendor/bin/sail build
           docker tag sail-8.2/app:latest "heaty566/huy-tung-server:latest"
