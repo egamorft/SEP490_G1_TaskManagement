@@ -2,10 +2,9 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
-class CreateChatifyFavoritesTable extends Migration
+return new class extends Migration
 {
     /**
      * Run the migrations.
@@ -15,10 +14,7 @@ class CreateChatifyFavoritesTable extends Migration
     public function up()
     {
         Schema::table('ch_favorites', function (Blueprint $table) {
-            $table->uuid('id');
-            $table->bigInteger('user_id');
-            $table->bigInteger('favorite_id');
-            $table->timestamps();
+            $table->primary('id');
         });
     }
 
@@ -28,7 +24,9 @@ class CreateChatifyFavoritesTable extends Migration
      * @return void
      */
     public function down()
-    {        
-        Schema::dropIfExists('ch_favorites');
+    {
+        Schema::table('ch_favorites', function (Blueprint $table) {
+            $table->dropPrimary('ch_favorites_id_primary');
+        });
     }
-}
+};
