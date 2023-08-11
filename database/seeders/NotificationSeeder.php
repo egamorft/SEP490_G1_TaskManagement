@@ -17,9 +17,9 @@ class NotificationSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
+        // $faker = Faker::create();
 
-        $accounts = User::pluck('id')->toArray();
+        // $accounts = User::pluck('id')->toArray();
 
         // for ($i = 0; $i < 5; $i++) {
         //     Notification::create([
