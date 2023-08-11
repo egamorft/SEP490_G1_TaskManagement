@@ -14,7 +14,10 @@ class CreateChatifyFavoritesTable extends Migration
     public function up()
     {
         Schema::create('ch_favorites', function (Blueprint $table) {
-            $table->dropPrimary('ch_favorites_pkey');
+            if (Schema::hasPrimaryKey('ch_favorites')) {
+                // Check if the table has a primary key
+                $table->dropPrimary(); // Drop the existing primary key
+            }
             $table->uuid('id')->primary();
             $table->bigInteger('user_id');
             $table->bigInteger('favorite_id');
