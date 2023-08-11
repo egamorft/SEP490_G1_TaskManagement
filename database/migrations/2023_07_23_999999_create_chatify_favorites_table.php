@@ -2,6 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Schema;
 
 class CreateChatifyFavoritesTable extends Migration
@@ -13,11 +14,15 @@ class CreateChatifyFavoritesTable extends Migration
      */
     public function up()
     {
-        Schema::create('ch_favorites', function (Blueprint $table) {
-            if (Schema::hasPrimaryKey('ch_favorites')) {
-                // Check if the table has a primary key
+        $primaryKey = DB::selectOne("SHOW KEYS FROM ch_favorites WHERE Key_name = 'PRIMARY'");
+
+        if ($primaryKey) {
+            Schema::table('ch_favorites', function (Blueprint $table) {
                 $table->dropPrimary(); // Drop the existing primary key
-            }
+            });
+        }
+
+        Schema::table('ch_favorites', function (Blueprint $table) {
             $table->uuid('id')->primary();
             $table->bigInteger('user_id');
             $table->bigInteger('favorite_id');
@@ -32,6 +37,13 @@ class CreateChatifyFavoritesTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ch_favorites');
+        Schema::table('ch_favorites', function (Blueprint $table) {
+            $primaryKey = DB::selectOne("SHOW KEYS FROM ch_favorites WHERE Key_name = 'PRIMARY'");
+            $table->dropPrimary(); // Drop the new primary key
+
+            if (!$primaryKey) {
+                $table->uuid('id')->primary();
+            }
+        });
     }
 }
