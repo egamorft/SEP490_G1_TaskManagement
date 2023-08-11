@@ -1184,6 +1184,10 @@ class ProjectController extends Controller
 			// ->skip(0)
 			// ->take($this->rowPerPage)
 			->get();
+
+		foreach ($tasksInProject as $task) {
+			$task->taskList = $task->taskList()->first();
+		}
 		$rowPerPage = $this->rowPerPage;
 
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])

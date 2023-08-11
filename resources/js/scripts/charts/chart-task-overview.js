@@ -27,32 +27,47 @@ $(function () {
                                 ".apexcharts-datalabels-group > text:first-child()"
                             )
                             .html();
+
+                        html_status = html_status.toLowerCase();
 						var data = {
 							"todo": 0,
 							"doing": 1,
 							"reviewing": 2,
 							"ontime": 3,
-							"overdue": -1
+							"late": -1
 						};
-
-						html_status = html_status.toLowerCase();
 
 						if(html_status.includes("done")) {
 							html_status = html_status.substring(0, "done".length + 1);
 						}
 
+                        if(html_status == 'overdue') {
+                            html_status = 'doing';
+                        }
+
 						var status = data[html_status] ?? 0;
 						var table_task = $(event.target).parents('#chartjs-chart').find(".table-data-task .table-task");
 
+                        table_task.find("tbody tr").each(function(e) {
+                            $(this).removeClass("hidden");
+                        })
+
 						table_task.find("tbody tr").each(function(e) {
 							var canvas = $(this);
-							var data_id = canvas.attr("data-id");
-							
-							if (status == data_id) {
-								return;
-							}
-
+							var data_status = canvas.attr("data-status");
+                            var data_time = canvas.attr("data-time");
+							data_time = Math.floor(Date.parse(data_time) / 1000);
 							canvas.addClass("hidden");
+
+                            var today = new Date();
+                            today = Math.floor(today.getTime() / 1000);
+
+                            if (data_status == status) {
+                                if (data_time < today) {
+                                    return;
+                                }
+                                canvas.removeClass("hidden");
+                            }
 						});
                     },
                 },
