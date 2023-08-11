@@ -14,13 +14,13 @@ class CreateChatifyFavoritesTable extends Migration
      */
     public function up()
     {
-        $primaryKey = DB::selectOne("SHOW KEYS FROM ch_favorites WHERE Key_name = 'PRIMARY'");
+        // $primaryKey = DB::selectOne("SHOW KEYS FROM ch_favorites WHERE Key_name = 'PRIMARY'");
 
-        if ($primaryKey) {
-            Schema::table('ch_favorites', function (Blueprint $table) {
-                $table->dropPrimary(); // Drop the existing primary key
-            });
-        }
+        // if ($primaryKey) {
+        //     Schema::table('ch_favorites', function (Blueprint $table) {
+        //         $table->dropPrimary(); // Drop the existing primary key
+        //     });
+        // }
 
         Schema::table('ch_favorites', function (Blueprint $table) {
             $table->uuid('id')->primary();
@@ -36,14 +36,7 @@ class CreateChatifyFavoritesTable extends Migration
      * @return void
      */
     public function down()
-    {
-        Schema::table('ch_favorites', function (Blueprint $table) {
-            $primaryKey = DB::selectOne("SHOW KEYS FROM ch_favorites WHERE Key_name = 'PRIMARY'");
-            $table->dropPrimary(); // Drop the new primary key
-
-            if (!$primaryKey) {
-                $table->uuid('id')->primary();
-            }
-        });
+    {        
+        Schema::dropIfExists('ch_favorites');
     }
 }
