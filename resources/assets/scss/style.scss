@@ -91,6 +91,12 @@ WE WILL RELEASE FUTURE UPDATES SO IN ORDER TO NOT OVERWRITE YOUR STYLES IT'S BET
 	color: #ea5455;
 }
 
+.card-table {
+	margin-left: 15px;
+	margin-right: 15px;
+    width: 98%;
+}
+
 @import 'project-layout';
 @import 'kanban-detail';
 @import 'gantt-detail';

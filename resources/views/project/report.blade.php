@@ -49,7 +49,7 @@
 
         <div class="row">
             <!-- Project table -->
-            <div class="card col-12">
+            <div class="card col-12 card-table">
                 <h4 class="card-header">Task assignments by members</h4>
                 <div class="table-responsive">
                     <table class="table datatable-project">
@@ -266,7 +266,7 @@
                 </div>
             </div>
             <!-- /Project table -->
-            <div class="card table-data-task">
+            <div class="card table-data-task card-table">
                 <div class="card-body border-bottom mb-0">
                     <h4 class="card-title mb-0">Task Overview</h4>
                 </div>
