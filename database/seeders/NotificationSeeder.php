@@ -21,17 +21,17 @@ class NotificationSeeder extends Seeder
 
         $accounts = User::pluck('id')->toArray();
 
-        for ($i = 0; $i < 5; $i++) {
-            Notification::create([
-                'title' => $faker->sentence,
-                'object_type' => $faker->randomElement([0, 1, 2]),
-                'status' => $faker->randomElement([0, 1]),
-                'sender_id' => $faker->randomElement($accounts),
-                'follower' => $faker->randomElement($accounts),
-                'object_id' => $faker->randomNumber(),
-                'description' => $faker->paragraph,
-                'created_at' => $faker->dateTime(),
-            ]);
-        }
+        // for ($i = 0; $i < 5; $i++) {
+        //     Notification::create([
+        //         'title' => $faker->sentence,
+        //         'object_type' => $faker->randomElement([0, 1, 2]),
+        //         'status' => $faker->randomElement([0, 1]),
+        //         'sender_id' => $faker->randomElement($accounts),
+        //         'follower' => $faker->randomElement($accounts),
+        //         'object_id' => $faker->randomNumber(),
+        //         'description' => $faker->paragraph,
+        //         'created_at' => $faker->dateTime(),
+        //     ]);
+        // }
     }
 }
