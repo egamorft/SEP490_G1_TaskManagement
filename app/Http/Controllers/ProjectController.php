@@ -1272,7 +1272,7 @@ class ProjectController extends Controller
 				break;
 
 			case 2:
-				Session::put('projectState', 'Your project is being approved by your supervisor :D');
+				Session::put('projectState', 'Your project is being approved by your supervisor!!');
 				return true;
 				break;
 
