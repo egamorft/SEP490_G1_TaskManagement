@@ -30,6 +30,12 @@ use Illuminate\Validation\Rule;
 
 class ProjectController extends Controller
 {
+	private $notiController;
+
+	public function __construct(NotiController $notiController)
+	{
+		$this->notiController = $notiController;
+	}
 
 	public $rowPerPage = 100;
 
@@ -405,21 +411,29 @@ class ProjectController extends Controller
 			$accountProject = AccountProject::where('project_id', $project->id)
 				->where('account_id', $account->id)
 				->first();
+			$pmAccountProject = AccountProject::where('project_id', $project->id)
+				->where('role_id', 1)
+				->first();
 			$check_supervisor_role = Str::endsWith($account->email, '@fe.edu.vn');
 			if ($accountProject) {
 				if ($request->input('approve') == 1) {
 					if ($check_supervisor_role) {
 						$project->project_status = 1;
 						$project->save();
+						$this->notiController->createNotiContent("Project have been approved to start", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have accepted your invite to guide " . $project->name . " project", route('project.settings', ['slug' => $project->slug]));
+					}else{
+						$this->notiController->createNotiContent("New member join", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have accepted your invite to join " . $project->name . " project", route('project.settings', ['slug' => $project->slug]));
 					}
 					$accountProject->status = 1;
 					$accountProject->save();
+
 					Session::flash('success', 'You have success to join the ' . $project->name);
 					// Return a response indicating the success of the operation
 					return redirect(url('/project/' . $project->slug));
 				} elseif ($request->input('decline') == 1) {
 					$accountProject->status = -1;
 					$accountProject->save();
+					$this->notiController->createNotiContent("Invitation was rejected", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have declined your invitation to join " . $project->name . " project! Take this chance for another one", route('project.settings', ['slug' => $project->slug]));
 					Session::flash('success', 'You have decline the invitation');
 					// Return a response indicating the success of the operation
 					return redirect()->route('dashboard');
@@ -495,6 +509,9 @@ class ProjectController extends Controller
 			]);
 
 			Mail::to($invitedAccount->email)->send(new ProjectInvitation($project_slug, $project_token, $project->name, $invitedAccount->name, 'Member'));
+
+			//Set up noti
+			$this->notiController->createNotiContent("New invitation request", Auth::id(), $invitedAccount->id, Auth::user()->name . " have invited you to join the group " . $get_project->name, route('project.invite', ['slug' => $project_slug, 'token' => $project_token]));
 
 			Session::flash('success', 'Successfully invite ' . $invitedAccount->name);
 			// Return a response indicating the success of the operation
@@ -899,11 +916,6 @@ class ProjectController extends Controller
 			//Check role to display task
 			$accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
 			$tasks = Task::query()->where('taskList_id', $taskList->id);
-			if ($accountRoleName == "member") {
-				$tasks = $tasks->where('taskList_id', $taskList->id)
-					->where('created_by', Auth::id())
-					->orWhere('assign_to', Auth::id());
-			}
 
 			if ($q) {
 				$tasks = $tasks->where('title', 'like', '%' . $q . '%');
@@ -921,10 +933,16 @@ class ProjectController extends Controller
 				$tasks = $tasks->whereDate('due_date', '=', now()->addWeek()->format('Y-m-d'));
 			}
 			if ($doneTask) {
-				$tasks = $tasks->where('status', 4);
+				$tasks = $tasks->where('status', TaskStatus::DONE);
 			}
 			if ($doingTask) {
-				$tasks = $tasks->where('status', 2);
+				$tasks = $tasks->where('status', TaskStatus::DOING);
+			}
+			if ($accountRoleName == "member") {
+				$tasks = $tasks->where(function ($query) {
+					$query->where('created_by', Auth::id())
+						->orWhere('assign_to', Auth::id());
+				});
 			}
 
 			$tasks = $tasks
@@ -1444,6 +1462,12 @@ class ProjectController extends Controller
 		$project->description = $request->reason;
 		$project->project_status = -1;
 		$project->save();
+		
+		//Set up noti
+		$pmAccountProject = AccountProject::where('project_id', $request->id)
+		->where('role_id', 1)
+		->first();
+		$this->notiController->createNotiContent("Your project have been rejected", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have reject your " . $project->name . " project", route('view.project.board', ['slug' => $project->slug]));
 
 		return response()->json(['success' => true]);
 	}
@@ -1454,6 +1478,12 @@ class ProjectController extends Controller
 		$project->description = $request->reason;
 		$project->project_status = 2;
 		$project->save();
+		
+		//Set up noti
+		$pmAccountProject = AccountProject::where('project_id', $request->id)
+		->where('role_id', 1)
+		->first();
+		$this->notiController->createNotiContent("Your project have been rejected", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have reject your " . $project->name . " project", route('view.project.board', ['slug' => $project->slug]));
 
 		return response()->json(['success' => true]);
 	}
