@@ -80,12 +80,6 @@
                                         'class' => 'badge-light-danger',
                                     ];
                                 }
-                                
-                                $taskList =
-                                    $taskLists[$task->taskList_id] ??
-                                    (object) [
-                                        'title' => '',
-                                    ];
                                 $account = null;
                                 foreach ($accounts as $acc) {
                                     $acc = (object) $acc;
@@ -110,7 +104,7 @@
                                     <span class="badge rounded-pill {{ $statusView['class'] }}"
                                         data-time='{{ strtotime($task->due_date) }}'>{{ date('D, M d, Y', strtotime($task->due_date)) }}</span>
                                 </td>
-                                <td>{{ $taskList->title }}</td>
+                                <td>{{ $task->taskList->title }}</td>
                                 <td>
                                     @if ($account)
                                         <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => 0]) }}"

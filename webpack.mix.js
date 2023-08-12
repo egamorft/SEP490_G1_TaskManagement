@@ -1,6 +1,9 @@
 const mix = require('laravel-mix')
 const exec = require('child_process').exec
 require('dotenv').config()
+if (process.env.MIX_PUBLIC_PATH) {
+    mix.setPublicPath(process.env.MIX_PUBLIC_PATH)
+}
 
 /*
  |--------------------------------------------------------------------------
