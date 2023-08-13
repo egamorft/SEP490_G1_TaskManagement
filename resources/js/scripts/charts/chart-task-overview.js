@@ -48,7 +48,7 @@ $(function () {
 						};
 
 						if (html_status.includes("done")) {
-							html_status = html_status.substring(0, "done".length + 1);
+							html_status = html_status.substring("done".length + 1, html_status.length);
 						}
 
 						if (html_status == 'overdue') {
@@ -77,8 +77,9 @@ $(function () {
 									canvas.removeClass("hidden");
 								}
 							} else {
+								
 								if (data_status == status) {
-									if (data_time < today) {
+									if (data_time < today && data_status != 3) {
 										return;
 									}
 									canvas.removeClass("hidden");
