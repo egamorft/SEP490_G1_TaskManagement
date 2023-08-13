@@ -2,7 +2,7 @@
     use Illuminate\Support\Carbon;
 @endphp
 <!-- Project table -->
-<div class="card col-12">
+<div class="card col-12 card-table">
     <h4 class="card-header">Your Related Projects</h4>
     <div class="table-responsive">
         <table class="table datatable-project">

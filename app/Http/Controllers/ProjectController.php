@@ -673,6 +673,10 @@ class ProjectController extends Controller
 				$task->taskList = $task->taskList()->first();
 				$task->board = $task->taskList()->first()->board()->first();
 				$task->project = $task->taskList()->first()->board()->first()->project()->first();
+				$taskAssign = Auth::user()->where("id", $task->assign_to)->first();
+				$taskReview = Auth::user()->where("id", $task->created_by)->first();
+				$task->assignee = $taskAssign;
+				$task->reviewer = $taskReview;
 				$tasks[] = $task;
 				$duedate = new DateTime($task->due_date);
 				if (($task->status == 0 || $task->status == 1) && (new DateTime() > $duedate->setTime(23, 59, 59)) && $task->due_date) {
@@ -768,6 +772,13 @@ class ProjectController extends Controller
 				if (!$task->assign_to) {
 					continue;
 				}
+				$task->taskList = $task->taskList()->first();
+				$task->board = $task->taskList()->first()->board()->first();
+				$task->project = $task->taskList()->first()->board()->first()->project()->first();
+				$taskAssign = Auth::user()->where("id", $task->assign_to)->first();
+				$taskReview = Auth::user()->where("id", $task->created_by)->first();
+				$task->assignee = $taskAssign;
+				$task->reviewer = $taskReview;
 				$tasks[] = $task;
 				$duedate = new DateTime($task->due_date);
 				if (($task->status == 0 || $task->status == 1) && (new DateTime() > $duedate->setTime(23, 59, 59)) && $task->due_date) {
@@ -1191,6 +1202,10 @@ class ProjectController extends Controller
 			// ->skip(0)
 			// ->take($this->rowPerPage)
 			->get();
+
+		foreach ($tasksInProject as $task) {
+			$task->taskList = $task->taskList()->first();
+		}
 		$rowPerPage = $this->rowPerPage;
 
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])

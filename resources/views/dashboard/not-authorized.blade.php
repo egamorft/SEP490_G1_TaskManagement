@@ -30,8 +30,28 @@
                     serves.</p>
                 <a class="btn btn-primary mb-1 btn-sm-block" href="{{ url('auth/login-cover') }}">Back to login</a>
             </div>
+			<div class="w-100 text-center app-introduction">
+				<h2 class='mb-1'>FTask - Task Management System</h2>
+				<div class='row mb-2 app-introduction-wrapper'>
+					<div class='col'>
+						<div class='introduction-text'>
+							Manage work progress easily
+						</div>
+					</div>
+					<div class='col'>
+						<div class='introduction-text'>
+							Tracking members progress in project
+						</div>
+					</div>
+					<div class='col'>
+						<div class='introduction-text'>
+							Know your workload and deadline to finish
+						</div>
+					</div>
+				</div>
+			</div>
             <div class="w-100 text-center">
-                <img class="img-fluid" src="{{ asset('images/pages/not-authorized.svg') }}" alt="Not authorized page" />
+                <img class="img-fluid" src="{{ asset('images/pages/login-v2.svg') }}" alt="Not authorized page" />
             </div>
         </div>
     </div>
