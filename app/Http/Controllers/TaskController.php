@@ -546,6 +546,14 @@ class TaskController extends Controller
             $taskDetails->assign_to = $user_id;
             $taskDetails->save();
 
+            $this->notiController->createNotiContent(
+                "New task",
+                Auth::id(),
+                $user_id,
+                Auth::user()->name . " have assign you new task! Check it out",
+                URL::previous()
+            );
+
             $getNewTask = Task::with('assignTo')->findOrFail($task_id);
             return response()->json(['success' => true, 'name' => $getNewTask->assignTo->name, 'avatar' => $getNewTask->assignTo->avatar]);
         } else {
@@ -562,6 +570,14 @@ class TaskController extends Controller
         if ($taskDetails) {
             $taskDetails->created_by = $user_id;
             $taskDetails->save();
+
+            $this->notiController->createNotiContent(
+                "New task you will be review",
+                Auth::id(),
+                $user_id,
+                "New task need you to reviewing",
+                URL::previous()
+            );
 
             $getNewTask = Task::with('createdBy')->findOrFail($task_id);
             return response()->json(['success' => true, 'name' => $getNewTask->createdBy->name, 'avatar' => $getNewTask->createdBy->avatar]);
@@ -584,6 +600,25 @@ class TaskController extends Controller
             $taskDetails->start_date = $start_date;
             $taskDetails->due_date = $end_date;
             $taskDetails->save();
+
+            //Set up noti
+            //Assignee
+            $this->notiController->createNotiContent(
+                "Duration change",
+                Auth::id(),
+                $taskDetails->assign_to,
+                $taskDetails->title . " have change duration! Check it now",
+                URL::previous()
+            );
+
+            //Reviewer
+            $this->notiController->createNotiContent(
+                "Duration change",
+                Auth::id(),
+                $taskDetails->created_by,
+                $taskDetails->title . " have change duration! Check it now",
+                URL::previous()
+            );
 
             return response()->json(['success' => true]);
         } else {
@@ -761,6 +796,16 @@ class TaskController extends Controller
         $taskDetails = Task::findOrFail($task_id);
         $taskDetails->status = TaskStatus::REVIEWING;
         $taskDetails->save();
+
+        //Set up noti
+        $this->notiController->createNotiContent(
+            "Need to review",
+            Auth::id(),
+            $taskDetails->created_by,
+            $taskDetails->title . " need your review! Check it now",
+            URL::previous()
+        );
+
         return response()->json(['success' => true]);
     }
 
@@ -780,6 +825,16 @@ class TaskController extends Controller
         }
 
         $taskDetails->save();
+
+        //Set up noti
+        $this->notiController->createNotiContent(
+            "Your task has finished",
+            Auth::id(),
+            $taskDetails->assign_to,
+            $taskDetails->title . " has finished",
+            URL::previous()
+        );
+
         return response()->json(['success' => true]);
     }
 
@@ -803,6 +858,16 @@ class TaskController extends Controller
             $taskDetails->save();
 
             Session::flash('success', 'You have reject the task');
+            
+            //Set up noti
+            $this->notiController->createNotiContent(
+                "Your task has been rejected",
+                Auth::id(),
+                $taskDetails->assign_to,
+                $taskDetails->title . "needs to be redone! Check it now",
+                URL::previous()
+            );
+
             return response()->json(['success' => true]);
         }
         return response()->json(['error' => true], 500);

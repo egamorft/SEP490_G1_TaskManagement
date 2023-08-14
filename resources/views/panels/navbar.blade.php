@@ -124,19 +124,28 @@
                             $senders = User::findOrFail($not->sender_id);
                         @endphp
                         <li class="scrollable-container media-list">
-                            <a data-id="{{ $not->id }}" class="d-flex targetUrl" href="{{ $not->target_url ?? '#' }}">
+                            <a data-id="{{ $not->id }}" class="d-flex targetUrl"
+                                href="{{ $not->target_url ?? '#' }}">
                                 <div class="list-item d-flex align-items-start">
                                     <div class="me-1">
                                         <div class="avatar">
                                             <img title="{{ $senders->name }}"
-                                                src="{{ asset('images/avatars/' . $senders->avatar) }}" alt="avatar"
-                                                width="32" height="32">
+                                                src="{{ asset('images/avatars/' . $senders->avatar) }}"
+                                                alt="avatar" width="32" height="32">
                                         </div>
                                     </div>
-                                    <div class="list-item-body flex-grow-1">
+                                    <div class="list-item-body flex-grow-1 fw-bold">
                                         <p class="media-heading"><span class="fw-bolder">{{ $not->title }}</p>
                                         <small class="notification-text">{{ $not->description }}</small>
                                     </div>
+                                    @if ($not->seen == 0)
+                                        <div class="flex-shrink-0 dropdown-notifications-actions">
+                                            <svg xmlns="http://www.w3.org/2000/svg" width="30" height="30"
+                                                fill="currentColor" class="bi bi-dot" viewBox="0 0 16 16">
+                                                <path d="M8 9.5a1.5 1.5 0 1 0 0-3 1.5 1.5 0 0 0 0 3z" />
+                                            </svg>
+                                        </div>
+                                    @endif
                                 </div>
                             </a>
                         </li>

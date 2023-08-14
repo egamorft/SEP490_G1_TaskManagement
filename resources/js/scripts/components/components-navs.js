@@ -25,18 +25,42 @@
 $(document).ready(function () {
   var isRtl = $('html').attr('data-textdirection') === 'rtl';
 
-  $('.reasonButton').prop('disabled', true);
 
-  // Comment not null then button enabled
-  $('.reasonSupervisor').on('input', function () {
-    // If the textarea contains text, enable the button
-    if ($(this).val().trim().length > 0) {
-      $('.reasonButton').prop('disabled', false);
-    } else {
-      // Otherwise, disable the button
-      $('.reasonButton').prop('disabled', true);
-    }
+  ClassicEditor
+    .create(document.querySelector('#rejectProjectEditor'))
+    .then(editorInstance => {
+      const rejectButton = $('.reasonButton');
+      const editorContentInput = $('#editorReject');
+      rejectButton.prop('disabled', true); // Disable the button by default
+
+      editorInstance.model.document.on('change:data', () => {
+        const content = editorInstance.getData().trim();
+        rejectButton.prop('disabled', content.length === 0); // Enable or disable the button based on the CKEditor content
+        editorContentInput.val(content); // Set the CKEditor content to the hidden input field
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+    
+  ClassicEditor
+  .create(document.querySelector('#approveProjectEditor'))
+  .then(editorInstance => {
+    const rejectButton = $('.reasonButton');
+    const editorContentInput = $('#editorApprove');
+    rejectButton.prop('disabled', true); // Disable the button by default
+
+    editorInstance.model.document.on('change:data', () => {
+      const content = editorInstance.getData().trim();
+      rejectButton.prop('disabled', content.length === 0); // Enable or disable the button based on the CKEditor content
+      editorContentInput.val(content); // Set the CKEditor content to the hidden input field
+    });
+  })
+  .catch(error => {
+    console.error(error);
   });
+
   //Handle invitation through email
   $('#modalInviteForm').submit(function (event) {
     event.preventDefault();
@@ -166,7 +190,7 @@ $(document).ready(function () {
       }
     });
   });
-  
+
   $('#formApproveProject').submit(function (event) {
     event.preventDefault();
     var form = $(this);

@@ -1,5 +1,5 @@
 <!-- Task table -->
-<div class="card col-12">
+<div class="card col-12 card-table">
     <h4 class="card-header task-list">
 		<span class="title">Tasks In this Week</span>
 		<div class="content-header-right text-md-end col-md-2 col-12 d-md-block d-none">

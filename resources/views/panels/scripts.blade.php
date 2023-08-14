@@ -1,4 +1,6 @@
 <!-- BEGIN: Vendor JS-->
+<script src="https://cdn.ckeditor.com/ckeditor5/39.0.1/classic/ckeditor.js"></script>
+
 <script src="https://js.pusher.com/8.2.0/pusher.min.js"></script>
 <script>
     // Enable pusher logging - don't include this in production
@@ -30,8 +32,8 @@
         });
     });
 
-    var taskRoutes =
-        "{{ route('task.modalsDetail', ['slug' => ':projectSlug', 'board_id' => ':boardId', 'task_id' => ':taskId']) }}";
+    // var taskRoutes =
+    //     "{{ route('task.modalsDetail', ['slug' => ':projectSlug', 'board_id' => ':boardId', 'task_id' => ':taskId']) }}";
 
     var noti = pusher.subscribe('my-noti');
     noti.bind('my-noti-event', function(data) {

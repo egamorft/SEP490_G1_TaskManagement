@@ -1,7 +1,7 @@
 <!-- Project Header -->
 
 @if ($disabledProject)
-    <div class="alert alert-danger mt-1 alert-validation-msg" role="alert">
+    <div class="alert alert-{{$project->project_status == -1 ? "danger" : "success"}} mt-1 alert-validation-msg" role="alert">
         <div class="alert-body d-flex align-items-center">
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none"
                 stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
@@ -116,13 +116,8 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="mb-1">
-                            <label class="form-label">Reason</label>
-                            <fieldset class="mb-75">
-                                <textarea name="reason" class="form-control reasonSupervisor" rows="3"
-                                    placeholder="Why you want reject this project?"></textarea>
-                            </fieldset>
-                        </div>
+                        <div id="rejectProjectEditor"></div>
+                        <input type="hidden" name="reason" id="editorReject" value="">
                     </div>
                     <div class="my-1">
                         <button type="submit" class="btn btn-danger add-todo-item me-1 reasonButton">Reject</button>
@@ -142,7 +137,8 @@
 <div class="modal modal-slide-in sidebar-todo-modal fade" id="modalApproveProject">
     <div class="modal-dialog sidebar-lg">
         <div class="modal-content p-0">
-            <form id="formApproveProject" class="todo-modal" method="POST" action="{{ route('approve.project') }}">
+            <form id="formApproveProject" class="todo-modal" method="POST"
+                action="{{ route('approve.project') }}">
                 @csrf
                 <input type="hidden" name="id" value="{{ $project->id }}">
                 <div class="modal-header align-items-center mb-1">
@@ -168,16 +164,12 @@
                                 @endforeach
                             </div>
                         </div>
-                        <div class="mb-1">
-                            <label class="form-label">Reason</label>
-                            <fieldset class="mb-75">
-                                <textarea name="reason" class="form-control reasonSupervisor" rows="3"
-                                    placeholder="Comment something on this success?"></textarea>
-                            </fieldset>
-                        </div>
+                        <div id="approveProjectEditor"></div>
+                        <input type="hidden" name="reason" id="editorApprove" value="">
                     </div>
                     <div class="my-1">
-                        <button type="submit" class="btn btn-success add-todo-item me-1 reasonButton">Approve</button>
+                        <button type="submit"
+                            class="btn btn-success add-todo-item me-1 reasonButton">Approve</button>
                         <button type="button" class="btn btn-outline-secondary add-todo-item"
                             data-bs-dismiss="modal">
                             Cancel

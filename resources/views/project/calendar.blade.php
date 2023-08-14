@@ -66,7 +66,7 @@
     var prevMonth = date.getMonth() === 11 ? new Date(date.getFullYear() - 1, 0, 1) : new Date(date.getFullYear(), date
         .getMonth() - 1, 1);
 
-    var events = @json($tasksCalendar)
+    var events = @json($tasksCalendar);
     
     var taskRoutes = "{{ route('task.modalsDetail', ['slug' => $project->slug, 'board_id' => $board->id , 'task_id' => ':taskId']) }}";
 </script>

@@ -22,10 +22,24 @@
     @include('project.header')
 
     <h4>Project Information</h4>
-    <p class="mb-2">
-        {{ $project->description ? $project->description : '#No Description' }}
-    </p>
-
+    @php
+        $color = '';
+        switch ($project->project_status) {
+            case -1:
+                $color = 'text-danger';
+                break;
+            case 2:
+                $color = 'text-success';
+                break;
+        
+            default:
+                $color = '';
+                break;
+        }
+    @endphp
+    <div class="description-container {{ $color }}">
+        {!! $project->description ? $project->description : '#No Description' !!}
+    </div>
     <!-- Info Card -->
     <div class="card card-user-timeline {{ $disabledProject ? 'opacity-50 pointer-events-none' : '' }}">
         <div class="card-body">
@@ -136,10 +150,10 @@
                     @endphp
                     <div class="more-info">
                         <p class="mb-50">Duration: {{ $percent_completed }}% @if ($days_left > 0)
-                            ({{ $days_left }} days remaining) 
+                                ({{ $days_left }} days remaining)
                             @endif
                             @if ($days_left == 0)
-                            (last day in the project) 
+                                (last day in the project)
                             @endif
                         </p>
                         <div class="progress progress-bar-secondary" style="height: 6px">
@@ -157,7 +171,8 @@
             <div class="row">
                 <div class="col mt-0">
                     <div class="avatar float-start bg-white rounded">
-                        <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $pmAccount->id]) }}" class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
+                        <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $pmAccount->id]) }}"
+                            class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
                             <img src="{{ asset('images/avatars/' . $pmAccount->avatar) }}" alt="Avatar" width="33"
                                 height="33" />
                         </a>
@@ -169,7 +184,8 @@
                 </div>
                 <div class="col mt-0">
                     <div class="avatar float-start bg-white rounded">
-                        <a href="{{ $supervisorAccount ? route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisorAccount->id]) : '#' }}" class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
+                        <a href="{{ $supervisorAccount ? route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisorAccount->id]) : '#' }}"
+                            class="avatar float-start bg-white rounded me-1" style="margin-top: 12px;">
                             <img src="{{ isset($supervisorAccount->avatar) ? asset('images/avatars/' . $supervisorAccount->avatar) : asset('images/avatars/default.png') }}"
                                 alt="Avatar" width="33" height="33" />
                         </a>
@@ -187,7 +203,8 @@
                     </div>
                     <div class="avatar-group">
                         @forelse ($memberAccount as $acc)
-                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}" data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
+                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
+                                data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
                                 title="{{ $acc->name }}" class="avatar pull-up">
                                 <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar" width="33"
                                     height="33" />
