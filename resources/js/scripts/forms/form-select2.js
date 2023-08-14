@@ -248,6 +248,38 @@ $(document).ready(function () {
     disableOptions($select3, [$('#select2-modalAddPM').val(), selectedValue]);
   });
 
+  //Ckeditor add project
+  ClassicEditor
+    .create(document.querySelector('#addProjectEditor'))
+    .then(editorInstance => {
+      const editorContentInput = $('#editorAdd');
+
+      editorInstance.model.document.on('change:data', () => {
+        const content = editorInstance.getData().trim();
+        editorContentInput.val(content); // Set the CKEditor content to the hidden input field
+      });
+    })
+    .catch(error => {
+      console.error(error);
+    });
+
+  //Ckeditor edit project settings
+  ClassicEditor
+  .create(document.querySelector('#settingsProjectEditor'))
+  .then(editorInstance => {
+    const editorContentInput = document.querySelector('#editorSettings');
+    editorInstance.setData(editorContentInput.value);
+
+    editorInstance.model.document.on('change:data', () => {
+      const content = editorInstance.getData().trim();
+      editorContentInput.value = content; // Set the CKEditor content to the hidden input field
+    });
+  })
+  .catch(error => {
+    console.error(error);
+  });
+  
+
   //Save data
   $('#addProjectForm').submit(function (event) {
     event.preventDefault();
