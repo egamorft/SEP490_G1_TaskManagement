@@ -19,7 +19,7 @@
 @endsection
 
 @section('content')
-	@include('project.header')
+    @include('project.header')
     <!-- Basic tabs start -->
     <section id="basic-tabs-components">
         <div class="row match-height" id="section-block">
@@ -76,7 +76,8 @@
                                         <div class="bs-stepper-content">
                                             <div id="project-information" class="content" role="tabpanel"
                                                 aria-labelledby="project-information-trigger">
-                                                <form action="{{ route('project.update', ['slug' => $project->slug, 'id' => $project->id]) }}"
+                                                <form
+                                                    action="{{ route('project.update', ['slug' => $project->slug, 'id' => $project->id]) }}"
                                                     method="post">
                                                     @csrf
                                                     <div class="col-12 col-md-12 mb-2">
@@ -104,9 +105,10 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-12 mb-2">
-                                                        <label class="form-label" for="settingDesc">Description</label>
-                                                        <textarea id="settingDesc" name="settingDesc" class="form-control"
-                                                            placeholder="To sell or distribute something as a business deal">{{ $project->description }}</textarea>
+                                                        <label class="form-label" for="settingsProjectEditor">Description</label>
+                                                        <div id="settingsProjectEditor">{!! $project->description !!}</div>
+                                                        <input type="hidden" name="settingDesc" id="editorSettings"
+                                                            value="{!! $project->description !!}">
                                                     </div>
                                                     <div class="d-flex justify-content-between mt-2">
                                                         <button type="submit" class="btn btn-outline-primary">
@@ -445,9 +447,9 @@
                                                                                         <input type="hidden"
                                                                                             name="csrf-token"
                                                                                             value="{{ csrf_token() }}">
-                                                                                            <input type="hidden"
-                                                                                                name="slug"
-                                                                                                value="{{ $project->slug }}">
+                                                                                        <input type="hidden"
+                                                                                            name="slug"
+                                                                                            value="{{ $project->slug }}">
                                                                                         <input
                                                                                             class="form-check-input permission-role-editor"
                                                                                             type="checkbox"
