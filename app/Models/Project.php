@@ -23,6 +23,11 @@ class Project extends Model
         'deleted_at',
     ];
 
+    public function tasksPerProject()
+    {
+        return $this->hasManyThrough(Task::class, Board::class, 'project_id', 'board_id');
+    }
+
     public function taskLists()
     {
         return $this->hasManyThrough(TaskList::class, Board::class, 'project_id', 'board_id');

@@ -25,6 +25,16 @@ class User extends Model implements Authenticatable
         'deleted_at',
     ];
 
+    public function assignedTasks()
+    {
+        return $this->hasMany(Task::class, 'assign_to');
+    }
+
+    public function createdTasks()
+    {
+        return $this->hasMany(Task::class, 'created_by');
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'account_project')
