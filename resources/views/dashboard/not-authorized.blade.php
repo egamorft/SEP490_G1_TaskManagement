@@ -70,7 +70,7 @@
             <div class="row flex-container row-droplist">
                 <div class="column col-md-6 vertical-middle">
                     <div class="component component-heading">
-                        <h1 class='ftask-header'>Ftask Software make it easier to manage than ever</h1>
+                        <h1 class='ftask-header'>Ftask Software make it easier than ever</h1>
                     </div>
                     <div class="component component-heading">
                         <h3 class="ftask-subtitle">
