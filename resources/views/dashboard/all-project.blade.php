@@ -39,8 +39,6 @@
                             <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;"><a
                                     href="{{ route('view.project.board', ['slug' => $project->slug]) }}">{{ $project->name }}</a>
                             </h6>
-                            <small class="text-truncate"
-                                style="max-width: 300px; display: block;">{{ $project->description ? $project->description : 'No Description' }}</small>
                         </div>
                     </div>
                 </td>
