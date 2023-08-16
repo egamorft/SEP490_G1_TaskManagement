@@ -43,12 +43,12 @@ class ReminderProvider extends ServiceProvider
                                         ->get();
                 $tasksLateReminder = Task::where("assign_to", $account->id)
                                         ->whereIn("status", [TaskStatus::TODO, TaskStatus::DOING])
-                                        ->where("due_date", "<", Carbon::now())
+                                        ->where("due_date", "<", date("Y-m-d", strtotime("today", time())))
                                         ->get();
                 $tasksTodayReminder = Task::where("assign_to", $account->id)
                                         ->whereIn("status", [TaskStatus::TODO, TaskStatus::DOING])
-                                        ->where("due_date", ">=", strtotime("midnight", time()))
-                                        ->where("due_date", "<=", strtotime("tomorrow", time())-1)
+                                        ->where("due_date", ">=", date("Y-m-d", strtotime("midnight", time())))
+                                        ->where("due_date", "<=", date("Y-m-d", strtotime("tomorrow", time())-1))
                                         ->get();
                 
                 // 
