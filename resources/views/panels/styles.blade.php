@@ -45,3 +45,17 @@
     {{-- user custom styles --}}
     <link rel="stylesheet" href="{{ asset(mix('css/style.css')) }}" />
 @endif
+
+@if (!Auth::check())
+    <style>
+        html .content.app-content {
+            margin-left: 0;
+        }
+
+        .header-navbar.floating-nav {
+            width: 100%;
+            left: 0px;
+            max-width: none;
+        }
+    </style>
+@endif
