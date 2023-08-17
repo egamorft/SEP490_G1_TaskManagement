@@ -29,6 +29,9 @@ class CheckProjectAccess
             ->where('project_id', $project->id)
             ->where('status', 1)
             ->exists();
+        if ($user->is_admin == 1) {
+            $hasAccess = true;
+        }
 
         if (!$hasAccess) {
             // Redirect or return an error response if the user doesn't have the required permission

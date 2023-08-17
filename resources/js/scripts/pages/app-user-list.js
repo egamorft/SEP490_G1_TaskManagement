@@ -393,7 +393,7 @@ $(function () {
         success: function (response) {
           if (response.success) {
             var data = response.data;
-            modal.find('#user-fullname').val(data.fullname);
+            modal.find('#user-fullname').val(data.name);
             modal.find('#user-email').val(data.email);
             modal.find('#user-address').val(data.address);
 

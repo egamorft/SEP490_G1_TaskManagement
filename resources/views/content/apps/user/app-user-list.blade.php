@@ -211,8 +211,8 @@
                                     <option value="1">Admin</option>
                                 </select>
                             </div>
-                            <button style="display: none" id="spinnerBtn" class="btn btn-outline-primary waves-effect" type="button"
-                                disabled="">
+                            <button style="display: none" id="spinnerBtn" class="btn btn-outline-primary waves-effect"
+                                type="button" disabled="">
                                 <span class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
                                 <span class="ms-25 align-middle">Loading...</span>
                             </button>
@@ -234,7 +234,7 @@
                         @csrf
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close">×</button>
                         <div class="modal-header mb-1">
-                            <h5 class="modal-title" id="exampleModalLabel">Add User</h5>
+                            <h5 class="modal-title" id="exampleModalLabel">Edit User</h5>
                         </div>
                         <div class="modal-body flex-grow-1">
                             <div class="mb-1">

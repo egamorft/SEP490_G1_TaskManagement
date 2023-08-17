@@ -203,6 +203,7 @@ Route::middleware(['auth'])->group(function () {
         Route::post('user/create', [AdminUserController::class, 'create'])->name('user.create');
         Route::post('user/update/{id}', [AdminUserController::class, 'update'])->name('user.update');
         Route::get('user/details/{id}', [AdminUserController::class, 'edit'])->name('user.edit');
+        Route::delete('user/{id}', [AdminUserController::class, 'destroy'])->name('destroy.user');
 
         Route::get('access/roles', [AdminAccessController::class, 'index'])->name('admin-access-roles');
         Route::post('store-role-permissions', [AdminAccessController::class, 'store'])->name('store.role.permissions');

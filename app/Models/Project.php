@@ -32,7 +32,7 @@ class Project extends Model
     {
         return $this->hasManyThrough(TaskList::class, Board::class, 'project_id', 'board_id');
     }
-    
+
     // public function accountProject()
     // {
     //     return $this->belongsToMany(User::class, 'account_project')
@@ -103,5 +103,10 @@ class Project extends Model
     public function boards()
     {
         return $this->hasMany(Board::class, 'project_id', 'id');
+    }
+
+    public function projects()
+    {
+        return $this->belongsToMany(Project::class, 'account_project', 'account_id', 'project_id');
     }
 }
