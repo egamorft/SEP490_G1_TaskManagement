@@ -159,55 +159,6 @@
                 </ul>
                 <!--/ User Pills -->
 
-                <!-- Change Password -->
-                <div class="card">
-                    <h4 class="card-header">Change Password</h4>
-                    <div class="card-body">
-                        <form id="formChangePassword" method="POST" action="{{ route('edit.password.submit') }}">
-                            @csrf
-                            <div class="alert alert-warning mb-2" role="alert">
-                                <h6 class="alert-heading">Ensure that these requirements are met</h6>
-                                <div class="alert-body fw-normal">Minimum 8 characters long, uppercase & symbol</div>
-                            </div>
-
-                            <div class="row">
-                                <div class="mb-2 col-md-6 form-password-toggle">
-                                    <label class="form-label" for="oldPassword">Mật khẩu cũ</label>
-                                    <div class="input-group input-group-merge form-password-toggle">
-                                        <input class="form-control" type="password" id="oldPassword" name="oldPassword"
-                                            placeholder="Enter your old password" value="{{ old('oldPassword') }}" />
-                                        <span class="input-group-text cursor-pointer">
-                                            <i data-feather="eye"></i>
-                                        </span>
-                                    </div>
-                                    @error('oldPassword')
-                                        <span style="color: red">{{ $message }}</span>
-                                    @enderror
-                                </div>
-
-                                <div class="mb-2 col-md-6 form-password-toggle">
-                                    <label class="form-label" for="newPassword">Mật khẩu mới</label>
-                                    <div class="input-group input-group-merge">
-                                        <input class="form-control" type="password" name="newPassword" id="newPassword"
-                                            placeholder="Enter your new password" value="{{ old('newPassword') }}" />
-                                        <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
-                                    </div>
-                                    @error('newPassword')
-                                        <span style="color: red">{{ $message }}</span>
-                                    @enderror
-                                </div>
-                                <div>
-                                    @if (!$social)
-                                        <button type="submit" class="btn btn-primary me-2">Change Password</button>
-                                    @else
-                                        <button type="button" class="btn btn-secondary me-2" disabled>You logged in with {{ $social->provider }}</button>
-                                    @endif
-                                </div>
-                            </div>
-                        </form>
-                    </div>
-                </div>
-                <!--/ Change Password -->
 
                 <!-- Two-steps verification -->
                 <div class="card">

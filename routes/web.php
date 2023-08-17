@@ -192,7 +192,7 @@ Route::middleware(['auth'])->group(function () {
         //Edit profile
 
         //Change password
-        Route::get('password', [AuthController::class, 'user_view_security'])->name('edit.password');
+        // Route::get('password', [AuthController::class, 'user_view_security'])->name('edit.password');
         Route::post('change-password', [AuthController::class, 'change_password'])->name('edit.password.submit');
     });
 
