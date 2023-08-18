@@ -21,7 +21,7 @@ $(function () {
 
   if ($('body').attr('data-framework') === 'laravel') {
     assetPath = $('body').attr('data-asset-path');
-    userView = assetPath + 'admin/user/details/';
+    userView = assetPath + 'user/details/';
   }
   $('.hiddenTD').hide();
   select.each(function () {

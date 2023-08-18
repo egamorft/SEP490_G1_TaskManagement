@@ -24,8 +24,12 @@
 @section('content')
     <section class="app-user-view-account">
         <div class="row">
+            @if (!Auth::check())
+                <div class="col-xl-1 col-lg-1 col-md-1"></div>
+            @endif
             <!-- User Sidebar -->
-            <div class="col-xl-4 col-lg-5 col-md-5 order-1 order-md-0">
+            <div
+                class="{{ Auth::check() ? 'col-xl-4 col-lg-5 col-md-5' : 'col-xl-3 col-lg-4 col-md-4' }} order-1 order-md-0">
                 <!-- User Card -->
                 <div class="card">
                     <div class="card-body">
@@ -58,7 +62,7 @@
                                     <i data-feather="briefcase" class="font-medium-2"></i>
                                 </span>
                                 <div class="ms-75">
-                                    <h4 class="mb-0">568</h4>
+                                    <h4 class="mb-0">{{ $projects->where('project_status', 2)->count() }}</h4>
                                     <small>Projects Done</small>
                                 </div>
                             </div>
@@ -85,12 +89,14 @@
                                 </li>
                             </ul>
                             <div class="d-flex justify-content-center pt-2">
-                                @if (!$account->deleted_at)
-                                    <button data-bs-toggle="modal" data-bs-target="#suspendedUser{{ $account->id }}"
-                                        type="button" class="btn btn-outline-danger waves-effect">Suspended</button>
-                                @else
-                                    <button data-bs-toggle="modal" data-bs-target="#resumedUser{{ $account->id }}"
-                                        type="button" class="btn btn-outline-success waves-effect">Resumed</button>
+                                @if (Auth::check() && Auth::user()->is_admin == 1)
+                                    @if (!$account->deleted_at)
+                                        <button data-bs-toggle="modal" data-bs-target="#suspendedUser{{ $account->id }}"
+                                            type="button" class="btn btn-outline-danger waves-effect">Suspended</button>
+                                    @else
+                                        <button data-bs-toggle="modal" data-bs-target="#resumedUser{{ $account->id }}"
+                                            type="button" class="btn btn-outline-success waves-effect">Resumed</button>
+                                    @endif
                                 @endif
                             </div>
                         </div>
@@ -99,68 +105,21 @@
                 <!-- /User Card -->
                 <!-- Plan Card -->
                 <div class="card border-primary">
-                    <!-- Support Tracker Chart Card starts -->
-                    {{-- <div class="card">
-                        <div class="card-header d-flex justify-content-between pb-0">
-                            <h4 class="card-title">Tasks Tracker</h4>
-                        </div>
-                        <div class="card-body">
-                            <div class="row">
-                                <div class="col-sm-2 col-12 d-flex flex-column flex-wrap text-center">
-                                    <h1 class="font-large-2 fw-bolder mt-2 mb-0">{{ $accountTasks->count() }}</h1>
-                                    <p class="card-text">Tasks</p>
-                                </div>
-                                <div class="col-sm-10 col-12 d-flex justify-content-center">
-                                    <div id="task-trackers-chart"></div>
-                                </div>
-                            </div>
-                            <div class="d-flex justify-content-between mt-1">
-                                <div class="text-center">
-                                    <p class="card-text mb-50">Done</p>
-                                    <span
-                                        class="font-large-1 fw-bold">{{ $accountTasks->where('status', 3)->count() }}</span>
-                                </div>
-                                <div class="text-center">
-                                    <p class="card-text mb-50">Late</p>
-                                    <span
-                                        class="font-large-1 fw-bold">{{ $accountTasks->where('status', -1)->count() }}</span>
-                                </div>
-                                <div class="text-center">
-                                    <p class="card-text mb-50">Doing</p>
-                                    <span
-                                        class="font-large-1 fw-bold">{{ $accountTasks->where('status', 1)->count() }}</span>
-                                </div>
-                                <div class="text-center">
-                                    <p class="card-text mb-50">Reviewing</p>
-                                    <span
-                                        class="font-large-1 fw-bold">{{ $accountTasks->where('status', 2)->count() }}</span>
-                                </div>
-                            </div>
-                        </div>
-                    </div> --}}
-                    <!-- Support Tracker Chart Card ends -->
+                    <div class="card-body d-flex align-items-center justify-content-center">
+                        @if (Auth::check())
+                            {!! QrCode::size(170)->generate(url()->current()) !!}
+                        @else
+                            {!! QrCode::size(210)->generate(url()->current()) !!}
+                        @endif
+                    </div>
                 </div>
                 <!-- /Plan Card -->
             </div>
             <!--/ User Sidebar -->
 
             <!-- User Content -->
-            <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
-                <!-- User Pills -->
-                <ul class="nav nav-pills mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('user.edit', $account->id) }}">
-                            <i data-feather="user" class="font-medium-3 me-50"></i>
-                            <span class="fw-bold">Account</span></a>
-                    </li>
-                    {{-- <li class="nav-item">
-                        <a class="nav-link" href="">
-                            <i data-feather="alert-triangle" class="font-medium-3 me-50"></i>
-                            <span class="fw-bold">Report</span>
-                        </a>
-                    </li> --}}
-                </ul>
-                <!--/ User Pills -->
+            <div
+                class="{{ Auth::check() ? 'col-xl-8 col-lg-7 col-md-7' : 'col-xl-7 col-lg-6 col-md-6' }} order-0 order-md-1">
 
                 <!-- Support Tracker Chart Card starts -->
                 <div class="card">
@@ -255,10 +214,10 @@
         </div>
         <!--/ Suspended Modal -->
 
-        
+
         <!-- Resumed Modal -->
-        <div class="modal fade" id="resumedUser{{ $account->id }}" data-bs-backdrop="static"
-            data-bs-keyboard="false" tabindex="-1" aria-hidden="true">
+        <div class="modal fade" id="resumedUser{{ $account->id }}" data-bs-backdrop="static" data-bs-keyboard="false"
+            tabindex="-1" aria-hidden="true">
             <div class="modal-dialog modal-dialog-centered">
                 <div class="modal-content">
                     <div class="modal-header bg-transparent">
@@ -293,14 +252,15 @@
         <!--/ Resumed Modal -->
     </section>
 
-    @include('content/_partials/_modals/modal-edit-user')
     @include('content/_partials/_modals/modal-upgrade-plan')
 @endsection
 <script>
     var completePercentage = {{ $completePercentage }};
-    var totalProject = {{ $projects->count() * 100 }};
-    var totalReject = {{ $projects->where('project_status', -1)->count() / $projects->count() * 100 }};
-    var totalApprove = {{ $projects->where('project_status', 2)->count() / $projects->count()  * 100 }};
+    var totalProject = 100;
+    var totalReject =
+        {{ number_format(($projects->where('project_status', -1)->count() / $projects->count()) * 100, 2) }};
+    var totalApprove =
+        {{ number_format(($projects->where('project_status', 2)->count() / $projects->count()) * 100, 2) }};
 </script>
 
 @section('vendor-script')

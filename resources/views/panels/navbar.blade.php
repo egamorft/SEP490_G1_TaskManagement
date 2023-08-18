@@ -71,10 +71,12 @@
                     </div>
                 </a>
             </li>
+            @if (Auth::check())
             @if (Auth::user()->is_admin == 0)
             <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/calendar') }}"
                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon"
                         data-feather="calendar"></i></a></li>
+            @endif
             @endif
         </ul>
     </div>
