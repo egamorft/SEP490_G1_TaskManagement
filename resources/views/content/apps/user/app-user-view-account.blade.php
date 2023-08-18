@@ -88,58 +88,61 @@
                                     data-bs-toggle="modal">
                                     Edit
                                 </a>
-                                {{-- <a href="javascript:;" class="btn btn-outline-danger suspend-user">Suspended</a> --}}
+
+                                <a href="javascript:;" class="btn btn-outline-primary me-1" data-bs-target="#shareProfile"
+                                    data-bs-toggle="modal">
+                                    Share
+                                </a>
                             </div>
                         </div>
                     </div>
                 </div>
                 <!-- /User Card -->
 
-				<!-- Donut Chart Starts-->
-				<div class="card">
-					<div class="card-header flex-column align-items-start">
-						<h4 class="card-title mb-75">Task Overview</h4>
-						<span class="card-subtitle text-muted">Task breakdown by statuses </span>
-					</div>
-					<div class="card-body">
-						<div id="donut-chart"></div>
-					</div>
-				</div>
-				<!-- Donut Chart Ends-->
+                <!-- Donut Chart Starts-->
+                <div class="card">
+                    <div class="card-header flex-column align-items-start">
+                        <h4 class="card-title mb-75">Task Overview</h4>
+                        <span class="card-subtitle text-muted">Task breakdown by statuses </span>
+                    </div>
+                    <div class="card-body">
+                        <div id="donut-chart"></div>
+                    </div>
+                </div>
+                <!-- Donut Chart Ends-->
 
             </div>
             <!--/ User Sidebar -->
 
             <!-- User Content -->
             <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
-                <!-- User Pills -->
-                {{-- <ul class="nav nav-pills mb-2">
-                    <li class="nav-item">
-                        <a class="nav-link active" href="{{ route('edit.profile') }}">
-                            <i data-feather="user" class="font-medium-3 me-50"></i>
-                            <span class="fw-bold">Account</span></a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ route('edit.password') }}">
-                            <i data-feather="lock" class="font-medium-3 me-50"></i>
-                            <span class="fw-bold">Security</span>
-                        </a>
-                    </li>
-                </ul> --}}
-                <!--/ User Pills -->
 
                 <!-- Project table -->
-				@include('content.apps.user.project')
-				@include('content.apps.user.task')
-				@include('task.modal')
+                @include('content.apps.user.project')
+                @include('content.apps.user.task')
+                @include('task.modal')
                 <!-- /Project table -->
             </div>
             <!--/ User Content -->
         </div>
     </section>
 
+    <div class="modal fade" id="shareProfile" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1"
+        aria-hidden="true">
+        <div class="modal-dialog modal-sm modal-dialog-centered modal-edit-user">
+            <div class="modal-content">
+                <div class="modal-header bg-transparent">
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body d-flex align-items-center justify-content-center">
+                    {!! QrCode::size(200)->generate(route('user.details', ['id' => Auth::id()])) !!}
+                </div>
+            </div>
+        </div>
+    </div>
+
     @include('content/_partials/_modals/modal-edit-user')
-    @include('content/_partials/_modals/modal-upgrade-plan')
+
 @endsection
 
 @section('vendor-script')
@@ -169,8 +172,8 @@
 
 @section('page-script')
     {{-- Page js files --}}
-	<script>
-		var taskRoutes = "{{ route('view.task', ['slug' => 'mine', 'task_id' => ':taskId']) }}";
+    <script>
+        var taskRoutes = "{{ route('view.task', ['slug' => 'mine', 'task_id' => ':taskId']) }}";
 
         var tasks = @json($tasks),
             todoTasks = @json($todoTasks),
@@ -179,9 +182,9 @@
             ontimeTasks = @json($ontimeTasks),
             lateTasks = @json($lateTasks),
             overdueTasks = @json($overdueTasks);
-	</script>
-	<script src="{{ asset(mix('js/scripts/pages/modal-edit-user.js')) }}"></script>
-	<script src="{{ asset(mix('js/scripts/pages/app-user-view.js')) }}"></script>
+    </script>
+    <script src="{{ asset(mix('js/scripts/pages/modal-edit-user.js')) }}"></script>
+    <script src="{{ asset(mix('js/scripts/pages/app-user-view.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/task-detail.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/task-list.js')) }}"></script>
