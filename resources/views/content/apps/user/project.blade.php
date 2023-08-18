@@ -2,6 +2,57 @@
     use Illuminate\Support\Carbon;
 @endphp
 <!-- Project table -->
+
+<!-- Change Password -->
+<div class="card card-table">
+    <h4 class="card-header">Change Password</h4>
+    <div class="card-body">
+        <form id="formChangePassword" method="POST" action="{{ route('edit.password.submit') }}">
+            @csrf
+            <div class="alert alert-warning mb-2" role="alert">
+                <h6 class="alert-heading">Ensure that these requirements are met</h6>
+                <div class="alert-body fw-normal">Minimum 8 characters long, uppercase & symbol</div>
+            </div>
+
+            <div class="row">
+                <div class="mb-2 col-md-6 form-password-toggle">
+                    <label class="form-label" for="oldPassword">Mật khẩu cũ</label>
+                    <div class="input-group input-group-merge form-password-toggle">
+                        <input class="form-control" type="password" id="oldPassword" name="oldPassword"
+                            placeholder="Enter your old password" value="{{ old('oldPassword') }}" />
+                        <span class="input-group-text cursor-pointer">
+                            <i data-feather="eye"></i>
+                        </span>
+                    </div>
+                    @error('oldPassword')
+                        <span style="color: red">{{ $message }}</span>
+                    @enderror
+                </div>
+
+                <div class="mb-2 col-md-6 form-password-toggle">
+                    <label class="form-label" for="newPassword">Mật khẩu mới</label>
+                    <div class="input-group input-group-merge">
+                        <input class="form-control" type="password" name="newPassword" id="newPassword"
+                            placeholder="Enter your new password" value="{{ old('newPassword') }}" />
+                        <span class="input-group-text cursor-pointer"><i data-feather="eye"></i></span>
+                    </div>
+                    @error('newPassword')
+                        <span style="color: red">{{ $message }}</span>
+                    @enderror
+                </div>
+                <div>
+                    @if (!$social)
+                        <button type="submit" class="btn btn-primary me-2">Change Password</button>
+                    @else
+                        <button type="button" class="btn btn-secondary me-2" disabled>You logged in with
+                            {{ $social->provider }}</button>
+                    @endif
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+<!--/ Change Password -->
 <div class="card col-12 card-table">
     <h4 class="card-header">Your Projects</h4>
     <div class="table-responsive">
@@ -21,8 +72,8 @@
                         $supervisor = null;
                         $manager = $allAccounts[0];
                         $members = [];
-						$role = "Project Member";
-
+                        $role = 'Project Member';
+                        
                         foreach ($allAccountProjects as $accPro) {
                             if ($accPro->project_id == $project->id) {
                                 foreach ($allAccounts as $acc) {
@@ -38,62 +89,62 @@
                                 }
                             }
                         }
-
-						if ($manager->id == $account->id) {
-							$role = "Project Manager";
-						}
-						if ($supervisor) {
-							if ($supervisor->id == $account->id) {
-								$role = "Project Supervisor";
-							}
-						}
-
+                        
+                        if ($manager->id == $account->id) {
+                            $role = 'Project Manager';
+                        }
+                        if ($supervisor) {
+                            if ($supervisor->id == $account->id) {
+                                $role = 'Project Supervisor';
+                            }
+                        }
+                        
                         // Convert the project's start and end dates to Carbon objects
-						$start_date = Carbon::parse($project->start_date)->startOfDay();
-						$end_date = Carbon::parse($project->end_date)->endOfDay();
-						// Get the current date as a Carbon object
-						$current_date = Carbon::now();
+$start_date = Carbon::parse($project->start_date)->startOfDay();
+$end_date = Carbon::parse($project->end_date)->endOfDay();
+// Get the current date as a Carbon object
+$current_date = Carbon::now();
 
-						$percent_completed = 0;
-						$days_left = 0;
+$percent_completed = 0;
+$days_left = 0;
 
-						if ($end_date > $start_date) {
-							if ($current_date < $start_date) {
-								// If the project is in the future, set percent_completed to 0
-								$percent_completed = 0;
-								$days_left = $start_date->diffInDays($current_date);
-							} elseif ($current_date >= $end_date) {
-								// If the project is completed, set percent_completed to 100
-								$percent_completed = 100;
-								$days_left = -1;
-							} else {
-								// Calculate the total duration of the project in days
-								$total_days = $start_date->diffInDays($end_date) + 1;
+if ($end_date > $start_date) {
+    if ($current_date < $start_date) {
+        // If the project is in the future, set percent_completed to 0
+        $percent_completed = 0;
+        $days_left = $start_date->diffInDays($current_date);
+    } elseif ($current_date >= $end_date) {
+        // If the project is completed, set percent_completed to 100
+        $percent_completed = 100;
+        $days_left = -1;
+    } else {
+        // Calculate the total duration of the project in days
+        $total_days = $start_date->diffInDays($end_date) + 1;
 
-								// Calculate the number of days that have already passed since the project started
-								$days_passed = $start_date->diffInDays($current_date) + 1;
+        // Calculate the number of days that have already passed since the project started
+        $days_passed = $start_date->diffInDays($current_date) + 1;
 
-								// Calculate the percentage completed
-								$percent_completed = round(($days_passed / $total_days) * 100, 2);
+        // Calculate the percentage completed
+        $percent_completed = round(($days_passed / $total_days) * 100, 2);
 
-								// Calculate the number of days left
-								$days_left = $total_days - $days_passed;
-							}
-						}
-						// Make sure percent_completed is within the range of 0 to 100
-						$percent_completed = max(0, min(100, $percent_completed));
+        // Calculate the number of days left
+        $days_left = $total_days - $days_passed;
+    }
+}
+// Make sure percent_completed is within the range of 0 to 100
+$percent_completed = max(0, min(100, $percent_completed));
 
-						$colorProgressState = '';
-						if (0 <= $percent_completed && $percent_completed <= 40) {
-							$colorProgressState = '#45ba30';
-						} elseif (40 < $percent_completed && $percent_completed <= 60) {
-							$colorProgressState = '#c4bc21';
-						} elseif (60 < $percent_completed && $percent_completed <= 80) {
-							$colorProgressState = '#db8223';
-						} elseif (80 < $percent_completed && $percent_completed <= 100) {
-							$colorProgressState = '#e63217';
-						} else {
-							$colorProgressState = '';
+$colorProgressState = '';
+if (0 <= $percent_completed && $percent_completed <= 40) {
+    $colorProgressState = '#45ba30';
+} elseif (40 < $percent_completed && $percent_completed <= 60) {
+    $colorProgressState = '#c4bc21';
+} elseif (60 < $percent_completed && $percent_completed <= 80) {
+    $colorProgressState = '#db8223';
+} elseif (80 < $percent_completed && $percent_completed <= 100) {
+    $colorProgressState = '#e63217';
+} else {
+    $colorProgressState = '';
                         }
                     @endphp
                     <tr class="odd" id="row{{ $project->id }}">
@@ -104,8 +155,6 @@
                                     <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;"><a
                                             href="{{ route('view.project.board', ['slug' => $project->slug]) }}">{{ $project->name }}</a>
                                     </h6>
-                                    <small class="text-truncate"
-                                        style="max-width: 300px; display: block;">{{ $project->description ? $project->description : 'No Description' }}</small>
                                 </div>
                             </div>
                         </td>
@@ -177,7 +226,7 @@
                             @endswitch
                         </td>
 
-						<td>{{ $role }}</td>
+                        <td>{{ $role }}</td>
 
                         <td>
                             <div class="avatar float-start bg-light-primary rounded me-1">
@@ -204,15 +253,15 @@
                             </div>
                         </td>
                     </tr>
-                @empty
-                    <tr>
-                        <td colspan="6">
-                            No data
-                        </td>
-                    </tr>
-                @endforelse
-            </tbody>
-        </table>
+                    @empty
+                        <tr>
+                            <td colspan="6">
+                                No data
+                            </td>
+                        </tr>
+                    @endforelse
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
-<!-- /Project table -->
+    <!-- /Project table -->

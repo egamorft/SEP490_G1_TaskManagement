@@ -36,48 +36,45 @@
                 <td>
                     <div class="d-flex justify-content-left align-items-center">
                         <div class="more-info">
-                            <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;"><a
-                                    href="{{ route('view.project.board', ['slug' => $project->slug]) }}">{{ $project->name }}</a>
+                            <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;">{{ $project->name }}
                             </h6>
-                            <small class="text-truncate"
-                                style="max-width: 300px; display: block;">{{ $project->description ? $project->description : 'No Description' }}</small>
                         </div>
                     </div>
                 </td>
-                    @switch($project->project_status)
-                        @case(-1)
-						<td>
+                @switch($project->project_status)
+                    @case(-1)
+                        <td>
                             <span class="badge rounded-pill badge-light-danger">Fail</span>
-						</td>
-                        @break
+                        </td>
+                    @break
 
-                        @case(0)
-						<td>
+                    @case(0)
+                        <td>
                             <span class="badge rounded-pill badge-light-info">Todo</span>
-						</td>
-                        @break
+                        </td>
+                    @break
 
-                        @case(1)
-						<td>
+                    @case(1)
+                        <td>
                             <span class="badge rounded-pill badge-light-primary">Doing</span>
-						</td>
-                        @break
+                        </td>
+                    @break
 
-                        @case(2)
-						<td>
+                    @case(2)
+                        <td>
                             <span class="badge rounded-pill badge-light-success">Done</span>
-						</td>
-                        @break
+                        </td>
+                    @break
 
-                        @default
-						<td>
+                    @default
+                        <td>
                             <span class="badge rounded-pill badge-light-success">Done</span>
-						</td>
-                    @endswitch
+                        </td>
+                @endswitch
 
                 <td>
                     <div class="avatar float-start bg-white rounded">
-                        <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $manager->id]) }}"
+                        <a href="{{ route('user.details', ['id' => $manager->id]) }}"
                             class="avatar float-start bg-white rounded me-1">
                             <img src="{{ asset('images/avatars/' . $manager->avatar) }}" alt="Avatar" width="33"
                                 height="33" />
@@ -89,7 +86,7 @@
                 </td>
                 <td>
                     <div class="avatar float-start bg-white rounded">
-                        <a href="{{ $supervisor ? route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisor->id]) : '#' }}"
+                        <a href="{{ $supervisor ? route('user.details', ['id' => $supervisor->id]) : '#' }}"
                             class="avatar float-start bg-white rounded me-1">
                             <img src="{{ isset($supervisor->avatar) ? asset('images/avatars/' . $supervisor->avatar) : asset('images/avatars/default.png') }}"
                                 alt="Avatar" width="33" height="33" />
@@ -104,7 +101,7 @@
                 <td>
                     <div class="avatar-group">
                         @forelse ($members as $acc)
-                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
+                            <a href="{{ route('user.details', ['id' => $acc->id]) }}"
                                 data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
                                 title="{{ $acc->name }}" class="avatar pull-up">
                                 <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar" width="33"

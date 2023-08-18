@@ -19,33 +19,36 @@ $(window).on('load', function () {
   var $orderChart = document.querySelector('#order-chart');
   var $avgSessionsChart = document.querySelector('#avg-sessions-chart');
   var $supportTrackerChart = document.querySelector('#support-trackers-chart');
+  var $taskTrackerChart = document.querySelector('#task-trackers-chart');
   var $salesVisitChart = document.querySelector('#sales-visit-chart');
 
   var gainedChartOptions;
   var orderChartOptions;
   var avgSessionsChartOptions;
   var supportTrackerChartOptions;
+  var taskTrackerChartOptions;
   var salesVisitChartOptions;
 
   var gainedChart;
   var orderChart;
   var avgSessionsChart;
   var supportTrackerChart;
+  var taskTrackerChart;
   var salesVisitChart;
   var isRtl = $('html').attr('data-textdirection') === 'rtl';
 
   // On load Toast
-  setTimeout(function () {
-    toastr['success'](
-      'You have successfully logged in to Vuexy. Now you can start to explore!',
-      '👋 Welcome John Doe!',
-      {
-        closeButton: true,
-        tapToDismiss: false,
-        rtl: isRtl
-      }
-    );
-  }, 2000);
+  // setTimeout(function () {
+  //   toastr['success'](
+  //     'You have successfully logged in to Vuexy. Now you can start to explore!',
+  //     '👋 Welcome John Doe!',
+  //     {
+  //       closeButton: true,
+  //       tapToDismiss: false,
+  //       rtl: isRtl
+  //     }
+  //   );
+  // }, 2000);
 
   // Subscribed Gained Chart
   // ----------------------------------
@@ -289,6 +292,62 @@ $(window).on('load', function () {
   };
   supportTrackerChart = new ApexCharts($supportTrackerChart, supportTrackerChartOptions);
   supportTrackerChart.render();
+
+  taskTrackerChartOptions = {
+    chart: {
+      height: 270,
+      type: 'radialBar'
+    },
+    plotOptions: {
+      radialBar: {
+        size: 150,
+        offsetY: 20,
+        startAngle: -150,
+        endAngle: 150,
+        hollow: {
+          size: '65%'
+        },
+        track: {
+          background: $white,
+          strokeWidth: '100%'
+        },
+        dataLabels: {
+          name: {
+            offsetY: -5,
+            color: $textHeadingColor,
+            fontSize: '1rem'
+          },
+          value: {
+            offsetY: 15,
+            color: $textHeadingColor,
+            fontSize: '1.714rem'
+          }
+        }
+      }
+    },
+    colors: [window.colors.solid.danger],
+    fill: {
+      type: 'gradient',
+      gradient: {
+        shade: 'dark',
+        type: 'horizontal',
+        shadeIntensity: 0.5,
+        gradientToColors: [window.colors.solid.primary],
+        inverseColors: true,
+        opacityFrom: 1,
+        opacityTo: 1,
+        stops: [0, 100]
+      }
+    },
+    stroke: {
+      dashArray: 8
+    },
+    series: [completePercentage],
+    labels: ['Completed Tasks']
+  };
+
+  taskTrackerChart = new ApexCharts($taskTrackerChart, taskTrackerChartOptions);
+  taskTrackerChart.render();
 
   // Sales Chart
   // -----------------------------

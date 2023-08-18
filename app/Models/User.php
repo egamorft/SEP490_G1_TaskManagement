@@ -25,10 +25,20 @@ class User extends Model implements Authenticatable
         'deleted_at',
     ];
 
+    public function assignedTasks()
+    {
+        return $this->hasMany(Task::class, 'assign_to');
+    }
+
+    public function createdTasks()
+    {
+        return $this->hasMany(Task::class, 'created_by');
+    }
+
     public function roles()
     {
         return $this->belongsToMany(Role::class, 'account_project')
-            ->withPivot('project_id', 'status','account_id');
+            ->withPivot('project_id', 'status', 'account_id');
     }
 
     public function accProject()
@@ -101,6 +111,11 @@ class User extends Model implements Authenticatable
 
         // Check if the role has the required permission
         return $role->permissions()->where('slug', $permissionSlug)->exists();
+    }
+
+    public function users()
+    {
+        return $this->belongsToMany(User::class, 'account_project', 'project_id', 'account_id');
     }
 
     // public function hasPermission($permission)

@@ -71,12 +71,13 @@
                     </div>
                 </a>
             </li>
+            @if (Auth::check())
+            @if (Auth::user()->is_admin == 0)
             <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/calendar') }}"
                     data-bs-toggle="tooltip" data-bs-placement="bottom" title="Calendar"><i class="ficon"
                         data-feather="calendar"></i></a></li>
-            <li class="nav-item d-none d-lg-block"><a class="nav-link" href="{{ url('app/todo') }}"
-                    data-bs-toggle="tooltip" data-bs-placement="bottom" title="Todo"><i class="ficon"
-                        data-feather="check-square"></i></a></li>
+            @endif
+            @endif
         </ul>
     </div>
     <ul class="nav navbar-nav align-items-center ms-auto">

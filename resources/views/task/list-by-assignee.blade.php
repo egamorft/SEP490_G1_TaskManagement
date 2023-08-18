@@ -1,10 +1,10 @@
 <!-- Task table -->
-<div class="card card-table">
+<div class="card table-data-task card-table">
     <div class="card-body border-bottom mb-0">
         <h4 class="card-title mb-0">Your Tasks In this Project</h4>
     </div>
     <div class="card-datatable table-responsive pt-0">
-        <table class="table datatable-project project-list-table">
+        <table class="table datatable-project project-list-table table-task">
             <thead>
                 <tr>
                     <th>STT</th>

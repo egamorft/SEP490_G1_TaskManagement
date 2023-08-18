@@ -44,6 +44,8 @@ use PhpParser\Node\Stmt\Return_;
 // Main Page Route
 
 // Route::get('/', [DashboardController::class, 'dashboard_member'])->name('dashboard');
+Route::get('user/details/{id}', [AdminUserController::class, 'edit'])->name('user.details');
+
 Route::get('/', [DashboardController::class, 'dashboard'])->name('dashboard');
 Route::get('dashboard', [DashboardController::class, 'dashboard_member'])->name('dashboard.member');
 Route::get('admin/dashboard', [DashboardController::class, 'dashboard_admin'])->name('dashboard.admin');
@@ -102,7 +104,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('task-store', [TaskController::class, 'ganttStore'])->name('store.task.gantt');
     Route::put('task-update/{id}', [TaskController::class, 'ganttUpdate'])->name('update.task.gantt');
     Route::delete('task-delete/{id}', [TaskController::class, 'ganttDelete'])->name('delete.task.gantt');
-    
+
     Route::post('link-store', [TaskController::class, 'linkStore'])->name('store.link.gantt');
     Route::delete('link-delete/{source}/{target}', [TaskController::class, 'linkDelete'])->name('delete.link.gantt');
 
@@ -127,7 +129,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('add-taskList', [TaskController::class, 'addTaskList'])->name('add.taskList');
     Route::post('move-task-taskList', [TaskController::class, 'moveTaskToTaskList'])->name('move.task');
     Route::post('add-project', [ProjectController::class, 'store'])->name('add.project');
-   
+
     //Required project access (user in project - account_project ft status == 1)
     Route::group(['prefix' => 'project/{slug}', 'middleware' => ['check.project.access']], function () {
         Route::get('/', [ProjectController::class, 'index'])->name('project.settings');
@@ -159,10 +161,10 @@ Route::middleware(['auth'])->group(function () {
 
         Route::post('board/{board_id}/add-task-in-list', [TaskController::class, 'add_task_in_list_modal'])->name("add.task.in.list.modal");
 
-		// Save Gantt
+        // Save Gantt
         Route::post('gantt/save-gantt', [ProjectController::class, 'save_gantt'])->name('save.project.gantt');
         Route::get('task/{task_id}', [TaskController::class, 'view_task'])->name('view.task');
-        
+
         Route::get('task_list/{taskList_id}', [TaskController::class, 'view_task_list'])->name('view.taskList');
 
         Route::get('board/{board_id}/get-task-info', [TaskController::class, 'get_task_info'])->name("get.task.info");
@@ -192,7 +194,7 @@ Route::middleware(['auth'])->group(function () {
         //Edit profile
 
         //Change password
-        Route::get('password', [AuthController::class, 'user_view_security'])->name('edit.password');
+        // Route::get('password', [AuthController::class, 'user_view_security'])->name('edit.password');
         Route::post('change-password', [AuthController::class, 'change_password'])->name('edit.password.submit');
     });
 
@@ -202,7 +204,7 @@ Route::middleware(['auth'])->group(function () {
         Route::get('get-specific-user', [AdminUserController::class, 'show'])->name('user.show');
         Route::post('user/create', [AdminUserController::class, 'create'])->name('user.create');
         Route::post('user/update/{id}', [AdminUserController::class, 'update'])->name('user.update');
-        Route::get('user/details/{id}', [AdminUserController::class, 'edit'])->name('user.edit');
+        Route::delete('user/{id}', [AdminUserController::class, 'destroy'])->name('destroy.user');
 
         Route::get('access/roles', [AdminAccessController::class, 'index'])->name('admin-access-roles');
         Route::post('store-role-permissions', [AdminAccessController::class, 'store'])->name('store.role.permissions');

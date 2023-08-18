@@ -1,5 +1,5 @@
 <!-- Task table -->
-<div class="card">
+<div class="card card-table">
 	<div class="card-body border-bottom mb-0">
 		<h4 class="card-title mb-0">Your Tasks</h4>
 	</div>

@@ -27,7 +27,8 @@ $(function () {
 				series2: '#00d4bd',
 				series3: '#826bf8',
 				series4: '#2b9bf4',
-				series5: '#FFA1A1'
+				series5: '#FFA1A1',
+				series6: '#fc355d'
 			},
 			area: {
 				series3: '#a4f8cd',
@@ -754,6 +755,65 @@ $(function () {
 	if (typeof radialBarChartEl !== undefined && radialBarChartEl !== null) {
 		var radialChart = new ApexCharts(radialBarChartEl, radialBarChartConfig);
 		radialChart.render();
+	}
+
+	// Radialbar Task Chart
+	// --------------------------------------------------------------------
+	var radialBarTaskChartEl = document.querySelector('#radialbar-task-chart'),
+		radialBarTaskChartConfig = {
+			chart: {
+				height: 350,
+				type: 'radialBar'
+			},
+			colors: [chartColors.donut.series4, chartColors.success.shade_100, chartColors.donut.series6],
+			plotOptions: {
+				radialBar: {
+					size: 185,
+					hollow: {
+						size: '25%'
+					},
+					track: {
+						margin: 15
+					},
+					dataLabels: {
+						name: {
+							fontSize: '2rem',
+							fontFamily: 'Montserrat'
+						},
+						value: {
+							fontSize: '1rem',
+							fontFamily: 'Montserrat'
+						},
+						total: {
+							show: true,
+							fontSize: '1rem',
+							label: 'Project',
+							formatter: function (w) {
+								return totalProject / 100;
+							}
+						}
+					}
+				}
+			},
+			grid: {
+				padding: {
+					top: -35,
+					bottom: -30
+				}
+			},
+			legend: {
+				show: true,
+				position: 'bottom'
+			},
+			stroke: {
+				lineCap: 'round'
+			},
+			series: [totalProject, totalApprove, totalReject],
+			labels: ['Project', 'Approve', 'Reject']
+		};
+	if (typeof radialBarTaskChartEl !== undefined && radialBarTaskChartEl !== null) {
+		var radialTaskChart = new ApexCharts(radialBarTaskChartEl, radialBarTaskChartConfig);
+		radialTaskChart.render();
 	}
 
 	// Radar Chart

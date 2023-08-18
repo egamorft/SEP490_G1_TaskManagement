@@ -8,43 +8,60 @@
     <section id="chartjs-chart">
 
         <div class="row">
-            <!-- Donut Chart Starts-->
-            <div class="col-xl-4 col-12">
-                <div class="card">
-                    <div class="card-header flex-column align-items-start">
-                        <h4 class="card-title mb-75">Task Overview</h4>
-                        <span class="card-subtitle text-muted">Task breakdown by statuses </span>
-                    </div>
-                    <div class="card-body">
-                        <div id="donut-chart"></div>
-                    </div>
-                </div>
-            </div>
-            <!-- Donut Chart Ends-->
 
-            <!-- Area Chart starts -->
-            <div class="col-xl-8 col-12">
-                <div class="card">
-                    <div
-                        class="
-					  card-header
-					  d-flex
-					  flex-sm-row flex-column
-					  justify-content-md-between
-					  align-items-start
-					  justify-content-start
-					">
-                        <div>
-                            <h4 class="card-title">All Task</h4>
-                            <span class="card-subtitle text-muted">Group task by day</span>
+            @if (count($tasks) > 0)
+                <!-- Donut Chart Starts-->
+                <div class="col-xl-4 col-12">
+                    <div class="card">
+                        <div class="card-header flex-column align-items-start">
+                            <h4 class="card-title mb-75">Task Overview</h4>
+                            <span class="card-subtitle text-muted">Task breakdown by statuses </span>
+                        </div>
+                        <div class="card-body">
+                            <div id="donut-chart"></div>
                         </div>
                     </div>
-                    <div class="card-body">
-                        <div id="line-area-chart"></div>
+                </div>
+                <!-- Donut Chart Ends-->
+
+                <!-- Area Chart starts -->
+                <div class="col-xl-8 col-12">
+                    <div class="card">
+                        <div
+                            class="
+                        card-header
+                        d-flex
+                        flex-sm-row flex-column
+                        justify-content-md-between
+                        align-items-start
+                        justify-content-start
+                        ">
+                            <div>
+                                <h4 class="card-title">All Task</h4>
+                                <span class="card-subtitle text-muted">Group task by day</span>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="line-area-chart"></div>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <!-- Area Chart ends -->
+                <!-- Area Chart ends -->               
+            @else
+                <div class="col-12">
+                    <div class="card">
+                        <div class="empty-state">
+                            <i data-feather="database" class="empty-state-icon"></i>
+                            <h3>
+                                No data found
+                            </h3>
+                            <div>
+                                Please work with your team member to be assigned to tasks.
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            @endif
 
         </div>
 

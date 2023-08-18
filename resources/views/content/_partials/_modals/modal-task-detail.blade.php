@@ -186,7 +186,7 @@
         <div class="date-title custom-sub-title">Task To Finish</div>
         <div class="prev-flex-item">
             <div class="addPrevTask">
-                <select {{ $isDone ? 'disabled' : '' }} class="select2 form-select" id="selectPrevTasks"
+                <select {{ $isDone || $current_role != 'pm' ? 'disabled' : '' }} class="select2 form-select" id="selectPrevTasks"
                     name="modalAddPreviousTask[]" multiple>
                     @php
                         $prev_tasks_array = json_decode($taskDetails->prev_tasks);

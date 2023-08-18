@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Requests\AdminRegisterRequest;
 use App\Http\Requests\RegisterRequest;
 use App\Mail\AdminRegister;
+use App\Models\Task;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Mail;
 use Illuminate\Support\Facades\Redirect;
@@ -24,7 +26,7 @@ class AdminUserController extends Controller
     {
         $pageConfigs = ['pageHeader' => false];
 
-        $getAllAccount = User::all();
+        $getAllAccount = User::where('id', '!=', Auth::id())->get();
         $totalAccount = count($getAllAccount);
         $totalActiveAccount = count($getAllAccount->where('status', 1));
         $totalInactiveAccount = count($getAllAccount->where('status', 0));
@@ -125,7 +127,25 @@ class AdminUserController extends Controller
         $pageConfigs = ['pageHeader' => false];
 
         $account = User::findOrFail($id);
-        return view('content.apps.admin.app-admin-view-account', ['pageConfigs' => $pageConfigs])->with(compact('account'));
+        $accountTasks = Task::where('assign_to', $id)->get();
+        $completePercentage = 0;
+        $completeTask = Task::where('assign_to', $id)
+            ->where(function ($query) {
+                $query->where('status', 3)
+                    ->orWhere('status', -1);
+            })->count();
+        if ($accountTasks->count() > 0) {
+            $completePercentage = $completeTask / $accountTasks->count() * 100;
+        }
+        $projects = $account->projects;
+
+        return view('content.apps.admin.app-admin-view-account', ['pageConfigs' => $pageConfigs])
+            ->with(compact(
+                'account',
+                'accountTasks',
+                'completePercentage',
+                'projects'
+            ));
     }
 
     /**
@@ -164,6 +184,16 @@ class AdminUserController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $user = User::findOrFail($id);
+        if ($user->deleted_at) {
+            $user->deleted_at = null;
+            Session::flash('success', 'Successfully resumed user ' . $user->email);
+        } else {
+            Session::flash('success', 'Successfully suspended user ' . $user->email);
+            $user->deleted_at = now();
+        }
+        $user->save();
+
+        return back();
     }
 }

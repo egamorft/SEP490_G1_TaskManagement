@@ -72,7 +72,7 @@
                                 <li class="mb-75">
                                     <span class="fw-bolder me-25">Status:</span>
                                     <span
-                                        class="badge bg-light-{{ !Auth::user()->delete_at ? 'success' : 'danger' }}">{{ !Auth::user()->delete_at ? 'Active' : 'Inactive' }}</span>
+                                        class="badge bg-light-{{ !Auth::user()->deleted_at ? 'success' : 'danger' }}">{{ !Auth::user()->deleted_at ? 'Active' : 'Inactive' }}</span>
                                 </li>
                                 <li class="mb-75">
                                     <span class="fw-bolder me-25">Role:</span>
@@ -113,7 +113,7 @@
             <!-- User Content -->
             <div class="col-xl-8 col-lg-7 col-md-7 order-0 order-md-1">
                 <!-- User Pills -->
-                <ul class="nav nav-pills mb-2">
+                {{-- <ul class="nav nav-pills mb-2">
                     <li class="nav-item">
                         <a class="nav-link active" href="{{ route('edit.profile') }}">
                             <i data-feather="user" class="font-medium-3 me-50"></i>
@@ -125,25 +125,7 @@
                             <span class="fw-bold">Security</span>
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ asset('app/user/view/billing') }}">
-                            <i data-feather="bookmark" class="font-medium-3 me-50"></i>
-                            <span class="fw-bold">Billing & Plans</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ asset('app/user/view/notifications') }}">
-                            <i data-feather="bell" class="font-medium-3 me-50"></i><span
-                                class="fw-bold">Notifications</span>
-                        </a>
-                    </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="{{ asset('app/user/view/connections') }}">
-                            <i data-feather="link" class="font-medium-3 me-50"></i><span
-                                class="fw-bold">Connections</span>
-                        </a>
-                    </li>
-                </ul>
+                </ul> --}}
                 <!--/ User Pills -->
 
                 <!-- Project table -->

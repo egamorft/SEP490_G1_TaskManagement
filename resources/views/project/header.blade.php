@@ -28,6 +28,7 @@
                     <span class="fw-bold">Board</span>
                 </a>
             </div>
+            @can('check-permission', 'change-project-information')
             <div class="d-inline">
                 <a type="button"
                     class="{{ $page == 'gantt' ? 'border-bottom-primary' : '' }} text-primary btn-icon btn btn-round"
@@ -36,6 +37,7 @@
                     <span class="fw-bold">Gantt</span>
                 </a>
             </div>
+            @endcan
             <div class="d-inline">
                 <a type="button"
                     class="{{ $page == 'report' ? 'border-bottom-primary' : '' }} text-primary btn-icon btn btn-round"

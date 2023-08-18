@@ -19,7 +19,7 @@
 @endsection
 
 @section('content')
-	@include('project.header')
+    @include('project.header')
     <!-- Basic tabs start -->
     <section id="basic-tabs-components">
         <div class="row match-height" id="section-block">
@@ -76,7 +76,8 @@
                                         <div class="bs-stepper-content">
                                             <div id="project-information" class="content" role="tabpanel"
                                                 aria-labelledby="project-information-trigger">
-                                                <form action="{{ route('project.update', ['slug' => $project->slug, 'id' => $project->id]) }}"
+                                                <form
+                                                    action="{{ route('project.update', ['slug' => $project->slug, 'id' => $project->id]) }}"
                                                     method="post">
                                                     @csrf
                                                     <div class="col-12 col-md-12 mb-2">
@@ -104,9 +105,11 @@
                                                         @enderror
                                                     </div>
                                                     <div class="col-12 mb-2">
-                                                        <label class="form-label" for="settingDesc">Description</label>
-                                                        <textarea id="settingDesc" name="settingDesc" class="form-control"
-                                                            placeholder="To sell or distribute something as a business deal">{{ $project->description }}</textarea>
+                                                        <label class="form-label"
+                                                            for="settingsProjectEditor">Description</label>
+                                                        <div id="settingsProjectEditor">{!! $project->description !!}</div>
+                                                        <input type="hidden" name="settingDesc" id="editorSettings"
+                                                            value="{!! $project->description !!}">
                                                     </div>
                                                     <div class="d-flex justify-content-between mt-2">
                                                         <button type="submit" class="btn btn-outline-primary">
@@ -445,9 +448,9 @@
                                                                                         <input type="hidden"
                                                                                             name="csrf-token"
                                                                                             value="{{ csrf_token() }}">
-                                                                                            <input type="hidden"
-                                                                                                name="slug"
-                                                                                                value="{{ $project->slug }}">
+                                                                                        <input type="hidden"
+                                                                                            name="slug"
+                                                                                            value="{{ $project->slug }}">
                                                                                         <input
                                                                                             class="form-check-input permission-role-editor"
                                                                                             type="checkbox"
@@ -481,6 +484,142 @@
                     </div>
                 </div>
             </div>
+            @if (Session::has('errorTask'))
+                <!-- Change duration Modal -->
+                <div class="modal fade" id="modalTask" data-bs-backdrop="static" data-bs-keyboard="false"
+                    tabindex="-1" aria-hidden="true">
+                    <div class="modal-dialog modal-dialog-centered modal-add-new-board modal-lg">
+                        <div class="modal-content">
+                            <div class="modal-header bg-transparent">
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body p-3 pt-0">
+                                <div class="text-center mb-2">
+                                    <h1 class="mb-1">Change project duration! </h1>
+                                    <p>Change project<b> {{ $project->title }} </b>as per your requirements.</p>
+                                </div>
+
+                                <div class="alert alert-danger" role="alert">
+                                    <h6 class="alert-heading">Danger!</h6>
+                                    <div class="alert-body">
+                                        This action could cause to some task below!!
+                                    </div>
+                                </div>
+                                <div class="table-responsive">
+                                    <table class="table">
+                                        <thead>
+                                            <tr>
+                                                <th>Task</th>
+                                                <th>Start</th>
+                                                <th>End</th>
+                                                <th>Assignee</th>
+                                                <th>Status</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @php
+                                                $serializedTasks = Session::get('tasksAction');
+                                                // Unserialize the object
+                                                $listTasks = unserialize($serializedTasks);
+                                            @endphp
+                                            @foreach ($listTasks as $t)
+                                                <tr>
+                                                    <td>
+                                                        <span class="fw-bold">{{ $t->title }}</span>
+                                                    </td>
+                                                    <td>
+                                                        {{ date('d/m/Y', strtotime($t->start_date)) }}
+                                                    </td>
+                                                    <td>
+                                                        {{ date('d/m/Y', strtotime($t->due_date)) }}
+                                                    </td>
+                                                    <td>
+                                                        @if (isset($t->assignTo->avatar))
+                                                            <div class="avatar-group">
+                                                                <div data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                                    data-bs-placement="top" class="avatar pull-up my-0"
+                                                                    title=""
+                                                                    data-bs-original-title="{{ $t->assignTo->name }}">
+                                                                    <img src="{{ asset('images/avatars/' . $t->assignTo->avatar) }}"
+                                                                        alt="Avatar" height="26" width="26">
+                                                                </div>
+                                                            </div>
+                                                        @else
+                                                            <div class="avatar-group">
+                                                                <div data-bs-toggle="tooltip" data-popup="tooltip-custom"
+                                                                    data-bs-placement="top" class="avatar pull-up my-0"
+                                                                    title=""
+                                                                    data-bs-original-title="No assign to anyone yet">
+                                                                    <img src="{{ asset('images/avatars/default.png') }}"
+                                                                        alt="Avatar" height="26" width="26">
+                                                                </div>
+                                                            </div>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @php
+                                                            $badgeStt = '';
+                                                            $statusNote = '';
+                                                        @endphp
+                                                        @switch($t->status)
+                                                            @case(-1)
+                                                                @php
+                                                                    $badgeStt = 'danger';
+                                                                    $statusNote = 'Done late';
+                                                                @endphp
+                                                            @break
+
+                                                            @case(0)
+                                                                @php
+                                                                    $badgeStt = 'secondary';
+                                                                    $statusNote = 'Todo';
+                                                                @endphp
+                                                            @break
+
+                                                            @case(1)
+                                                                @php
+                                                                    $badgeStt = 'primary';
+                                                                    $statusNote = 'Doing';
+                                                                @endphp
+                                                            @break
+
+                                                            @case(2)
+                                                                @php
+                                                                    $badgeStt = 'warning';
+                                                                    $statusNote = 'Reviewing';
+                                                                @endphp
+                                                            @break
+
+                                                            @case(3)
+                                                                @php
+                                                                    $badgeStt = 'success';
+                                                                    $statusNote = 'Success';
+                                                                @endphp
+                                                            @break
+
+                                                            @default
+                                                        @endswitch
+                                                        <span
+                                                            class="badge rounded-pill badge-light-{{ $badgeStt }} me-1">{{ $statusNote }}</span>
+                                                    </td>
+                                                </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                                <div class="text-center mt-2">
+                                    <a type="button" href="{{ route('view.project.board', ['slug' => $project->slug]) }}"
+                                        class="btn btn-primary">Check it
+                                        out!!</a>
+                                </div>
+
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!--/ Change duration Modal -->
+            @endif
             @include('content._partials._modals.modal-refer-earn')
             <!-- Tabs with Icon ends -->
         </div>

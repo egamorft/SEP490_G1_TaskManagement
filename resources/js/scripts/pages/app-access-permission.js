@@ -33,14 +33,22 @@ $(function () {
             if (match) {
               var rowId = parseInt(match[1]);
             }
-            return (
-              '<button class="btn btn-sm btn-icon edit-permission-btn" data-bs-toggle="modal" data-bs-target="#editPermissionModal" data-id="'+ rowId +'">' +
-              feather.icons['edit'].toSvg({ class: 'font-medium-2 text-body' }) +
-              '</i></button>' +
-              '<button class="btn btn-sm btn-icon edit-permission-btn" data-bs-toggle="modal" data-bs-target="#deletePermissionModal" data-id="'+ rowId +'">' +
-              feather.icons['trash'].toSvg({ class: 'font-medium-2 text-body' }) +
-              '</button>'
-            );
+
+            if (rowId > 5) {
+              return (
+                '<button class="btn btn-sm btn-icon edit-permission-btn" data-bs-toggle="modal" data-bs-target="#editPermissionModal" data-id="' + rowId + '">' +
+                feather.icons['edit'].toSvg({ class: 'font-medium-2 text-body' }) +
+                '</i></button>' +
+                '<button class="btn btn-sm btn-icon edit-permission-btn" data-bs-toggle="modal" data-bs-target="#deletePermissionModal" data-id="' + rowId + '">' +
+                feather.icons['trash'].toSvg({ class: 'font-medium-2 text-body' }) +
+                '</button>'
+              );
+            } else {
+              return (
+                '<button data-bs-toggle="tooltip" data-bs-placement="top" title="This permission is system default" class="btn btn-sm btn-icon">' +
+                feather.icons['info'].toSvg({ class: 'font-medium-2 text-body' }) +
+                '</i></button>');
+            }
           }
         }
       ],

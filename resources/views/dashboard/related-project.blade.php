@@ -24,8 +24,8 @@
                         $supervisor = null;
                         $manager = $allAccounts[0];
                         $members = [];
-						$role = "Project Member";
-
+                        $role = 'Project Member';
+                        
                         foreach ($allAccountProjects as $accPro) {
                             if ($accPro->project_id == $project->id) {
                                 foreach ($allAccounts as $acc) {
@@ -41,62 +41,62 @@
                                 }
                             }
                         }
-
-						if ($manager->id == $account->id) {
-							$role = "Project Manager";
-						}
-						if ($supervisor) {
-							if ($supervisor->id == $account->id) {
-								$role = "Project Supervisor";
-							}
-						}
-
+                        
+                        if ($manager->id == $account->id) {
+                            $role = 'Project Manager';
+                        }
+                        if ($supervisor) {
+                            if ($supervisor->id == $account->id) {
+                                $role = 'Project Supervisor';
+                            }
+                        }
+                        
                         // Convert the project's start and end dates to Carbon objects
-						$start_date = Carbon::parse($project->start_date)->startOfDay();
-						$end_date = Carbon::parse($project->end_date)->endOfDay();
-						// Get the current date as a Carbon object
-						$current_date = Carbon::now();
+$start_date = Carbon::parse($project->start_date)->startOfDay();
+$end_date = Carbon::parse($project->end_date)->endOfDay();
+// Get the current date as a Carbon object
+$current_date = Carbon::now();
 
-						$percent_completed = 0;
-						$days_left = 0;
+$percent_completed = 0;
+$days_left = 0;
 
-						if ($end_date > $start_date) {
-							if ($current_date < $start_date) {
-								// If the project is in the future, set percent_completed to 0
-								$percent_completed = 0;
-								$days_left = $start_date->diffInDays($current_date);
-							} elseif ($current_date >= $end_date) {
-								// If the project is completed, set percent_completed to 100
-								$percent_completed = 100;
-								$days_left = -1;
-							} else {
-								// Calculate the total duration of the project in days
-								$total_days = $start_date->diffInDays($end_date) + 1;
+if ($end_date > $start_date) {
+    if ($current_date < $start_date) {
+        // If the project is in the future, set percent_completed to 0
+        $percent_completed = 0;
+        $days_left = $start_date->diffInDays($current_date);
+    } elseif ($current_date >= $end_date) {
+        // If the project is completed, set percent_completed to 100
+        $percent_completed = 100;
+        $days_left = -1;
+    } else {
+        // Calculate the total duration of the project in days
+        $total_days = $start_date->diffInDays($end_date) + 1;
 
-								// Calculate the number of days that have already passed since the project started
-								$days_passed = $start_date->diffInDays($current_date) + 1;
+        // Calculate the number of days that have already passed since the project started
+        $days_passed = $start_date->diffInDays($current_date) + 1;
 
-								// Calculate the percentage completed
-								$percent_completed = round(($days_passed / $total_days) * 100, 2);
+        // Calculate the percentage completed
+        $percent_completed = round(($days_passed / $total_days) * 100, 2);
 
-								// Calculate the number of days left
-								$days_left = $total_days - $days_passed;
-							}
-						}
-						// Make sure percent_completed is within the range of 0 to 100
-						$percent_completed = max(0, min(100, $percent_completed));
+        // Calculate the number of days left
+        $days_left = $total_days - $days_passed;
+    }
+}
+// Make sure percent_completed is within the range of 0 to 100
+$percent_completed = max(0, min(100, $percent_completed));
 
-						$colorProgressState = '';
-						if (0 <= $percent_completed && $percent_completed <= 40) {
-							$colorProgressState = '#45ba30';
-						} elseif (40 < $percent_completed && $percent_completed <= 60) {
-							$colorProgressState = '#c4bc21';
-						} elseif (60 < $percent_completed && $percent_completed <= 80) {
-							$colorProgressState = '#db8223';
-						} elseif (80 < $percent_completed && $percent_completed <= 100) {
-							$colorProgressState = '#e63217';
-						} else {
-							$colorProgressState = '';
+$colorProgressState = '';
+if (0 <= $percent_completed && $percent_completed <= 40) {
+    $colorProgressState = '#45ba30';
+} elseif (40 < $percent_completed && $percent_completed <= 60) {
+    $colorProgressState = '#c4bc21';
+} elseif (60 < $percent_completed && $percent_completed <= 80) {
+    $colorProgressState = '#db8223';
+} elseif (80 < $percent_completed && $percent_completed <= 100) {
+    $colorProgressState = '#e63217';
+} else {
+    $colorProgressState = '';
                         }
                     @endphp
                     <tr class="odd" id="row{{ $project->id }}">
@@ -107,8 +107,6 @@
                                     <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;"><a
                                             href="{{ route('view.project.board', ['slug' => $project->slug]) }}">{{ $project->name }}</a>
                                     </h6>
-                                    <small class="text-truncate"
-                                        style="max-width: 300px; display: block;">{{ $project->description ? $project->description : 'No Description' }}</small>
                                 </div>
                             </div>
                         </td>
@@ -204,19 +202,19 @@
                                 </div>
                             </div>
                         </td>
-						<td>{{ $role }}</td>
+                        <td>{{ $role }}</td>
                         <td>
                             <div class="avatar-group">
-								<a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $manager->id]) }}"
-									data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-									title="{{ $manager->name }}" class="avatar pull-up">
-									<img src="{{ asset('images/avatars/' . $manager->avatar) }}" alt="Avatar"
-										width="33" height="33" />
-								</a>
+                                <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $manager->id]) }}"
+                                    data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
+                                    title="{{ $manager->name }}" class="avatar pull-up">
+                                    <img src="{{ asset('images/avatars/' . $manager->avatar) }}" alt="Avatar"
+                                        width="33" height="33" />
+                                </a>
                             </div>
                         </td>
                         <td>
-							<div class="avatar-group">
+                            <div class="avatar-group">
                                 @if ($supervisor)
                                     <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $supervisor->id]) }}"
                                         data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"

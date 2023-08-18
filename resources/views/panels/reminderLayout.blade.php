@@ -78,7 +78,7 @@
                                 ];
                                 break;
                         }
-                        if (($status == 0 || $status == 1) && strtotime($task->due_date) < time()) {
+                        if (($status == 0 || $status == 1) && strtotime($task->due_date) < strtotime("today", time())) {
                             $statusView = [
                                 'text' => 'Overdue',
                                 'class' => 'badge-light-danger',
@@ -151,7 +151,8 @@
                                 ];
                                 break;
                         }
-                        if (($status == 0 || $status == 1) && strtotime($task->due_date) < time()) {
+						
+                        if (($status == 0 || $status == 1) && strtotime($task->due_date) < strtotime("today", time())) {
                             $statusView = [
                                 'text' => 'Overdue',
                                 'class' => 'badge-light-danger',
@@ -223,7 +224,7 @@
                                 ];
                                 break;
                         }
-                        if (($status == 0 || $status == 1) && strtotime($task->due_date) < time()) {
+                        if (($status == 0 || $status == 1) && strtotime($task->due_date) < strtotime("today", time())) {
                             $statusView = [
                                 'text' => 'Overdue',
                                 'class' => 'badge-light-danger',

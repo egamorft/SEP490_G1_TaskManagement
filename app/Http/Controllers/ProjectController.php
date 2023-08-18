@@ -99,6 +99,11 @@ class ProjectController extends Controller
 
 		$disabledProject = $this->checkDisableProject($project);
 
+		$project_id = $project->id;
+		$tasksInProject = Task::whereHas('taskList.board.project', function ($query) use ($project_id) {
+			$query->where('id', $project_id);
+		})->get();
+
 		return view('project.settings', ['pageConfigs' => $pageConfigs, 'page' => 'settings'])
 			->with(compact(
 				'project',
@@ -111,7 +116,8 @@ class ProjectController extends Controller
 				'removedMember',
 				'roles',
 				'permissions',
-				'disabledProject'
+				'disabledProject',
+				'tasksInProject'
 			));
 	}
 
@@ -341,6 +347,74 @@ class ProjectController extends Controller
 		}
 
 		$dates = $this->extractDatesFromDuration($request->input('settingDuration'));
+
+		//Get all task duration
+		$tasksTODO = Task::whereHas('taskList.board.project', function ($query) use ($id) {
+			$query->where('id', $id);
+		})->where('status', TaskStatus::TODO)->get();
+
+		$tasksActive = Task::whereHas('taskList.board.project', function ($query) use ($id) {
+			$query->where('id', $id);
+		})->where('status', '!=', TaskStatus::TODO)->get();
+
+		$soonestProjectStartDateTODO = $tasksTODO->min('start_date');
+		$latestProjectEndDateTODO = $tasksTODO->max('due_date');
+
+		$soonestProjectStartDateActive = $tasksActive->min('start_date');
+		$latestProjectEndDateActive = $tasksActive->max('due_date');
+
+		$soonestNotAvailStartDate = min($soonestProjectStartDateTODO, $soonestProjectStartDateActive);
+		$latestNotAvailEndDate = max($latestProjectEndDateTODO, $latestProjectEndDateActive);
+		//Get all task duration
+
+		//Check task active in project before change duration
+		if (
+			Carbon::parse($dates['start_date'])->greaterThan(Carbon::parse($soonestProjectStartDateActive))
+			|| Carbon::parse($dates['end_date'])->lessThan(Carbon::parse($latestProjectEndDateActive))
+		) {
+			$listTasks = Task::query();
+
+			if (Carbon::parse($dates['end_date'])->lessThan(Carbon::parse($latestProjectEndDateActive))) {
+				$listTasks = $listTasks->whereDate('due_date', '>=', $dates['end_date']);
+			}
+
+			if (Carbon::parse($dates['start_date'])->greaterThan(Carbon::parse($soonestProjectStartDateActive))) {
+				$listTasks = $listTasks->whereDate('start_date', '<=', $dates['end_date']);
+			}
+
+			$listTasks = $listTasks->with('assignTo')->get();
+			//Not active duration
+			Session::flash('errorTask', 'Active');
+			Session::flash('error', 'You can not change the project duration');
+			// Return a response indicating the success of the operation
+			$serializedTasks = serialize($listTasks);
+			Session::put('tasksAction', $serializedTasks);
+			return back();
+		}
+		//Check task active in project before change duration
+		// if (
+		// 	Carbon::parse($dates['start_date'])->greaterThan(Carbon::parse($soonestProjectStartDateTODO))
+		// 	|| Carbon::parse($dates['end_date'])->lessThan(Carbon::parse($latestProjectEndDateTODO))
+		// ) {
+		// 	$listTasks = Task::query();
+
+		// 	if (Carbon::parse($dates['end_date'])->lessThan(Carbon::parse($latestProjectEndDateTODO))) {
+		// 		$listTasks = $listTasks->whereDate('due_date', '>=', $dates['end_date']);
+		// 	}
+
+		// 	if (Carbon::parse($dates['start_date'])->greaterThan(Carbon::parse($soonestProjectStartDateTODO))) {
+		// 		$listTasks = $listTasks->whereDate('start_date', '<=', $dates['end_date']);
+		// 	}
+
+		// 	$listTasks = $listTasks->with('assignTo')->get();
+
+		// 	Session::flash('errorTask', 'Todo');
+		// 	Session::flash('error', 'This action will delete some TODO tasks');
+		// 	$serializedTasks = serialize($listTasks);
+		// 	Session::put('tasksAction', $serializedTasks);
+		// 	// Return a response indicating the success of the operation
+		// 	return back();
+		// }
 		// Access the start date and end date
 		$startDate = $dates['start_date'];
 		$endDate = $dates['end_date'];
@@ -421,7 +495,7 @@ class ProjectController extends Controller
 						$project->project_status = 1;
 						$project->save();
 						$this->notiController->createNotiContent("Project have been approved to start", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have accepted your invite to guide " . $project->name . " project", route('project.settings', ['slug' => $project->slug]));
-					}else{
+					} else {
 						$this->notiController->createNotiContent("New member join", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have accepted your invite to join " . $project->name . " project", route('project.settings', ['slug' => $project->slug]));
 					}
 					$accountProject->status = 1;
@@ -1462,11 +1536,11 @@ class ProjectController extends Controller
 		$project->description = $request->reason;
 		$project->project_status = -1;
 		$project->save();
-		
+
 		//Set up noti
 		$pmAccountProject = AccountProject::where('project_id', $request->id)
-		->where('role_id', 1)
-		->first();
+			->where('role_id', 1)
+			->first();
 		$this->notiController->createNotiContent("Your project have been rejected", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have reject your " . $project->name . " project", route('view.project.board', ['slug' => $project->slug]));
 
 		return response()->json(['success' => true]);
@@ -1478,11 +1552,11 @@ class ProjectController extends Controller
 		$project->description = $request->reason;
 		$project->project_status = 2;
 		$project->save();
-		
+
 		//Set up noti
 		$pmAccountProject = AccountProject::where('project_id', $request->id)
-		->where('role_id', 1)
-		->first();
+			->where('role_id', 1)
+			->first();
 		$this->notiController->createNotiContent("Your project have been rejected", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have reject your " . $project->name . " project", route('view.project.board', ['slug' => $project->slug]));
 
 		return response()->json(['success' => true]);
