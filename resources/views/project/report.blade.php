@@ -401,15 +401,8 @@
                                                 $task_due_date = strtotime($task->due_date);
                                                 $today = time();
                                             @endphp
-                                            @if ($task_due_date < $today)
-                                                <td>
-                                                    <span class="badge rounded-pill badge-light-danger">Overdue</span>
-                                                </td>
-                                                <td>
-                                                    <span
-                                                        class="badge rounded-pill badge-light-danger">{{ $task->due_date ? date('D, M d, Y', strtotime($task->due_date)) : 'No Info' }}</span>
-                                                </td>
-                                            @else
+
+                                            @if (!$task->due_date)
                                                 <td>
                                                     <span class="badge rounded-pill badge-light-info">Todo</span>
                                                 </td>
@@ -417,6 +410,24 @@
                                                     <span
                                                         class="badge rounded-pill badge-light-info">{{ $task->due_date ? date('D, M d, Y', strtotime($task->due_date)) : 'No Info' }}</span>
                                                 </td>
+                                            @else
+                                                @if ($task_due_date < $today)
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-danger">Overdue</span>
+                                                    </td>
+                                                    <td>
+                                                        <span
+                                                            class="badge rounded-pill badge-light-danger">{{ $task->due_date ? date('D, M d, Y', strtotime($task->due_date)) : 'No Info' }}</span>
+                                                    </td>
+                                                @else
+                                                    <td>
+                                                        <span class="badge rounded-pill badge-light-info">Todo</span>
+                                                    </td>
+                                                    <td>
+                                                        <span
+                                                            class="badge rounded-pill badge-light-info">{{ $task->due_date ? date('D, M d, Y', strtotime($task->due_date)) : 'No Info' }}</span>
+                                                    </td>
+                                                @endif
                                             @endif
                                     @endswitch
                                     <td>

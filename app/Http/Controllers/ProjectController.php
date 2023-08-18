@@ -1273,8 +1273,8 @@ class ProjectController extends Controller
 
 		$totalRecords = $tasksInProjectBuilder->count();
 		$tasksInProject = $tasksInProjectBuilder
-			// ->skip(0)
-			// ->take($this->rowPerPage)
+			->with('assignTo', 'comments', 'createdBy')
+			->whereNull('deleted_at')
 			->get();
 
 		foreach ($tasksInProject as $task) {

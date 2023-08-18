@@ -23,7 +23,6 @@ $(function () {
 					click: function (event, chartContext, config) {
 						var target = $(event.target);
 						if (target.attr("data:pieClicked") == "true") {
-							console.log("asdfasdf")
 							target.parents('#chartjs-chart').find(".table-data-task .table-task").find("tbody tr").each(function (e) {
 								$(this).removeClass("hidden");
 							});
