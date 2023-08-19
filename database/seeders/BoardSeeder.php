@@ -17,15 +17,15 @@ class BoardSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
+        // $faker = Faker::create();
 
-        for ($i = 0; $i < 5; $i++) {
-            Board::create([
-                'title' => $faker->word,
-                'project_id' => $faker->randomElement(Project::pluck('id')->toArray()),
-                'created_at' => $faker->dateTime()->format('Y-m-d H:i:s'),
-                'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
-            ]);
-        }
+        // for ($i = 0; $i < 5; $i++) {
+        //     Board::create([
+        //         'title' => $faker->word,
+        //         'project_id' => $faker->randomElement(Project::pluck('id')->toArray()),
+        //         'created_at' => $faker->dateTime()->format('Y-m-d H:i:s'),
+        //         'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
+        //     ]);
+        // }
     }
 }

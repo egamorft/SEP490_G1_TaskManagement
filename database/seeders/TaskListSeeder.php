@@ -17,15 +17,15 @@ class TaskListSeeder extends Seeder
      */
     public function run()
     {
-        $faker = Faker::create();
+        // $faker = Faker::create();
 
-        for ($i = 0; $i < $faker->numberBetween(3, 5); $i++) {
-            TaskList::create([
-                'title' => $faker->word,
-                'board_id' => $faker->randomElement(Board::pluck('id')->toArray()),
-                'created_at' => $faker->dateTime()->format('Y-m-d H:i:s'),
-                'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
-            ]);
-        }
+        // for ($i = 0; $i < $faker->numberBetween(3, 5); $i++) {
+        //     TaskList::create([
+        //         'title' => $faker->word,
+        //         'board_id' => $faker->randomElement(Board::pluck('id')->toArray()),
+        //         'created_at' => $faker->dateTime()->format('Y-m-d H:i:s'),
+        //         'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
+        //     ]);
+        // }
     }
 }

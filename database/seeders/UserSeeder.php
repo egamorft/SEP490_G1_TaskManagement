@@ -46,11 +46,11 @@ class UserSeeder extends Seeder
 
         //supervisor account
         User::create([
-            'name' => 'supervisor one',
-            'email' => 'testingg@fe.edu.vn',
+            'name' => 'Bùi Ngọc Anh',
+            'email' => 'anhbn5@fe.edu.vn',
             'password' => Hash::make('password'),
             'address' => 'Hà Nội',
-            'avatar' => 'S.png',
+            'avatar' => 'A.png',
             'token' => null,
             'is_admin' => 0,
             'status' => 1,
@@ -58,34 +58,82 @@ class UserSeeder extends Seeder
         ]);
 
         User::create([
-            'name' => 'supervisor two',
-            'email' => 'testing@fe.edu.vn',
+            'name' => 'Phạm Minh Đức',
+            'email' => 'ducpmhe150400@fpt.edu.vn',
             'password' => Hash::make('password'),
             'address' => 'Hải Phòng',
-            'avatar' => 'S.png',
+            'avatar' => 'D.png',
             'token' => null,
             'is_admin' => 0,
             'status' => 1,
             'deleted_at' => null,
         ]);
 
-        $faker = Faker::create();
+        User::create([
+            'name' => 'Trần Ngọc Hiếu',
+            'email' => 'hieutnhe153199@fpt.edu.vn',
+            'password' => Hash::make('password'),
+            'address' => 'Hòa Lạc',
+            'avatar' => 'H.png',
+            'token' => null,
+            'is_admin' => 0,
+            'status' => 1,
+            'deleted_at' => null,
+        ]);
 
-        for ($i = 0; $i < 5; $i++) {
-            $name = $faker->name;
-            $avatar = Str::substr($name, 0, 1) . '.png';
+        User::create([
+            'name' => 'Nguyễn Huy Tùng',
+            'email' => 'tungnhhe150305@fpt.edu.vn',
+            'password' => Hash::make('password'),
+            'address' => 'Hòa Lạc',
+            'avatar' => 'T.png',
+            'token' => null,
+            'is_admin' => 0,
+            'status' => 1,
+            'deleted_at' => null,
+        ]);
+        
+        User::create([
+            'name' => 'Phan Tuấn Việt',
+            'email' => 'vietpthe150767@fpt.edu.vn',
+            'password' => Hash::make('password'),
+            'address' => 'Hòa Lạc',
+            'avatar' => 'V.png',
+            'token' => null,
+            'is_admin' => 0,
+            'status' => 1,
+            'deleted_at' => null,
+        ]);
+        
+        User::create([
+            'name' => 'Lê Hữu Phúc',
+            'email' => 'phuclhhe151336@fpt.edu.vn',
+            'password' => Hash::make('password'),
+            'address' => 'Hòa Lạc',
+            'avatar' => 'P.png',
+            'token' => null,
+            'is_admin' => 0,
+            'status' => 1,
+            'deleted_at' => null,
+        ]);
 
-            User::create([
-                'name' => $name,
-                'email' => $faker->email,
-                'password' => Hash::make('password'), // Set a default password or use Faker to generate one
-                'address' => $faker->address,
-                'avatar' => $avatar,
-                'token' => null,
-                'is_admin' => $faker->boolean,
-                'status' => $faker->boolean,
-                'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
-            ]);
-        }
+        // $faker = Faker::create();
+
+        // for ($i = 0; $i < 5; $i++) {
+        //     $name = $faker->name;
+        //     $avatar = Str::substr($name, 0, 1) . '.png';
+
+        //     User::create([
+        //         'name' => $name,
+        //         'email' => $faker->email,
+        //         'password' => Hash::make('password'), // Set a default password or use Faker to generate one
+        //         'address' => $faker->address,
+        //         'avatar' => $avatar,
+        //         'token' => null,
+        //         'is_admin' => $faker->boolean,
+        //         'status' => $faker->boolean,
+        //         'deleted_at' => $faker->randomElement([$faker->dateTime()->format('Y-m-d H:i:s'), null]),
+        //     ]);
+        // }
     }
 }
