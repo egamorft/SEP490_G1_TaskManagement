@@ -132,10 +132,13 @@
         <div class="modal-dialog modal-sm modal-dialog-centered modal-edit-user">
             <div class="modal-content">
                 <div class="modal-header bg-transparent">
+                    <h4 class="modal-title">Share your qr</h4>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                 </div>
                 <div class="modal-body d-flex align-items-center justify-content-center">
                     {!! QrCode::size(200)->generate(route('user.details', ['id' => Auth::id()])) !!}
+                </div>
+                <div class="modal-footer d-flex align-items-center justify-content-center">
                 </div>
             </div>
         </div>

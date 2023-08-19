@@ -932,6 +932,8 @@ class ProjectController extends Controller
 		//Check disabled and calculate project progress
 
 		$boards = Board::where('project_id', $project->id)->with('tasks')->get();
+		
+		$current_role = $project->userCurrentRole();
 
 		return view('project.board', ['pageConfigs' => $pageConfigs, 'page' => 'board'])
 			->with(compact(
@@ -942,7 +944,8 @@ class ProjectController extends Controller
 				'disabledProject',
 				'boards',
 				'percent_completed',
-				'days_left'
+				'days_left',
+				'current_role'
 			));
 	}
 
@@ -1541,7 +1544,7 @@ class ProjectController extends Controller
 		$pmAccountProject = AccountProject::where('project_id', $request->id)
 			->where('role_id', 1)
 			->first();
-		$this->notiController->createNotiContent("Your project have been rejected", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have reject your " . $project->name . " project", route('view.project.board', ['slug' => $project->slug]));
+		$this->notiController->createNotiContent("Your project have been rejected", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have rejected your " . $project->name . " project", route('view.project.board', ['slug' => $project->slug]));
 
 		return response()->json(['success' => true]);
 	}
@@ -1557,7 +1560,7 @@ class ProjectController extends Controller
 		$pmAccountProject = AccountProject::where('project_id', $request->id)
 			->where('role_id', 1)
 			->first();
-		$this->notiController->createNotiContent("Your project have been rejected", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have reject your " . $project->name . " project", route('view.project.board', ['slug' => $project->slug]));
+		$this->notiController->createNotiContent("Your project have been approved", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have approved your " . $project->name . " project", route('view.project.board', ['slug' => $project->slug]));
 
 		return response()->json(['success' => true]);
 	}

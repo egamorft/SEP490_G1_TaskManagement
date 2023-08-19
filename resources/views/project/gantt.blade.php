@@ -1,11 +1,4 @@
 @extends('layouts/contentLayoutMaster')
-
-@section('content')
-    @include('project.header')
-	@include('task.gantt')
-	@include('task.modal')
-@endsection
-
 @section('vendor-style')
     <!-- Vendor css files -->
     <link rel="stylesheet" href="{{ asset(mix('vendors/css/gantt/dhtmlxgantt_material.css')) }}">
@@ -40,6 +33,12 @@
 			background-color: #C0E8FF !important;
 		}
     </style>
+@endsection
+
+@section('content')
+    @include('project.header')
+	@include('task.gantt')
+	@include('task.modal')
 @endsection
 
 @section('vendor-script')
