@@ -152,7 +152,7 @@
                         </li>
                     @endforeach
                     <li class="dropdown-menu-footer">
-                        <a class="btn btn-primary w-100" href="javascript:void(0)">Read all notifications</a>
+                        {{-- <a class="btn btn-primary w-100" href="javascript:void(0)">Read all notifications</a> --}}
                     </li>
                 </ul>
             </li>

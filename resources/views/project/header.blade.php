@@ -14,13 +14,13 @@
         </div>
     </div>
 @endif
-<div class="content-header row mb-0 {{ $disabledProject ? 'opacity-50 pointer-events-none' : '' }}">
+<div class="content-header row mb-0">
     <h3 class="mt-1 content-header-left col-md-7 col-12 mb-0">
         <span class="menu-title text-truncate">Project: {{ $project->name }}</span>
     </h3>
     <div class="content-header-right text-md-end col-md-5 col-12 d-md-block d-none">
         <div class="mb-0 breadcrumb-right">
-            <div class="d-inline">
+            <div class="d-inline {{ $disabledProject ? 'opacity-50 pointer-events-none' : '' }}">
                 <a type="button"
                     class="{{ $page == 'board' ? 'border-bottom-primary' : '' }} text-primary btn-icon btn btn-round"
                     href="{{ route('view.project.board', ['slug' => $project->slug]) }}">
@@ -29,7 +29,7 @@
                 </a>
             </div>
             @can('check-permission', 'change-project-information')
-            <div class="d-inline">
+            <div class="d-inline {{ $disabledProject ? 'opacity-50 pointer-events-none' : '' }}">
                 <a type="button"
                     class="{{ $page == 'gantt' ? 'border-bottom-primary' : '' }} text-primary btn-icon btn btn-round"
                     href="{{ route('view.project.gantt', ['slug' => $project->slug]) }}">
@@ -39,7 +39,7 @@
             </div>
             @endcan
             @can('check-permission', 'change-project-information')
-            <div class="d-inline">
+            <div class="d-inline {{ $disabledProject ? 'opacity-50 pointer-events-none' : '' }}">
                 <a type="button"
                     class="{{ $page == 'report' ? 'border-bottom-primary' : '' }} text-primary btn-icon btn btn-round"
                     href="{{ route('view.project.report', ['slug' => $project->slug]) }}">
@@ -57,7 +57,7 @@
                 </a>
             </div>
             @can('check-permission', 'evaluate-project')
-                <div class="d-inline">
+                <div class="d-inline {{ $disabledProject ? 'opacity-50 pointer-events-none' : '' }}">
                     <button class="btn-icon btn btn-primary btn-round btn-sm dropdown-toggle" type="button"
                         data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                         <i data-feather="grid"></i>

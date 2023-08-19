@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Enums\TaskStatus;
 use App\Http\Requests\BoardRequest;
 use App\Http\Requests\ProjectRequest;
+use App\Mail\DeclineProject;
 use App\Mail\ProjectInvitation;
 use App\Models\User;
 use App\Models\AccountProject;
@@ -508,6 +509,8 @@ class ProjectController extends Controller
 					$accountProject->status = -1;
 					$accountProject->save();
 					$this->notiController->createNotiContent("Invitation was rejected", Auth::id(), $pmAccountProject->account_id, Auth::user()->name . " have declined your invitation to join " . $project->name . " project! Take this chance for another one", route('project.settings', ['slug' => $project->slug]));
+					$getPm = User::find($pmAccountProject->account_id);
+					Mail::to($getPm->email)->send(new DeclineProject(Auth::user()->name, $getPm->name, $project->name, route('project.settings', ['slug' => $project->slug])));
 					Session::flash('success', 'You have decline the invitation');
 					// Return a response indicating the success of the operation
 					return redirect()->route('dashboard');
@@ -932,7 +935,7 @@ class ProjectController extends Controller
 		//Check disabled and calculate project progress
 
 		$boards = Board::where('project_id', $project->id)->with('tasks')->get();
-		
+
 		$current_role = $project->userCurrentRole();
 
 		return view('project.board', ['pageConfigs' => $pageConfigs, 'page' => 'board'])
