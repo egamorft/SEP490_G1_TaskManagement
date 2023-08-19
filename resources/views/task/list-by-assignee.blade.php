@@ -49,7 +49,7 @@
                         @switch($task->status)
                             @case(1)
                                 @php
-                                    $task_due_date = strtotime($task->due_date);
+                                    $task_due_date =  strtotime("tomorrow", strtotime($task->due_date)) - 1;
                                     $today = time();
                                 @endphp
                                 @if ($task_due_date < $today)
