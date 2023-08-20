@@ -209,12 +209,11 @@
         <div class="description-header flex-box">
             <div class="description-title custom-title">
                 <i data-feather="align-left" class="custom-title-icon"></i>
-                <span class="custom-title-ml custom-title center">Mô tả</span>
+                <span class="custom-title-ml custom-title center">Description</span>
             </div>
             <div class="description-side">
                 <button {{ $isDone ? 'disabled' : '' }} type="button"
-                    class="btn btn-secondary description-button-edit custom-button">Chỉnh
-                    sửa</button>
+                    class="btn btn-secondary description-button-edit custom-button">Edit</button>
             </div>
         </div>
 
@@ -278,7 +277,7 @@
         <div class="attachment-header flex-box">
             <div class="attachment-title custom-title">
                 <i data-feather="activity" class="custom-title-icon"></i>
-                <span class="custom-title-ml custom-title center">Hoạt động</span>
+                <span class="custom-title-ml custom-title center">Activity</span>
             </div>
         </div>
 
