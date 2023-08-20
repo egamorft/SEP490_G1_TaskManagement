@@ -16,7 +16,7 @@
 
             <div class="row">
                 <div class="mb-2 col-md-6 form-password-toggle">
-                    <label class="form-label" for="oldPassword">Mật khẩu cũ</label>
+                    <label class="form-label" for="oldPassword">Old password</label>
                     <div class="input-group input-group-merge form-password-toggle">
                         <input class="form-control" type="password" id="oldPassword" name="oldPassword"
                             placeholder="Enter your old password" value="{{ old('oldPassword') }}" />
@@ -30,7 +30,7 @@
                 </div>
 
                 <div class="mb-2 col-md-6 form-password-toggle">
-                    <label class="form-label" for="newPassword">Mật khẩu mới</label>
+                    <label class="form-label" for="newPassword">New password</label>
                     <div class="input-group input-group-merge">
                         <input class="form-control" type="password" name="newPassword" id="newPassword"
                             placeholder="Enter your new password" value="{{ old('newPassword') }}" />
