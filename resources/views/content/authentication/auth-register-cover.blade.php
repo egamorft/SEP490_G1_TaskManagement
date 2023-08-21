@@ -20,7 +20,7 @@
     <div class="auth-wrapper auth-cover">
         <div class="auth-inner row m-0">
             <!-- Brand logo-->
-            <a class="brand-logo" href="#">
+            <a class="brand-logo" href="{{ route('dashboard') }}">
                 <svg width="75" height="53" viewBox="0 0 45 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_104_129874)">
                         <path fill-rule="evenodd" clip-rule="evenodd"
@@ -148,8 +148,8 @@
                         <div class="divider-text">or</div>
                     </div>
                     <div class="auth-footer-btn d-flex justify-content-center mt-5">
-                        <a class="btn btn-facebook" href="#"><i data-feather="facebook"></i></a>
-                        <a class="btn btn-google" href="#"><i data-feather="mail"></i></a>
+                        <a class="btn btn-facebook" href="{{ route('login.facebook') }}"><i data-feather="facebook"></i></a>
+                        <a class="btn btn-google" href="{{ route('login.google') }}"><i data-feather="mail"></i></a>
                     </div>
                 </div>
             </div>

@@ -19,7 +19,7 @@
     <div class="auth-wrapper auth-cover">
         <div class="auth-inner row m-0">
             <!-- Brand logo-->
-            <a class="brand-logo" href="#">
+            <a class="brand-logo" href="{{ route('dashboard') }}">
                 <svg width="75" height="53" viewBox="0 0 45 23" fill="none" xmlns="http://www.w3.org/2000/svg">
                     <g clip-path="url(#clip0_104_129874)">
                         <path fill-rule="evenodd" clip-rule="evenodd"

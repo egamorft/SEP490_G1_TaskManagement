@@ -226,18 +226,16 @@ class MessagesController extends Controller
     public function getContacts(Request $request)
     {
         // get all users that received/sent message from/to [Auth user]
-        $users = Message::join('users',  function ($join) {
-            $join->on('ch_messages.from_id', '=', 'users.id')
-                ->orOn('ch_messages.to_id', '=', 'users.id');
-        })
-        ->where(function ($q) {
-            $q->where('ch_messages.from_id', Auth::user()->id)
-            ->orWhere('ch_messages.to_id', Auth::user()->id);
-        })
-        ->where('users.id','!=',Auth::user()->id)
-        ->select('users.*',DB::raw('MAX(ch_messages.created_at) max_created_at'))
-        ->orderBy('max_created_at', 'desc')
-        ->groupBy('users.id')
+        $users = DB::table('users')
+        ->join(
+            DB::raw('(SELECT MAX(created_at) as max_created_at, CASE WHEN from_id = '.Auth::user()->id.' THEN to_id ELSE from_id END AS user_id FROM ch_messages WHERE from_id = '.Auth::user()->id.' OR to_id = '.Auth::user()->id.' GROUP BY user_id) AS ch_messages'),
+            function ($join) {
+                $join->on('users.id', '=', 'ch_messages.user_id');
+            }
+        )
+        ->where('users.id', '!=', Auth::user()->id)
+        ->select('users.*', 'ch_messages.max_created_at')
+        ->orderBy('ch_messages.max_created_at', 'desc')
         ->paginate($request->per_page ?? $this->perPage);
 
         $usersList = $users->items();
