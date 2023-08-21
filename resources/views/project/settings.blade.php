@@ -261,7 +261,7 @@
                                                         </div>
                                                         <div class="mb-1 col-md-5">
                                                             <div class="d-flex justify-content-end">
-                                                                @can('check-permission', 'control-teamsize')
+                                                                @if ($current_role == 'pm')
                                                                     <div class="d-flex align-items-center me-5">
                                                                         <a data-bs-toggle="modal"
                                                                             data-bs-target="#setNewPMModal{{ $mem->id }}"
@@ -278,7 +278,6 @@
                                                                         </a>
                                                                     </div>
                                                                     <div class="d-flex align-items-center">
-
                                                                         <a data-bs-toggle="modal"
                                                                             data-bs-target="#removeMemberModal{{ $mem->id }}"
                                                                             class="d-flex align-items-center">
@@ -295,7 +294,7 @@
                                                                     </div>
                                                                     @include('content._partials._modals.modal-change-pm')
                                                                     @include('content._partials._modals.modal-remove-member')
-                                                                @endcan
+                                                                @endif
                                                             </div>
                                                         </div>
                                                     @empty
@@ -609,7 +608,8 @@
                                     </table>
                                 </div>
                                 <div class="text-center mt-2">
-                                    <a type="button" href="{{ route('view.project.board', ['slug' => $project->slug]) }}"
+                                    <a type="button"
+                                        href="{{ route('view.project.board', ['slug' => $project->slug]) }}"
                                         class="btn btn-primary">Check it
                                         out!!</a>
                                 </div>

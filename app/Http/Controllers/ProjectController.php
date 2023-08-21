@@ -104,6 +104,8 @@ class ProjectController extends Controller
 		$tasksInProject = Task::whereHas('taskList.board.project', function ($query) use ($project_id) {
 			$query->where('id', $project_id);
 		})->get();
+		
+		$current_role = $project->userCurrentRole();
 
 		return view('project.settings', ['pageConfigs' => $pageConfigs, 'page' => 'settings'])
 			->with(compact(
@@ -118,7 +120,8 @@ class ProjectController extends Controller
 				'roles',
 				'permissions',
 				'disabledProject',
-				'tasksInProject'
+				'tasksInProject',
+				'current_role'
 			));
 	}
 
