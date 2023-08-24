@@ -55,7 +55,7 @@
 <!--/ Change Password -->
 <div class="card col-12 card-table">
     <h4 class="card-header">Your Projects</h4>
-    <div class="table-responsive">
+    <div class="table-responsive text-nowrap">
         <table class="table datatable-project">
             <thead>
                 <tr>
