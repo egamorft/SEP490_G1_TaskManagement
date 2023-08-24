@@ -7,7 +7,7 @@ var TASK = new function () {
 
 
     //On click task
-    this.showTaskDetail = function (task_id, slug, boardId) {
+    this.showTaskDetail = function (task_id, slug = '', boardId = 0) {
         var url = "?show=task&task_id=" + task_id;
         var currentUrl = window.location.href.split(
             "?",
