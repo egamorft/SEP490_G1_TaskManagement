@@ -104,7 +104,7 @@ class ProjectController extends Controller
 		$tasksInProject = Task::whereHas('taskList.board.project', function ($query) use ($project_id) {
 			$query->where('id', $project_id);
 		})->get();
-		
+
 		$current_role = $project->userCurrentRole();
 
 		return view('project.settings', ['pageConfigs' => $pageConfigs, 'page' => 'settings'])
@@ -1189,6 +1189,7 @@ class ProjectController extends Controller
 			$tasks = $tasks->where('assign_to', Auth::id());
 		}
 		$tasks = $tasks
+			->whereIn("taskList_id", $taskListIds)
 			->with('assignTo', 'comments', 'createdBy')
 			->whereNull('deleted_at')
 			->get();
