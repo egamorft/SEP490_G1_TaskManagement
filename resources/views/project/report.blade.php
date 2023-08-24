@@ -577,4 +577,5 @@
     @section('page-script')
         <!-- Page js files -->
         <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
+        <script src="{{ asset('js/scripts/components/components-navs.js') }}"></script>
     @endsection

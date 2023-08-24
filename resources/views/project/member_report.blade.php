@@ -215,4 +215,5 @@
     <script src="{{ asset(mix('js/scripts/pages/task-detail.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/task-list.js')) }}"></script>
+    <script src="{{ asset('js/scripts/components/components-navs.js') }}"></script>
 @endsection
