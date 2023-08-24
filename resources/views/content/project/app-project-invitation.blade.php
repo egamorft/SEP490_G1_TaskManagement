@@ -75,7 +75,7 @@
                                     @if ($project->project_status == 2) text-success
                                     @elseif ($project->project_status == -1)
                                         text-danger @endif">
-                                        {{ $project->description != null ? $project->description : '#No-description' }}</p>
+                                        {!! $project->description != null ? $project->description : '#No-description' !!}</p>
                                     </p>
                                     <p
                                         class="

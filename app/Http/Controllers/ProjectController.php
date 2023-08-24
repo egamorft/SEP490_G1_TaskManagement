@@ -104,7 +104,7 @@ class ProjectController extends Controller
 		$tasksInProject = Task::whereHas('taskList.board.project', function ($query) use ($project_id) {
 			$query->where('id', $project_id);
 		})->get();
-		
+
 		$current_role = $project->userCurrentRole();
 
 		return view('project.settings', ['pageConfigs' => $pageConfigs, 'page' => 'settings'])
@@ -226,6 +226,8 @@ class ProjectController extends Controller
 			]);
 			$member = User::find($memberId);
 			Mail::to($member->email)->send(new ProjectInvitation($project_slug, $project_token, $project_name, $member->name, 'Member'));
+			//Set up noti
+			$this->notiController->createNotiContent("New invitation request", Auth::id(), $memberId, Auth::user()->name . " have invited you to join the group " . $project_name, route('project.invite', ['slug' => $project_slug, 'token' => $project_token]));
 		}
 
 		/**
@@ -1187,6 +1189,7 @@ class ProjectController extends Controller
 			$tasks = $tasks->where('assign_to', Auth::id());
 		}
 		$tasks = $tasks
+			->whereIn("taskList_id", $taskListIds)
 			->with('assignTo', 'comments', 'createdBy')
 			->whereNull('deleted_at')
 			->get();

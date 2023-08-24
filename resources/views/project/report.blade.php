@@ -326,8 +326,6 @@
                                                     <a
                                                         onclick="TASK.showTaskDetail({{ $task->id }}, '{{ $task->project->slug }}', {{ $task->board->id }})">{{ $task->title }}</a>
                                                 </h6>
-                                                <small class="text-truncate"
-                                                    style="max-width: 300px; display: block;">{{ $task->description ? $task->description : 'No Description' }}</small>
                                             </div>
                                         </div>
                                     </td>
@@ -577,4 +575,5 @@
     @section('page-script')
         <!-- Page js files -->
         <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
+        <script src="{{ asset('js/scripts/components/components-navs.js') }}"></script>
     @endsection
