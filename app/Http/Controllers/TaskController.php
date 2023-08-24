@@ -408,7 +408,7 @@ class TaskController extends Controller
             $filename = $file->getClientOriginalName();
             $customFilename = 'attachment_' . time() . '_' . $filename;
             $path = $file->storeAs('public/tasks/attachments', $customFilename);
-            $url = Storage::url($path);
+            $url = '/storage/app/' . $path;
             $newUrls[] = $url;
         }
         // Get the task record to update
@@ -1008,5 +1008,18 @@ class TaskController extends Controller
             "action" => "error",
             'msg' => "Something went wrong here"
         ]);
+    }
+
+    public function changeTaskDesc(Request $request)
+    {
+        $task = Task::findOrFail($request->id);
+
+        $task->description = $request->description;
+        $task->save();
+
+        if ($task) {
+            return response()->json(['success' => true]);
+        }
+        return response()->json(['success' => false]);
     }
 }

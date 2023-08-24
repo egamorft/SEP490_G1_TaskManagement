@@ -226,6 +226,8 @@ class ProjectController extends Controller
 			]);
 			$member = User::find($memberId);
 			Mail::to($member->email)->send(new ProjectInvitation($project_slug, $project_token, $project_name, $member->name, 'Member'));
+			//Set up noti
+			$this->notiController->createNotiContent("New invitation request", Auth::id(), $memberId, Auth::user()->name . " have invited you to join the group " . $project_name, route('project.invite', ['slug' => $project_slug, 'token' => $project_token]));
 		}
 
 		/**

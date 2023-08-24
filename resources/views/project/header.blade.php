@@ -116,7 +116,7 @@
                             <div class="alert-body">
                                 @foreach ($taskStatusCounts as $taskStatus)
                                     <li>{{ $taskStatus->count }} tasks are waiting for
-                                        {{ TaskStatus::getKey($taskStatus->status) }}</li>
+                                        {{ TaskStatus::getKey(intval($taskStatus->status)) }}</li>
                                 @endforeach
                             </div>
                         </div>
@@ -164,7 +164,7 @@
                             <div class="alert-body">
                                 @foreach ($taskStatusCounts as $taskStatus)
                                     <li>{{ $taskStatus->count }} tasks are waiting for
-                                        {{ TaskStatus::getKey($taskStatus->status) }}</li>
+                                        {{ TaskStatus::getKey(intval($taskStatus->status)) }}</li>
                                 @endforeach
                             </div>
                         </div>

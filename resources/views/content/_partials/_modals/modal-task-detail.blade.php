@@ -186,8 +186,8 @@
         <div class="date-title custom-sub-title">Task To Finish</div>
         <div class="prev-flex-item">
             <div class="addPrevTask">
-                <select {{ $isDone || $current_role != 'pm' ? 'disabled' : '' }} class="select2 form-select" id="selectPrevTasks"
-                    name="modalAddPreviousTask[]" multiple>
+                <select {{ $isDone || $current_role != 'pm' ? 'disabled' : '' }} class="select2 form-select"
+                    id="selectPrevTasks" name="modalAddPreviousTask[]" multiple>
                     @php
                         $prev_tasks_array = json_decode($taskDetails->prev_tasks);
                     @endphp
@@ -209,19 +209,14 @@
         <div class="description-header flex-box">
             <div class="description-title custom-title">
                 <i data-feather="align-left" class="custom-title-icon"></i>
-                <span class="custom-title-ml custom-title center">Mô tả</span>
-            </div>
-            <div class="description-side">
-                <button {{ $isDone ? 'disabled' : '' }} type="button"
-                    class="btn btn-secondary description-button-edit custom-button">Chỉnh
-                    sửa</button>
+                <span class="custom-title-ml custom-title center">Description</span>
             </div>
         </div>
-
-        <div class="description-content custom-css-content">
-            <div class="description-content-editor">
-                {!! $taskDetails->description !!}
-            </div>
+        <div id="taskDetailEditor">{!! $taskDetails->description !!}</div>
+        <input type="hidden" name="taskDescription" id="taskDescription" value="{!! $taskDetails->description !!}">
+        <div style="display: none" id="buttonContainer" class="mt-1">
+            <button id="cancelButton" class="btn btn-sm btn-outline-primary me-1">Cancel</button>
+            <button id="saveButton" class="btn btn-sm btn-primary">Save</button>
         </div>
     </div>
 </div>
@@ -278,7 +273,7 @@
         <div class="attachment-header flex-box">
             <div class="attachment-title custom-title">
                 <i data-feather="activity" class="custom-title-icon"></i>
-                <span class="custom-title-ml custom-title center">Hoạt động</span>
+                <span class="custom-title-ml custom-title center">Activities</span>
             </div>
         </div>
 
@@ -1008,4 +1003,61 @@
             alert("something went wrong");
         }
     }
+
+    //Ckeditor task desc
+    ClassicEditor
+        .create(document.querySelector('#taskDetailEditor'))
+        .then(editorInstance => {
+            const taskDescription = $('#taskDescription');
+            const buttonContainer = $('#buttonContainer');
+            const cancelButton = $('#cancelButton');
+            const saveButton = $('#saveButton');
+            let initialContent = editorInstance.getData().trim();
+
+            editorInstance.model.document.on('change:data', () => {
+                const content = editorInstance.getData().trim();
+                taskDescription.val(content); // Set the CKEditor content to the hidden input field
+                buttonContainer.show(); // Show the button container when the content changes
+            });
+
+            cancelButton.on('click', () => {
+                // Reset the CKEditor content to the initial value
+                editorInstance.setData(initialContent);
+                buttonContainer.hide(); // Hide the button container when cancel is clicked
+            });
+
+            saveButton.on('click', () => {
+
+                const savedContent = taskDescription.val().trim();
+                var taskId = $('input[name="task_id"]').val();
+                var csrfToken = $('[name="csrf-token"]').attr('content');
+
+                var data = {
+                    _token: csrfToken,
+                    description: savedContent,
+                    id: taskId
+                };
+
+                // Send the AJAX request
+                $.ajax({
+                    url: '/change-task-description',
+                    method: 'POST',
+                    data: data,
+                    success: function(response) {
+                        if (response.success) {
+                            // Update the CKEditor instance with the saved content
+                            editorInstance.setData(savedContent);
+                            buttonContainer.hide(); // Hide the button container after saving
+                        }
+                    },
+                    error: function(xhr, status, error) {
+                        console.log("something went wrong");
+                    }
+                });
+            });
+
+        })
+        .catch(error => {
+            console.error(error);
+        });
 </script>
