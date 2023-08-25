@@ -495,8 +495,8 @@
 
                 task_number = 0;
                 todoTasks.forEach(task => {
-                    dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-                    mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                    dd = String(new Date(task.due_date).getDate()).padStart(2, '0');
+                    mm = String(new Date(task.due_date).getMonth() + 1).padStart(2, '0');
                     if (dd == day && mm == month) {
                         task_number++;
                     }
@@ -505,8 +505,8 @@
 
                 task_number = 0;
                 doingTasks.forEach(task => {
-                    dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-                    mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                    dd = String(new Date(task.due_date).getDate()).padStart(2, '0');
+                    mm = String(new Date(task.due_date).getMonth() + 1).padStart(2, '0');
                     if (dd == day && mm == month) {
                         task_number++;
                     }
@@ -515,8 +515,8 @@
 
                 task_number = 0;
                 reviewingTasks.forEach(task => {
-                    dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-                    mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                    dd = String(new Date(task.due_date).getDate()).padStart(2, '0');
+                    mm = String(new Date(task.due_date).getMonth() + 1).padStart(2, '0');
                     if (dd == day && mm == month) {
                         task_number++;
                     }
@@ -525,8 +525,8 @@
 
                 task_number = 0;
                 ontimeTasks.forEach(task => {
-                    dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-                    mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                    dd = String(new Date(task.due_date).getDate()).padStart(2, '0');
+                    mm = String(new Date(task.due_date).getMonth() + 1).padStart(2, '0');
                     if (dd == day && mm == month) {
                         task_number++;
                     }
@@ -535,8 +535,8 @@
 
                 task_number = 0;
                 lateTasks.forEach(task => {
-                    dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-                    mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                    dd = String(new Date(task.due_date).getDate()).padStart(2, '0');
+                    mm = String(new Date(task.due_date).getMonth() + 1).padStart(2, '0');
                     if (dd == day && mm == month) {
                         task_number++;
                     }
@@ -545,8 +545,8 @@
 
                 task_number = 0;
                 overdueTasks.forEach(task => {
-                    dd = String(new Date(task.created_at).getDate()).padStart(2, '0');
-                    mm = String(new Date(task.created_at).getMonth() + 1).padStart(2, '0');
+                    dd = String(new Date(task.due_date).getDate()).padStart(2, '0');
+                    mm = String(new Date(task.due_date).getMonth() + 1).padStart(2, '0');
                     if (dd == day && mm == month) {
                         task_number++;
                     }
