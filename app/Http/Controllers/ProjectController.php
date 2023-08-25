@@ -1273,7 +1273,8 @@ class ProjectController extends Controller
 		$user = Auth::user();
 
 		$tasksInProject = [];
-		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListsId);
+		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListsId)
+								->with('assignTo', 'createdBy');
 		if ($role == 'creator') {
 			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
 		}
