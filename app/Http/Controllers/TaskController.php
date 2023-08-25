@@ -880,6 +880,28 @@ class TaskController extends Controller
         // $taskListIds = $project->taskLists()->pluck('id')->toArray();
         $projectTaskList_ids = $project->taskLists->pluck('id')->toArray();
 
+        $ganttTaskStartDate = Carbon::parse($request->start_date);
+        $ganttTaskEndDate = Carbon::parse($request->end_date);
+
+        $projectStartDate = Carbon::parse($project->start_date);
+        $projectEndDate = Carbon::parse($project->end_date);
+
+        if ($ganttTaskStartDate->lessThan($projectStartDate)) {
+            //Before
+            return response()->json([
+                "action" => "error",
+                'msg' => "Task's start date is sooner than project's start date. Try again!!"
+            ]);
+        }
+
+        if ($ganttTaskEndDate->greaterThan($projectEndDate)) {
+            //After
+            return response()->json([
+                "action" => "error",
+                'msg' => "Task's end date is greater than project's end date. Try again!!"
+            ]);
+        }
+
         $task = Task::create([
             'taskList_id' => max($projectTaskList_ids),
             'title' => $request->text,
@@ -909,12 +931,48 @@ class TaskController extends Controller
 
     public function ganttUpdate($id, Request $request)
     {
+        $project_id = $request->parent;
+        $project = Project::findOrFail($project_id);
+
+        $ganttTaskStartDate = Carbon::parse($request->start_date);
+        $ganttTaskEndDate = Carbon::parse($request->end_date);
+
+        $projectStartDate = Carbon::parse($project->start_date);
+        $projectEndDate = Carbon::parse($project->end_date);
+
+        if ($ganttTaskStartDate->lessThan($projectStartDate)) {
+            //Before
+            return response()->json([
+                "action" => "error",
+                'msg' => "Task's start date is sooner than project's start date. Try again!!"
+            ]);
+        }
+
+        if ($ganttTaskEndDate->greaterThan($projectEndDate)) {
+            //After
+            return response()->json([
+                "action" => "error",
+                'msg' => "Task's end date is greater than project's end date. Try again!!"
+            ]);
+        }
+
         $task = Task::findOrFail($id);
-        $duration_add = $request->duration > 1 ? ' +' . $request->duration . ' days' : ' +' . $request->duration . ' day';
+
+        if (!$task) {
+            return response()->json([
+                "action" => "error",
+                'msg' => "Something went wrong here"
+            ]);
+        }
+
+        // $duration_add = $request->duration > 1 ? ' +' . $request->duration . ' days' : ' +' . $request->duration . ' day';
+
         $task->title = $request->text;
         $task->start_date = date('Y-m-d', strtotime($request->start_date));
-        $task->due_date = date('Y-m-d', strtotime($request->start_date . $duration_add));
+        $task->due_date = date('Y-m-d', strtotime($ganttTaskEndDate->subDay()->format('Y-m-d')));
         $task->save();
+
+
 
         return response()->json([
             "action" => "updated",
