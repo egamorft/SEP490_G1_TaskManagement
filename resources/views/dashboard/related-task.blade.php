@@ -44,8 +44,6 @@
                                     <h6 class="mb-0 text-truncate" style="max-width: 300px; display: block;">
 									<a onclick="TASK.showTaskDetail({{ $task->id }}, '{{ $task->project->slug }}', {{ $task->board->id }})">{{ $task->title }}</a>
                                     </h6>
-                                    <small class="text-truncate"
-                                        style="max-width: 300px; display: block;">{{ $task->description ? $task->description : 'No Description' }}</small>
                                 </div>
                             </div>
                         </td>
