@@ -76,10 +76,11 @@ $(function () {
 									canvas.removeClass("hidden");
 								}
 							} else {
-								
 								if (data_status == status) {
-									if (data_time < today && data_status != 3) {
-										return;
+									if (data_time < today) {
+										if(data_status == 0 || data_status == 1) {
+											return;
+										}
 									}
 									canvas.removeClass("hidden");
 								}

@@ -267,7 +267,7 @@ class ProjectController extends Controller
 		$check_account_project_invitation_valid = AccountProject::where('project_id', $projectId)
 			->where('account_id', $accountId)->where('status', 0)
 			->first();
-
+			
 		if ($project) {
 
 			//Get members in project
@@ -752,6 +752,9 @@ class ProjectController extends Controller
 				if ($task->assign_to != $user->id) {
 					continue;
 				}
+				if ($task->deleted_at) {
+					continue;
+				}
 				$task->taskList = $task->taskList()->first();
 				$task->board = $task->taskList()->first()->board()->first();
 				$task->project = $task->taskList()->first()->board()->first()->project()->first();
@@ -841,7 +844,7 @@ class ProjectController extends Controller
 		}
 		//Check disabled and calculate project progress
 
-		$boards = Board::where('project_id', $project->id)->with('tasks')->get();
+		$boards = Board::where('project_id', $project->id)->with('tasks')->whereNull("deleted_at")->get();
 		$tasks = [];
 		$todoTasks = [];
 		$doingTasks = [];
@@ -852,6 +855,9 @@ class ProjectController extends Controller
 		foreach ($boards as $board) {
 			foreach ($board->tasks as $task) {
 				if (!$task->assign_to) {
+					continue;
+				}
+				if ($task->deleted_at) {
 					continue;
 				}
 				$task->taskList = $task->taskList()->first();
