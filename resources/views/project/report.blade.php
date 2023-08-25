@@ -580,7 +580,6 @@
             var taskRoutes = "{{ route('view.task', ['slug' => $project->slug, 'task_id' => ':taskId']) }}";
         </script>
         <script src="{{ asset(mix('js/scripts/pages/task-detail.js')) }}"></script>
-        <script src="{{ asset(mix('js/scripts/charts/chart-task-overview.js')) }}"></script>
         <script src="{{ asset(mix('js/scripts/pages/task-list.js')) }}"></script>
     
     @endsection
