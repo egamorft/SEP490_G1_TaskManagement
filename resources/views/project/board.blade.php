@@ -257,7 +257,9 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <span>Total {{ $board->tasks()->count() }} tasks</span>
+                            <span>Total {{ $board->tasks->filter(function ($task) {
+                                return $task->created_by == Auth::id() || $task->assign_to == Auth::id();
+                            })->count() }} tasks</span>
                         </div>
                         <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
                             <a class="role-heading"

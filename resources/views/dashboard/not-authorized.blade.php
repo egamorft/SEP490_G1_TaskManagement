@@ -120,7 +120,7 @@
             <div class="container container-fluid not-authorize-feature">
                 <div class="row flex-container row-droplist">
                     <div class="column col-md-6">
-                        <img class="img-fluid" src="{{ asset('images/landing-page/Kanban1.png') }}" alt="Not authorized page" style="border: 1px solid #eee; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" />
+                        <img class="img-fluid" src="{{ asset('images/landing-page/kanban1.png') }}" alt="Not authorized page" style="border: 1px solid #eee; box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);" />
                     </div>
                     <div class="column col-md-6 vertical-middle">
                         <div class="component component-heading">

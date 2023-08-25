@@ -21,7 +21,7 @@
         <div class="alert-body">
             @foreach ($tasks as $task)
                 <li> <strong>{{ $task->title }}</strong> tasks with status of <span
-                        class="text-uppercase">{{ TaskStatus::getKey($task->status) }}</span></li>
+                        class="text-uppercase">{{ TaskStatus::getKey(intval($task->status)) }}</span></li>
             @endforeach
         </div>
     </div>

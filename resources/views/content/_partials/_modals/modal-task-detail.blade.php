@@ -49,7 +49,7 @@
             @break
         @endswitch
         <span class="badge bg-{{ $task_badge }}">
-            <span>{{ TaskStatus::getKey($taskDetails->status) }}</span>
+            <span>{{ TaskStatus::getKey(intval($taskDetails->status)) }}</span>
         </span>
     </div>
     <div class="mb-1 kanban-detail-status">
