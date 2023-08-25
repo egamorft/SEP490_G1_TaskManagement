@@ -242,10 +242,16 @@
                     </div>
                     <div class="col-sm-7">
                         <div class="card-body text-sm-end text-center ps-sm-0">
-                            <a href="javascript:void(0)" data-bs-target="#addBoardModal" data-bs-toggle="modal"
-                                class="stretched-link text-nowrap add-new-role">
-                                <span class="btn btn-primary mb-1">Add New Board</span>
-                            </a>
+                            @if ($current_role == 'pm' || $current_role == 'supervisor')
+                                <a href="javascript:void(0)" data-bs-target="#addBoardModal" data-bs-toggle="modal"
+                                    class="stretched-link text-nowrap add-new-role">
+                                    <span class="btn btn-primary mb-1">Add New Board</span>
+                                </a>
+                            @else
+                                <div class="stretched-link text-nowrap add-new-role">
+                                    <span class="btn btn-primary mb-1 mt-2">Your project's boards</span>
+                                </div>
+                            @endif
                         </div>
                     </div>
                 </div>
@@ -257,9 +263,17 @@
                 <div class="card">
                     <div class="card-body">
                         <div class="d-flex justify-content-between">
-                            <span>Total {{ $board->tasks->filter(function ($task) {
-                                return $task->created_by == Auth::id() || $task->assign_to == Auth::id();
-                            })->count() }} tasks</span>
+                            @if ($current_role == 'pm' || $current_role == 'supervisor')
+                                <span>Total
+                                    {{ $board->tasks->count() }}
+                                    tasks</span>
+                            @else
+                                <span>Total
+                                    {{ $board->tasks->filter(function ($task) {
+                                            return $task->created_by == Auth::id() || $task->assign_to == Auth::id();
+                                        })->count() }}
+                                    tasks</span>
+                            @endif
                         </div>
                         <div class="d-flex justify-content-between align-items-end mt-1 pt-25">
                             <a class="role-heading"
@@ -268,13 +282,16 @@
                             </a>
                         </div>
                         <div class="d-flex justify-content-between">
-                            <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
-                                data-bs-target="#editBoardModal{{ $board->id }}">
-                                <small class="fs-6 fw-bold">Edit Board</small>
-                            </a>
-                            <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
-                                data-bs-target="#removeBoardModal{{ $board->id }}" class="text-body delete-board"><i
-                                    data-feather="trash-2" class="font-medium-5"></i></a>
+                            @if ($current_role == 'pm' || $current_role == 'supervisor')
+                                <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
+                                    data-bs-target="#editBoardModal{{ $board->id }}">
+                                    <small class="fs-6 fw-bold">Edit Board</small>
+                                </a>
+                                <a href="javascript:;" class="board-edit-modal" data-bs-toggle="modal"
+                                    data-bs-target="#removeBoardModal{{ $board->id }}"
+                                    class="text-body delete-board"><i data-feather="trash-2"
+                                        class="font-medium-5"></i></a>
+                            @endif
                         </div>
                         <!-- Edit Board Modal -->
                         <div class="modal fade" id="editBoardModal{{ $board->id }}" data-bs-backdrop="static"
