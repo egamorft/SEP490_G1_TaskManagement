@@ -105,6 +105,8 @@ class ProjectController extends Controller
 			$query->where('id', $project_id);
 		})->get();
 
+		$current_role = $project->userCurrentRole();
+
 		return view('project.settings', ['pageConfigs' => $pageConfigs, 'page' => 'settings'])
 			->with(compact(
 				'project',
@@ -118,7 +120,8 @@ class ProjectController extends Controller
 				'roles',
 				'permissions',
 				'disabledProject',
-				'tasksInProject'
+				'tasksInProject',
+				'current_role'
 			));
 	}
 
@@ -223,6 +226,8 @@ class ProjectController extends Controller
 			]);
 			$member = User::find($memberId);
 			Mail::to($member->email)->send(new ProjectInvitation($project_slug, $project_token, $project_name, $member->name, 'Member'));
+			//Set up noti
+			$this->notiController->createNotiContent("New invitation request", Auth::id(), $memberId, Auth::user()->name . " have invited you to join the group " . $project_name, route('project.invite', ['slug' => $project_slug, 'token' => $project_token]));
 		}
 
 		/**
@@ -262,7 +267,7 @@ class ProjectController extends Controller
 		$check_account_project_invitation_valid = AccountProject::where('project_id', $projectId)
 			->where('account_id', $accountId)->where('status', 0)
 			->first();
-
+			
 		if ($project) {
 
 			//Get members in project
@@ -747,6 +752,9 @@ class ProjectController extends Controller
 				if ($task->assign_to != $user->id) {
 					continue;
 				}
+				if ($task->deleted_at) {
+					continue;
+				}
 				$task->taskList = $task->taskList()->first();
 				$task->board = $task->taskList()->first()->board()->first();
 				$task->project = $task->taskList()->first()->board()->first()->project()->first();
@@ -836,7 +844,7 @@ class ProjectController extends Controller
 		}
 		//Check disabled and calculate project progress
 
-		$boards = Board::where('project_id', $project->id)->with('tasks')->get();
+		$boards = Board::where('project_id', $project->id)->with('tasks')->whereNull("deleted_at")->get();
 		$tasks = [];
 		$todoTasks = [];
 		$doingTasks = [];
@@ -847,6 +855,9 @@ class ProjectController extends Controller
 		foreach ($boards as $board) {
 			foreach ($board->tasks as $task) {
 				if (!$task->assign_to) {
+					continue;
+				}
+				if ($task->deleted_at) {
 					continue;
 				}
 				$task->taskList = $task->taskList()->first();
@@ -1184,6 +1195,7 @@ class ProjectController extends Controller
 			$tasks = $tasks->where('assign_to', Auth::id());
 		}
 		$tasks = $tasks
+			->whereIn("taskList_id", $taskListIds)
 			->with('assignTo', 'comments', 'createdBy')
 			->whereNull('deleted_at')
 			->get();

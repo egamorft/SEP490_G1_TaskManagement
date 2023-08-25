@@ -44,6 +44,7 @@
     <script src="{{ asset(mix('js/scripts/pages/task-calendar.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/pages/app-todo.js')) }}"></script>
     <script src="{{ asset(mix('js/scripts/project/board.js')) }}"></script>
+    <script src="{{ asset('js/scripts/components/components-navs.js') }}"></script>
 @endsection
 
 @php

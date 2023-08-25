@@ -108,6 +108,7 @@ Route::middleware(['auth'])->group(function () {
     Route::post('link-store', [TaskController::class, 'linkStore'])->name('store.link.gantt');
     Route::delete('link-delete/{source}/{target}', [TaskController::class, 'linkDelete'])->name('delete.link.gantt');
 
+    Route::post('change-task-description', [TaskController::class, 'changeTaskDesc'])->name('change.task.desc');
     Route::post('comment-task', [TaskController::class, 'commentTask'])->name('comment.task');
     Route::post('upload-files', [TaskController::class, 'uploadFiles'])->name('file.upload');
     Route::post('delete-files', [TaskController::class, 'deleteFiles'])->name('file.delete');
