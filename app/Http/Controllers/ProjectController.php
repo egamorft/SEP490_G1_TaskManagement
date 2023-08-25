@@ -1164,7 +1164,7 @@ class ProjectController extends Controller
 		$user = Auth::user();
 
 		$tasksInProject = [];
-		$tasksInProjectBuilder = Task::query();
+		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListIds);
 		if ($role == 'creator') {
 			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
 		}
@@ -1173,36 +1173,32 @@ class ProjectController extends Controller
 			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
 		}
 
-		$tasksInProject = $tasksInProjectBuilder->whereIn("taskList_id", $taskListIds)->get();
+		$tasksInProject = $tasksInProjectBuilder->get();
 
 		$memberAccount = Project::findOrFail($project->id)
 			->findAccountWithRoleNameAndStatus('member', 1)
 			->get();
 
 		$accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
-		$tasks = Task::whereIn("taskList_id", $taskListIds)
-		->where(function ($query) use ($accountRoleName) {
-			if ($accountRoleName == "member") {
-				$query->where('created_by', Auth::id())
-					->orWhere('assign_to', Auth::id());
-			}
-		})
-		->where(function ($query) use ($q) {
-			if ($q) {
-				$query->where('title', 'like', '%' . $q . '%');
-			}
-		})
-		->where(function ($query) use ($role) {
-			if ($role == "creator") {
-				$query->where('created_by', Auth::id());
-			}
-			if ($role == "assignee") {
-				$query->where('assign_to', Auth::id());
-			}
-		})->with('assignTo', 'comments', 'createdBy')
+		$tasks = Task::query();
+		if ($accountRoleName == "member") {
+			$tasks = $tasks->where('created_by', Auth::id())
+				->orWhere('assign_to', Auth::id());
+		}
+		if ($q) {
+			$tasks = $tasks->where('title', 'like', '%' . $q . '%');
+		}
+		if ($role == "creator") {
+			$tasks = $tasks->where('created_by', Auth::id());
+		}
+		if ($role == "assignee") {
+			$tasks = $tasks->where('assign_to', Auth::id());
+		}
+		$tasks = $tasks
+			->whereIn("taskList_id", $taskListIds)
+			->with('assignTo', 'comments', 'createdBy')
 			->whereNull('deleted_at')
 			->get();
-			
 		$tasksCalendar = [];
 
 		foreach ($tasks as $task) {
@@ -1263,6 +1259,8 @@ class ProjectController extends Controller
 			->findAccountWithRoleNameAndStatus('member', 1)
 			->get();
 
+		$accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
+
 		$board = Board::findOrFail($board_id);
 
 		//Bind data for kanban
@@ -1277,8 +1275,12 @@ class ProjectController extends Controller
 		$user = Auth::user();
 
 		$tasksInProject = [];
-		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListsId)
-								->with('assignTo', 'createdBy');
+		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListsId);
+		if ($accountRoleName == "member") {
+			$tasksInProjectBuilder = $tasksInProjectBuilder->where('created_by', Auth::id())
+				->orWhere('assign_to', Auth::id());
+		}
+
 		if ($role == 'creator') {
 			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
 		}
