@@ -69,6 +69,7 @@ $(function () {
 							canvas.addClass("hidden");
 
 							var today = new Date();
+							today.setUTCHours(0,0,0,0);
 							today = Math.floor(today.getTime() / 1000);
 							
 							if (current_status == 'overdue') {
