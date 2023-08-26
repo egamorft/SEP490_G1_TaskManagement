@@ -251,7 +251,7 @@
     </div>
 
 	@if (count($tasksReminder) > 0)
-		<div class='count'>
+		<div class='badge rounded-pill bg-danger badge-up'>
 			{{ count($tasksReminder) }}
 		</div>
 	@endif
