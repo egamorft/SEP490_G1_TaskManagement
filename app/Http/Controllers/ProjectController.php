@@ -267,7 +267,7 @@ class ProjectController extends Controller
 		$check_account_project_invitation_valid = AccountProject::where('project_id', $projectId)
 			->where('account_id', $accountId)->where('status', 0)
 			->first();
-			
+
 		if ($project) {
 
 			//Get members in project
@@ -1180,21 +1180,26 @@ class ProjectController extends Controller
 			->get();
 
 		$accountRoleName = $this->getProjectRoleNameWithProjectAndAccount($slug);
-		$tasks = Task::query();
-		if ($accountRoleName == "member") {
-			$tasks = $tasks->where('created_by', Auth::id())
-				->orWhere('assign_to', Auth::id());
-		}
-		if ($q) {
-			$tasks = $tasks->where('title', 'like', '%' . $q . '%');
-		}
-		if ($role == "creator") {
-			$tasks = $tasks->where('created_by', Auth::id());
-		}
-		if ($role == "assignee") {
-			$tasks = $tasks->where('assign_to', Auth::id());
-		}
-		$tasks = $tasks
+		$tasks = Task::query()
+			->where(function ($query) use ($accountRoleName) {
+				if ($accountRoleName == "member") {
+					$query->where('created_by', Auth::id())
+						->orWhere('assign_to', Auth::id());
+				}
+			})
+			->where(function ($query) use ($q) {
+				if ($q) {
+					$query->where('title', 'like', '%' . $q . '%');
+				}
+			})
+			->where(function ($query) use ($role) {
+				if ($role == "creator") {
+					$query->where('created_by', Auth::id());
+				}
+				if ($role == "assignee") {
+					$query->where('assign_to', Auth::id());
+				}
+			})
 			->whereIn("taskList_id", $taskListIds)
 			->with('assignTo', 'comments', 'createdBy')
 			->whereNull('deleted_at')
@@ -1276,18 +1281,19 @@ class ProjectController extends Controller
 
 		$tasksInProject = [];
 		$tasksInProjectBuilder = Task::whereIn("taskList_id", $taskListsId);
-		if ($accountRoleName == "member") {
-			$tasksInProjectBuilder = $tasksInProjectBuilder->where('created_by', Auth::id())
-				->orWhere('assign_to', Auth::id());
-		}
-
-		if ($role == 'creator') {
-			$tasksInProjectBuilder = $tasksInProjectBuilder->where("created_by", $user->id);
-		}
-
-		if ($role == 'assignee') {
-			$tasksInProjectBuilder = $tasksInProjectBuilder->where("assign_to", $user->id);
-		}
+		$tasksInProjectBuilder = $tasksInProjectBuilder->where(function ($query) use ($accountRoleName) {
+			if ($accountRoleName == "member") {
+				$query->where('created_by', Auth::id())
+					->orWhere('assign_to', Auth::id());
+			}
+		})->where(function ($query) use ($role, $user) {
+			if ($role == 'creator') {
+				$query->where("created_by", $user->id);
+			}
+			if ($role == 'assignee') {
+				$query->where("assign_to", $user->id);
+			}
+		});
 
 		if ($query) {
 			$query = explode(" ", $query);
