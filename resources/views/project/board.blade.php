@@ -203,12 +203,21 @@
                     </div>
                     <div class="avatar-group">
                         @forelse ($memberAccount as $acc)
-                            <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
-                                data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
-                                title="{{ $acc->name }}" class="avatar pull-up">
-                                <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar" width="33"
-                                    height="33" />
-                            </a>
+                            @if ($acc->id == Auth::id() || $current_role == 'pm' || $current_role == 'supervisor')
+                                <a href="{{ route('view.project.member', ['slug' => $project->slug, 'user_id' => $acc->id]) }}"
+                                    data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
+                                    title="{{ $acc->name }}" class="avatar pull-up">
+                                    <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar"
+                                        width="33" height="33" />
+                                </a>
+                            @else
+                                <a
+                                    data-bs-toggle="tooltip" data-popup="tooltip-custom" data-bs-placement="bottom"
+                                    title="{{ $acc->name }}" class="avatar pull-up">
+                                    <img src="{{ asset('images/avatars/' . $acc->avatar) }}" alt="Avatar"
+                                        width="33" height="33" />
+                                </a>
+                            @endif
                         @empty
                             <div class="d-flex align-items-center me-2">
                                 <strong>Waiting for the very first member to accept

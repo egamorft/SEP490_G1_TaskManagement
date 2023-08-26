@@ -785,24 +785,32 @@ class ProjectController extends Controller
 				}
 			}
 		}
+		
+		$current_role = $project->userCurrentRole();
 
-		return view('project.member_report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
-			->with(compact(
-				'project',
-				'pmAccount',
-				'supervisorAccount',
-				'memberAccount',
-				'disabledProject',
-				'user',
-				'boards',
-				'tasks',
-				'todoTasks',
-				'doingTasks',
-				'reviewingTasks',
-				'ontimeTasks',
-				'lateTasks',
-				'overdueTasks'
-			));
+		if ($user_id == Auth::id() || $current_role == 'pm' || $current_role == 'supervisor') {
+			return view('project.member_report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
+				->with(compact(
+					'project',
+					'pmAccount',
+					'supervisorAccount',
+					'memberAccount',
+					'disabledProject',
+					'user',
+					'boards',
+					'tasks',
+					'todoTasks',
+					'doingTasks',
+					'reviewingTasks',
+					'ontimeTasks',
+					'lateTasks',
+					'overdueTasks'
+				));
+		}else{
+			Session::flash('error', 'No permission allowed');
+			return back();
+		}
+
 	}
 
 	/**
@@ -890,6 +898,14 @@ class ProjectController extends Controller
 				}
 			}
 		}
+
+		$current_role = $project->userCurrentRole();
+
+		if ($current_role == "member") {
+			Session::flash('error', 'No permission allowed');
+			return back();
+		}
+
 		return view('project.report', ['pageConfigs' => $pageConfigs, 'page' => 'report'])
 			->with(compact(
 				'project',
@@ -1122,6 +1138,13 @@ class ProjectController extends Controller
 			->get();
 
 		$disabledProject = $this->checkDisableProject($project);
+		
+		$current_role = $project->userCurrentRole();
+
+		if ($current_role == "member") {
+			Session::flash('error', 'No permission allowed');
+			return back();
+		}
 
 		return view('project.gantt', ['pageConfigs' => $pageConfigs, 'page' => 'gantt'])
 			->with(compact(
