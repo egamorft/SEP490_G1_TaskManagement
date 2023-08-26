@@ -249,4 +249,10 @@
             <span class="reminder-footer-title">Open calendar</span>
         </div>
     </div>
+
+	@if (count($tasksReminder) > 0)
+		<div class='count'>
+			{{ count($tasksReminder) }}
+		</div>
+	@endif
 </div>

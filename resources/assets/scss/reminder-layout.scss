@@ -20,6 +20,23 @@
         width: 24px;
         height: 24px;
     }
+
+	.count {
+		position: absolute;
+		color: #fff;
+		text-align: center;
+		top: -4px;
+		right: -8px;
+		font-size: 11px;
+		font-weight: 500;
+		width: 24px;
+		height: 24px;
+		box-sizing: border-box;
+		background-color: #c34343;
+		border-radius: 50%;
+		padding-top: 5px;
+		box-shadow: 0 2px 1px 0px rgba(0,0,0,0.1);
+	}
 }
 
 #reminder-canvas-wrapper:hover {
