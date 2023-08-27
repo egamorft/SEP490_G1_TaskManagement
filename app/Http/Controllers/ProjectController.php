@@ -1242,6 +1242,7 @@ class ProjectController extends Controller
 			];
 			$tasksCalendar[] = $taskCalendar;
 		}
+		$current_role = $project->userCurrentRole();
 
 		return view('project.calendar', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'calendar'])
 			->with(compact(
@@ -1251,7 +1252,8 @@ class ProjectController extends Controller
 				'tasksCalendar',
 				'taskLists',
 				'memberAccount',
-				'tasksInProject'
+				'tasksInProject',
+				'current_role'
 			));
 	}
 
@@ -1335,6 +1337,8 @@ class ProjectController extends Controller
 			$task->taskList = $task->taskList()->first();
 		}
 		$rowPerPage = $this->rowPerPage;
+		
+		$current_role = $project->userCurrentRole();
 
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
 			->with(compact(
@@ -1348,7 +1352,8 @@ class ProjectController extends Controller
 				'taskLists',
 				'tasksInProject',
 				'totalRecords',
-				'rowPerPage'
+				'rowPerPage',
+				'current_role'
 			));
 	}
 
