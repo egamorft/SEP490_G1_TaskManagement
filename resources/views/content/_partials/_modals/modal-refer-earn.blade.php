@@ -86,7 +86,8 @@
 
                 <div class="px-sm-5 mx-50">
                     <h4 class="fw-bolder mt-5 mb-1">Invite your teammate</h4>
-                    <form id="modalInviteForm" class="row g-1" action="{{ route('invite.member', ['slug' => $project->slug]) }}" method="POST">
+                    <form id="modalInviteForm" class="row g-1"
+                        action="{{ route('invite.member', ['slug' => $project->slug]) }}" method="POST">
                         @csrf
                         <div class="col-lg-10">
                             <label class="form-label" for="modalInviteEmail">
@@ -127,7 +128,7 @@
                             <div class="social-btns">
                                 <button type="button" class="btn btn-icon btn-facebook me-50">
                                     <a style="color: white" target="_blank"
-                                        href="https://www.facebook.com/sharer/sharer.php?u={{ url('project/invite/' . $project->token) }}&amp;src=sdkpreparse"
+                                        href="https://www.facebook.com/sharer/sharer.php?u={{ url('project/invite/' . $project->slug . '/' . $project->token) }}&amp;src=sdkpreparse"
                                         class="fb-xfbml-parse-ignore">
                                         <i data-feather="facebook" class="font-medium-2"></i>
                                         <div class="fb-share-button"
@@ -140,7 +141,7 @@
                     </form>
                     <div class="d-flex align-items-center justify-content-center mt-3 row ms-4">
                         <div class="col-md-6">
-                            <img src="{{asset('images/gif/scanQR.gif')}}" alt="gif" width="200px">
+                            <img src="{{ asset('images/gif/scanQR.gif') }}" alt="gif" width="200px">
                         </div>
                         <div class="col-md-6">
                             {!! QrCode::size(150)->generate(url('project/invite/' . $project->slug . '/' . $project->token)) !!}

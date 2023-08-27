@@ -9,6 +9,7 @@ use App\Models\Comment;
 use App\Models\Project;
 use App\Models\Task;
 use App\Models\TaskList;
+use App\Services\UploadServices;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -18,11 +19,13 @@ use Illuminate\Support\Facades\URL;
 
 class TaskController extends Controller
 {
+    private $uploadServices;
     private $notiController;
 
     public function __construct(NotiController $notiController)
     {
         $this->notiController = $notiController;
+        $this->uploadServices = new UploadServices();
     }
 
     public $rowPerPage = 20;
@@ -405,27 +408,19 @@ class TaskController extends Controller
             if ($file->getSize() > $maxFileSize) {
                 return response()->json(['error' => true, 'message' => 'Your file is over 2MB. Choose another ones'], 404);
             }
-            $filename = $file->getClientOriginalName();
-            $customFilename = 'attachment_' . time() . '_' . $filename;
-            $path = $file->storeAs('public/tasks/attachments', $customFilename);
-            $url = '/storage/app/' . $path;
+            // $filename = $file->getClientOriginalName();
+            // $customFilename = 'attachment_' . time() . '_' . $filename;
+            // $path = $file->storeAs('public/tasks/attachments', $customFilename);
+            // $url = '/storage/app/' . $path;
+            // $newUrls[] = $url;
+            $url = $this->uploadServices->uploadFileToRemoteHost($file);
             $newUrls[] = $url;
         }
         // Get the task record to update
         $task = Task::find($request->input('id'));
 
-        // Retrieve the existing array of attachments
-        $existingUrls = json_decode($task->attachments, true);
-
-        if (!$existingUrls) {
-            $existingUrls = [];
-        }
-
-        // Add the new URLs to the existing array
-        $updatedUrls = array_merge($existingUrls, $newUrls);
-
         // Update the attachments column of the task record with the updated array
-        $task->update(['attachments' => json_encode($updatedUrls)]);
+        $task->update(['attachments' => json_encode($newUrls)]);
 
         // Return the file URLs as a JSON response
         return response()->json(['success' => true]);
@@ -441,12 +436,8 @@ class TaskController extends Controller
         $attachments = json_decode($taskDetails->attachments, true);
         // If the key exists, delete the attachment at that key
         if (array_key_exists($key_expect, $attachments)) {
-            $path = $attachments[$key_expect];
             unset($attachments[$key_expect]);
-            $fullpath = str_replace('/storage/', '', $path);
-            if (Storage::disk('public')->exists($fullpath)) {
-                Storage::disk('public')->delete($fullpath);
-            }
+            
             $attachments = array_values($attachments);
             $taskDetails->attachments = json_encode($attachments);
             $taskDetails->save();
