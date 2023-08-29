@@ -213,6 +213,8 @@ class ProjectController extends Controller
 		]);
 		$supervisor = User::find($supervisorId);
 		Mail::to($supervisor->email)->send(new ProjectInvitation($project_slug, $project_token, $project_name, $supervisor->name, 'Supervisor'));
+		//Set up noti
+		$this->notiController->createNotiContent("New invitation request", Auth::id(), $supervisorId, Auth::user()->name . " have invited you to join the group " . $project_name, route('project.invite', ['slug' => $project_slug, 'token' => $project_token]));
 
 		$memberRoleId = Role::where('name', 'member')->pluck('id')->first();
 		// Associate members with the project
@@ -785,7 +787,7 @@ class ProjectController extends Controller
 				}
 			}
 		}
-		
+
 		$current_role = $project->userCurrentRole();
 
 		if ($user_id == Auth::id() || $current_role == 'pm' || $current_role == 'supervisor') {
@@ -806,11 +808,10 @@ class ProjectController extends Controller
 					'lateTasks',
 					'overdueTasks'
 				));
-		}else{
+		} else {
 			Session::flash('error', 'No permission allowed');
 			return back();
 		}
-
 	}
 
 	/**
@@ -1138,7 +1139,7 @@ class ProjectController extends Controller
 			->get();
 
 		$disabledProject = $this->checkDisableProject($project);
-		
+
 		$current_role = $project->userCurrentRole();
 
 		if ($current_role == "member") {
@@ -1337,7 +1338,7 @@ class ProjectController extends Controller
 			$task->taskList = $task->taskList()->first();
 		}
 		$rowPerPage = $this->rowPerPage;
-		
+
 		$current_role = $project->userCurrentRole();
 
 		return view('project.list', ['pageConfigs' => $pageConfigs, 'page' => 'board', 'tab' => 'list'])
